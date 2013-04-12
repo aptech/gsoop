@@ -1,0 +1,372 @@
+\hypertarget{class_g_e_string_array}{\section{G\-E\-String\-Array Class Reference}
+\label{class_g_e_string_array}\index{G\-E\-String\-Array@{G\-E\-String\-Array}}
+}
+
+
+\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} String Array Symbol type.  
+
+
+
+
+{\ttfamily \#include $<$gestringarray.\-h$>$}
+
+
+
+Inheritance diagram for G\-E\-String\-Array\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{class_g_e_string_array__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_e_string_array_aaf81307ac900cd22af6ced6b9ec45a0a}{G\-E\-String\-Array} (vector$<$ string $>$)
+\begin{DoxyCompactList}\small\item\em Initialize a one-\/dimensional string array with a user specified vector. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_string_array_abdaadc4a69d887cd739bbfc89ce60cc4}{G\-E\-String\-Array} (vector$<$ string $>$, int, int)
+\begin{DoxyCompactList}\small\item\em Initialize a string array from a vector with dimensions {\itshape rows} and {\itshape cols}. \end{DoxyCompactList}\item 
+string \hyperlink{class_g_e_string_array_a08286cc58c2762039163cc69a9ecf6bd}{get\-Element} (int, int)
+\begin{DoxyCompactList}\small\item\em Return the string value at the {\itshape row}, {\itshape column} index. \end{DoxyCompactList}\item 
+vector$<$ string $>$ \hyperlink{class_g_e_string_array_abe983e94d9cde5eecf91c04c8cf65451}{get\-Data} ()
+\begin{DoxyCompactList}\small\item\em Return a collection copy of strings as a vector. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_e_string_array_a7af740d20e04b0d9ba770cff04b2437e}{set\-Data} (vector$<$ string $>$, int, int)
+\begin{DoxyCompactList}\small\item\em Replace the contents of the string collection. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_e_string_array_a0b65a5a901e490040840025322cbd731}{set\-Element} (string, int, int)
+\begin{DoxyCompactList}\small\item\em Set string value to {\itshape str} at {\itshape row}, {\itshape col} element. \end{DoxyCompactList}\item 
+virtual string \hyperlink{class_g_e_string_array_ab74fcbfee54edd0db02b61b299b3a7af}{to\-String} ()
+\begin{DoxyCompactList}\small\item\em Returns a string representation of this object. \end{DoxyCompactList}\item 
+virtual int \hyperlink{class_g_e_string_array_aa713dfa2931e223578a9fe41e3acd85d}{size} ()
+\begin{DoxyCompactList}\small\item\em Return element count or in case of \hyperlink{class_g_e_string}{G\-E\-String}, string length. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_g_e_string_array_a9bd5bd32a9efeb1e74128bd1d7c5c57d}{clear} ()
+\begin{DoxyCompactList}\small\item\em Clear all corresponding symbol data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_e_string_array_abc89e64d0ec6c939575c3125753c6309}{class {\bfseries G\-A\-U\-S\-S}}\label{class_g_e_string_array_abc89e64d0ec6c939575c3125753c6309}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} String Array Symbol type. 
+
+Represents a standard string array. Data is stored internally as a vector. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_e_string_array_aaf81307ac900cd22af6ced6b9ec45a0a}{\index{G\-E\-String\-Array@{G\-E\-String\-Array}!G\-E\-String\-Array@{G\-E\-String\-Array}}
+\index{G\-E\-String\-Array@{G\-E\-String\-Array}!GEStringArray@{G\-E\-String\-Array}}
+\subsubsection[{G\-E\-String\-Array}]{\setlength{\rightskip}{0pt plus 5cm}G\-E\-String\-Array\-::\-G\-E\-String\-Array (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{data}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_string_array_aaf81307ac900cd22af6ced6b9ec45a0a}
+
+
+Initialize a one-\/dimensional string array with a user specified vector. 
+
+This assumes that there are {\ttfamily data.\-size()} columns and 1 row.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 sa = \hyperlink{class_g_e_string_array}{GEStringArray}([\textcolor{stringliteral}{"Open"}, \textcolor{stringliteral}{"High"}, \textcolor{stringliteral}{"Low"}])
+2 \textcolor{keywordflow}{print} sa
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$sa = \textcolor{keyword}{new} \hyperlink{class_g_e_string_array}{GEStringArray}(array(\textcolor{stringliteral}{"Open"}, \textcolor{stringliteral}{"High"}, \textcolor{stringliteral}{"Low"}))
+echo $sa;
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+Open    High    Low
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_e_string_array_abdaadc4a69d887cd739bbfc89ce60cc4}{\index{G\-E\-String\-Array@{G\-E\-String\-Array}!G\-E\-String\-Array@{G\-E\-String\-Array}}
+\index{G\-E\-String\-Array@{G\-E\-String\-Array}!GEStringArray@{G\-E\-String\-Array}}
+\subsubsection[{G\-E\-String\-Array}]{\setlength{\rightskip}{0pt plus 5cm}G\-E\-String\-Array\-::\-G\-E\-String\-Array (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{data, }
+\item[{int}]{rows, }
+\item[{int}]{cols}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_string_array_abdaadc4a69d887cd739bbfc89ce60cc4}
+
+
+Initialize a string array from a vector with dimensions {\itshape rows} and {\itshape cols}. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 sa = \hyperlink{class_g_e_string_array}{GEStringArray}([\textcolor{stringliteral}{"Open"}, \textcolor{stringliteral}{"High"}, \textcolor{stringliteral}{"Low"}, \textcolor{stringliteral}{"Close"}], 2, 2)
+2 \textcolor{keywordflow}{print} sa
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$sa = \textcolor{keyword}{new} \hyperlink{class_g_e_string_array}{GEStringArray}(array(\textcolor{stringliteral}{"Open"}, \textcolor{stringliteral}{"High"}, \textcolor{stringliteral}{"Low"}, \textcolor{stringliteral}{"Close"}), 2, 2);
+echo $sa;
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+Open    High
+Low     Close
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & One-\/dimensional string data \\
+\hline
+{\em rows} & Row count \\
+\hline
+{\em cols} & Column count \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_e_string_array_a9bd5bd32a9efeb1e74128bd1d7c5c57d}{\index{G\-E\-String\-Array@{G\-E\-String\-Array}!clear@{clear}}
+\index{clear@{clear}!GEStringArray@{G\-E\-String\-Array}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}virtual void G\-E\-String\-Array\-::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_g_e_string_array_a9bd5bd32a9efeb1e74128bd1d7c5c57d}
+
+
+Clear all corresponding symbol data. 
+
+Does not clear from workspace. 
+
+Reimplemented from \hyperlink{class_g_e_symbol_a39d2e523aec771a73e1cc5d7a9618b88}{G\-E\-Symbol}.
+
+\hypertarget{class_g_e_string_array_abe983e94d9cde5eecf91c04c8cf65451}{\index{G\-E\-String\-Array@{G\-E\-String\-Array}!get\-Data@{get\-Data}}
+\index{get\-Data@{get\-Data}!GEStringArray@{G\-E\-String\-Array}}
+\subsubsection[{get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ string $>$ G\-E\-String\-Array\-::get\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_string_array_abe983e94d9cde5eecf91c04c8cf65451}
+
+
+Return a collection copy of strings as a vector. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{comment}{# Create a string array using GAUSS}
+2 ge.executeString(\textcolor{stringliteral}{"string sa = \{ one two three four, five six seven eight \}"})
+3 
+4 \textcolor{comment}{# Retrieve the string array from the symbol table}
+5 sa = ge.getStringArray(\textcolor{stringliteral}{"sa"})
+6 
+7 \textcolor{keywordflow}{print} sa
+8 \textcolor{keywordflow}{print} \textcolor{stringliteral}{" "}.join(sa.getData())
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{comment}{// Create a string array using GAUSS}
+$ge->executeString(\textcolor{stringliteral}{"string sa = \{ one two three four, five six seven eight \};"});
+
+\textcolor{comment}{// Retrieve the string array from the symbol table}
+$sa = $ge->getStringArray(\textcolor{stringliteral}{"sa"});
+
+echo $sa . PHP\_EOL;
+echo implode(\textcolor{stringliteral}{" "}, $sa->getData()) . PHP\_EOL;
+\end{DoxyCode}
+ resulting in the output\-: 
+\begin{DoxyCode}
+ONE     TWO     THREE   FOUR
+FIVE    SIX     SEVEN   EIGHT
+
+ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+string vector 
+\end{DoxyReturn}
+\hypertarget{class_g_e_string_array_a08286cc58c2762039163cc69a9ecf6bd}{\index{G\-E\-String\-Array@{G\-E\-String\-Array}!get\-Element@{get\-Element}}
+\index{get\-Element@{get\-Element}!GEStringArray@{G\-E\-String\-Array}}
+\subsubsection[{get\-Element}]{\setlength{\rightskip}{0pt plus 5cm}string G\-E\-String\-Array\-::get\-Element (
+\begin{DoxyParamCaption}
+\item[{int}]{row, }
+\item[{int}]{col}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_string_array_a08286cc58c2762039163cc69a9ecf6bd}
+
+
+Return the string value at the {\itshape row}, {\itshape column} index. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 sa = \hyperlink{class_g_e_string_array}{GEStringArray}([\textcolor{stringliteral}{"foo"}, \textcolor{stringliteral}{"bar"}, \textcolor{stringliteral}{"baz"}])
+2 \textcolor{keywordflow}{print} str(sa.getElement(0, 1))
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$sa = \textcolor{keyword}{new} \hyperlink{class_g_e_string_array}{GEStringArray}(array(\textcolor{stringliteral}{"foo"}, \textcolor{stringliteral}{"bar"}, \textcolor{stringliteral}{"baz"}));
+echo $sa->getElement(0, 1);
+\end{DoxyCode}
+ results in the output\-: 
+\begin{DoxyCode}
+bar
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Row index \\
+\hline
+{\em col} & Column index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Value at specified index 
+\end{DoxyReturn}
+\hypertarget{class_g_e_string_array_a7af740d20e04b0d9ba770cff04b2437e}{\index{G\-E\-String\-Array@{G\-E\-String\-Array}!set\-Data@{set\-Data}}
+\index{set\-Data@{set\-Data}!GEStringArray@{G\-E\-String\-Array}}
+\subsubsection[{set\-Data}]{\setlength{\rightskip}{0pt plus 5cm}void G\-E\-String\-Array\-::set\-Data (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{data, }
+\item[{int}]{rows, }
+\item[{int}]{cols}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_string_array_a7af740d20e04b0d9ba770cff04b2437e}
+
+
+Replace the contents of the string collection. 
+
+The length of {\itshape data} should be equal to {\itshape rows} $\ast$ {\itshape cols}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em rows} & Rows \\
+\hline
+{\em cols} & Cols \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_e_string_array_a0b65a5a901e490040840025322cbd731}{\index{G\-E\-String\-Array@{G\-E\-String\-Array}!set\-Element@{set\-Element}}
+\index{set\-Element@{set\-Element}!GEStringArray@{G\-E\-String\-Array}}
+\subsubsection[{set\-Element}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-E\-String\-Array\-::set\-Element (
+\begin{DoxyParamCaption}
+\item[{string}]{str, }
+\item[{int}]{row, }
+\item[{int}]{col}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_string_array_a0b65a5a901e490040840025322cbd731}
+
+
+Set string value to {\itshape str} at {\itshape row}, {\itshape col} element. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 sa = \hyperlink{class_g_e_string_array}{GEStringArray}([\textcolor{stringliteral}{"foo"}, \textcolor{stringliteral}{"bar"}, \textcolor{stringliteral}{"baz"}])
+2 sa.setElement(\textcolor{stringliteral}{"foo"}, 0, 1)
+3 \textcolor{keywordflow}{print} sa
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$sa = \textcolor{keyword}{new} \hyperlink{class_g_e_string_array}{GEStringArray}(array(\textcolor{stringliteral}{"foo"}, \textcolor{stringliteral}{"bar"}, \textcolor{stringliteral}{"baz"}));
+$sa->setElement(\textcolor{stringliteral}{"foo"}, 0, 1);
+echo $sa->toString();
+\end{DoxyCode}
+ results in the output\-: 
+\begin{DoxyCode}
+foo foo baz
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Row \\
+\hline
+{\em col} & Col \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_e_string_array_aa713dfa2931e223578a9fe41e3acd85d}{\index{G\-E\-String\-Array@{G\-E\-String\-Array}!size@{size}}
+\index{size@{size}!GEStringArray@{G\-E\-String\-Array}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}virtual int G\-E\-String\-Array\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_g_e_string_array_aa713dfa2931e223578a9fe41e3acd85d}
+
+
+Return element count or in case of \hyperlink{class_g_e_string}{G\-E\-String}, string length. 
+
+Returns the total element count for the data.
+
+\begin{DoxyReturn}{Returns}
+Total element count 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{class_g_e_symbol_a706a39fc819e1c27e0d92d42c2bebcf6}{G\-E\-Symbol}.
+
+\hypertarget{class_g_e_string_array_ab74fcbfee54edd0db02b61b299b3a7af}{\index{G\-E\-String\-Array@{G\-E\-String\-Array}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!GEStringArray@{G\-E\-String\-Array}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}string G\-E\-String\-Array\-::to\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_string_array_ab74fcbfee54edd0db02b61b299b3a7af}
+
+
+Returns a string representation of this object. 
+
+
+
+Reimplemented from \hyperlink{class_g_e_symbol_a6790ac75620cc1a9e37d67279e8bd4d1}{G\-E\-Symbol}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+src/gestringarray.\-h\item 
+src/gestringarray.\-cpp\end{DoxyCompactItemize}

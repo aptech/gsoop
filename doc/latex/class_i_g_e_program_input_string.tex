@@ -1,0 +1,120 @@
+\hypertarget{class_i_g_e_program_input_string}{\section{I\-G\-E\-Program\-Input\-String Class Reference}
+\label{class_i_g_e_program_input_string}\index{I\-G\-E\-Program\-Input\-String@{I\-G\-E\-Program\-Input\-String}}
+}
+
+
+String Input callback function for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.  
+
+
+
+
+{\ttfamily \#include $<$gefuncwrapper.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{class_i_g_e_program_input_string_aff170652d98f6a992a27134a7c674e01}{invoke} (int length)=0
+\begin{DoxyCompactList}\small\item\em Invocation method for callback. \end{DoxyCompactList}\item 
+\hypertarget{class_i_g_e_program_input_string_ac692d94b650c29fe8d82690c78003be6}{void \hyperlink{class_i_g_e_program_input_string_ac692d94b650c29fe8d82690c78003be6}{set\-Value} (string value)}\label{class_i_g_e_program_input_string_ac692d94b650c29fe8d82690c78003be6}
+
+\begin{DoxyCompactList}\small\item\em Used to set the return value for the callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_i_g_e_program_input_string_abc89e64d0ec6c939575c3125753c6309}{class {\bfseries G\-A\-U\-S\-S}}\label{class_i_g_e_program_input_string_abc89e64d0ec6c939575c3125753c6309}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+String Input callback function for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. 
+
+Use this class to generate a hook function that the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine will call whenever user string input is required.
+
+{\bfseries Note\-:} With all callbacks, the {\ttfamily thisown} flag must be set to {\ttfamily 0} on instantiation. This informs the target language that this object will be owned and properly deleted by the Engine.
+
+\subparagraph*{\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} commands which activate this callback}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily cons}
+\end{DoxyItemize}
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{class }StringInput(\hyperlink{class_i_g_e_program_input_string}{IGEProgramInputString}):
+2     \textcolor{comment}{# The callback does not return a string directly, rather through a method call.}
+3     \textcolor{keyword}{def }invoke(self, length):
+4         self.setValue(\textcolor{stringliteral}{"Hello World!"})
+5 
+6 strCallback = StringInput();
+7 strCallback.thisown = 0;
+8 
+9 ge.setProgramInputString(strCallback)
+10 ge.executeString(\textcolor{stringliteral}{"s = cons"})
+11 
+12 s = ge.getString(\textcolor{stringliteral}{"s"})
+13 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"s = "} + s.getData()
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }StringInput \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_input_string}{IGEProgramInputString} \{
+    \textcolor{comment}{// The callback does not return a string directly, rather through a method call.}
+    \textcolor{keyword}{function} \hyperlink{class_i_g_e_program_input_string_aff170652d98f6a992a27134a7c674e01}{invoke}($length) \{
+        \textcolor{comment}{// Ask user for input normally}
+        $this->\hyperlink{class_i_g_e_program_input_string_ac692d94b650c29fe8d82690c78003be6}{setValue}(\textcolor{stringliteral}{"Hello World!"});
+    \}
+\}
+
+$strCallback = \textcolor{keyword}{new} StringInput();
+$strCallback->thisown = 0;
+
+$ge->setProgramInputString($strCallback);
+$ge->executeString(\textcolor{stringliteral}{"s = cons;"});
+
+$s = $ge->getString(\textcolor{stringliteral}{"s"});
+echo \textcolor{stringliteral}{"s = "} . $s->getData() . PHP\_EOL;
+\end{DoxyCode}
+
+
+will result in the output\-: 
+\begin{DoxyCode}
+s = Hello World!
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ae82b5bfdf26971433c46936a812506c3}{G\-A\-U\-S\-S\-::set\-Program\-Input\-String(\-I\-G\-E\-Program\-Input\-String$\ast$)} 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_i_g_e_program_input_string_aff170652d98f6a992a27134a7c674e01}{\index{I\-G\-E\-Program\-Input\-String@{I\-G\-E\-Program\-Input\-String}!invoke@{invoke}}
+\index{invoke@{invoke}!IGEProgramInputString@{I\-G\-E\-Program\-Input\-String}}
+\subsubsection[{invoke}]{\setlength{\rightskip}{0pt plus 5cm}virtual void I\-G\-E\-Program\-Input\-String\-::invoke (
+\begin{DoxyParamCaption}
+\item[{int}]{length}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_i_g_e_program_input_string_aff170652d98f6a992a27134a7c674e01}
+
+
+Invocation method for callback. 
+
+This method is called when the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine needs user supplied input. This callback can also be triggered directly via a call to \hyperlink{class_g_a_u_s_s_a7e1284a1d44e68aadb6c70e4416abb7b}{G\-A\-U\-S\-S\-::program\-Input\-String()}
+
+
+\begin{DoxyParams}{Parameters}
+{\em length} & Max length allowed for return string \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gefuncwrapper.\-h\end{DoxyCompactItemize}

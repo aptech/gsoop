@@ -1,0 +1,22 @@
+var NAVTREEINDEX2 =
+{
+"index.html#hello_world":[0,3,0],
+"index.html#hw_step1":[0,3,1],
+"index.html#hw_step2":[0,3,2],
+"index.html#hw_step3":[0,3,3],
+"index.html#hw_step4":[0,3,4],
+"index.html#hw_step5":[0,3,5],
+"index.html#hw_step6":[0,3,6],
+"index.html#installation":[0,2],
+"index.html#intro_sec":[0,0],
+"index.html#linux_unix_install":[0,1,1],
+"index.html#php_install":[0,2,1],
+"index.html#php_install_binary":[0,2,1,1],
+"index.html#php_install_source":[0,2,1,0],
+"index.html#python_install":[0,2,0],
+"index.html#python_install_binary":[0,2,0,0],
+"index.html#python_install_source":[0,2,0,1],
+"index.html#swig_config":[0,1,2],
+"index.html#windows_install":[0,1,0],
+"pages.html":[]
+};

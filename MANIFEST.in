@@ -1,0 +1,11 @@
+include setup.py
+include src/gauss.i
+include src/*.cpp
+include src/*.h
+include include/*.h
+exclude GSEngineLib_global.h
+exclude GSEngineLib.pro
+exclude igsenginelib.h
+exclude gauss_wrap.*
+exclude MANIFEST.in
+exclude Doxyfile

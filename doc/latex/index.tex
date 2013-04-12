@@ -1,0 +1,488 @@
+\hypertarget{index_intro_sec}{}\section{Introduction}\label{index_intro_sec}
+Thank you for choosing the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine A\-P\-I.
+
+This library is a set of target language bindings that allows developers to intuitively and efficiently access the power of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.
+
+To accomplish the task of providing these bindings for multiple languages, we have created an initial C++ library and use the \href{http://www.swig.org}{\tt S\-W\-I\-G} program to generate language-\/specific bindings.
+
+While building from source allows complete control over the compile process, we have elected to also release binaries for popular platforms.
+
+You can easily and effectively\-:
+\begin{DoxyItemize}
+\item Create and destroy workspaces, using multiple for threaded situations
+\item Compile, save, load and execute programs.
+\item Manipulate data in the symbol table
+\item Set up callbacks for integration with \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}'s input/output routines
+\end{DoxyItemize}\hypertarget{index_getting_started_sec}{}\section{Configuration}\label{index_getting_started_sec}
+There are a few things necessary to take care of before starting development.
+
+The A\-P\-I will look for the {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13} environment variable. This will be the location the engine was extracted to (i.\-e. {\ttfamily C\-:\textbackslash{}mteng13} on Windows, {\ttfamily /home/user/mteng13} on Linux)
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
+{\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13} &{\ttfamily /home/user/mteng13} \\\cline{1-2}
+\end{TabularC}
+
+
+The following environment variables must {\bfseries contain} the specified values\hypertarget{index_windows_install}{}\subsection{Windows}\label{index_windows_install}
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
+{\ttfamily P\-A\-T\-H} &Append {\ttfamily C\-:\textbackslash{}mteng13} \\\cline{1-2}
+\end{TabularC}
+
+
+The presence of this value allows the engine D\-L\-L to be found and loaded properly.
+
+Ensure you do not {\bfseries replace} {\ttfamily P\-A\-T\-H} with the directory.\hypertarget{index_linux_unix_install}{}\subsection{Linux and Unix}\label{index_linux_unix_install}
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
+{\ttfamily L\-D\-\_\-\-L\-I\-B\-R\-A\-R\-Y\-\_\-\-P\-A\-T\-H} &Append {\ttfamily /home/user/mteng13} \\\cline{1-2}
+{\ttfamily L\-D\-\_\-\-P\-R\-E\-L\-O\-A\-D} &Append {\ttfamily /lib/x86\-\_\-64-\/linux-\/gnu/libpthread.so.\-0\-:/home/user/mteng13/bin/libiomp5.so} \\\cline{1-2}
+\end{TabularC}
+
+
+Note\-: Please adjust the paths accordingly to your specific installation. In this case, the {\ttfamily libpthread.\-so.\-0} reference is for Ubuntu 64-\/bit.\hypertarget{index_swig_config}{}\subsection{S\-W\-I\-G}\label{index_swig_config}
+If you are building from source, you will need to have the S\-W\-I\-G library available\-:
+
+\href{http://www.swig.org/download.html}{\tt http\-://www.\-swig.\-org/download.\-html}
+
+Once installed, please ensure {\ttfamily swig} is available in your terminal by placing it's installation directory in your {\ttfamily P\-A\-T\-H} environment variable, as building requires it.
+
+{\bfseries E\-X\-C\-E\-P\-T\-I\-O\-N}\-: If you are not {\itshape modifying} any source files, the auto generated files have been included in the respective {\ttfamily python} and {\ttfamily php} sub-\/directories.
+
+You can place these in {\ttfamily src} and skip the steps involving S\-W\-I\-G.\hypertarget{index_installation}{}\section{Installation}\label{index_installation}
+This guide will not cover installation of the language itself. Please refer to the vendor documentation for language-\/level installation.\hypertarget{index_python_install}{}\subsection{Python}\label{index_python_install}
+Installation of the Python module is fairly simple, since it uses the {\ttfamily distribute} package.\hypertarget{index_python_install_binary}{}\subsubsection{Binary}\label{index_python_install_binary}
+\paragraph*{Windows}
+
+Select the correct {\ttfamily egg} file according to your architecture.
+
+Please ensure your Python installation contains the {\ttfamily setuptools} package, which provides the {\ttfamily easy\-\_\-install} application.
+
+Instructions and files can be found at\-: \href{https://pypi.python.org/pypi/setuptools#windows}{\tt https\-://pypi.\-python.\-org/pypi/setuptools\#windows} \begin{DoxyVerb}$ easy_install gauss-0.1-py2.7-win-amd64.egg
+\end{DoxyVerb}
+
+
+\paragraph*{Linux}
+
+\begin{DoxyVerb}$ easy_install gauss-0.1-py2.7-linux-x86_64.egg
+\end{DoxyVerb}
+\hypertarget{index_python_install_source}{}\subsubsection{Source}\label{index_python_install_source}
+Due to the nature of the Python installation on Windows, please ensure the following are correctly in your {\ttfamily P\-A\-T\-H} environment variable \begin{DoxyVerb}C:\Python27\;C:\Python27\Scripts\
+\end{DoxyVerb}
+
+
+Note\-: Tested with Python 2.\-7.\-4
+
+Since we are building from source, we need to run S\-W\-I\-G on our interface file.
+
+This is done automatically with the {\ttfamily setup.\-py} file, however, we must first build the extension.
+
+By first calling {\ttfamily build\-\_\-ext -\/i}, a {\ttfamily gauss.\-py} file is automatically generated in the current directory.
+
+Subsequently calling the {\ttfamily install} target will now correctly install the files.
+
+\paragraph*{Linux or Cygwin}
+
+
+\begin{DoxyCode}
+\textcolor{preprocessor}{# The setup.py utilizes the 'MTENGHOME13' environment variable.}
+\textcolor{preprocessor}{}\textcolor{preprocessor}{# Please ensure this is set appropriately to your GAUSS Engine installation directory.}
+\textcolor{preprocessor}{}tar -xvf gauss-0.1.tar.gz
+cd gauss-0.1
+python setup.py build\_ext -i      # First build the extension and create the gauss.py file
+python setup.py install           # Everything compiled, now install
+
+\textcolor{preprocessor}{# ROOT ONLY}
+\textcolor{preprocessor}{}\textcolor{preprocessor}{# If installation must be done as root, force set the environment variable}
+\textcolor{preprocessor}{}tar -xvf gauss-0.1.tar.gz
+cd gauss-0.1
+sudo MTENGHOME13=/home/user/mteng python setup.py build\_ext -i      # First build the extension and create 
+      the gauss.py file
+sudo MTENGHOME13=/home/user/mteng python setup.py install           # Everything compiled, now install
+\end{DoxyCode}
+
+
+\paragraph*{Windows}
+
+Due to {\ttfamily mteng.\-dll} being compiled with V\-S 2008, it is necessary at this time to use M\-S\-V\-C to compile the Python extension.
+
+All commands are run through the appropriate Visual Studio command prompt.
+
+32-\/bit\-: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2008 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2008 Command Prompt}
+
+64-\/bit\-: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2008 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2008 x64 Win64 Command Prompt}
+
+If your user does have appropriate permissions to access the Python installation directory, you may have to run {\ttfamily cmd} as Administrator
+
+Execute the following via a {\ttfamily cmd} terminal\-:
+
+
+\begin{DoxyCode}
+\textcolor{preprocessor}{# The setup.py utilizes the 'MTENGHOME13' environment variable.}
+\textcolor{preprocessor}{}\textcolor{preprocessor}{# Please ensure this is set appropriately to your GAUSS Engine installation directory.}
+\textcolor{preprocessor}{}\textcolor{preprocessor}{# unzip gauss-01.zip to a directory of your choice}
+\textcolor{preprocessor}{}cd gauss-0.1
+python setup.py build\_ext -i      # First build the extension and create the gauss.py file
+python setup.py install           # Everything compiled, now install
+\end{DoxyCode}
+
+
+If you omit the {\ttfamily build\-\_\-ext -\/i} step, the {\ttfamily gauss.\-py} generated file will {\bfseries N\-O\-T} be placed in Python package directory.
+
+The result of this behavior is the following when attempting to {\ttfamily import gauss}\-: \begin{DoxyVerb}>>> import gauss
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ImportError: No module named gauss
+\end{DoxyVerb}
+\hypertarget{index_php_install}{}\subsection{P\-H\-P}\label{index_php_install}
+\hypertarget{index_php_install_source}{}\subsubsection{Source}\label{index_php_install_source}
+\href{http://www.cmake.org}{\tt C\-Make} is our build tool of choice. Get it.
+
+There are a couple steps common between both platforms that should be done ahead of time.
+
+
+\begin{DoxyEnumerate}
+\item Set P\-H\-P specific environment variables.
+
+Our C\-Make file uses the {\ttfamily P\-H\-P\-\_\-\-I\-N\-C\-L\-U\-D\-E} environment variable to locate P\-H\-P headers. It expects a semi-\/colon delimited list of paths.
+
+For convenience, the Linux implementation does a string replace of '{\ttfamily -\/\-I}' with a semi-\/colon, so the following will work fine. \begin{DoxyVerb}# Linux
+$ export PHP_INCLUDE=`php-config --includes`
+
+# Windows you have to create it yourself. Newlines have been removed to clearly show the paths
+# The actual command should have them all appended to each one another separated by a semi-colon
+set PHP_INCLUDE=C:\development\php5.4ts\dev;
+                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src;
+                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\main;
+                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\Zend;
+                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\TSRM;
+                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\ext
+\end{DoxyVerb}
+
+
+{\bfseries Note} the Windows line also has the {\ttfamily php5.\-4ts\textbackslash{}dev} as part of the include path.
+
+This is so {\ttfamily php5ts.\-lib} can be located properly at link-\/time.
+\item Execute S\-W\-I\-G manually (If you are using pre-\/generated files from the appropriate language's directory, you can skip this step)
+
+Unlike our Python installation script, C\-Make does not automatically execute S\-W\-I\-G on the source files.
+
+Run one directory up from {\ttfamily src}\-: \begin{DoxyVerb}swig -c++ -php -outdir src -o src/gauss_wrap.cpp gauss.i
+\end{DoxyVerb}
+
+\end{DoxyEnumerate}
+
+After executing {\ttfamily swig}, you will find a newly created {\ttfamily gauss.\-php} in the {\ttfamily src} directory.
+
+This will need to be used with any project that makes use of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine, as the first line of any program will be \begin{DoxyVerb}include("gauss.php");
+\end{DoxyVerb}
+
+
+\paragraph*{Linux}
+
+The following commands are executed from the root of the source path \begin{DoxyVerb}$ mkdir build
+$ cd build
+# You could also use cmake-gui to create the Makefile
+$ ccmake ..
+$ make
+\end{DoxyVerb}
+
+
+You should now have a {\ttfamily gauss.\-so} file in your current directory.
+
+Refer to the \href{#php_install_binary}{\tt P\-H\-P Binary} section for instructions on installation.
+
+\paragraph*{Windows}
+
+Currently, only compilation against P\-H\-P 5.\-4.\-14 (x86) {\itshape Thread Safe} version has been verified to work. Tested with Windows 7 Enterprise with Visual Studio 2008 S\-P1
+
+{\bfseries Compile bug work-\/around\-:}
+
+Per a bug report at, \href{https://bugs.php.net/bug.php?id=63130,}{\tt https\-://bugs.\-php.\-net/bug.\-php?id=63130,} and until a better solution is presented, you should make the following changes to {\ttfamily malloc.\-h}\-:
+
+This is a possible path where you might find it\-: \begin{DoxyVerb}C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\malloc.h
+\end{DoxyVerb}
+
+
+open it up as Administrator and change
+
+
+\begin{DoxyCode}
+\textcolor{preprocessor}{#define \_STATIC\_ASSERT(expr) typedef char \_\_static\_assert\_t[ (expr) ]}
+\end{DoxyCode}
+ to 
+\begin{DoxyCode}
+\textcolor{preprocessor}{#ifdef PHP\_WIN32}
+\textcolor{preprocessor}{}\textcolor{preprocessor}{#define \_STATIC\_ASSERT(expr) typedef char \_\_static\_assert\_t[ 1 ]}
+\textcolor{preprocessor}{}\textcolor{preprocessor}{#else}
+\textcolor{preprocessor}{}\textcolor{preprocessor}{#define \_STATIC\_ASSERT(expr) typedef char \_\_static\_assert\_t[ (expr) ]}
+\textcolor{preprocessor}{#endif}
+\end{DoxyCode}
+
+
+Run the {\ttfamily cmake-\/gui} utility to configure and generate the V\-S Solution or N\-Make Makefile.
+
+I chose to specify {\ttfamily build} as the directory for output.
+
+If all went well, building the solution should now provide a {\ttfamily php\-\_\-gauss.\-dll} file in the {\ttfamily build\textbackslash{}Release} directory.\hypertarget{index_php_install_binary}{}\subsubsection{Binary}\label{index_php_install_binary}
+\paragraph*{Windows / Linux}
+
+Place the {\ttfamily php\-\_\-gauss.\-dll} (Windows) or {\ttfamily gauss.\-so} (Linux) in your P\-H\-P installation's {\ttfamily ext} directory.
+
+This value can be found by either\-:
+
+
+\begin{DoxyEnumerate}
+\item {\ttfamily echo `php-\/config -\/-\/extension-\/dir`} on Linux
+\item Looking for the {\ttfamily extension\-\_\-dir} value in your {\ttfamily php.\-ini} file.
+\end{DoxyEnumerate}
+
+There is also the opportunity to load the extension directly by P\-H\-P, requiring the addition of the following to your {\ttfamily php.\-ini}\-: \begin{DoxyVerb}; load gauss engine extension
+; specify gauss.so if Linux
+extension=php_gauss.dll
+\end{DoxyVerb}
+
+
+If running P\-H\-P from the command line, changes should be instantaneous.
+
+Please refresh services that utilize P\-H\-P to pick up on the new extension.\hypertarget{index_example_apps}{}\section{Development}\label{index_example_apps}
+This section introduces an implementation of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.\hypertarget{index_hello_world}{}\subsection{Hello World!}\label{index_hello_world}
+Getting started with the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine is extremely simple.
+
+This assumes the library has been made available to the target language properly.
+
+The following snippet will be described step-\/by-\/step in detail\-:
+
+\paragraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{from} gauss \textcolor{keyword}{import} GAUSS, IGEProgramOutput
+2 
+3 \textcolor{keyword}{class }Output(\hyperlink{class_i_g_e_program_output}{IGEProgramOutput}):
+4     \textcolor{keyword}{def }invoke(self, message):
+5         \textcolor{keywordflow}{print} message,
+6 
+7 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}()
+8 
+9 out = Output()
+10 out.thisown = 0
+11 ge.setProgramOutputAll(out)
+12 
+13 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} ge.initialize():
+14     \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Initialization failed."}
+15     sys.exit(1)     \textcolor{comment}{# import sys for usage}
+16 
+17 ge.executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""})
+18 ge.shutdown()
+\end{DoxyCode}
+
+
+\paragraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+include(\textcolor{stringliteral}{"gauss.php"});
+
+\textcolor{keyword}{class }Output \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_output}{IGEProgramOutput} \{
+    \textcolor{keyword}{function} invoke($message) \{
+        echo $message;
+    \}
+\}
+
+$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s}{GAUSS}();
+
+$out = \textcolor{keyword}{new} Output();
+$out->thisown = 0;
+
+$ge->setProgramOutputAll($out);
+
+\textcolor{keywordflow}{if} (!$ge->initialize()) \{
+    echo \textcolor{stringliteral}{"Initialization failed."};
+    \textcolor{keywordflow}{return};
+\}
+
+$ge->executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""});
+$ge->shutdown();
+\end{DoxyCode}
+\hypertarget{index_hw_step1}{}\subsection{Step 1\-: Import the required library}\label{index_hw_step1}
+Before we can make use of the functionality, we have to make the engine library available to us. This is quite simple and straight-\/forward.
+
+\paragraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{from} gauss \textcolor{keyword}{import} GAUSS, IGEProgramOutput
+\end{DoxyCode}
+
+
+\paragraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+include(\textcolor{stringliteral}{"gauss.php"});
+\end{DoxyCode}
+
+
+If you compiled from source and you're not sure where {\ttfamily gauss.\-php} is, recall that S\-W\-I\-G auto-\/generated it for us and it should be in the {\ttfamily src} directory.\hypertarget{index_hw_step2}{}\subsection{Step 2\-: Instantiate the G\-A\-U\-S\-S Engine object}\label{index_hw_step2}
+After importing the correct library, we need to instantiate our engine object. There are multiple constructors available that suit a variety of scenarios.
+
+In this example, we will be using the default constructor. This method relies on an existing environment variable in an effort to locate the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} home directory.
+
+By default, this environment variable is {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13}.
+
+\paragraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}()  \textcolor{comment}{# Look up value for MTENGHOME13}
+\end{DoxyCode}
+ \paragraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s}{GAUSS}();  \textcolor{comment}{// Look up value for MTENGHOME13}
+\end{DoxyCode}
+
+
+{\bfseries Hint\-:} Check out the {\ttfamily G\-A\-U\-S\-S(string)} constructor, as it allows you to pass in a custom environment variable to use.\hypertarget{index_hw_step3}{}\subsection{Step 3\-: Set up callbacks}\label{index_hw_step3}
+Technically, this step {\itshape can} be skipped, but creating appropriate callbacks allows you control over specific aspects of program functionality.
+
+While some of these must be implemented to work correctly (i.\-e. setting a string input callback), others have default implementations that don't necessarily require a callback (i.\-e. program output routing to {\ttfamily stdout}), it is generally a good idea to do so.
+
+The following 3 steps are core to setting up a callback\-:
+\begin{DoxyEnumerate}
+\item Define the callback by deriving one of the available callback classes
+\item Set the {\ttfamily thisown} property to {\bfseries true} (release ownership)
+\item Assign the callback
+\end{DoxyEnumerate}
+
+Pretty straight-\/forward!
+
+We first define a callback class, inheriting the appropriate base class; in this case \hyperlink{class_i_g_e_program_output}{I\-G\-E\-Program\-Output}.
+
+Simply override the callback method {\ttfamily invoke} and print out the {\ttfamily message} argument.
+
+{\bfseries Important Note\-:}
+
+We must set the {\ttfamily thisown} property of the newly instantiated object to {\ttfamily 0}
+
+This is necessary because ownership of this object will be transferred to the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} object.
+
+Without setting this, if the {\ttfamily out} var was to go out of scope, it could be deleted. When the engine attempts to clean up after itself, that object will no longer exist.
+
+\paragraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{comment}{# Step 1}
+2 \textcolor{keyword}{class }Output(\hyperlink{class_i_g_e_program_output}{IGEProgramOutput}):
+3     \textcolor{keyword}{def }invoke(self, message):
+4         \textcolor{keywordflow}{print} message,
+5 
+6 out = Output()
+7 
+8 \textcolor{comment}{# Step 2}
+9 out.thisown = 0 \textcolor{comment}{# Prevent garbage collection}
+10 
+11 \textcolor{comment}{# Step 3}
+12 ge.setProgramOutputAll(out)
+\end{DoxyCode}
+ \paragraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{comment}{// Step 1}
+\textcolor{keyword}{class }Output \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_output}{IGEProgramOutput} \{
+    \textcolor{keyword}{function} invoke($message) \{
+        echo $message;
+    \}
+\}
+
+$out = \textcolor{keyword}{new} Output();
+
+\textcolor{comment}{// Step 2}
+$out->thisown = 0; \textcolor{comment}{// Prevent garbage collection}
+
+\textcolor{comment}{// Step 3}
+$ge->setProgramOutputAll($out);
+\end{DoxyCode}
+
+
+{\itshape Note\-:} We used the \hyperlink{class_g_a_u_s_s_a0b8379c48d677e05aeab433dba66fbb6}{G\-A\-U\-S\-S.\-set\-Program\-Output\-All} method, which is used to set {\itshape both} the program and error output.
+
+If you wish to separate the callbacks for different functionality, you can use the \hyperlink{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{G\-A\-U\-S\-S.\-set\-Program\-Output} and \hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{G\-A\-U\-S\-S.\-set\-Program\-Error\-Output} methods.\hypertarget{index_hw_step4}{}\subsection{Step 4\-: Initialize the G\-A\-U\-S\-S Engine}\label{index_hw_step4}
+Now that you've made it to this step, if all has been configured correctly, initializing the Engine is quite easy.
+
+\paragraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} ge.initialize():
+2     \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Initialization failed."}
+3     sys.exit(1)
+\end{DoxyCode}
+ \paragraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{if} (!$ge->initialize()) \{
+    echo \textcolor{stringliteral}{"Initialization failed."}
+    \textcolor{keywordflow}{return};
+\}
+\end{DoxyCode}
+
+
+The {\ttfamily initialize} method returns a true/false value depending on whether it was successful or not.\hypertarget{index_hw_step5}{}\subsection{Step 5\-: Home Free}\label{index_hw_step5}
+With everything set up, we are free to run whatever code we choose!
+
+For this small example, we just want the engine to tell us \char`\"{}\-Hello World!\char`\"{} through the callback we've assigned.
+
+\paragraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""})
+\end{DoxyCode}
+ \paragraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""});
+\end{DoxyCode}
+ will result in the output\-: 
+\begin{DoxyCode}
+Hello World!
+\end{DoxyCode}
+\hypertarget{index_hw_step6}{}\subsection{Step 6\-: Shutdown the G\-A\-U\-S\-S Engine}\label{index_hw_step6}
+Shutting down the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine is as easy as telling it to do so\-:
+
+\paragraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.shutdown()
+\end{DoxyCode}
+ \paragraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->shutdown();
+\end{DoxyCode}
+
+
+This will destroy any active workspaces and perform any cleanup that might be necessary.\hypertarget{index_conc}{}\subsection{Conclusion}\label{index_conc}
+This wraps up the basics of using the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine A\-P\-I. The documentation is full of code snippets that should help you easily interface with the Engine for your chosen task.
+
+A template file has also been included which represents a full setup and tear-\/down with space in the middle to drop in code snippets. This file will be aptly named in relation to the language it applies to\-:
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Language }&{\bf Filename}\\\cline{1-2}
+Python &{\ttfamily python/template\-\_\-example.\-py} \\\cline{1-2}
+P\-H\-P &{\ttfamily php/template\-\_\-example.\-php} \\\cline{1-2}
+\end{TabularC}

@@ -1,0 +1,3249 @@
+\hypertarget{class_g_a_u_s_s}{\section{G\-A\-U\-S\-S Class Reference}
+\label{class_g_a_u_s_s}\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}}
+}
+
+
+Main class that must be instantiated to interface with the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.  
+
+
+
+
+{\ttfamily \#include $<$gauss.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{G\-A\-U\-S\-S} (void)
+\begin{DoxyCompactList}\small\item\em Initialize the library using the environment variable value of {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13} as the path for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home path. \end{DoxyCompactList}\item 
+\hyperlink{class_g_a_u_s_s_afd3a4f159bc887697d0dc6f1781714ae}{G\-A\-U\-S\-S} (string, bool is\-Env\-Var=true)
+\begin{DoxyCompactList}\small\item\em Initialize the library using the specified environment variable that contains the path for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home directory. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_aad9f7a3a527b9c5961d1cc1b1aa9066c}{initialize} ()
+\begin{DoxyCompactList}\small\item\em Initialize the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_a71721c595c12c94616ef414879c95460}{shutdown} ()
+\begin{DoxyCompactList}\small\item\em Free all created workspaces and shut down the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_af1f5a5df0c904bd713c4edea74606e55}{set\-Home} (string)
+\begin{DoxyCompactList}\small\item\em Specifies the home directory used to locate the Run-\/\-Time Library, source files, library files, etc. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a61b2ebc8c6ac5694e8cc33cb7726cbe3}{set\-Home\-Var} (string)
+\begin{DoxyCompactList}\small\item\em The default value is {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E\#\#}. \end{DoxyCompactList}\item 
+string \hyperlink{class_g_a_u_s_s_adfe744665cc891f5288d5523083d2a2c}{get\-Home} ()
+\begin{DoxyCompactList}\small\item\em Returns the current path known by the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine for the user home directory. \end{DoxyCompactList}\item 
+string \hyperlink{class_g_a_u_s_s_abb13d8fd5b2abd2844e48279621204e6}{get\-Home\-Var} ()
+\begin{DoxyCompactList}\small\item\em Returns the current environment variable value set by the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine that represents the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home path. \end{DoxyCompactList}\item 
+string \hyperlink{class_g_a_u_s_s_ad9c991ab9fd7dea25a865eb1deae9b4c}{get\-Log\-File} ()
+\begin{DoxyCompactList}\small\item\em Returns the current log file location used by the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a59f4b84f55f76701ca9deb7be3f9f0fe}{set\-Log\-File} (string, string)
+\begin{DoxyCompactList}\small\item\em Allows you to set the file that the errors will be logged in. \end{DoxyCompactList}\item 
+string \hyperlink{class_g_a_u_s_s_a048aa287aa5d82638aff68f4d4cbec28}{get\-Last\-Error\-Text} ()
+\begin{DoxyCompactList}\small\item\em Return the string error description of the last error code. \end{DoxyCompactList}\item 
+string \hyperlink{class_g_a_u_s_s_a6e487c8dc379177510f76e322b0e50de}{get\-Error\-Text} (int)
+\begin{DoxyCompactList}\small\item\em Given a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} error code, return the full error description. \end{DoxyCompactList}\item 
+int \hyperlink{class_g_a_u_s_s_a6a62cfdb5ea03e0352c271c60afe96fc}{get\-Error} ()
+\begin{DoxyCompactList}\small\item\em Retrieve the last error code set by the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_a4adc9a33b8be97b1a6592160fea4a4eb}{set\-Error} (int)
+\begin{DoxyCompactList}\small\item\em Manually set the current error code for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$ \hyperlink{class_g_a_u_s_s_aa300ef0a2a359b736734b4350706ef89}{create\-Workspace} (string)
+\begin{DoxyCompactList}\small\item\em Creates a new workspace with the given name, and returns a handle to it. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a22e8b7eebcc1e77708a7cfd9a858e769}{destroy\-Workspace} (\hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Free a workspace. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_ab9515a6de5028f18138e6c87e1512c91}{destroy\-All\-Workspaces} ()
+\begin{DoxyCompactList}\small\item\em Clears all workspaces. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$ \hyperlink{class_g_a_u_s_s_a5d3dc85b8f31111c6bf3a2d8286c915e}{get\-Workspace} (string)
+\begin{DoxyCompactList}\small\item\em Returns a handle to a specified workspace by {\itshape name} \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$ \hyperlink{class_g_a_u_s_s_a566a50d644d0d1f55dba90416de4961a}{get\-Active\-Workspace} ()
+\begin{DoxyCompactList}\small\item\em Return a handle to the currently active workspace. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a7ff4b1140967c6737918728227fa1419}{set\-Active\-Workspace} (\hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Sets the active workspace to be the specified workspace. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$ \hyperlink{class_g_a_u_s_s_a294a07247f6c7d8464ce5e79a97025a3}{load\-Workspace} (string)
+\begin{DoxyCompactList}\small\item\em Gets the workspace information saved in a file and returns it in a workspace handle. \end{DoxyCompactList}\item 
+string \hyperlink{class_g_a_u_s_s_aec6202efa12949e7a7e9addfedbc3ded}{get\-Workspace\-Name} (\hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Returns the current associated name of a workspace according to \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_a626d736a417fd10e0b51087e944c5e56}{update\-Workspace\-Name} (\hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Request the workspace name from \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}, and set the {\itshape name} field in the \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_acc7a8039355ae28686d9393144b2af75}{save\-Workspace} (\hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$, string)
+\begin{DoxyCompactList}\small\item\em Saves workspace information contained in a workspace handle into a file. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_af6c2bb49b3906debb760e103cc1436f9}{save\-Program} (Program\-Handle\-\_\-t $\ast$, string)
+\begin{DoxyCompactList}\small\item\em Saves a compiled program given by a program handle into a file. \end{DoxyCompactList}\item 
+string \hyperlink{class_g_a_u_s_s_a7403bd9564a21a81f790e88da97ff780}{translate\-Dataloop\-File} (string srcfile)
+\begin{DoxyCompactList}\small\item\em Translates a file that contains a dataloop, so it can be read by the compiler. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a5e936488bfa9422a6267afbe7ab8ffe2}{execute\-String} (string)
+\begin{DoxyCompactList}\small\item\em Executes a command within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on the currently active workspace. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a32f1488454a0ee5522626fc8d322fea1}{execute\-String} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Executes a command within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on a specific workspace. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a1e15d3c30be612b67ecb67ed7a39b185}{execute\-File} (string)
+\begin{DoxyCompactList}\small\item\em Executes a named file within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on the currently active workspace. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_aadc273c128c4d1fadb6edf0df7112107}{execute\-File} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Executes a named file within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on the a specific workspace. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a1b971703024494d1390241b86099ddbb}{execute\-Compiled\-File} (string)
+\begin{DoxyCompactList}\small\item\em Executes a compiled gcg file within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on the active workspace. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_ad553ead84eec837e60782f16a3e242f8}{execute\-Compiled\-File} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Executes a compiled gcg file within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on a specific workspace. \end{DoxyCompactList}\item 
+Program\-Handle\-\_\-t $\ast$ \hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String} (string)
+\begin{DoxyCompactList}\small\item\em Compiles a string and returns a program handle in the active workspace. \end{DoxyCompactList}\item 
+Program\-Handle\-\_\-t $\ast$ \hyperlink{class_g_a_u_s_s_a13db047afc85a0ef2406b5e054bdea83}{compile\-String} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Compiles a string and returns a program handle in the specified workspace. \end{DoxyCompactList}\item 
+Program\-Handle\-\_\-t $\ast$ \hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File} (string)
+\begin{DoxyCompactList}\small\item\em Compiles a file and returns a program handle in the active workspace. \end{DoxyCompactList}\item 
+Program\-Handle\-\_\-t $\ast$ \hyperlink{class_g_a_u_s_s_ab26d63e1aa776415ec71166705a98664}{compile\-File} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Compiles a file and returns a program handle in a specific workspace. \end{DoxyCompactList}\item 
+Program\-Handle\-\_\-t $\ast$ \hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File} (string)
+\begin{DoxyCompactList}\small\item\em Loads an already compiled file into the active workspace and returns a program handle. \end{DoxyCompactList}\item 
+Program\-Handle\-\_\-t $\ast$ \hyperlink{class_g_a_u_s_s_a7609366538fd9b85e3fa85a4b9b7bdb7}{load\-Compiled\-File} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Loads an already compiled file into a specific workspace and returns a program handle. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program} (Program\-Handle\-\_\-t $\ast$)
+\begin{DoxyCompactList}\small\item\em Executes a given program handle that was created with either \hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String(string)}, \hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)}, or \hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)}. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_a626ad1e9228347c6b0d56b2b41337586}{free\-Program} (Program\-Handle\-\_\-t $\ast$)
+\begin{DoxyCompactList}\small\item\em Free a program handle created by \hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String(string)}, \hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)}, and \hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)} \end{DoxyCompactList}\item 
+string \hyperlink{class_g_a_u_s_s_a9b74886bf0091ca9d5bd17feae95ea05}{make\-Path\-Absolute} (string)
+\begin{DoxyCompactList}\small\item\em Turns a given path into an absolute path. \end{DoxyCompactList}\item 
+string \hyperlink{class_g_a_u_s_s_a7e1284a1d44e68aadb6c70e4416abb7b}{program\-Input\-String} ()
+\begin{DoxyCompactList}\small\item\em Calls the program input string function hooked with \hyperlink{class_g_a_u_s_s_ae82b5bfdf26971433c46936a812506c3}{set\-Program\-Input\-String(\-I\-G\-E\-Program\-Input\-String$\ast$)}. \end{DoxyCompactList}\item 
+int \hyperlink{class_g_a_u_s_s_aadbb588e6cb82219df8571ea17027d3c}{get\-Symbol\-Type} (string)
+\begin{DoxyCompactList}\small\item\em Returns the type of a symbol in the active \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} workspace or 0 if it cannot find the symbol. \end{DoxyCompactList}\item 
+int \hyperlink{class_g_a_u_s_s_abc7d671bcf6ae784070a78bae1546f7a}{get\-Symbol\-Type} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Returns the type of a symbol in a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} workspace or 0 if it cannot find the symbol. \end{DoxyCompactList}\item 
+double \hyperlink{class_g_a_u_s_s_a7c44bea0167fd88360b3926904a5cf2f}{get\-Scalar} (string)
+\begin{DoxyCompactList}\small\item\em Returns a scalar from the current workspace as a primitive {\ttfamily double}. \end{DoxyCompactList}\item 
+double \hyperlink{class_g_a_u_s_s_ade5065d7eec4f6170496571a07e5dc4c}{get\-Scalar} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Returns a scalar from a specific workspace as a primitive {\ttfamily double}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_matrix}{G\-E\-Matrix} $\ast$ \hyperlink{class_g_a_u_s_s_a7c2716d0bb1c2cdca5de3f74b89f045a}{get\-Matrix} (string)
+\begin{DoxyCompactList}\small\item\em Retrieve a matrix from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol name in the active workspace. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_matrix}{G\-E\-Matrix} $\ast$ \hyperlink{class_g_a_u_s_s_a760da892985076d0f595da7eb88a07fe}{get\-Matrix} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Retrieve a matrix from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol name in workspace {\itshape wh}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_matrix}{G\-E\-Matrix} $\ast$ \hyperlink{class_g_a_u_s_s_ae015bd236952146aa33ed7e3a279ff04}{get\-Matrix\-And\-Clear} (string)
+\begin{DoxyCompactList}\small\item\em Retrieve a matrix from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol name in the active workspace. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_matrix}{G\-E\-Matrix} $\ast$ \hyperlink{class_g_a_u_s_s_afdb5633bee38528f3a19ec92b5d9b2a5}{get\-Matrix\-And\-Clear} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Retrieve a matrix from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol name in workspace {\itshape wh}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_array}{G\-E\-Array} $\ast$ \hyperlink{class_g_a_u_s_s_a4016aa13feb5c5648556dcca73caf030}{get\-Array} (string)
+\begin{DoxyCompactList}\small\item\em Retrieve an array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in the active workspace. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_array}{G\-E\-Array} $\ast$ \hyperlink{class_g_a_u_s_s_ac674a4f382ee80691146d412c3182c1d}{get\-Array} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Retrieve an array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in workspace {\itshape wh}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_array}{G\-E\-Array} $\ast$ \hyperlink{class_g_a_u_s_s_ad2bcca793c43675ff937c8637ec3e3e3}{get\-Array\-And\-Clear} (string)
+\begin{DoxyCompactList}\small\item\em Retrieve an array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in the active workspace. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_array}{G\-E\-Array} $\ast$ \hyperlink{class_g_a_u_s_s_a9773d66de682d40025edef5b372ab9b8}{get\-Array\-And\-Clear} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Retrieve an array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in workspace {\itshape wh}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_string}{G\-E\-String} $\ast$ \hyperlink{class_g_a_u_s_s_ad75afe2cd19e141c15c97ad52373791d}{get\-String} (string)
+\begin{DoxyCompactList}\small\item\em Retrieve a string from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in the active workspace. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_string}{G\-E\-String} $\ast$ \hyperlink{class_g_a_u_s_s_a9b5d5caf2cc8932364a4a867c72b0854}{get\-String} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Retrieve a string from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in workspace {\itshape wh}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_string_array}{G\-E\-String\-Array} $\ast$ \hyperlink{class_g_a_u_s_s_a9c1652bb6b3a931c75d9c7dd2ffe23cb}{get\-String\-Array} (string)
+\begin{DoxyCompactList}\small\item\em Retrieve a string array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in the active workspace. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_string_array}{G\-E\-String\-Array} $\ast$ \hyperlink{class_g_a_u_s_s_aaec58da4530de9e471961a6ff0df79b5}{get\-String\-Array} (string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Retrieve a string array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in workspace {\itshape wh}. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol} (\hyperlink{class_g_e_matrix}{G\-E\-Matrix} $\ast$, string)
+\begin{DoxyCompactList}\small\item\em Add a matrix to the active workspace with the specified symbol name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_ab90cec0135942174b273fd5c258b9740}{set\-Symbol} (\hyperlink{class_g_e_matrix}{G\-E\-Matrix} $\ast$, string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Add a matrix to a specific workspace with the specified symbol name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{set\-Symbol} (\hyperlink{class_g_e_array}{G\-E\-Array} $\ast$, string)
+\begin{DoxyCompactList}\small\item\em Add an array to the active workspace with the specified symbol name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_adcf2392951e17e477cd4a39a7a8de69c}{set\-Symbol} (\hyperlink{class_g_e_array}{G\-E\-Array} $\ast$, string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Add an array to a specific workspace with the specified symbol name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a1d535463b5f181866233cde1e1de91fa}{set\-Symbol} (\hyperlink{class_g_e_string}{G\-E\-String} $\ast$, string)
+\begin{DoxyCompactList}\small\item\em Add a string to the active workspace with the specified symbol name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_abc42f75d55ce90767d8c3842c00fd8bc}{set\-Symbol} (\hyperlink{class_g_e_string}{G\-E\-String} $\ast$, string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Add a string to a specific workspace with the specified symbol name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a9d471d25f4c5acd0a8917239234a5bf5}{set\-Symbol} (\hyperlink{class_g_e_string_array}{G\-E\-String\-Array} $\ast$, string)
+\begin{DoxyCompactList}\small\item\em Add a string array to the active workspace with the specified symbol name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_aeeac3739521597a74a4eed3640ba1a04}{set\-Symbol} (\hyperlink{class_g_e_string_array}{G\-E\-String\-Array} $\ast$, string, \hyperlink{class_g_e_workspace}{G\-E\-Workspace} $\ast$)
+\begin{DoxyCompactList}\small\item\em Add a string array to a specific workspace with the specified symbol name. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_a_u_s_s_a3e665b3b7d0733f27ca56427e6ec3d49}{is\-Missing\-Value} (double)
+\begin{DoxyCompactList}\small\item\em Check a double to see if it contains a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} missing value. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_a0b8379c48d677e05aeab433dba66fbb6}{set\-Program\-Output\-All} (\hyperlink{class_i_g_e_program_output}{I\-G\-E\-Program\-Output} $\ast$func)
+\begin{DoxyCompactList}\small\item\em Dually set the program output hook as well as the error output hook. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{set\-Program\-Output} (\hyperlink{class_i_g_e_program_output}{I\-G\-E\-Program\-Output} $\ast$func)
+\begin{DoxyCompactList}\small\item\em Sets the program output hook. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{set\-Program\-Error\-Output} (\hyperlink{class_i_g_e_program_output}{I\-G\-E\-Program\-Output} $\ast$func)
+\begin{DoxyCompactList}\small\item\em Sets the program error output hook. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_a4b7ecb768f49b98110729db7e5728296}{set\-Program\-Flush\-Output} (\hyperlink{class_i_g_e_program_flush_output}{I\-G\-E\-Program\-Flush\-Output} $\ast$func)
+\begin{DoxyCompactList}\small\item\em Forces flushing of buffered output. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_ae82b5bfdf26971433c46936a812506c3}{set\-Program\-Input\-String} (\hyperlink{class_i_g_e_program_input_string}{I\-G\-E\-Program\-Input\-String} $\ast$func)
+\begin{DoxyCompactList}\small\item\em Set the callback function that \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} will call for blocking string input. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_a71a60afb143ae00b18d6fe3fd99f316d}{set\-Program\-Input\-Char} (\hyperlink{class_i_g_e_program_input_char}{I\-G\-E\-Program\-Input\-Char} $\ast$func)
+\begin{DoxyCompactList}\small\item\em Indicate the callback function that a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} program should call for (non-\/blocking) single character input. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_a300d6e33dbfd2a45f56ff2769f585435}{set\-Program\-Input\-Char\-Blocking} (\hyperlink{class_i_g_e_program_input_char}{I\-G\-E\-Program\-Input\-Char} $\ast$func)
+\begin{DoxyCompactList}\small\item\em Indicate the callback function that a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} program should call for blocking single character input. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_a_u_s_s_a6517b404cf71d157808a1cb73e3c0ddb}{set\-Program\-Input\-Check} (\hyperlink{class_i_g_e_program_input_check}{I\-G\-E\-Program\-Input\-Check} $\ast$func)
+\begin{DoxyCompactList}\small\item\em Indicate the callback function that a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} program should call to see if user-\/supplied input is available. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_a_u_s_s_ad907a936da9a60d342898b44bb37188c}{static void {\bfseries internal\-Hook\-Output} (char $\ast$output)}\label{class_g_a_u_s_s_ad907a936da9a60d342898b44bb37188c}
+
+\item 
+\hypertarget{class_g_a_u_s_s_addc2a30c69243f368be14bee3ada1761}{static void {\bfseries internal\-Hook\-Error} (char $\ast$output)}\label{class_g_a_u_s_s_addc2a30c69243f368be14bee3ada1761}
+
+\item 
+\hypertarget{class_g_a_u_s_s_a269ecd96318af60d348b650849d17c32}{static void {\bfseries internal\-Hook\-Flush} ()}\label{class_g_a_u_s_s_a269ecd96318af60d348b650849d17c32}
+
+\item 
+\hypertarget{class_g_a_u_s_s_ae9731be0762c7048f302be63c35827ce}{static int {\bfseries internal\-Hook\-Input\-String} (char $\ast$buf, int len)}\label{class_g_a_u_s_s_ae9731be0762c7048f302be63c35827ce}
+
+\item 
+\hypertarget{class_g_a_u_s_s_a67e47c77b2937d46ca7369d7244a86fd}{static int {\bfseries internal\-Hook\-Input\-Char} ()}\label{class_g_a_u_s_s_a67e47c77b2937d46ca7369d7244a86fd}
+
+\item 
+\hypertarget{class_g_a_u_s_s_abda34d5de755c678c5789d736480df17}{static int {\bfseries internal\-Hook\-Input\-Blocking\-Char} ()}\label{class_g_a_u_s_s_abda34d5de755c678c5789d736480df17}
+
+\item 
+\hypertarget{class_g_a_u_s_s_a24a9bde314967c81afed7a3cb150b94a}{static int {\bfseries internal\-Hook\-Input\-Check} ()}\label{class_g_a_u_s_s_a24a9bde314967c81afed7a3cb150b94a}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_a_u_s_s_a645d2d3ccc29cbb4c8d9814841fea8c5}{static double \hyperlink{class_g_a_u_s_s_a645d2d3ccc29cbb4c8d9814841fea8c5}{k\-Missing\-Value}}\label{class_g_a_u_s_s_a645d2d3ccc29cbb4c8d9814841fea8c5}
+
+\begin{DoxyCompactList}\small\item\em Bit pattern of a double missing value (Na\-N) \end{DoxyCompactList}\item 
+\hypertarget{class_g_a_u_s_s_a3b7a032d5992b6f9d8cda17a17749092}{static \hyperlink{class_i_g_e_program_output}{I\-G\-E\-Program\-Output} $\ast$ {\bfseries output\-Func\-\_\-} = 0}\label{class_g_a_u_s_s_a3b7a032d5992b6f9d8cda17a17749092}
+
+\item 
+\hypertarget{class_g_a_u_s_s_acfc5b5f571e53b084bd6811b67e635d0}{static \hyperlink{class_i_g_e_program_output}{I\-G\-E\-Program\-Output} $\ast$ {\bfseries error\-Func\-\_\-} = 0}\label{class_g_a_u_s_s_acfc5b5f571e53b084bd6811b67e635d0}
+
+\item 
+\hypertarget{class_g_a_u_s_s_ab63ab560d4f88461fc3fa024816abc86}{static \hyperlink{class_i_g_e_program_flush_output}{I\-G\-E\-Program\-Flush\-Output} $\ast$ {\bfseries flush\-Func\-\_\-} = 0}\label{class_g_a_u_s_s_ab63ab560d4f88461fc3fa024816abc86}
+
+\item 
+\hypertarget{class_g_a_u_s_s_acc4c2c7f32eaae3ca224f507869fa647}{static \hyperlink{class_i_g_e_program_input_string}{I\-G\-E\-Program\-Input\-String} $\ast$ {\bfseries input\-String\-Func\-\_\-} = 0}\label{class_g_a_u_s_s_acc4c2c7f32eaae3ca224f507869fa647}
+
+\item 
+\hypertarget{class_g_a_u_s_s_a75fbe4e1dc457ca6b652e2fde7162759}{static \hyperlink{class_i_g_e_program_input_char}{I\-G\-E\-Program\-Input\-Char} $\ast$ {\bfseries input\-Char\-Func\-\_\-} = 0}\label{class_g_a_u_s_s_a75fbe4e1dc457ca6b652e2fde7162759}
+
+\item 
+\hypertarget{class_g_a_u_s_s_aba7aaee23285ecc00ccab1124dfa9fb1}{static \hyperlink{class_i_g_e_program_input_char}{I\-G\-E\-Program\-Input\-Char} $\ast$ {\bfseries input\-Blocking\-Char\-Func\-\_\-} = 0}\label{class_g_a_u_s_s_aba7aaee23285ecc00ccab1124dfa9fb1}
+
+\item 
+\hypertarget{class_g_a_u_s_s_a7d0c957991dda3346a0ff6d063ab7e51}{static \hyperlink{class_i_g_e_program_input_check}{I\-G\-E\-Program\-Input\-Check} $\ast$ {\bfseries input\-Check\-Func\-\_\-} = 0}\label{class_g_a_u_s_s_a7d0c957991dda3346a0ff6d063ab7e51}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main class that must be instantiated to interface with the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. 
+
+While not enforced, only {\bfseries one} instance of this class should be present. If threading is an issue, consider the use of multiple workspaces, as each can be accessed in parallel safely.
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}() \textcolor{comment}{# Use MTENGHOME13 environment variable value as GAUSS home location}
+2 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}(\textcolor{stringliteral}{"MYHOMEVAR"}) \textcolor{comment}{# Use specified environment variable for GAUSS home location}
+3 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}(\textcolor{stringliteral}{"/home/user/mteng"}, \textcolor{keyword}{False}) \textcolor{comment}{# Use specified paths for GAUSS home location}
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{GAUSS}(); \textcolor{comment}{// Use MTENGHOME13 environment variable value as GAUSS home location}
+$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{GAUSS}(\textcolor{stringliteral}{"MYHOMEVAR"}); \textcolor{comment}{// Use specified environment variable for GAUSS home location}
+$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{GAUSS}(\textcolor{stringliteral}{"/home/user/mteng"}, \textcolor{keyword}{false}); \textcolor{comment}{// Use specified paths for GAUSS home location}
+\end{DoxyCode}
+ 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!G\-A\-U\-S\-S@{G\-A\-U\-S\-S}}
+\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{G\-A\-U\-S\-S}]{\setlength{\rightskip}{0pt plus 5cm}G\-A\-U\-S\-S\-::\-G\-A\-U\-S\-S (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}
+
+
+Initialize the library using the environment variable value of {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13} as the path for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home path. 
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_afd3a4f159bc887697d0dc6f1781714ae}{G\-A\-U\-S\-S(string, bool)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_afd3a4f159bc887697d0dc6f1781714ae}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!G\-A\-U\-S\-S@{G\-A\-U\-S\-S}}
+\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{G\-A\-U\-S\-S}]{\setlength{\rightskip}{0pt plus 5cm}G\-A\-U\-S\-S\-::\-G\-A\-U\-S\-S (
+\begin{DoxyParamCaption}
+\item[{string}]{inp, }
+\item[{bool}]{is\-Env\-Var = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_afd3a4f159bc887697d0dc6f1781714ae}
+
+
+Initialize the library using the specified environment variable that contains the path for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home directory. 
+
+This is most useful in a situation where the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine is being redistributed. This method allows the developer to specify a custom environment variable that is specific to their product. Note that the end user must have this environment variable set up as well.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{comment}{# Using a custom environment variable}
+2 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}(\textcolor{stringliteral}{"MY\_CUSTOM\_VAR"});
+3 
+4 \textcolor{comment}{# Setting a specific path}
+5 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}(\textcolor{stringliteral}{"/home/user/mteng"}, \textcolor{keyword}{False});
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{comment}{// Using a custom environment variable}
+$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{GAUSS}(\textcolor{stringliteral}{"MY\_CUSTOM\_VAR"});
+
+\textcolor{comment}{// Setting a specific path}
+$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{GAUSS}(\textcolor{stringliteral}{"/home/user/mteng"}, \textcolor{keyword}{false});
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em inp} & Environment variable or absolute path to \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home (i.\-e. mteng.\-dll, libmteng.\-so) \\
+\hline
+{\em is\-Env\-Var} & Whether the {\ttfamily inp} argument is an environment variable name\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{G\-A\-U\-S\-S()} 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!compile\-File@{compile\-File}}
+\index{compile\-File@{compile\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{compile\-File}]{\setlength{\rightskip}{0pt plus 5cm}Program\-Handle\-\_\-t $\ast$ G\-A\-U\-S\-S\-::compile\-File (
+\begin{DoxyParamCaption}
+\item[{string}]{fname}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}
+
+
+Compiles a file and returns a program handle in the active workspace. 
+
+This can then be followed with a call to \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}. Note that if you do not care about keeping the program handle, a convenience method \hyperlink{class_g_a_u_s_s_a1e15d3c30be612b67ecb67ed7a39b185}{execute\-File(string)} is available.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ph = ge.compileFile(\textcolor{stringliteral}{"ols.e"})
+2 ge.executeProgram(ph)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ph = $ge->compileFile(\textcolor{stringliteral}{"ols.e"});
+$ge->executeProgram(ph);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & Filename to compile \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Program handle
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a1e15d3c30be612b67ecb67ed7a39b185}{execute\-File(string)} 
+
+\hyperlink{class_g_a_u_s_s_a626ad1e9228347c6b0d56b2b41337586}{free\-Program} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ab26d63e1aa776415ec71166705a98664}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!compile\-File@{compile\-File}}
+\index{compile\-File@{compile\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{compile\-File}]{\setlength{\rightskip}{0pt plus 5cm}Program\-Handle\-\_\-t $\ast$ G\-A\-U\-S\-S\-::compile\-File (
+\begin{DoxyParamCaption}
+\item[{string}]{fname, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ab26d63e1aa776415ec71166705a98664}
+
+
+Compiles a file and returns a program handle in a specific workspace. 
+
+This can then be followed with a call to \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}. Note that if you do not care about keeping the program handle, a convenience method \hyperlink{class_g_a_u_s_s_a1e15d3c30be612b67ecb67ed7a39b185}{execute\-File(string)} is available.
+
+Example\-:
+
+Given {\ttfamily my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ph = ge.compileFile(\textcolor{stringliteral}{"ols.e"}, myWorkspace)
+2 ge.executeProgram(ph)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ph = $ge->compileFile(\textcolor{stringliteral}{"ols.e"}, $myWorkspace);
+$ge->executeProgram(ph);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & Filename to compile \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Program handle
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a1e15d3c30be612b67ecb67ed7a39b185}{execute\-File(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!compile\-String@{compile\-String}}
+\index{compile\-String@{compile\-String}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{compile\-String}]{\setlength{\rightskip}{0pt plus 5cm}Program\-Handle\-\_\-t $\ast$ G\-A\-U\-S\-S\-::compile\-String (
+\begin{DoxyParamCaption}
+\item[{string}]{command}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}
+
+
+Compiles a string and returns a program handle in the active workspace. 
+
+This can then be followed with a call to \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}. Note that if you do not care about keeping the program handle, a convenience method \hyperlink{class_g_a_u_s_s_a5e936488bfa9422a6267afbe7ab8ffe2}{execute\-String(string)} is available.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ph = ge.compileString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""})
+2 
+3 \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(0, 5):
+4     ge.executeProgram(ph)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ph = $ge->compileString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""});
+
+\textcolor{keywordflow}{for} ($i = 0; $i < 5; ++$i)
+    $ge->executeProgram($ph);
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+Hello World!
+Hello World!
+Hello World!
+Hello World!
+Hello World!
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Code to compile \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Program handle
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a5e936488bfa9422a6267afbe7ab8ffe2}{execute\-String(string)} 
+
+\hyperlink{class_g_a_u_s_s_a626ad1e9228347c6b0d56b2b41337586}{free\-Program} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a13db047afc85a0ef2406b5e054bdea83}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!compile\-String@{compile\-String}}
+\index{compile\-String@{compile\-String}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{compile\-String}]{\setlength{\rightskip}{0pt plus 5cm}Program\-Handle\-\_\-t $\ast$ G\-A\-U\-S\-S\-::compile\-String (
+\begin{DoxyParamCaption}
+\item[{string}]{command, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a13db047afc85a0ef2406b5e054bdea83}
+
+
+Compiles a string and returns a program handle in the specified workspace. 
+
+This can then be followed with a call to \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}. Note that if you do not care about keeping the program handle, a convenience method \hyperlink{class_g_a_u_s_s_a5e936488bfa9422a6267afbe7ab8ffe2}{execute\-String(string)} is available.
+
+Example\-:
+
+Given {\ttfamily my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ph = ge.compileString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""}, myWorkspace)
+2 
+3 \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(0, 5):
+4     ge.executeProgram(ph)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ph = $ge->compileString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""}, $myWorkspace);
+
+\textcolor{keywordflow}{for} ($i = 0; $i < 5; ++$i)
+    $ge->executeProgram($ph);
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+Hello World!
+Hello World!
+Hello World!
+Hello World!
+Hello World!
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Code to compile \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Program handle
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a5e936488bfa9422a6267afbe7ab8ffe2}{execute\-String(string)} 
+
+\hyperlink{class_g_a_u_s_s_a626ad1e9228347c6b0d56b2b41337586}{free\-Program} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_aa300ef0a2a359b736734b4350706ef89}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!create\-Workspace@{create\-Workspace}}
+\index{create\-Workspace@{create\-Workspace}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{create\-Workspace}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Workspace} $\ast$ G\-A\-U\-S\-S\-::create\-Workspace (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_aa300ef0a2a359b736734b4350706ef89}
+
+
+Creates a new workspace with the given name, and returns a handle to it. 
+
+Calling this does not replace the currently active workspace.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of workspace to create \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Handle to newly created workspace
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a7ff4b1140967c6737918728227fa1419}{set\-Active\-Workspace(\-G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a22e8b7eebcc1e77708a7cfd9a858e769}{destroy\-Workspace(\-G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ab9515a6de5028f18138e6c87e1512c91}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!destroy\-All\-Workspaces@{destroy\-All\-Workspaces}}
+\index{destroy\-All\-Workspaces@{destroy\-All\-Workspaces}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{destroy\-All\-Workspaces}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::destroy\-All\-Workspaces (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ab9515a6de5028f18138e6c87e1512c91}
+
+
+Clears all workspaces. 
+
+Note that you will not be able to manipulate symbols without an active workspace.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_aa300ef0a2a359b736734b4350706ef89}{create\-Workspace(string)} 
+
+\hyperlink{class_g_a_u_s_s_a22e8b7eebcc1e77708a7cfd9a858e769}{destroy\-Workspace(\-G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a22e8b7eebcc1e77708a7cfd9a858e769}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!destroy\-Workspace@{destroy\-Workspace}}
+\index{destroy\-Workspace@{destroy\-Workspace}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{destroy\-Workspace}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::destroy\-Workspace (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a22e8b7eebcc1e77708a7cfd9a858e769}
+
+
+Free a workspace. 
+
+Deletes all associated symbols. This cannot be undone.
+
+Note that you will not be able to manipulate symbols without an active workspace.
+
+
+\begin{DoxyParams}{Parameters}
+{\em wh} & Workspace handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Whether workspace was successfully removed
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_aa300ef0a2a359b736734b4350706ef89}{create\-Workspace(string)} 
+
+\hyperlink{class_g_a_u_s_s_ab9515a6de5028f18138e6c87e1512c91}{destroy\-All\-Workspaces()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a1b971703024494d1390241b86099ddbb}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!execute\-Compiled\-File@{execute\-Compiled\-File}}
+\index{execute\-Compiled\-File@{execute\-Compiled\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{execute\-Compiled\-File}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::execute\-Compiled\-File (
+\begin{DoxyParamCaption}
+\item[{string}]{fname}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a1b971703024494d1390241b86099ddbb}
+
+
+Executes a compiled gcg file within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on the active workspace. 
+
+As soon as the file is finished executing it sets the current workspace to what it was before this function was called. If you wish to run this file repeatedly, you can load it first using \hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)} and then execute it as many times as you wish with \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 success = ge.executeCompiledFile(\textcolor{stringliteral}{"example.gcg"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$success = $ge->executeCompiledFile(\textcolor{stringliteral}{"example.gcg"});
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & gcg file to execute. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true on success; false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a294a07247f6c7d8464ce5e79a97025a3}{load\-Workspace(string)} 
+
+\hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ad553ead84eec837e60782f16a3e242f8}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!execute\-Compiled\-File@{execute\-Compiled\-File}}
+\index{execute\-Compiled\-File@{execute\-Compiled\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{execute\-Compiled\-File}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::execute\-Compiled\-File (
+\begin{DoxyParamCaption}
+\item[{string}]{fname, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ad553ead84eec837e60782f16a3e242f8}
+
+
+Executes a compiled gcg file within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on a specific workspace. 
+
+As soon as the file is finished executing it sets the current workspace to what it was before this function was called. If you wish to run this file repeatedly, you can load it first using \hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)} and then execute it as many times as you wish with \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}.
+
+Example (Where {\ttfamily my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object)\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 success = ge.executeCompiledFile(\textcolor{stringliteral}{"example.gcg"}, myWorkspace)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$success = $ge->executeCompiledFile(\textcolor{stringliteral}{"example.gcg"}, $myWorkspace);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & gcg file to execute. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true on success; false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a294a07247f6c7d8464ce5e79a97025a3}{load\-Workspace(string)} 
+
+\hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a1e15d3c30be612b67ecb67ed7a39b185}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!execute\-File@{execute\-File}}
+\index{execute\-File@{execute\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{execute\-File}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::execute\-File (
+\begin{DoxyParamCaption}
+\item[{string}]{fname}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a1e15d3c30be612b67ecb67ed7a39b185}
+
+
+Executes a named file within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on the currently active workspace. 
+
+If you wish to run this file repeatedly, you can compile it first using \hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)} and then execute it as many times as you wish with \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 success = ge.executeFile(\textcolor{stringliteral}{"ols.e"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$success = $ge->executeString(\textcolor{stringliteral}{"ols.e"});
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & Filename to execute. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true on success; false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_aadc273c128c4d1fadb6edf0df7112107}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!execute\-File@{execute\-File}}
+\index{execute\-File@{execute\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{execute\-File}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::execute\-File (
+\begin{DoxyParamCaption}
+\item[{string}]{fname, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_aadc273c128c4d1fadb6edf0df7112107}
+
+
+Executes a named file within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on the a specific workspace. 
+
+If you wish to run this file repeatedly, you can compile it first using \hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)} and then execute it as many times as you wish with \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}.
+
+Example\-:
+
+Given {\itshape my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 success = ge.executeFile(\textcolor{stringliteral}{"ols.e"}, myWorkspace)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$success = $ge->executeString(\textcolor{stringliteral}{"ols.e"}, $myWorkspace);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & Filename to execute. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true on success; false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!execute\-Program@{execute\-Program}}
+\index{execute\-Program@{execute\-Program}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{execute\-Program}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::execute\-Program (
+\begin{DoxyParamCaption}
+\item[{Program\-Handle\-\_\-t $\ast$}]{ph}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}
+
+
+Executes a given program handle that was created with either \hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String(string)}, \hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)}, or \hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)}. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ph = ge.compileString(\textcolor{stringliteral}{"x = rndu(3,3)"})
+2 ge.executeProgram(ph)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ph = $ge->compileString(\textcolor{stringliteral}{"x = rndu(3,3)"});
+$ge->executeProgram($ph);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em ph} & Program handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success. False on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String(string)} 
+
+\hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)} 
+
+\hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)} 
+
+\hyperlink{class_g_a_u_s_s_a626ad1e9228347c6b0d56b2b41337586}{free\-Program(\-Program\-Handle\-\_\-t$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a5e936488bfa9422a6267afbe7ab8ffe2}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!execute\-String@{execute\-String}}
+\index{execute\-String@{execute\-String}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{execute\-String}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::execute\-String (
+\begin{DoxyParamCaption}
+\item[{string}]{command}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a5e936488bfa9422a6267afbe7ab8ffe2}
+
+
+Executes a command within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on the currently active workspace. 
+
+If you wish to run this command repeatedly, you can compile it first using \hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String(string)} and then execute it as many times as you wish with \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.executeString(\textcolor{stringliteral}{"x = rndu(3,3)"})
+2 ge.executeString(\textcolor{stringliteral}{"print x"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->executeString(\textcolor{stringliteral}{"x = rndu(3,3)"});
+$ge->executeString(\textcolor{stringliteral}{"print x"});
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Expression to execute. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true on success; false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a32f1488454a0ee5522626fc8d322fea1}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!execute\-String@{execute\-String}}
+\index{execute\-String@{execute\-String}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{execute\-String}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::execute\-String (
+\begin{DoxyParamCaption}
+\item[{string}]{command, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a32f1488454a0ee5522626fc8d322fea1}
+
+
+Executes a command within the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine on a specific workspace. 
+
+If you wish to run this command repeatedly, you can compile it first using \hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String(string)} and then execute it as many times as you wish with \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}.
+
+Example (Where {\ttfamily my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object)\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.executeString(\textcolor{stringliteral}{"x = rndu(3,3)"}, myWorkspace)
+2 ge.executeString(\textcolor{stringliteral}{"print x"}, myWorkspace)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->executeString(\textcolor{stringliteral}{"x = rndu(3,3)"}, $myWorkspace);
+$ge->executeString(\textcolor{stringliteral}{"print x"}, $myWorkspace);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Expression to execute. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true on success; false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a626ad1e9228347c6b0d56b2b41337586}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!free\-Program@{free\-Program}}
+\index{free\-Program@{free\-Program}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{free\-Program}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::free\-Program (
+\begin{DoxyParamCaption}
+\item[{Program\-Handle\-\_\-t $\ast$}]{ph}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a626ad1e9228347c6b0d56b2b41337586}
+
+
+Free a program handle created by \hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String(string)}, \hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)}, and \hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ph} & Program handle\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a5062f8fabacaba21e242785a6461f9d1}{compile\-String(string)} 
+
+\hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)} 
+
+\hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)} 
+
+\hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a566a50d644d0d1f55dba90416de4961a}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Active\-Workspace@{get\-Active\-Workspace}}
+\index{get\-Active\-Workspace@{get\-Active\-Workspace}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Active\-Workspace}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Workspace} $\ast$ G\-A\-U\-S\-S\-::get\-Active\-Workspace (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a566a50d644d0d1f55dba90416de4961a}
+
+
+Return a handle to the currently active workspace. 
+
+\begin{DoxyReturn}{Returns}
+Active workspace objectut
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a7ff4b1140967c6737918728227fa1419}{set\-Active\-Workspace(\-G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a4016aa13feb5c5648556dcca73caf030}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Array@{get\-Array}}
+\index{get\-Array@{get\-Array}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Array} $\ast$ G\-A\-U\-S\-S\-::get\-Array (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a4016aa13feb5c5648556dcca73caf030}
+
+
+Retrieve an array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in the active workspace. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{set\-Symbol(\-G\-E\-Array$\ast$, string)}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ac674a4f382ee80691146d412c3182c1d}{get\-Array(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{set\-Symbol(\-G\-E\-Array$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_adcf2392951e17e477cd4a39a7a8de69c}{set\-Symbol(\-G\-E\-Array$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_ad2bcca793c43675ff937c8637ec3e3e3}{get\-Array\-And\-Clear(string)} 
+
+\hyperlink{class_g_a_u_s_s_a9773d66de682d40025edef5b372ab9b8}{get\-Array\-And\-Clear(string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ac674a4f382ee80691146d412c3182c1d}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Array@{get\-Array}}
+\index{get\-Array@{get\-Array}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Array} $\ast$ G\-A\-U\-S\-S\-::get\-Array (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ac674a4f382ee80691146d412c3182c1d}
+
+
+Retrieve an array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in workspace {\itshape wh}. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{set\-Symbol(\-G\-E\-Array$\ast$, string)}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a4016aa13feb5c5648556dcca73caf030}{get\-Array(string)} 
+
+\hyperlink{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{set\-Symbol(\-G\-E\-Array$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_adcf2392951e17e477cd4a39a7a8de69c}{set\-Symbol(\-G\-E\-Array$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_ad2bcca793c43675ff937c8637ec3e3e3}{get\-Array\-And\-Clear(string)} 
+
+\hyperlink{class_g_a_u_s_s_a9773d66de682d40025edef5b372ab9b8}{get\-Array\-And\-Clear(string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ad2bcca793c43675ff937c8637ec3e3e3}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Array\-And\-Clear@{get\-Array\-And\-Clear}}
+\index{get\-Array\-And\-Clear@{get\-Array\-And\-Clear}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Array\-And\-Clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Array} $\ast$ G\-A\-U\-S\-S\-::get\-Array\-And\-Clear (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ad2bcca793c43675ff937c8637ec3e3e3}
+
+
+Retrieve an array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in the active workspace. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{set\-Symbol(\-G\-E\-Array$\ast$, string)}.
+
+In addition, this function will clear the symbol from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a9773d66de682d40025edef5b372ab9b8}{get\-Array\-And\-Clear(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{set\-Symbol(\-G\-E\-Array$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_adcf2392951e17e477cd4a39a7a8de69c}{set\-Symbol(\-G\-E\-Array$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a4016aa13feb5c5648556dcca73caf030}{get\-Array(string)} 
+
+\hyperlink{class_g_a_u_s_s_ac674a4f382ee80691146d412c3182c1d}{get\-Array(string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a9773d66de682d40025edef5b372ab9b8}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Array\-And\-Clear@{get\-Array\-And\-Clear}}
+\index{get\-Array\-And\-Clear@{get\-Array\-And\-Clear}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Array\-And\-Clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Array} $\ast$ G\-A\-U\-S\-S\-::get\-Array\-And\-Clear (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a9773d66de682d40025edef5b372ab9b8}
+
+
+Retrieve an array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in workspace {\itshape wh}. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{set\-Symbol(\-G\-E\-Array$\ast$, string)}.
+
+In addition, this function will clear the symbol from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ad2bcca793c43675ff937c8637ec3e3e3}{get\-Array\-And\-Clear(string)} 
+
+\hyperlink{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{set\-Symbol(\-G\-E\-Array$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_adcf2392951e17e477cd4a39a7a8de69c}{set\-Symbol(\-G\-E\-Array$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a4016aa13feb5c5648556dcca73caf030}{get\-Array(string)} 
+
+\hyperlink{class_g_a_u_s_s_ac674a4f382ee80691146d412c3182c1d}{get\-Array(string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a6a62cfdb5ea03e0352c271c60afe96fc}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Error@{get\-Error}}
+\index{get\-Error@{get\-Error}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Error}]{\setlength{\rightskip}{0pt plus 5cm}int G\-A\-U\-S\-S\-::get\-Error (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a6a62cfdb5ea03e0352c271c60afe96fc}
+
+
+Retrieve the last error code set by the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. 
+
+You can retrieve a textual representation of this error code by calling \hyperlink{class_g_a_u_s_s_a6e487c8dc379177510f76e322b0e50de}{get\-Error\-Text(int)} and passing in this value, or use the \hyperlink{class_g_a_u_s_s_a048aa287aa5d82638aff68f4d4cbec28}{get\-Last\-Error\-Text()} method provided that does both.
+
+\begin{DoxyReturn}{Returns}
+Last error code
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a6e487c8dc379177510f76e322b0e50de}{get\-Error\-Text(int)} 
+
+\hyperlink{class_g_a_u_s_s_a048aa287aa5d82638aff68f4d4cbec28}{get\-Last\-Error\-Text()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a6e487c8dc379177510f76e322b0e50de}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Error\-Text@{get\-Error\-Text}}
+\index{get\-Error\-Text@{get\-Error\-Text}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Error\-Text}]{\setlength{\rightskip}{0pt plus 5cm}string G\-A\-U\-S\-S\-::get\-Error\-Text (
+\begin{DoxyParamCaption}
+\item[{int}]{error\-Num}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a6e487c8dc379177510f76e322b0e50de}
+
+
+Given a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} error code, return the full error description. 
+
+If you would like the error description of the last error that occurred, you can use \hyperlink{class_g_a_u_s_s_a048aa287aa5d82638aff68f4d4cbec28}{get\-Last\-Error\-Text()} instead.
+
+
+\begin{DoxyParams}{Parameters}
+{\em error\-Num} & Error number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Complete error description
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a6a62cfdb5ea03e0352c271c60afe96fc}{get\-Error()} 
+
+\hyperlink{class_g_a_u_s_s_a048aa287aa5d82638aff68f4d4cbec28}{get\-Last\-Error\-Text()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_adfe744665cc891f5288d5523083d2a2c}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Home@{get\-Home}}
+\index{get\-Home@{get\-Home}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Home}]{\setlength{\rightskip}{0pt plus 5cm}string G\-A\-U\-S\-S\-::get\-Home (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_adfe744665cc891f5288d5523083d2a2c}
+
+
+Returns the current path known by the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine for the user home directory. 
+
+\begin{DoxyReturn}{Returns}
+Path to user \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} home directory.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_af1f5a5df0c904bd713c4edea74606e55}{set\-Home(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_abb13d8fd5b2abd2844e48279621204e6}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Home\-Var@{get\-Home\-Var}}
+\index{get\-Home\-Var@{get\-Home\-Var}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Home\-Var}]{\setlength{\rightskip}{0pt plus 5cm}string G\-A\-U\-S\-S\-::get\-Home\-Var (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_abb13d8fd5b2abd2844e48279621204e6}
+
+
+Returns the current environment variable value set by the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine that represents the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home path. 
+
+\begin{DoxyReturn}{Returns}
+Environment variable name
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a61b2ebc8c6ac5694e8cc33cb7726cbe3}{set\-Home\-Var(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a048aa287aa5d82638aff68f4d4cbec28}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Last\-Error\-Text@{get\-Last\-Error\-Text}}
+\index{get\-Last\-Error\-Text@{get\-Last\-Error\-Text}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Last\-Error\-Text}]{\setlength{\rightskip}{0pt plus 5cm}string G\-A\-U\-S\-S\-::get\-Last\-Error\-Text (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a048aa287aa5d82638aff68f4d4cbec28}
+
+
+Return the string error description of the last error code. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} ge.initialize():
+2     \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Error initializing: "} + ge.getLastErrorText()
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{if} (!$ge->initialize()) \{
+    echo \textcolor{stringliteral}{"Error initializing: "} . $ge->getLastErrorText() . PHP\_EOL;
+\}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Description of last \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} error code
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a6a62cfdb5ea03e0352c271c60afe96fc}{get\-Error()} 
+
+\hyperlink{class_g_a_u_s_s_a6e487c8dc379177510f76e322b0e50de}{get\-Error\-Text(int)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ad9c991ab9fd7dea25a865eb1deae9b4c}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Log\-File@{get\-Log\-File}}
+\index{get\-Log\-File@{get\-Log\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Log\-File}]{\setlength{\rightskip}{0pt plus 5cm}string G\-A\-U\-S\-S\-::get\-Log\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ad9c991ab9fd7dea25a865eb1deae9b4c}
+
+
+Returns the current log file location used by the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. 
+
+\begin{DoxyReturn}{Returns}
+Path to log file
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a59f4b84f55f76701ca9deb7be3f9f0fe}{set\-Log\-File(string, string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a7c2716d0bb1c2cdca5de3f74b89f045a}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Matrix@{get\-Matrix}}
+\index{get\-Matrix@{get\-Matrix}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Matrix} $\ast$ G\-A\-U\-S\-S\-::get\-Matrix (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a7c2716d0bb1c2cdca5de3f74b89f045a}
+
+
+Retrieve a matrix from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol name in the active workspace. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)}.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.executeString(\textcolor{stringliteral}{"x = 5"})
+2 x = ge.getMatrix(\textcolor{stringliteral}{"x"})
+3 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"x = "} + str(x.getElement())
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->executeString(\textcolor{stringliteral}{"x = 5"});
+$x = $ge->getMatrix(\textcolor{stringliteral}{"x"});
+echo \textcolor{stringliteral}{"x = "} . $x->getElement() . PHP\_EOL;
+\end{DoxyCode}
+ will result in the output\-: 
+\begin{DoxyCode}
+x = 5
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a760da892985076d0f595da7eb88a07fe}{get\-Matrix(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_ab90cec0135942174b273fd5c258b9740}{set\-Symbol(\-G\-E\-Matrix$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_ae015bd236952146aa33ed7e3a279ff04}{get\-Matrix\-And\-Clear(string)} 
+
+\hyperlink{class_g_a_u_s_s_afdb5633bee38528f3a19ec92b5d9b2a5}{get\-Matrix\-And\-Clear(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a7c44bea0167fd88360b3926904a5cf2f}{get\-Scalar(string)} 
+
+\hyperlink{class_g_a_u_s_s_ade5065d7eec4f6170496571a07e5dc4c}{get\-Scalar(string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a760da892985076d0f595da7eb88a07fe}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Matrix@{get\-Matrix}}
+\index{get\-Matrix@{get\-Matrix}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Matrix} $\ast$ G\-A\-U\-S\-S\-::get\-Matrix (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a760da892985076d0f595da7eb88a07fe}
+
+
+Retrieve a matrix from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol name in workspace {\itshape wh}. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)}.
+
+Example\-:
+
+Given {\itshape my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object.
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.executeString(\textcolor{stringliteral}{"x = 5"}, myWorkspace)
+2 x = ge.getMatrix(\textcolor{stringliteral}{"x"}, myWorkspace)
+3 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"x = "} + str(x.getElement())
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->executeString(\textcolor{stringliteral}{"x = 5"}, $myWorkspace);
+$x = $ge->getMatrix(\textcolor{stringliteral}{"x"}, $myWorkspace);
+echo \textcolor{stringliteral}{"x = "} . $x->getElement() . PHP\_EOL;
+\end{DoxyCode}
+ will result in the output\-: 
+\begin{DoxyCode}
+x = 5
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a7c2716d0bb1c2cdca5de3f74b89f045a}{get\-Matrix(string)} 
+
+\hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_ab90cec0135942174b273fd5c258b9740}{set\-Symbol(\-G\-E\-Matrix$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_ae015bd236952146aa33ed7e3a279ff04}{get\-Matrix\-And\-Clear(string)} 
+
+\hyperlink{class_g_a_u_s_s_afdb5633bee38528f3a19ec92b5d9b2a5}{get\-Matrix\-And\-Clear(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a7c44bea0167fd88360b3926904a5cf2f}{get\-Scalar(string)} 
+
+\hyperlink{class_g_a_u_s_s_ade5065d7eec4f6170496571a07e5dc4c}{get\-Scalar(string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ae015bd236952146aa33ed7e3a279ff04}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Matrix\-And\-Clear@{get\-Matrix\-And\-Clear}}
+\index{get\-Matrix\-And\-Clear@{get\-Matrix\-And\-Clear}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Matrix\-And\-Clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Matrix} $\ast$ G\-A\-U\-S\-S\-::get\-Matrix\-And\-Clear (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ae015bd236952146aa33ed7e3a279ff04}
+
+
+Retrieve a matrix from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol name in the active workspace. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)}.
+
+In addition, this function will clear the symbol from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.executeString(\textcolor{stringliteral}{"x = 5"})
+2 x = ge.getMatrixAndClear(\textcolor{stringliteral}{"x"})
+3 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"$x = "} + str(x.getElement())
+4 ge.executeString(\textcolor{stringliteral}{"print \(\backslash\)"x = \(\backslash\)" x"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->executeString(\textcolor{stringliteral}{"x = 5"});
+$x = $ge->getMatrixAndClear(\textcolor{stringliteral}{"x"});
+echo \textcolor{stringliteral}{"\(\backslash\)$x = "} . $x->getElement() . PHP\_EOL;
+$ge->executeString(\textcolor{stringliteral}{"print \(\backslash\)"x = \(\backslash\)" x"});
+\end{DoxyCode}
+ will result in the output\-: 
+\begin{DoxyCode}
+$x = 5
+x =        0.0000000
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_afdb5633bee38528f3a19ec92b5d9b2a5}{get\-Matrix\-And\-Clear(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_ab90cec0135942174b273fd5c258b9740}{set\-Symbol(\-G\-E\-Matrix$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a7c2716d0bb1c2cdca5de3f74b89f045a}{get\-Matrix(string)} 
+
+\hyperlink{class_g_a_u_s_s_a760da892985076d0f595da7eb88a07fe}{get\-Matrix(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a7c44bea0167fd88360b3926904a5cf2f}{get\-Scalar(string)} 
+
+\hyperlink{class_g_a_u_s_s_ade5065d7eec4f6170496571a07e5dc4c}{get\-Scalar(string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_afdb5633bee38528f3a19ec92b5d9b2a5}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Matrix\-And\-Clear@{get\-Matrix\-And\-Clear}}
+\index{get\-Matrix\-And\-Clear@{get\-Matrix\-And\-Clear}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Matrix\-And\-Clear}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Matrix} $\ast$ G\-A\-U\-S\-S\-::get\-Matrix\-And\-Clear (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_afdb5633bee38528f3a19ec92b5d9b2a5}
+
+
+Retrieve a matrix from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol name in workspace {\itshape wh}. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)}.
+
+In addition, this function will clear the symbol from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table.
+
+Example\-:
+
+Given {\itshape my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.executeString(\textcolor{stringliteral}{"x = 5"}, myWorkspace)
+2 x = ge.getMatrixAndClear(\textcolor{stringliteral}{"x"}, myWorkspace)
+3 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"\(\backslash\)$x = "} + str(x.getElement())
+4 ge.executeString(\textcolor{stringliteral}{"print \(\backslash\)"x = \(\backslash\)" x"}, myWorkspace);
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->executeString(\textcolor{stringliteral}{"x = 5"}, $myWorkspace);
+$x = $ge->getMatrixAndClear(\textcolor{stringliteral}{"x"}, $myWorkspace);
+echo \textcolor{stringliteral}{"\(\backslash\)$x = "} . $x->getElement() . PHP\_EOL;
+$ge->executeString(\textcolor{stringliteral}{"print \(\backslash\)"x = \(\backslash\)" x"}, $myWorkspace);
+\end{DoxyCode}
+ will result in the output\-: 
+\begin{DoxyCode}
+$x = 5
+x =        0.0000000
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ae015bd236952146aa33ed7e3a279ff04}{get\-Matrix\-And\-Clear(string)} 
+
+\hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_ab90cec0135942174b273fd5c258b9740}{set\-Symbol(\-G\-E\-Matrix$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a7c2716d0bb1c2cdca5de3f74b89f045a}{get\-Matrix(string)} 
+
+\hyperlink{class_g_a_u_s_s_a760da892985076d0f595da7eb88a07fe}{get\-Matrix(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a7c44bea0167fd88360b3926904a5cf2f}{get\-Scalar(string)} 
+
+\hyperlink{class_g_a_u_s_s_ade5065d7eec4f6170496571a07e5dc4c}{get\-Scalar(string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a7c44bea0167fd88360b3926904a5cf2f}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Scalar@{get\-Scalar}}
+\index{get\-Scalar@{get\-Scalar}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}double G\-A\-U\-S\-S\-::get\-Scalar (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a7c44bea0167fd88360b3926904a5cf2f}
+
+
+Returns a scalar from the current workspace as a primitive {\ttfamily double}. 
+
+If the symbol {\itshape name} does not exist, 0 will be returned.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.executeString(\textcolor{stringliteral}{"x = 5"})
+2 x = ge.getScalar(\textcolor{stringliteral}{"x"})
+3 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"x = "} + str(x)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->executeString(\textcolor{stringliteral}{"x = 5"});
+$x = $ge->getScalar(\textcolor{stringliteral}{"x"});
+echo \textcolor{stringliteral}{"\(\backslash\)$x = "} . $x . PHP\_EOL;
+\end{DoxyCode}
+ will result in the output\-: 
+\begin{DoxyCode}
+$x = 5
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Scalar object representing \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ade5065d7eec4f6170496571a07e5dc4c}{get\-Scalar(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_ab90cec0135942174b273fd5c258b9740}{set\-Symbol(\-G\-E\-Matrix$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_ae015bd236952146aa33ed7e3a279ff04}{get\-Matrix\-And\-Clear(string)} 
+
+\hyperlink{class_g_a_u_s_s_afdb5633bee38528f3a19ec92b5d9b2a5}{get\-Matrix\-And\-Clear(string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ade5065d7eec4f6170496571a07e5dc4c}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Scalar@{get\-Scalar}}
+\index{get\-Scalar@{get\-Scalar}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Scalar}]{\setlength{\rightskip}{0pt plus 5cm}double G\-A\-U\-S\-S\-::get\-Scalar (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ade5065d7eec4f6170496571a07e5dc4c}
+
+
+Returns a scalar from a specific workspace as a primitive {\ttfamily double}. 
+
+If the symbol {\itshape name} does not exist, 0 will be returned.
+
+Example\-:
+
+Given {\itshape my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object.
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.executeString(\textcolor{stringliteral}{"x = 5"}, myWorkspace)
+2 x = ge.getScalar(\textcolor{stringliteral}{"x"}, myWorkspace)
+3 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"x = "} + str(x)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->executeString(\textcolor{stringliteral}{"x = 5"}, $myWorkspace);
+$x = $ge->getScalar(\textcolor{stringliteral}{"x"}, $myWorkspace);
+echo \textcolor{stringliteral}{"\(\backslash\)$x = "} . $x . PHP\_EOL;
+\end{DoxyCode}
+ will result in the output\-: 
+\begin{DoxyCode}
+$x = 5
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Scalar object representing \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a7c44bea0167fd88360b3926904a5cf2f}{get\-Scalar(string)} 
+
+\hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_ab90cec0135942174b273fd5c258b9740}{set\-Symbol(\-G\-E\-Matrix$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_ae015bd236952146aa33ed7e3a279ff04}{get\-Matrix\-And\-Clear(string)} 
+
+\hyperlink{class_g_a_u_s_s_afdb5633bee38528f3a19ec92b5d9b2a5}{get\-Matrix\-And\-Clear(string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ad75afe2cd19e141c15c97ad52373791d}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-String@{get\-String}}
+\index{get\-String@{get\-String}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-String} $\ast$ G\-A\-U\-S\-S\-::get\-String (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ad75afe2cd19e141c15c97ad52373791d}
+
+
+Retrieve a string from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in the active workspace. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_a1d535463b5f181866233cde1e1de91fa}{set\-Symbol(\-G\-E\-String$\ast$, string)}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a9b5d5caf2cc8932364a4a867c72b0854}{get\-String(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a1d535463b5f181866233cde1e1de91fa}{set\-Symbol(\-G\-E\-String$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_abc42f75d55ce90767d8c3842c00fd8bc}{set\-Symbol(\-G\-E\-String$\ast$, string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a9b5d5caf2cc8932364a4a867c72b0854}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-String@{get\-String}}
+\index{get\-String@{get\-String}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-String}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-String} $\ast$ G\-A\-U\-S\-S\-::get\-String (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a9b5d5caf2cc8932364a4a867c72b0854}
+
+
+Retrieve a string from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in workspace {\itshape wh}. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_a1d535463b5f181866233cde1e1de91fa}{set\-Symbol(\-G\-E\-String$\ast$, string)}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ad75afe2cd19e141c15c97ad52373791d}{get\-String(string)} 
+
+\hyperlink{class_g_a_u_s_s_a1d535463b5f181866233cde1e1de91fa}{set\-Symbol(\-G\-E\-String$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_abc42f75d55ce90767d8c3842c00fd8bc}{set\-Symbol(\-G\-E\-String$\ast$, string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a9c1652bb6b3a931c75d9c7dd2ffe23cb}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-String\-Array@{get\-String\-Array}}
+\index{get\-String\-Array@{get\-String\-Array}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-String\-Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-String\-Array} $\ast$ G\-A\-U\-S\-S\-::get\-String\-Array (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a9c1652bb6b3a931c75d9c7dd2ffe23cb}
+
+
+Retrieve a string array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in the active workspace. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_a9d471d25f4c5acd0a8917239234a5bf5}{set\-Symbol(\-G\-E\-String\-Array$\ast$, string)}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string array object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_aaec58da4530de9e471961a6ff0df79b5}{get\-String\-Array(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a9d471d25f4c5acd0a8917239234a5bf5}{set\-Symbol(\-G\-E\-String\-Array$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_aeeac3739521597a74a4eed3640ba1a04}{set\-Symbol(\-G\-E\-String\-Array$\ast$, string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_aaec58da4530de9e471961a6ff0df79b5}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-String\-Array@{get\-String\-Array}}
+\index{get\-String\-Array@{get\-String\-Array}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-String\-Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-String\-Array} $\ast$ G\-A\-U\-S\-S\-::get\-String\-Array (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_aaec58da4530de9e471961a6ff0df79b5}
+
+
+Retrieve a string array from the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table in workspace {\itshape wh}. 
+
+This will be a copy of the symbol from the symbol table, and therefore changes made will not be reflected without first calling \hyperlink{class_g_a_u_s_s_a9d471d25f4c5acd0a8917239234a5bf5}{set\-Symbol(\-G\-E\-String\-Array$\ast$, string)}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string array object
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_aaec58da4530de9e471961a6ff0df79b5}{get\-String\-Array(string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a9d471d25f4c5acd0a8917239234a5bf5}{set\-Symbol(\-G\-E\-String\-Array$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_aeeac3739521597a74a4eed3640ba1a04}{set\-Symbol(\-G\-E\-String\-Array$\ast$, string, G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_aadbb588e6cb82219df8571ea17027d3c}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Symbol\-Type@{get\-Symbol\-Type}}
+\index{get\-Symbol\-Type@{get\-Symbol\-Type}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Symbol\-Type}]{\setlength{\rightskip}{0pt plus 5cm}int G\-A\-U\-S\-S\-::get\-Symbol\-Type (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_aadbb588e6cb82219df8571ea17027d3c}
+
+
+Returns the type of a symbol in the active \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} workspace or 0 if it cannot find the symbol. 
+
+Valid return types are constant members of the \hyperlink{struct_g_e_sym_type}{G\-E\-Sym\-Type} class
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{if} ge.getSymbolType(\textcolor{stringliteral}{"x"}) == \hyperlink{struct_g_e_sym_type}{GESymType}.\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c}{MATRIX}:
+    doSomething()
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{if} ($ge->getSymbolType(\textcolor{stringliteral}{"x"}) == \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c}{GESymType::MATRIX})
+    doSomething();
+\end{DoxyCode}
+ \hypertarget{class_g_a_u_s_s_abc7d671bcf6ae784070a78bae1546f7a}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Symbol\-Type@{get\-Symbol\-Type}}
+\index{get\-Symbol\-Type@{get\-Symbol\-Type}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Symbol\-Type}]{\setlength{\rightskip}{0pt plus 5cm}int G\-A\-U\-S\-S\-::get\-Symbol\-Type (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_abc7d671bcf6ae784070a78bae1546f7a}
+
+
+Returns the type of a symbol in a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} workspace or 0 if it cannot find the symbol. 
+
+Valid return types are constant members of the \hyperlink{struct_g_e_sym_type}{G\-E\-Sym\-Type} class
+
+Example, given {\ttfamily my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keywordflow}{if} ge.getSymbolType(\textcolor{stringliteral}{"x"}, myWorkspace) == GESymType.MATRIX:
+2     doSomething()
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{if} ($ge->getSymbolType(\textcolor{stringliteral}{"x"}, $myWorkspace) == \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c}{GESymType::MATRIX})
+    doSomething();
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int that represents symbol type. Refer to \hyperlink{struct_g_e_sym_type}{G\-E\-Sym\-Type} const list.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad3f85fecfcee857d9b08cf4ebe77c32f}{G\-E\-Sym\-Type.\-A\-R\-R\-A\-Y\-\_\-\-G\-A\-U\-S\-S} 
+
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c}{G\-E\-Sym\-Type.\-M\-A\-T\-R\-I\-X} 
+
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca0e3633d8cf7dbbdbe3b45bdd24cae7b0}{G\-E\-Sym\-Type.\-S\-C\-A\-L\-A\-R} 
+
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcaaf5984cc491fc4b4fcf2162f18f0272c}{G\-E\-Sym\-Type.\-S\-P\-A\-R\-S\-E} 
+
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad7b91a02b7bd02be62866581fb00ab77}{G\-E\-Sym\-Type.\-S\-T\-R\-I\-N\-G} 
+
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcadba1b6c2cd5c27167323652b1c23c9e0}{G\-E\-Sym\-Type.\-S\-T\-R\-I\-N\-G\-\_\-\-A\-R\-R\-A\-Y} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a5d3dc85b8f31111c6bf3a2d8286c915e}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Workspace@{get\-Workspace}}
+\index{get\-Workspace@{get\-Workspace}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Workspace}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Workspace} $\ast$ G\-A\-U\-S\-S\-::get\-Workspace (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a5d3dc85b8f31111c6bf3a2d8286c915e}
+
+
+Returns a handle to a specified workspace by {\itshape name} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em wksp\-Name} & Name of workspace \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Workspace handle
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a7ff4b1140967c6737918728227fa1419}{set\-Active\-Workspace(\-G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a566a50d644d0d1f55dba90416de4961a}{get\-Active\-Workspace()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_aec6202efa12949e7a7e9addfedbc3ded}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!get\-Workspace\-Name@{get\-Workspace\-Name}}
+\index{get\-Workspace\-Name@{get\-Workspace\-Name}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{get\-Workspace\-Name}]{\setlength{\rightskip}{0pt plus 5cm}string G\-A\-U\-S\-S\-::get\-Workspace\-Name (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_aec6202efa12949e7a7e9addfedbc3ded}
+
+
+Returns the current associated name of a workspace according to \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em wh} & Workspace handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Workspace name
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a566a50d644d0d1f55dba90416de4961a}{get\-Active\-Workspace()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_aad9f7a3a527b9c5961d1cc1b1aa9066c}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!initialize@{initialize}}
+\index{initialize@{initialize}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_aad9f7a3a527b9c5961d1cc1b1aa9066c}
+
+
+Initialize the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. 
+
+This must be called before any other engine related functions are called. This method informs the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine of the Home path that was set in the constructor, as well as creates a default workspace. After this method succeeds the Engine is ready to handle symbols and compiling and running programs.
+
+This is generally called after this object has been instantiated, and directly following the setting of callbacks.
+
+\begin{DoxyReturn}{Returns}
+true on success; false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a71721c595c12c94616ef414879c95460}{shutdown()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a3e665b3b7d0733f27ca56427e6ec3d49}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!is\-Missing\-Value@{is\-Missing\-Value}}
+\index{is\-Missing\-Value@{is\-Missing\-Value}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{is\-Missing\-Value}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::is\-Missing\-Value (
+\begin{DoxyParamCaption}
+\item[{double}]{d}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a3e665b3b7d0733f27ca56427e6ec3d49}
+
+
+Check a double to see if it contains a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} missing value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & double value to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if {\itshape d} contains a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} missing value. false if not.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a645d2d3ccc29cbb4c8d9814841fea8c5}{k\-Missing\-Value} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!load\-Compiled\-File@{load\-Compiled\-File}}
+\index{load\-Compiled\-File@{load\-Compiled\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{load\-Compiled\-File}]{\setlength{\rightskip}{0pt plus 5cm}Program\-Handle\-\_\-t $\ast$ G\-A\-U\-S\-S\-::load\-Compiled\-File (
+\begin{DoxyParamCaption}
+\item[{string}]{fn}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}
+
+
+Loads an already compiled file into the active workspace and returns a program handle. 
+
+This can then be followed with a call to \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}. Note that if you do not care about keeping the program handle, a convenience method \hyperlink{class_g_a_u_s_s_a1b971703024494d1390241b86099ddbb}{execute\-Compiled\-File(string)} is available.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & Filename to load \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Program handle
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a1b971703024494d1390241b86099ddbb}{execute\-Compiled\-File(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a7609366538fd9b85e3fa85a4b9b7bdb7}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!load\-Compiled\-File@{load\-Compiled\-File}}
+\index{load\-Compiled\-File@{load\-Compiled\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{load\-Compiled\-File}]{\setlength{\rightskip}{0pt plus 5cm}Program\-Handle\-\_\-t $\ast$ G\-A\-U\-S\-S\-::load\-Compiled\-File (
+\begin{DoxyParamCaption}
+\item[{string}]{fn, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a7609366538fd9b85e3fa85a4b9b7bdb7}
+
+
+Loads an already compiled file into a specific workspace and returns a program handle. 
+
+This can then be followed with a call \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}. Note that if you do not care about keeping the program handle, a convenience method \hyperlink{class_g_a_u_s_s_a1b971703024494d1390241b86099ddbb}{execute\-Compiled\-File(string)} is available.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & Filename to load \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Program handle
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a1b971703024494d1390241b86099ddbb}{execute\-Compiled\-File(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a294a07247f6c7d8464ce5e79a97025a3}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!load\-Workspace@{load\-Workspace}}
+\index{load\-Workspace@{load\-Workspace}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{load\-Workspace}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Workspace} $\ast$ G\-A\-U\-S\-S\-::load\-Workspace (
+\begin{DoxyParamCaption}
+\item[{string}]{gcgfile}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a294a07247f6c7d8464ce5e79a97025a3}
+
+
+Gets the workspace information saved in a file and returns it in a workspace handle. 
+
+This also sets the loaded workspace to be the current workspace.
+
+If {\itshape load\-Workspace} fails, {\itshape wh} will be {\ttfamily null}. Use \hyperlink{class_g_a_u_s_s_a6a62cfdb5ea03e0352c271c60afe96fc}{get\-Error()} to get the number of the error. {\itshape load\-Workspace} may fail with either of the following errors\-:
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}\PBS\raggedleft {\bf Error }&{\bf Reason}\\\cline{1-2}
+\PBS\raggedleft 30 &Insufficient memory. \\\cline{1-2}
+\PBS\raggedleft 495 &Workspace inactive or corrupt. \\\cline{1-2}
+\end{TabularC}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em gcgfile} & name of file workspace is stored in \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to a workspace handle. 
+\end{DoxyReturn}
+\hypertarget{class_g_a_u_s_s_a9b74886bf0091ca9d5bd17feae95ea05}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!make\-Path\-Absolute@{make\-Path\-Absolute}}
+\index{make\-Path\-Absolute@{make\-Path\-Absolute}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{make\-Path\-Absolute}]{\setlength{\rightskip}{0pt plus 5cm}string G\-A\-U\-S\-S\-::make\-Path\-Absolute (
+\begin{DoxyParamCaption}
+\item[{string}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a9b74886bf0091ca9d5bd17feae95ea05}
+
+
+Turns a given path into an absolute path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to be analyzed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Absolute representation of {\itshape path} argument 
+\end{DoxyReturn}
+\hypertarget{class_g_a_u_s_s_a7e1284a1d44e68aadb6c70e4416abb7b}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!program\-Input\-String@{program\-Input\-String}}
+\index{program\-Input\-String@{program\-Input\-String}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{program\-Input\-String}]{\setlength{\rightskip}{0pt plus 5cm}string G\-A\-U\-S\-S\-::program\-Input\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a7e1284a1d44e68aadb6c70e4416abb7b}
+
+
+Calls the program input string function hooked with \hyperlink{class_g_a_u_s_s_ae82b5bfdf26971433c46936a812506c3}{set\-Program\-Input\-String(\-I\-G\-E\-Program\-Input\-String$\ast$)}. 
+
+The callbacks are thread specific. program\-Input\-String will call the input string function that was hooked in that particular thread.
+
+\begin{DoxyReturn}{Returns}
+user input from hooked function
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ae82b5bfdf26971433c46936a812506c3}{set\-Program\-Input\-String(\-I\-G\-E\-Program\-Input\-String$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_af6c2bb49b3906debb760e103cc1436f9}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!save\-Program@{save\-Program}}
+\index{save\-Program@{save\-Program}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{save\-Program}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::save\-Program (
+\begin{DoxyParamCaption}
+\item[{Program\-Handle\-\_\-t $\ast$}]{ph, }
+\item[{string}]{fn}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_af6c2bb49b3906debb760e103cc1436f9}
+
+
+Saves a compiled program given by a program handle into a file. 
+
+It saves all of the workspace information, which is contained in the program handle. The file will have the name given by {\itshape fn}. Load the program with \hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ph} & Program handle \\
+\hline
+{\em fn} & Filename to save program to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ae05e76794c7c581efa1fb38e6a94652f}{load\-Compiled\-File(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_acc7a8039355ae28686d9393144b2af75}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!save\-Workspace@{save\-Workspace}}
+\index{save\-Workspace@{save\-Workspace}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{save\-Workspace}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::save\-Workspace (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh, }
+\item[{string}]{fn}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_acc7a8039355ae28686d9393144b2af75}
+
+
+Saves workspace information contained in a workspace handle into a file. 
+
+The file will have the name given by {\itshape fn}. Load the workspace information with \hyperlink{class_g_a_u_s_s_a294a07247f6c7d8464ce5e79a97025a3}{load\-Workspace(string)}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em wh} & Workspace object \\
+\hline
+{\em fn} & Filename to save workspace as\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a294a07247f6c7d8464ce5e79a97025a3}{load\-Workspace(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a7ff4b1140967c6737918728227fa1419}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Active\-Workspace@{set\-Active\-Workspace}}
+\index{set\-Active\-Workspace@{set\-Active\-Workspace}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Active\-Workspace}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Active\-Workspace (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a7ff4b1140967c6737918728227fa1419}
+
+
+Sets the active workspace to be the specified workspace. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em wh} & Workspace object\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a566a50d644d0d1f55dba90416de4961a}{get\-Active\-Workspace()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a4adc9a33b8be97b1a6592160fea4a4eb}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Error@{set\-Error}}
+\index{set\-Error@{set\-Error}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Error}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::set\-Error (
+\begin{DoxyParamCaption}
+\item[{int}]{error\-Num}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a4adc9a33b8be97b1a6592160fea4a4eb}
+
+
+Manually set the current error code for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. 
+
+Setting this to 0 will clear out the current error code.
+
+
+\begin{DoxyParams}{Parameters}
+{\em err\-Num} & Error code\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a6a62cfdb5ea03e0352c271c60afe96fc}{get\-Error()} 
+
+\hyperlink{class_g_a_u_s_s_a6e487c8dc379177510f76e322b0e50de}{get\-Error\-Text(int)} 
+
+\hyperlink{class_g_a_u_s_s_a048aa287aa5d82638aff68f4d4cbec28}{get\-Last\-Error\-Text()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_af1f5a5df0c904bd713c4edea74606e55}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Home@{set\-Home}}
+\index{set\-Home@{set\-Home}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Home}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Home (
+\begin{DoxyParamCaption}
+\item[{string}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_af1f5a5df0c904bd713c4edea74606e55}
+
+
+Specifies the home directory used to locate the Run-\/\-Time Library, source files, library files, etc. 
+
+in a normal engine installation. It overrides any environment variable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Directory path of engine installation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_adfe744665cc891f5288d5523083d2a2c}{get\-Home()} 
+
+\hyperlink{class_g_a_u_s_s_a61b2ebc8c6ac5694e8cc33cb7726cbe3}{set\-Home\-Var(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a61b2ebc8c6ac5694e8cc33cb7726cbe3}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Home\-Var@{set\-Home\-Var}}
+\index{set\-Home\-Var@{set\-Home\-Var}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Home\-Var}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Home\-Var (
+\begin{DoxyParamCaption}
+\item[{string}]{env\-Var}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a61b2ebc8c6ac5694e8cc33cb7726cbe3}
+
+
+The default value is {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E\#\#}. 
+
+Use the Java library function to get the value of the environment variable.
+
+It is better to use \hyperlink{class_g_a_u_s_s_af1f5a5df0c904bd713c4edea74606e55}{set\-Home(string)} which sets the home directory, overriding the environment variable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em env\-Var} & Name of environment variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_abb13d8fd5b2abd2844e48279621204e6}{get\-Home\-Var()} 
+
+\hyperlink{class_g_a_u_s_s_af1f5a5df0c904bd713c4edea74606e55}{set\-Home(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a59f4b84f55f76701ca9deb7be3f9f0fe}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Log\-File@{set\-Log\-File}}
+\index{set\-Log\-File@{set\-Log\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Log\-File}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Log\-File (
+\begin{DoxyParamCaption}
+\item[{string}]{logfn, }
+\item[{string}]{mode}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a59f4b84f55f76701ca9deb7be3f9f0fe}
+
+
+Allows you to set the file that the errors will be logged in. 
+
+The Engine logs certain system level errors in 2 places\-: a file and an open file pointer. The default file is {\ttfamily /tmp/mteng.\#\#\#.log} where {\ttfamily \#\#\#} is the process I\-D number. The default file pointer is stderr.
+
+You can turn off the error logging to file by inputting an empty string for {\itshape logfn}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em logfn} & name of log file. \\
+\hline
+{\em mode} & {\bfseries w} to overwrite the contents of the file.\par
+ {\bfseries a} to append to the contents of the file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ad9c991ab9fd7dea25a865eb1deae9b4c}{get\-Log\-File()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Program\-Error\-Output@{set\-Program\-Error\-Output}}
+\index{set\-Program\-Error\-Output@{set\-Program\-Error\-Output}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Program\-Error\-Output}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::set\-Program\-Error\-Output (
+\begin{DoxyParamCaption}
+\item[{{\bf I\-G\-E\-Program\-Output} $\ast$}]{func}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}
+
+
+Sets the program error output hook. 
+
+Program error output is any time the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine needs to display any error information back to the user.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{class }Output(\hyperlink{class_i_g_e_program_output}{IGEProgramOutput}):
+2     \textcolor{keyword}{def }invoke(self, message):
+3         \textcolor{keywordflow}{print} message,
+4 
+5 out = Output()
+6 out.thisown = 0
+7 
+8 ge.setProgramErrorOutput(out)
+9 ge.executeString(\textcolor{stringliteral}{"y"})           \textcolor{comment}{# Will produce error: y does not exist}
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }Output \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_output}{IGEProgramOutput} \{
+    \textcolor{keyword}{function} invoke($message) \{
+        echo $message;
+    \}
+\}
+
+$out = \textcolor{keyword}{new} Output();
+$out->thisown = 0;
+
+$ge->setProgramErrorOutput($out);
+$ge->executeString(\textcolor{stringliteral}{"y"});        \textcolor{comment}{// Will produce error: y does not exist}
+\end{DoxyCode}
+
+
+will result in the output\-: 
+\begin{DoxyCode}
+Undefined symbols:
+    y
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & User-\/defined output function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a0b8379c48d677e05aeab433dba66fbb6}{set\-Program\-Output\-All(\-I\-G\-E\-Program\-Output$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{set\-Program\-Output(\-I\-G\-E\-Program\-Output$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a4b7ecb768f49b98110729db7e5728296}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Program\-Flush\-Output@{set\-Program\-Flush\-Output}}
+\index{set\-Program\-Flush\-Output@{set\-Program\-Flush\-Output}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Program\-Flush\-Output}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::set\-Program\-Flush\-Output (
+\begin{DoxyParamCaption}
+\item[{{\bf I\-G\-E\-Program\-Flush\-Output} $\ast$}]{func}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a4b7ecb768f49b98110729db7e5728296}
+
+
+Forces flushing of buffered output. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{class }FlushOutput(\hyperlink{class_i_g_e_program_flush_output}{IGEProgramFlushOutput}):
+2     \textcolor{keyword}{def }invoke(self):
+3         \textcolor{keywordflow}{print} \textcolor{stringliteral}{"A flush was requested."}
+4 
+5 flush = FlushOutput()
+6 flush.thisown = 0
+7 
+8 ge.setProgramFlushOutput(flush)
+9 ge.executeString(\textcolor{stringliteral}{"print /flush \(\backslash\)"Hello World!\(\backslash\)""})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }FlushOutput \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_flush_output}{IGEProgramFlushOutput} \{
+    \textcolor{keyword}{function} invoke() \{
+        echo \textcolor{stringliteral}{"A flush was requested."};
+    \}
+\}
+
+$flush = \textcolor{keyword}{new} FlushOutput();
+$flush->thisown = 0;
+
+$ge->setProgramFlushOutput($flush);
+$ge->executeString(\textcolor{stringliteral}{"print /flush \(\backslash\)"Hello World!\(\backslash\)""});
+\end{DoxyCode}
+
+
+will result in the output\-: 
+\begin{DoxyCode}
+Hello World!
+A flush was requested.
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & User-\/defined flush output function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{set\-Program\-Output(\-I\-G\-E\-Program\-Output$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{set\-Program\-Error\-Output(\-I\-G\-E\-Program\-Output$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a71a60afb143ae00b18d6fe3fd99f316d}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Program\-Input\-Char@{set\-Program\-Input\-Char}}
+\index{set\-Program\-Input\-Char@{set\-Program\-Input\-Char}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Program\-Input\-Char}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::set\-Program\-Input\-Char (
+\begin{DoxyParamCaption}
+\item[{{\bf I\-G\-E\-Program\-Input\-Char} $\ast$}]{func}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a71a60afb143ae00b18d6fe3fd99f316d}
+
+
+Indicate the callback function that a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} program should call for (non-\/blocking) single character input. 
+
+This function should return immediately, with either the value of a user-\/supplied character or a 0 if none is available.
+
+\subparagraph*{\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} commands which activate this callback}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily key}
+\end{DoxyItemize}
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{class }CharInput(\hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar}):
+2     \textcolor{keyword}{def }invoke(self):
+3         \textcolor{comment}{# Return buffered input}
+4         \textcolor{keywordflow}{return} ord(\textcolor{stringliteral}{"c"}) \textcolor{comment}{# Return the integer value of 'c'}
+5 
+6 charCallback = CharInput()
+7 charCallback.thisown = 0
+8 
+9 ge.setProgramInputChar(charCallback)
+10 ge.executeString(\textcolor{stringliteral}{"k = key"})
+11 
+12 k = ge.getScalar(\textcolor{stringliteral}{"k"})
+13 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"k = "} + str(k)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }CharInput \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar} \{
+    \textcolor{keyword}{function} invoke() \{
+        \textcolor{comment}{// Return buffered input}
+        \textcolor{keywordflow}{return} ord(\textcolor{stringliteral}{"c"}); \textcolor{comment}{// Return the integer value of 'c'}
+    \}
+\}
+
+$charCallback = \textcolor{keyword}{new} CharInput();
+$charCallback->thisown = 0;
+
+$ge->setProgramInputChar($charCallback);
+$ge->executeString(\textcolor{stringliteral}{"k = key"});
+
+$k = $ge->getScalar(\textcolor{stringliteral}{"k"});
+echo \textcolor{stringliteral}{"k = "} . $k . PHP\_EOL;
+\end{DoxyCode}
+
+
+will result in the output\-: 
+\begin{DoxyCode}
+k = 99
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & User-\/defined input function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ae82b5bfdf26971433c46936a812506c3}{set\-Program\-Input\-String(\-I\-G\-E\-Program\-Input\-String$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a300d6e33dbfd2a45f56ff2769f585435}{set\-Program\-Input\-Char\-Blocking(\-I\-G\-E\-Program\-Input\-Char$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a6517b404cf71d157808a1cb73e3c0ddb}{set\-Program\-Input\-Check(\-I\-G\-E\-Program\-Input\-Check$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a300d6e33dbfd2a45f56ff2769f585435}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Program\-Input\-Char\-Blocking@{set\-Program\-Input\-Char\-Blocking}}
+\index{set\-Program\-Input\-Char\-Blocking@{set\-Program\-Input\-Char\-Blocking}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Program\-Input\-Char\-Blocking}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::set\-Program\-Input\-Char\-Blocking (
+\begin{DoxyParamCaption}
+\item[{{\bf I\-G\-E\-Program\-Input\-Char} $\ast$}]{func}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a300d6e33dbfd2a45f56ff2769f585435}
+
+
+Indicate the callback function that a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} program should call for blocking single character input. 
+
+This function should block until user-\/supplied input is available, then return the value of a single character.
+
+\subparagraph*{\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} commands which activate this callback}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily keyw}
+\end{DoxyItemize}
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{class }CharInput(\hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar}):
+2     \textcolor{keyword}{def }invoke(self):
+3         \textcolor{comment}{# Return buffered input}
+4         \textcolor{keywordflow}{return} ord(\textcolor{stringliteral}{"c"}) \textcolor{comment}{# Return the integer value of 'c'}
+5 
+6 charCallback = CharInput()
+7 charCallback.thisown = 0
+8 
+9 ge.setProgramInputCharBlocking(charCallback)
+10 ge.executeString(\textcolor{stringliteral}{"k = key"})
+11 
+12 k = ge.getScalar(\textcolor{stringliteral}{"k"})
+13 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"k = "} + str(k)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }CharInput \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar} \{
+    \textcolor{keyword}{function} invoke() \{
+        \textcolor{comment}{// Block for user input}
+        \textcolor{keywordflow}{return} ord(\textcolor{stringliteral}{"c"}); \textcolor{comment}{// Return the integer value of 'c'}
+    \}
+\}
+
+$charCallback = \textcolor{keyword}{new} CharInput();
+$charCallback->thisown = 0;
+
+$ge->setProgramInputCharBlocking($charCallback);
+$ge->executeString(\textcolor{stringliteral}{"k = keyw"});
+
+$k = $ge->getScalar(\textcolor{stringliteral}{"k"});
+echo \textcolor{stringliteral}{"k = "} . $k . PHP\_EOL;
+\end{DoxyCode}
+
+
+will result in the output\-: 
+\begin{DoxyCode}
+k = 99
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & User-\/defined input function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ae82b5bfdf26971433c46936a812506c3}{set\-Program\-Input\-String(\-I\-G\-E\-Program\-Input\-String$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a71a60afb143ae00b18d6fe3fd99f316d}{set\-Program\-Input\-Char(\-I\-G\-E\-Program\-Input\-Char$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a6517b404cf71d157808a1cb73e3c0ddb}{set\-Program\-Input\-Check(\-I\-G\-E\-Program\-Input\-Check$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a6517b404cf71d157808a1cb73e3c0ddb}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Program\-Input\-Check@{set\-Program\-Input\-Check}}
+\index{set\-Program\-Input\-Check@{set\-Program\-Input\-Check}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Program\-Input\-Check}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::set\-Program\-Input\-Check (
+\begin{DoxyParamCaption}
+\item[{{\bf I\-G\-E\-Program\-Input\-Check} $\ast$}]{func}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a6517b404cf71d157808a1cb73e3c0ddb}
+
+
+Indicate the callback function that a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} program should call to see if user-\/supplied input is available. 
+
+This function should return 1 if there is pending input available, 0 if not.
+
+\subparagraph*{\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} commands which activate this callback}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily keyav}
+\end{DoxyItemize}
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{class }InputCheck(\hyperlink{class_i_g_e_program_input_check}{IGEProgramInputCheck}):
+2     \textcolor{keyword}{def }invoke(self):
+3         \textcolor{comment}{# We pretend we have character input available.}
+4         \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Input check requested"}
+5         \textcolor{keywordflow}{return} 1
+6 
+7 inputCheckCallback = InputCheck()
+8 inputCheckCallback.thisown = 0
+9 
+10 ge.setProgramInputCheck(inputCheckCallback)
+11 ge.executeString(\textcolor{stringliteral}{"av = keyav"})
+12 ge.executeString(\textcolor{stringliteral}{"if (av); print \(\backslash\)"Key available\(\backslash\)"; endif"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }InputCheck \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_input_check}{IGEProgramInputCheck} \{
+    \textcolor{keyword}{function} invoke() \{
+        \textcolor{comment}{// We pretend we have character input available.}
+        echo \textcolor{stringliteral}{"Input check requested"} . PHP\_EOL;
+        \textcolor{keywordflow}{return} 1;
+    \}
+\}
+
+$inputCheckCallback = \textcolor{keyword}{new} InputCheck();
+$inputCheckCallback->thisown = 0;
+
+$ge->setProgramInputCheck($inputCheckCallback);
+$ge->executeString(\textcolor{stringliteral}{"av = keyav"});
+$ge->executeString(\textcolor{stringliteral}{"if (av); print \(\backslash\)"Key available\(\backslash\)"; endif"});
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+Input check requested
+Key available
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & User-\/defined input function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ae82b5bfdf26971433c46936a812506c3}{set\-Program\-Input\-String(\-I\-G\-E\-Program\-Input\-String$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a71a60afb143ae00b18d6fe3fd99f316d}{set\-Program\-Input\-Char(\-I\-G\-E\-Program\-Input\-Char$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a300d6e33dbfd2a45f56ff2769f585435}{set\-Program\-Input\-Char\-Blocking(\-I\-G\-E\-Program\-Input\-Char$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ae82b5bfdf26971433c46936a812506c3}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Program\-Input\-String@{set\-Program\-Input\-String}}
+\index{set\-Program\-Input\-String@{set\-Program\-Input\-String}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Program\-Input\-String}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::set\-Program\-Input\-String (
+\begin{DoxyParamCaption}
+\item[{{\bf I\-G\-E\-Program\-Input\-String} $\ast$}]{func}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ae82b5bfdf26971433c46936a812506c3}
+
+
+Set the callback function that \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} will call for blocking string input. 
+
+This function should block until a user-\/supplied string of input is available.
+
+\subparagraph*{\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} commands which activate this callback}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily cons}
+\end{DoxyItemize}
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{class }StringInput(\hyperlink{class_i_g_e_program_input_string}{IGEProgramInputString}):
+2     \textcolor{comment}{# The callback does not return a string directly, rather through a method call.}
+3     \textcolor{keyword}{def }invoke(self, length) \{
+4         self.setValue(\textcolor{stringliteral}{"Hello World!"})
+5 
+6 strCallback = StringInput();
+7 strCallback.thisown = 0;
+8 
+9 ge.setProgramInputString(strCallback)
+10 ge.executeString(\textcolor{stringliteral}{"s = cons"})
+11 
+12 s = ge.getString(\textcolor{stringliteral}{"s"})
+13 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"s = "} + s.getData()
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }StringInput \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_input_string}{IGEProgramInputString} \{
+    \textcolor{comment}{// The callback does not return a string directly, rather through a method call.}
+    \textcolor{keyword}{function} invoke($length) \{
+        $this->setValue(\textcolor{stringliteral}{"Hello World!"});
+    \}
+\}
+
+$strCallback = \textcolor{keyword}{new} StringInput();
+$strCallback->thisown = 0;
+
+$ge->setProgramInputString($strCallback);
+$ge->executeString(\textcolor{stringliteral}{"s = cons"});
+
+$s = $ge->getString(\textcolor{stringliteral}{"s"});
+echo \textcolor{stringliteral}{"s = "} . $s->getData() . PHP\_EOL;
+\end{DoxyCode}
+
+
+will result in the output\-: 
+\begin{DoxyCode}
+s = Hello World!
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & User-\/defined output function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a71a60afb143ae00b18d6fe3fd99f316d}{set\-Program\-Input\-Char(\-I\-G\-E\-Program\-Input\-Char$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a300d6e33dbfd2a45f56ff2769f585435}{set\-Program\-Input\-Char\-Blocking(\-I\-G\-E\-Program\-Input\-Char$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a6517b404cf71d157808a1cb73e3c0ddb}{set\-Program\-Input\-Check(\-I\-G\-E\-Program\-Input\-Check$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Program\-Output@{set\-Program\-Output}}
+\index{set\-Program\-Output@{set\-Program\-Output}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Program\-Output}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::set\-Program\-Output (
+\begin{DoxyParamCaption}
+\item[{{\bf I\-G\-E\-Program\-Output} $\ast$}]{func}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}
+
+
+Sets the program output hook. 
+
+Program output is any time the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine needs to display any information back to the user.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{class }Output(\hyperlink{class_i_g_e_program_output}{IGEProgramOutput}):
+2     \textcolor{keyword}{def }invoke(self, message):
+3         \textcolor{keywordflow}{print} message,
+4 
+5 out = Output()
+6 out.thisown = 0
+7 
+8 ge.setProgramOutputAll(out)
+9 ge.executeString(\textcolor{stringliteral}{"rndseed 12345"})
+10 ge.executeString(\textcolor{stringliteral}{"rndu(3, 3)"})  \textcolor{comment}{# Will produce valid output}
+11 ge.executeString(\textcolor{stringliteral}{"y"})           \textcolor{comment}{# Will produce error: y does not exist}
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }Output \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_output}{IGEProgramOutput} \{
+    \textcolor{keyword}{function} invoke($message) \{
+        echo $message;
+    \}
+\}
+
+$out = \textcolor{keyword}{new} Output();
+$out->thisown = 0;
+
+$ge->setProgramOutput($out);
+$ge->executeString(\textcolor{stringliteral}{"rndseed 12345"});
+$ge->executeString(\textcolor{stringliteral}{"rndu(3, 3)"});
+\end{DoxyCode}
+
+
+will result in the output\-: 
+\begin{DoxyCode}
+0.90483859        0.44540096        0.76257185
+0.12938459        0.50966033       0.062034276
+0.70726755       0.077567409        0.83558391
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & User-\/defined output function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a0b8379c48d677e05aeab433dba66fbb6}{set\-Program\-Output\-All(\-I\-G\-E\-Program\-Output$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{set\-Program\-Error\-Output(\-I\-G\-E\-Program\-Output$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a0b8379c48d677e05aeab433dba66fbb6}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Program\-Output\-All@{set\-Program\-Output\-All}}
+\index{set\-Program\-Output\-All@{set\-Program\-Output\-All}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Program\-Output\-All}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::set\-Program\-Output\-All (
+\begin{DoxyParamCaption}
+\item[{{\bf I\-G\-E\-Program\-Output} $\ast$}]{func}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a0b8379c48d677e05aeab433dba66fbb6}
+
+
+Dually set the program output hook as well as the error output hook. 
+
+Program output is any time the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine needs to display any information back to the user.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{class }Output(\hyperlink{class_i_g_e_program_output}{IGEProgramOutput}):
+2     \textcolor{keyword}{def }invoke(self, message):
+3         \textcolor{keywordflow}{print} message,
+4 
+5 out = Output()
+6 out.thisown = 0
+7 ge.setProgramOutputAll(out)
+8 ge.executeString(\textcolor{stringliteral}{"rndseed 12345"})
+9 ge.executeString(\textcolor{stringliteral}{"rndu(3, 3)"})  \textcolor{comment}{# Will produce valid output}
+10 ge.executeString(\textcolor{stringliteral}{"y"})           \textcolor{comment}{# Will produce error: y does not exist}
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }Output \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_output}{IGEProgramOutput} \{
+    \textcolor{keyword}{function} invoke($message) \{
+        echo $message;
+    \}
+\}
+
+$out = \textcolor{keyword}{new} Output();
+$out->thisown = 0;
+
+$ge->setProgramOutputAll($out);
+$ge->executeString(\textcolor{stringliteral}{"rndseed 12345"});
+$ge->executeString(\textcolor{stringliteral}{"rndu(3, 3)"}); \textcolor{comment}{// Will produce valid output}
+$ge->executeString(\textcolor{stringliteral}{"y"}); \textcolor{comment}{// Will produce error: y does not exist}
+\end{DoxyCode}
+
+
+will result in the output\-: 
+\begin{DoxyCode}
+      0.90483859        0.44540096        0.76257185
+      0.12938459        0.50966033       0.062034276
+      0.70726755       0.077567409        0.83558391
+
+Undefined symbols:
+    y
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em fn} & User-\/defined output function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{set\-Program\-Output(\-I\-G\-E\-Program\-Output$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{set\-Program\-Error\-Output(\-I\-G\-E\-Program\-Output$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-Matrix} $\ast$}]{matrix, }
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}
+
+
+Add a matrix to the active workspace with the specified symbol name. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 x = \hyperlink{class_g_e_matrix}{GEMatrix}(5.0)
+2 ge.setSymbol(x, \textcolor{stringliteral}{"x"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$x = \textcolor{keyword}{new} \hyperlink{class_g_e_matrix}{GEMatrix}(5);
+$ge->setSymbol($x, \textcolor{stringliteral}{"x"});
+\end{DoxyCode}
+ \hypertarget{class_g_a_u_s_s_ab90cec0135942174b273fd5c258b9740}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-Matrix} $\ast$}]{matrix, }
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_ab90cec0135942174b273fd5c258b9740}
+
+
+Add a matrix to a specific workspace with the specified symbol name. 
+
+Example\-:
+
+Given {\itshape my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+x = \hyperlink{class_g_e_matrix}{GEMatrix}(5.0)
+ge.\hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{setSymbol}(x, "x", myWorkspace)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$x = \textcolor{keyword}{new} \hyperlink{class_g_e_matrix}{GEMatrix}(5);
+$ge->setSymbol($x, \textcolor{stringliteral}{"x"}, $myWorkspace);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em matrix} & Matrix object to store in \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table \\
+\hline
+{\em name} & Name to give newly added symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_ac3c631a4d751917f3dd5ec60e48ca908}{set\-Symbol(\-G\-E\-Matrix$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_a7c2716d0bb1c2cdca5de3f74b89f045a}{get\-Matrix(string)} 
+
+\hyperlink{class_g_a_u_s_s_ae015bd236952146aa33ed7e3a279ff04}{get\-Matrix\-And\-Clear(string)} 
+
+\hyperlink{class_g_a_u_s_s_a7c44bea0167fd88360b3926904a5cf2f}{get\-Scalar(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-Array} $\ast$}]{array, }
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}
+
+
+Add an array to the active workspace with the specified symbol name. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 orders = [2, 2, 2]
+2 data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+3 a = \hyperlink{class_g_e_array}{GEArray}(orders, data)
+4 ge.setSymbol(a, \textcolor{stringliteral}{"a"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$orders = array(2, 2, 2);
+$data = array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+$a = \textcolor{keyword}{new} \hyperlink{class_g_e_array}{GEArray}($orders, $data);
+$ge->setSymbol($a, \textcolor{stringliteral}{"a"});
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em array} & Array object to store in \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table \\
+\hline
+{\em name} & Name to give newly added symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_adcf2392951e17e477cd4a39a7a8de69c}{set\-Symbol(\-G\-E\-Array$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_a4016aa13feb5c5648556dcca73caf030}{get\-Array(string)} 
+
+\hyperlink{class_g_a_u_s_s_ad2bcca793c43675ff937c8637ec3e3e3}{get\-Array\-And\-Clear(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_adcf2392951e17e477cd4a39a7a8de69c}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-Array} $\ast$}]{array, }
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_adcf2392951e17e477cd4a39a7a8de69c}
+
+
+Add an array to a specific workspace with the specified symbol name. 
+
+Example\-:
+
+Given {\itshape my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 orders = [2, 2, 2]
+2 data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+3 a = \hyperlink{class_g_e_array}{GEArray}(orders, data)
+4 ge.setSymbol(a, \textcolor{stringliteral}{"a"}, myWorkspace)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$orders = array(2, 2, 2);
+$data = array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+$a = \textcolor{keyword}{new} \hyperlink{class_g_e_array}{GEArray}($orders, $data);
+$ge->setSymbol($a, \textcolor{stringliteral}{"a"}, $myWorkspace);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em array} & Array object to store in \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table \\
+\hline
+{\em name} & Name to give newly added symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a1f1103240f897c011dfa4fd47e9e6c31}{set\-Symbol(\-G\-E\-Array$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_a4016aa13feb5c5648556dcca73caf030}{get\-Array(string)} 
+
+\hyperlink{class_g_a_u_s_s_ad2bcca793c43675ff937c8637ec3e3e3}{get\-Array\-And\-Clear(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a1d535463b5f181866233cde1e1de91fa}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-String} $\ast$}]{str, }
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a1d535463b5f181866233cde1e1de91fa}
+
+
+Add a string to the active workspace with the specified symbol name. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 s = \hyperlink{class_g_e_string}{GEString}(\textcolor{stringliteral}{"Hello World"})
+2 ge.setSymbol(s, \textcolor{stringliteral}{"s"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$s = \textcolor{keyword}{new} \hyperlink{class_g_e_string}{GEString}(\textcolor{stringliteral}{"Hello World"});
+$ge->setSymbol($s, \textcolor{stringliteral}{"s"});
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to add to \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table \\
+\hline
+{\em name} & Name to give newly added symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_abc42f75d55ce90767d8c3842c00fd8bc}{set\-Symbol(\-G\-E\-String$\ast$, string, G\-E\-Workspace$\ast$)} 
+
+\hyperlink{class_g_a_u_s_s_ad75afe2cd19e141c15c97ad52373791d}{get\-String(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_abc42f75d55ce90767d8c3842c00fd8bc}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-String} $\ast$}]{str, }
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_abc42f75d55ce90767d8c3842c00fd8bc}
+
+
+Add a string to a specific workspace with the specified symbol name. 
+
+Example\-:
+
+Given {\itshape my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 s = \hyperlink{class_g_e_string}{GEString}(\textcolor{stringliteral}{"Hello World"})
+2 ge.setSymbol(s, \textcolor{stringliteral}{"s"}, myWorkspace)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$s = \textcolor{keyword}{new} \hyperlink{class_g_e_string}{GEString}(\textcolor{stringliteral}{"Hello World"});
+$ge->setSymbol($s, \textcolor{stringliteral}{"s"}, $myWorkspace);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to add to \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table \\
+\hline
+{\em name} & Name to give newly added symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a1d535463b5f181866233cde1e1de91fa}{set\-Symbol(\-G\-E\-String$\ast$, string)} 
+
+\hyperlink{class_g_a_u_s_s_ad75afe2cd19e141c15c97ad52373791d}{get\-String(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a9d471d25f4c5acd0a8917239234a5bf5}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-String\-Array} $\ast$}]{sa, }
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a9d471d25f4c5acd0a8917239234a5bf5}
+
+
+Add a string array to the active workspace with the specified symbol name. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 saData = [\textcolor{stringliteral}{"one"}, \textcolor{stringliteral}{"two"}, \textcolor{stringliteral}{"three"}, \textcolor{stringliteral}{"four"}]
+2 sa = \hyperlink{class_g_e_string_array}{GEStringArray}(saData, 2, 2)
+3 ge.setSymbol(sa, \textcolor{stringliteral}{"sa"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$saData = array(\textcolor{stringliteral}{"one"}, \textcolor{stringliteral}{"two"}, \textcolor{stringliteral}{"three"}, \textcolor{stringliteral}{"four"});
+$sa = \textcolor{keyword}{new} \hyperlink{class_g_e_string_array}{GEStringArray}(saData, 2, 2);
+$ge->setSymbol($sa, \textcolor{stringliteral}{"sa"});
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em sa} & string array to add to \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table \\
+\hline
+{\em name} & Name to give newly added symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a9c1652bb6b3a931c75d9c7dd2ffe23cb}{get\-String\-Array(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_aeeac3739521597a74a4eed3640ba1a04}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-A\-U\-S\-S\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-String\-Array} $\ast$}]{sa, }
+\item[{string}]{name, }
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_aeeac3739521597a74a4eed3640ba1a04}
+
+
+Add a string array to a specific workspace with the specified symbol name. 
+
+Example\-:
+
+Given {\itshape my\-Workspace} is a \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 saData = [\textcolor{stringliteral}{"one"}, \textcolor{stringliteral}{"two"}, \textcolor{stringliteral}{"three"}, \textcolor{stringliteral}{"four"}]
+2 sa = \hyperlink{class_g_e_string_array}{GEStringArray}(saData, 2, 2)
+3 ge.setSymbol(sa, \textcolor{stringliteral}{"sa"}, myWorkspace)
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$saData = array(\textcolor{stringliteral}{"one"}, \textcolor{stringliteral}{"two"}, \textcolor{stringliteral}{"three"}, \textcolor{stringliteral}{"four"});
+$sa = \textcolor{keyword}{new} \hyperlink{class_g_e_string_array}{GEStringArray}(saData, 2, 2);
+$ge->setSymbol($sa, \textcolor{stringliteral}{"sa"}, $myWorkspace);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em sa} & string array to add to \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} symbol table \\
+\hline
+{\em name} & Name to give newly added symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True on success, false on failure
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a9c1652bb6b3a931c75d9c7dd2ffe23cb}{get\-String\-Array(string)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a71721c595c12c94616ef414879c95460}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{shutdown}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::shutdown (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a71721c595c12c94616ef414879c95460}
+
+
+Free all created workspaces and shut down the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. 
+
+Note that the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine can be re-\/initialized at run-\/time via another call to \hyperlink{class_g_a_u_s_s_aad9f7a3a527b9c5961d1cc1b1aa9066c}{initialize()}.
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_aad9f7a3a527b9c5961d1cc1b1aa9066c}{initialize()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a7403bd9564a21a81f790e88da97ff780}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!translate\-Dataloop\-File@{translate\-Dataloop\-File}}
+\index{translate\-Dataloop\-File@{translate\-Dataloop\-File}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{translate\-Dataloop\-File}]{\setlength{\rightskip}{0pt plus 5cm}string G\-A\-U\-S\-S\-::translate\-Dataloop\-File (
+\begin{DoxyParamCaption}
+\item[{string}]{srcfile}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a7403bd9564a21a81f790e88da97ff780}
+
+
+Translates a file that contains a dataloop, so it can be read by the compiler. 
+
+After translating a file, you can compile it with \hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)} and then run it with \hyperlink{class_g_a_u_s_s_ad680244c55b1d32cba04ab95a6572862}{execute\-Program(\-Program\-Handle\-\_\-t$\ast$)}.
+
+If you want to see any errors that translate\-Dataloop\-File encounters, then you must call \hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{set\-Program\-Error\-Output(\-I\-G\-E\-Program\-Output$\ast$)} before calling translate\-Dataloop\-File.
+
+
+\begin{DoxyParams}{Parameters}
+{\em srcfile} & Name of source file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Name of translated file. Empty if failure.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a182412bc30b9750b57de41d2334470de}{compile\-File(string)} 
+
+\hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{set\-Program\-Error\-Output(\-I\-G\-E\-Program\-Output$\ast$)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_a_u_s_s_a626d736a417fd10e0b51087e944c5e56}{\index{G\-A\-U\-S\-S@{G\-A\-U\-S\-S}!update\-Workspace\-Name@{update\-Workspace\-Name}}
+\index{update\-Workspace\-Name@{update\-Workspace\-Name}!GAUSS@{G\-A\-U\-S\-S}}
+\subsubsection[{update\-Workspace\-Name}]{\setlength{\rightskip}{0pt plus 5cm}void G\-A\-U\-S\-S\-::update\-Workspace\-Name (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-E\-Workspace} $\ast$}]{wh}
+\end{DoxyParamCaption}
+)}}\label{class_g_a_u_s_s_a626d736a417fd10e0b51087e944c5e56}
+
+
+Request the workspace name from \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}, and set the {\itshape name} field in the \hyperlink{class_g_e_workspace}{G\-E\-Workspace} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em wh} & Workspace handle\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_aec6202efa12949e7a7e9addfedbc3ded}{get\-Workspace\-Name(\-G\-E\-Workspace$\ast$)} 
+\end{DoxySeeAlso}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+src/gauss.\-h\item 
+src/gauss.\-cpp\end{DoxyCompactItemize}

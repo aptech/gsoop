@@ -1,0 +1,6 @@
+<map id="GESymbol" name="GESymbol">
+<area shape="rect" id="node3" href="$class_g_e_array.html" title="GAUSS Array symbol type." alt="" coords="5,83,77,112"/>
+<area shape="rect" id="node5" href="$class_g_e_matrix.html" title="GAUSS Matrix symbol type." alt="" coords="101,83,179,112"/>
+<area shape="rect" id="node7" href="$class_g_e_string.html" title="GAUSS String Symbol type." alt="" coords="203,83,277,112"/>
+<area shape="rect" id="node9" href="$class_g_e_string_array.html" title="GAUSS String Array Symbol type." alt="" coords="301,83,408,112"/>
+</map>

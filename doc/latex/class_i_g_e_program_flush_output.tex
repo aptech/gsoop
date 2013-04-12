@@ -1,0 +1,76 @@
+\hypertarget{class_i_g_e_program_flush_output}{\section{I\-G\-E\-Program\-Flush\-Output Class Reference}
+\label{class_i_g_e_program_flush_output}\index{I\-G\-E\-Program\-Flush\-Output@{I\-G\-E\-Program\-Flush\-Output}}
+}
+
+
+Flush program output callback.  
+
+
+
+
+{\ttfamily \#include $<$gefuncwrapper.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_i_g_e_program_flush_output_a2143086c607a7caac7f5e201cee512d3}{virtual void {\bfseries invoke} ()=0}\label{class_i_g_e_program_flush_output_a2143086c607a7caac7f5e201cee512d3}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Flush program output callback. 
+
+The \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine will call this if it needs to force printing of any pending output. This function is useful if your \hyperlink{class_i_g_e_program_output}{I\-G\-E\-Program\-Output} class buffers incoming data.
+
+{\bfseries Note\-:} With all callbacks, the {\ttfamily thisown} flag must be set to {\ttfamily 0} on instantiation. This informs the target language that this object will be owned and properly deleted by the Engine.
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{class }FlushOutput(\hyperlink{class_i_g_e_program_flush_output}{IGEProgramFlushOutput}):
+2     \textcolor{keyword}{def }invoke(self):
+3         \textcolor{keywordflow}{print} \textcolor{stringliteral}{"A flush was requested."}
+4 
+5 flush = FlushOutput()
+6 flush.thisown = 0
+7 
+8 ge.setProgramFlushOutput(flush)
+9 ge.executeString(\textcolor{stringliteral}{"print /flush \(\backslash\)"Hello World!\(\backslash\)""})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }FlushOutput \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_flush_output}{IGEProgramFlushOutput} \{
+    \textcolor{keyword}{function} invoke() \{
+        echo \textcolor{stringliteral}{"A flush was requested."};
+    \}
+\}
+
+$flush = \textcolor{keyword}{new} FlushOutput();
+$flush->thisown = 0;
+
+$ge->setProgramFlushOutput($flush);
+$ge->executeString(\textcolor{stringliteral}{"print /flush \(\backslash\)"Hello World!\(\backslash\)";"});
+\end{DoxyCode}
+
+
+will result in the output\-: 
+\begin{DoxyCode}
+Hello World!
+A flush was requested.
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_a_u_s_s_a4b7ecb768f49b98110729db7e5728296}{G\-A\-U\-S\-S\-::set\-Program\-Flush\-Output(\-I\-G\-E\-Program\-Flush\-Output$\ast$)} 
+\end{DoxySeeAlso}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gefuncwrapper.\-h\end{DoxyCompactItemize}

@@ -1,0 +1,579 @@
+\hypertarget{class_g_e_matrix}{\section{G\-E\-Matrix Class Reference}
+\label{class_g_e_matrix}\index{G\-E\-Matrix@{G\-E\-Matrix}}
+}
+
+
+\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Matrix symbol type.  
+
+
+
+
+{\ttfamily \#include $<$gematrix.\-h$>$}
+
+
+
+Inheritance diagram for G\-E\-Matrix\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{class_g_e_matrix__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_e_matrix_a8efdf9ec85fdcfa0e9f1317722e81c52}{G\-E\-Matrix} ()
+\begin{DoxyCompactList}\small\item\em Construct a {\ttfamily 1x1} matrix with value of {\ttfamily 0}. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_matrix_af9ebcc214a2086c4692fa107c3ee53e9}{G\-E\-Matrix} (double)
+\begin{DoxyCompactList}\small\item\em Initialize matrix to scalar with specified value. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_matrix_ac48ac546516c7fb55a601f3875a5b23d}{G\-E\-Matrix} (vector$<$ double $>$)
+\begin{DoxyCompactList}\small\item\em Construct a matrix object from a vector of double-\/precision numbers with {\ttfamily data.\-size()} columns and 1 row. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_matrix_a926e3559025f6670e228b1c845457faa}{G\-E\-Matrix} (vector$<$ double $>$, int rows, int cols, bool complex=false)
+\begin{DoxyCompactList}\small\item\em Construct a real matrix with {\itshape rows} rows, and {\itshape cols} columns. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_matrix_aca44eb90745693a11023911071aee70a}{G\-E\-Matrix} (vector$<$ double $>$, vector$<$ double $>$, int rows, int cols)
+\begin{DoxyCompactList}\small\item\em Construct a complex matrix. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_e_matrix_a598ff86c462efb947271a067929f9c92}{set\-Element} (double, bool imag=false)
+\begin{DoxyCompactList}\small\item\em Set the first value in matrix. \end{DoxyCompactList}\item 
+bool \hyperlink{class_g_e_matrix_a0f9910054bf5faf4074784a5ce1ba4bb}{set\-Element} (double, int row, int col, bool imag=false)
+\begin{DoxyCompactList}\small\item\em Set a value in the matrix at the specified row/column index. \end{DoxyCompactList}\item 
+double \hyperlink{class_g_e_matrix_a37be9c3ae20e6adc9968e0770d71d42d}{get\-Element} (bool imag=false)
+\begin{DoxyCompactList}\small\item\em Returns the first value from a matrix. \end{DoxyCompactList}\item 
+double \hyperlink{class_g_e_matrix_ae74f09cd9e8dd209301646de6fc34766}{get\-Element} (int row, int col, bool imag=false)
+\begin{DoxyCompactList}\small\item\em Returns a value from the matrix at the specified row/column index. \end{DoxyCompactList}\item 
+vector$<$ double $>$ \hyperlink{class_g_e_matrix_af5e9d6f29599ab9344d4f7e163dd7d61}{get\-Data} (bool imag=false)
+\begin{DoxyCompactList}\small\item\em Retrieve a copy of underlying numeric vector. \end{DoxyCompactList}\item 
+vector$<$ double $>$ \hyperlink{class_g_e_matrix_a5bcef5af3933e59df30bfbc40d0d53ee}{get\-Imag\-Data} ()
+\begin{DoxyCompactList}\small\item\em Retrieve a copy of underlying imaginary data storage. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_g_e_matrix_a1bf6ddd9f46248e1c03c0d952d572103}{clear} ()
+\begin{DoxyCompactList}\small\item\em Clear all corresponding symbol data. \end{DoxyCompactList}\item 
+virtual std\-::string \hyperlink{class_g_e_matrix_a6f46cc050d3f8966a01676791b362387}{to\-String} ()
+\begin{DoxyCompactList}\small\item\em Returns a string representation of this object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_e_matrix_abc89e64d0ec6c939575c3125753c6309}{class {\bfseries G\-A\-U\-S\-S}}\label{class_g_e_matrix_abc89e64d0ec6c939575c3125753c6309}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Matrix symbol type. 
+
+Represents two dimensional array of double precision numbers. Matrices can also be complex, storing both real and imaginary data. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_e_matrix_a8efdf9ec85fdcfa0e9f1317722e81c52}{\index{G\-E\-Matrix@{G\-E\-Matrix}!G\-E\-Matrix@{G\-E\-Matrix}}
+\index{G\-E\-Matrix@{G\-E\-Matrix}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{G\-E\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}G\-E\-Matrix\-::\-G\-E\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_a8efdf9ec85fdcfa0e9f1317722e81c52}
+
+
+Construct a {\ttfamily 1x1} matrix with value of {\ttfamily 0}. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 x = \hyperlink{class_g_e_matrix}{GEMatrix}()
+2 ge.setSymbol(x, \textcolor{stringliteral}{"x"})
+3 ge.executeString(\textcolor{stringliteral}{"print x"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$x = \textcolor{keyword}{new} \hyperlink{class_g_e_matrix_a8efdf9ec85fdcfa0e9f1317722e81c52}{GEMatrix}();
+$ge->setSymbol($x, \textcolor{stringliteral}{"x"});
+$ge->executeString(\textcolor{stringliteral}{"print x;"});
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+0.0000000
+\end{DoxyCode}
+ \hypertarget{class_g_e_matrix_af9ebcc214a2086c4692fa107c3ee53e9}{\index{G\-E\-Matrix@{G\-E\-Matrix}!G\-E\-Matrix@{G\-E\-Matrix}}
+\index{G\-E\-Matrix@{G\-E\-Matrix}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{G\-E\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}G\-E\-Matrix\-::\-G\-E\-Matrix (
+\begin{DoxyParamCaption}
+\item[{double}]{n}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_af9ebcc214a2086c4692fa107c3ee53e9}
+
+
+Initialize matrix to scalar with specified value. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 x = \hyperlink{class_g_e_matrix}{GEMatrix}(1.0)
+2 ge.setSymbol(x, \textcolor{stringliteral}{"x"})
+3 ge.executeString(\textcolor{stringliteral}{"print x"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$x = \textcolor{keyword}{new} \hyperlink{class_g_e_matrix_a8efdf9ec85fdcfa0e9f1317722e81c52}{GEMatrix}(1.0);
+$ge->setSymbol($x, \textcolor{stringliteral}{"x"});
+$ge->executeString(\textcolor{stringliteral}{"print x;"});
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+1.0000000
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & Scalar value \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_g_e_matrix_ac48ac546516c7fb55a601f3875a5b23d}{\index{G\-E\-Matrix@{G\-E\-Matrix}!G\-E\-Matrix@{G\-E\-Matrix}}
+\index{G\-E\-Matrix@{G\-E\-Matrix}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{G\-E\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}G\-E\-Matrix\-::\-G\-E\-Matrix (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{data}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_ac48ac546516c7fb55a601f3875a5b23d}
+
+
+Construct a matrix object from a vector of double-\/precision numbers with {\ttfamily data.\-size()} columns and 1 row. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 x = \hyperlink{class_g_e_matrix}{GEMatrix}([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0])
+2 ge.setSymbol(x, \textcolor{stringliteral}{"x"})
+3 ge.executeString(\textcolor{stringliteral}{"print x"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$x = \textcolor{keyword}{new} \hyperlink{class_g_e_matrix_a8efdf9ec85fdcfa0e9f1317722e81c52}{GEMatrix}(array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0));
+$ge->setSymbol($x, \textcolor{stringliteral}{"x"});
+$ge->executeString(\textcolor{stringliteral}{"print x;"});
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+1.0000000        2.0000000        3.0000000        4.0000000        5.0000000        6.0000000        7.000
+      0000        8.0000000
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Data vector\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_e_matrix_a926e3559025f6670e228b1c845457faa}{G\-E\-Matrix(vector$<$double$>$, int, int, bool)} 
+
+\hyperlink{class_g_e_matrix_aca44eb90745693a11023911071aee70a}{G\-E\-Matrix(vector$<$double$>$, vector$<$double$>$, int, int)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_e_matrix_a926e3559025f6670e228b1c845457faa}{\index{G\-E\-Matrix@{G\-E\-Matrix}!G\-E\-Matrix@{G\-E\-Matrix}}
+\index{G\-E\-Matrix@{G\-E\-Matrix}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{G\-E\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}G\-E\-Matrix\-::\-G\-E\-Matrix (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{data, }
+\item[{int}]{rows, }
+\item[{int}]{cols, }
+\item[{bool}]{complex = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_a926e3559025f6670e228b1c845457faa}
+
+
+Construct a real matrix with {\itshape rows} rows, and {\itshape cols} columns. 
+
+If {\itshape complex} is set to {\bfseries true}, {\ttfamily data.\-length()} must be {\itshape rows} $\ast$ {\itshape cols} $\ast$ 2
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{comment}{# Create a matrix}
+2 x = \hyperlink{class_g_e_matrix}{GEMatrix}([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0], 4, 2)
+3 ge.setSymbol(x, \textcolor{stringliteral}{"x"})
+4 ge.executeString(\textcolor{stringliteral}{"print x"})
+5 
+6 \textcolor{comment}{# Create a matrix with imaginary data}
+7 xc = \hyperlink{class_g_e_matrix}{GEMatrix}([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0], 2, 2, \textcolor{keyword}{True})
+8 ge.setSymbol(xc, \textcolor{stringliteral}{"xc"})
+9 ge.executeString(\textcolor{stringliteral}{"print xc"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{comment}{// Create a matrix}
+$x = \textcolor{keyword}{new} \hyperlink{class_g_e_matrix_a8efdf9ec85fdcfa0e9f1317722e81c52}{GEMatrix}(array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0), 4, 2);
+$ge->setSymbol($x, \textcolor{stringliteral}{"x"});
+$ge->executeString(\textcolor{stringliteral}{"print x;"});
+
+\textcolor{comment}{// Create a matrix with imaginary data}
+$xc = \textcolor{keyword}{new} \hyperlink{class_g_e_matrix_a8efdf9ec85fdcfa0e9f1317722e81c52}{GEMatrix}(array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0), 2, 2, \textcolor{keyword}{true});
+$ge->setSymbol($xc, \textcolor{stringliteral}{"xc"});
+$ge->executeString(\textcolor{stringliteral}{"print xc;"});
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+1.0000000        2.0000000
+3.0000000        4.0000000
+5.0000000        6.0000000
+7.0000000        8.0000000
+
+1.0000000 +        5.0000000i        2.0000000 +        6.0000000i
+3.0000000 +        7.0000000i        4.0000000 +        8.0000000i
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Vector of double precision values \\
+\hline
+{\em rows} & Number of rows \\
+\hline
+{\em cols} & Number of columns \\
+\hline
+{\em complex} & True if including imaginary data, false otherwise\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_e_matrix_aca44eb90745693a11023911071aee70a}{G\-E\-Matrix(vector$<$double$>$, vector$<$double$>$, int, int)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_e_matrix_aca44eb90745693a11023911071aee70a}{\index{G\-E\-Matrix@{G\-E\-Matrix}!G\-E\-Matrix@{G\-E\-Matrix}}
+\index{G\-E\-Matrix@{G\-E\-Matrix}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{G\-E\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}G\-E\-Matrix\-::\-G\-E\-Matrix (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$}]{real\-\_\-data, }
+\item[{vector$<$ double $>$}]{imag\-\_\-data, }
+\item[{int}]{rows, }
+\item[{int}]{cols}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_aca44eb90745693a11023911071aee70a}
+
+
+Construct a complex matrix. 
+
+Uses {\itshape real\-\_\-data} for real data and {\itshape imag\-\_\-data} for imaginary data, with {\itshape rows} rows, and {\itshape cols} columns.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{comment}{# Create a matrix with imaginary data}
+2 xc = \hyperlink{class_g_e_matrix}{GEMatrix}([1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 7.0, 8.0], 2, 2)
+3 ge.setSymbol(xc, \textcolor{stringliteral}{"xc"})
+4 ge.executeString(\textcolor{stringliteral}{"print xc"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{comment}{// Create a matrix with imaginary data}
+$xc = \textcolor{keyword}{new} \hyperlink{class_g_e_matrix_a8efdf9ec85fdcfa0e9f1317722e81c52}{GEMatrix}(array(1.0, 2.0, 3.0, 4.0), array(5.0, 6.0, 7.0, 8.0), 2, 2);
+$ge->setSymbol($xc, \textcolor{stringliteral}{"xc"});
+$ge->executeString(\textcolor{stringliteral}{"print xc;"});
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+1.0000000 +        5.0000000i        2.0000000 +        6.0000000i
+3.0000000 +        7.0000000i        4.0000000 +        8.0000000i
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em real\-\_\-data} & Vector of real double precision values \\
+\hline
+{\em imag\-\_\-data} & Vector of imaginary double precision values \\
+\hline
+{\em rows} & Number of rows \\
+\hline
+{\em cols} & Number of columns \\
+\hline
+{\em complex} & True if including imaginary data, false otherwise\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_e_matrix_a926e3559025f6670e228b1c845457faa}{G\-E\-Matrix(vector$<$double$>$, int, int, bool)} 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_e_matrix_a1bf6ddd9f46248e1c03c0d952d572103}{\index{G\-E\-Matrix@{G\-E\-Matrix}!clear@{clear}}
+\index{clear@{clear}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}void G\-E\-Matrix\-::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_matrix_a1bf6ddd9f46248e1c03c0d952d572103}
+
+
+Clear all corresponding symbol data. 
+
+Does not clear from workspace. 
+
+Reimplemented from \hyperlink{class_g_e_symbol_a39d2e523aec771a73e1cc5d7a9618b88}{G\-E\-Symbol}.
+
+\hypertarget{class_g_e_matrix_af5e9d6f29599ab9344d4f7e163dd7d61}{\index{G\-E\-Matrix@{G\-E\-Matrix}!get\-Data@{get\-Data}}
+\index{get\-Data@{get\-Data}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ G\-E\-Matrix\-::get\-Data (
+\begin{DoxyParamCaption}
+\item[{bool}]{imag = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_af5e9d6f29599ab9344d4f7e163dd7d61}
+
+
+Retrieve a copy of underlying numeric vector. 
+
+Imaginary data can also be queried by supplying the {\itshape imag} argument, thus appending it to the end of the real data. Omitting or specifying the {\itshape imag} argument as {\ttfamily false} will return only real data. If you wish to only view the imaginary data, there is a \hyperlink{class_g_e_matrix_a5bcef5af3933e59df30bfbc40d0d53ee}{get\-Imag\-Data()} method for convenience.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{comment}{# Create a 4x2 matrix of integers 1 - 8.}
+2 ge.executeString(\textcolor{stringliteral}{"x = reshape(seqa(1, 1, 8), 4, 2)"})
+3 ge.executeString(\textcolor{stringliteral}{"print x"})
+4 x = ge.getMatrix(\textcolor{stringliteral}{"x"})
+5 \textcolor{keywordflow}{print} \textcolor{stringliteral}{", "}.join(str(n) \textcolor{keywordflow}{for} n \textcolor{keywordflow}{in} x.getData())
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{comment}{// Create a 4x2 matrix of integers 1 - 8.}
+$ge->executeString(\textcolor{stringliteral}{"x = reshape(seqa(1, 1, 8), 4, 2);"});
+$ge->executeString(\textcolor{stringliteral}{"print x;"});
+$x = $ge->getMatrix(\textcolor{stringliteral}{"x"});
+echo implode(\textcolor{stringliteral}{", "}, $x->getData());
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+       1.0000000        2.0000000
+       3.0000000        4.0000000
+       5.0000000        6.0000000
+       7.0000000        8.0000000
+1, 2, 3, 4, 5, 6, 7, 8
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em imag} & Whether to return imaginary data as well.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Double precision vector of data
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_e_matrix_a5bcef5af3933e59df30bfbc40d0d53ee}{get\-Imag\-Data()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_e_matrix_a37be9c3ae20e6adc9968e0770d71d42d}{\index{G\-E\-Matrix@{G\-E\-Matrix}!get\-Element@{get\-Element}}
+\index{get\-Element@{get\-Element}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{get\-Element}]{\setlength{\rightskip}{0pt plus 5cm}double G\-E\-Matrix\-::get\-Element (
+\begin{DoxyParamCaption}
+\item[{bool}]{imag = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_a37be9c3ae20e6adc9968e0770d71d42d}
+
+
+Returns the first value from a matrix. 
+
+This will return real or imaginary data depending on the {\itshape imag} flag passed in. If you only are interested in seeing real data you can use the convenience method get\-Element(int, int) that is also available.
+
+
+\begin{DoxyParams}{Parameters}
+{\em imag} & True for imaginary data, false for real \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Double precision number at row/column coordinates.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_e_matrix_ae74f09cd9e8dd209301646de6fc34766}{get\-Element(int, int, bool)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_e_matrix_ae74f09cd9e8dd209301646de6fc34766}{\index{G\-E\-Matrix@{G\-E\-Matrix}!get\-Element@{get\-Element}}
+\index{get\-Element@{get\-Element}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{get\-Element}]{\setlength{\rightskip}{0pt plus 5cm}double G\-E\-Matrix\-::get\-Element (
+\begin{DoxyParamCaption}
+\item[{int}]{row, }
+\item[{int}]{col, }
+\item[{bool}]{imag = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_ae74f09cd9e8dd209301646de6fc34766}
+
+
+Returns a value from the matrix at the specified row/column index. 
+
+This will return real or imaginary data depending on the {\itshape imag} flag passed in. If you only are interested in seeing real data you can use the convenience method get\-Element(int, int) that is also available.
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Row index \\
+\hline
+{\em col} & Column index \\
+\hline
+{\em imag} & True for imaginary data, false for real \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Double precision number at row/column coordinates.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_e_matrix_a37be9c3ae20e6adc9968e0770d71d42d}{get\-Element(bool)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_e_matrix_a5bcef5af3933e59df30bfbc40d0d53ee}{\index{G\-E\-Matrix@{G\-E\-Matrix}!get\-Imag\-Data@{get\-Imag\-Data}}
+\index{get\-Imag\-Data@{get\-Imag\-Data}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{get\-Imag\-Data}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ G\-E\-Matrix\-::get\-Imag\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_a5bcef5af3933e59df30bfbc40d0d53ee}
+
+
+Retrieve a copy of underlying imaginary data storage. 
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{comment}{# Create two 2x2 matrices and combine to form a complex matrix.}
+2 ge.executeString(\textcolor{stringliteral}{"x\_real = reshape(seqa(1, 1, 4), 2, 2)"})
+3 ge.executeString(\textcolor{stringliteral}{"x\_imag = reshape(seqa(5, 1, 4), 2, 2)"})
+4 ge.executeString(\textcolor{stringliteral}{"x = complex(x\_real, x\_imag)"})
+5 x = ge.getMatrix(\textcolor{stringliteral}{"x"})
+6 \textcolor{keywordflow}{print} \textcolor{stringliteral}{", "}.join(str(n) \textcolor{keywordflow}{for} n \textcolor{keywordflow}{in} x.getImagData())
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{comment}{// Create two 2x2 matrices and combine to form a complex matrix.}
+$ge->executeString(\textcolor{stringliteral}{"x\_real = reshape(seqa(1, 1, 4), 2, 2);"});
+$ge->executeString(\textcolor{stringliteral}{"x\_imag = reshape(seqa(5, 1, 4), 2, 2);"});
+$ge->executeString(\textcolor{stringliteral}{"x = complex(x\_real, x\_imag);"});
+$x = $ge->getMatrix(\textcolor{stringliteral}{"x"});
+echo implode(\textcolor{stringliteral}{", "}, $x->getImagData());
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+5, 6, 7, 8
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Double precision vector of data
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_e_matrix_af5e9d6f29599ab9344d4f7e163dd7d61}{get\-Data()} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_e_matrix_a598ff86c462efb947271a067929f9c92}{\index{G\-E\-Matrix@{G\-E\-Matrix}!set\-Element@{set\-Element}}
+\index{set\-Element@{set\-Element}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{set\-Element}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-E\-Matrix\-::set\-Element (
+\begin{DoxyParamCaption}
+\item[{double}]{value, }
+\item[{bool}]{imag = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_a598ff86c462efb947271a067929f9c92}
+
+
+Set the first value in matrix. 
+
+This method can be used to set both real and imaginary values, determined by the {\itshape imag} flag.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Value to set \\
+\hline
+{\em imag} & True if setting imaginary data, false if setting real data.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_e_matrix_a0f9910054bf5faf4074784a5ce1ba4bb}{set\-Element(double, int, int, bool)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_e_matrix_a0f9910054bf5faf4074784a5ce1ba4bb}{\index{G\-E\-Matrix@{G\-E\-Matrix}!set\-Element@{set\-Element}}
+\index{set\-Element@{set\-Element}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{set\-Element}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-E\-Matrix\-::set\-Element (
+\begin{DoxyParamCaption}
+\item[{double}]{value, }
+\item[{int}]{row, }
+\item[{int}]{col, }
+\item[{bool}]{imag = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_matrix_a0f9910054bf5faf4074784a5ce1ba4bb}
+
+
+Set a value in the matrix at the specified row/column index. 
+
+This method can be used to set both real and imaginary values, determined by the {\itshape imag} flag.
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Row index \\
+\hline
+{\em col} & Column index \\
+\hline
+{\em val} & Value to set \\
+\hline
+{\em imag} & True if setting imaginary data, false if setting real data.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_g_e_matrix_a598ff86c462efb947271a067929f9c92}{set\-Element(double, bool)} 
+\end{DoxySeeAlso}
+\hypertarget{class_g_e_matrix_a6f46cc050d3f8966a01676791b362387}{\index{G\-E\-Matrix@{G\-E\-Matrix}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!GEMatrix@{G\-E\-Matrix}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}string G\-E\-Matrix\-::to\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_matrix_a6f46cc050d3f8966a01676791b362387}
+
+
+Returns a string representation of this object. 
+
+
+
+Reimplemented from \hyperlink{class_g_e_symbol_a6790ac75620cc1a9e37d67279e8bd4d1}{G\-E\-Symbol}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+src/gematrix.\-h\item 
+src/gematrix.\-cpp\end{DoxyCompactItemize}

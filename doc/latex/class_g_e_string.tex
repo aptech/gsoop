@@ -1,0 +1,216 @@
+\hypertarget{class_g_e_string}{\section{G\-E\-String Class Reference}
+\label{class_g_e_string}\index{G\-E\-String@{G\-E\-String}}
+}
+
+
+\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} String Symbol type.  
+
+
+
+
+{\ttfamily \#include $<$gestring.\-h$>$}
+
+
+
+Inheritance diagram for G\-E\-String\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{class_g_e_string__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_e_string_adebf6dcc0fae4898e6dd3410447113d6}{\hyperlink{class_g_e_string_adebf6dcc0fae4898e6dd3410447113d6}{G\-E\-String} ()}\label{class_g_e_string_adebf6dcc0fae4898e6dd3410447113d6}
+
+\begin{DoxyCompactList}\small\item\em Construct an empty Engine compatible string. \end{DoxyCompactList}\item 
+\hyperlink{class_g_e_string_a7a629e649a5ec09603e839c0e0dd5e1e}{G\-E\-String} (string)
+\begin{DoxyCompactList}\small\item\em Construct an Engine compatible string with the value of {\itshape data}. \end{DoxyCompactList}\item 
+string \hyperlink{class_g_e_string_a7b91a6c62c744e3d05a2410b0eb90e47}{get\-Data} ()
+\begin{DoxyCompactList}\small\item\em Return a copy of the data as a string. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_e_string_a1324fa0046f6ca0d85dc9f3298f036f1}{set\-Data} (string)
+\begin{DoxyCompactList}\small\item\em Sets the data to the value of {\itshape str} \end{DoxyCompactList}\item 
+virtual int \hyperlink{class_g_e_string_a7bb7b3fdc5f217ad32f6795250bdb376}{size} ()
+\begin{DoxyCompactList}\small\item\em Returns the length of data. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_g_e_string_a18bdaa90b17b538174ce61bb6dcc87c7}{clear} ()
+\begin{DoxyCompactList}\small\item\em Sets the string to empty. \end{DoxyCompactList}\item 
+\hypertarget{class_g_e_string_a058bcd0c32105659eab4194e2c9efe92}{virtual string \hyperlink{class_g_e_string_a058bcd0c32105659eab4194e2c9efe92}{to\-String} ()}\label{class_g_e_string_a058bcd0c32105659eab4194e2c9efe92}
+
+\begin{DoxyCompactList}\small\item\em Please see \hyperlink{class_g_e_string_a7b91a6c62c744e3d05a2410b0eb90e47}{get\-Data()}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_e_string_abc89e64d0ec6c939575c3125753c6309}{class {\bfseries G\-A\-U\-S\-S}}\label{class_g_e_string_abc89e64d0ec6c939575c3125753c6309}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} String Symbol type. 
+
+For all intents and purposes, this is a standard string wrapper. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_g_e_string_a7a629e649a5ec09603e839c0e0dd5e1e}{\index{G\-E\-String@{G\-E\-String}!G\-E\-String@{G\-E\-String}}
+\index{G\-E\-String@{G\-E\-String}!GEString@{G\-E\-String}}
+\subsubsection[{G\-E\-String}]{\setlength{\rightskip}{0pt plus 5cm}G\-E\-String\-::\-G\-E\-String (
+\begin{DoxyParamCaption}
+\item[{string}]{data}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_string_a7a629e649a5ec09603e839c0e0dd5e1e}
+
+
+Construct an Engine compatible string with the value of {\itshape data}. 
+
+Example
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 s = \hyperlink{class_g_e_string}{GEString}(\textcolor{stringliteral}{"Hello World!"})
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$s = \textcolor{keyword}{new} \hyperlink{class_g_e_string_adebf6dcc0fae4898e6dd3410447113d6}{GEString}(\textcolor{stringliteral}{"Hello World!"});
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & User-\/defined string \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_g_e_string_a18bdaa90b17b538174ce61bb6dcc87c7}{\index{G\-E\-String@{G\-E\-String}!clear@{clear}}
+\index{clear@{clear}!GEString@{G\-E\-String}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}virtual void G\-E\-String\-::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_g_e_string_a18bdaa90b17b538174ce61bb6dcc87c7}
+
+
+Sets the string to empty. 
+
+
+
+Reimplemented from \hyperlink{class_g_e_symbol_a39d2e523aec771a73e1cc5d7a9618b88}{G\-E\-Symbol}.
+
+\hypertarget{class_g_e_string_a7b91a6c62c744e3d05a2410b0eb90e47}{\index{G\-E\-String@{G\-E\-String}!get\-Data@{get\-Data}}
+\index{get\-Data@{get\-Data}!GEString@{G\-E\-String}}
+\subsubsection[{get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}string G\-E\-String\-::get\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_string_a7b91a6c62c744e3d05a2410b0eb90e47}
+
+
+Return a copy of the data as a string. 
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 ge.executeString(\textcolor{stringliteral}{"s = \(\backslash\)"Hello World!\(\backslash\)""})
+2 s = ge.getString(\textcolor{stringliteral}{"s"})
+3 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"s = "} + s.getData() \textcolor{comment}{# str(s) would be identical}
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$ge->executeString(\textcolor{stringliteral}{"s = \(\backslash\)"Hello World!\(\backslash\)""});
+$s = $ge->getString(\textcolor{stringliteral}{"s"});
+echo \textcolor{stringliteral}{"s = "} . $s->getData() . PHP\_EOL; \textcolor{comment}{// Specifying '$s' would be identical}
+\end{DoxyCode}
+ would result in output\-: 
+\begin{DoxyCode}
+s = Hello World!
+\end{DoxyCode}
+ \hypertarget{class_g_e_string_a1324fa0046f6ca0d85dc9f3298f036f1}{\index{G\-E\-String@{G\-E\-String}!set\-Data@{set\-Data}}
+\index{set\-Data@{set\-Data}!GEString@{G\-E\-String}}
+\subsubsection[{set\-Data}]{\setlength{\rightskip}{0pt plus 5cm}void G\-E\-String\-::set\-Data (
+\begin{DoxyParamCaption}
+\item[{string}]{data}
+\end{DoxyParamCaption}
+)}}\label{class_g_e_string_a1324fa0046f6ca0d85dc9f3298f036f1}
+
+
+Sets the data to the value of {\itshape str} 
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 s = \hyperlink{class_g_e_string}{GEString}()
+2 s.setData(\textcolor{stringliteral}{"Hello World!"})
+3 \textcolor{keywordflow}{print} s
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$s = \textcolor{keyword}{new} \hyperlink{class_g_e_string_adebf6dcc0fae4898e6dd3410447113d6}{GEString}();
+$s->setData(\textcolor{stringliteral}{"Hello World!"});
+echo $s;
+\end{DoxyCode}
+ would result in output\-: 
+\begin{DoxyCode}
+Hello World!
+\end{DoxyCode}
+ \hypertarget{class_g_e_string_a7bb7b3fdc5f217ad32f6795250bdb376}{\index{G\-E\-String@{G\-E\-String}!size@{size}}
+\index{size@{size}!GEString@{G\-E\-String}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}int G\-E\-String\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_string_a7bb7b3fdc5f217ad32f6795250bdb376}
+
+
+Returns the length of data. 
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 s = \hyperlink{class_g_e_string}{GEString}()
+2 s.setData(\textcolor{stringliteral}{"Hello World!"})
+3 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Length of s is "} + str(s.size()) + \textcolor{stringliteral}{" characters"}
+\end{DoxyCode}
+
+
+\subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+$s = \textcolor{keyword}{new} \hyperlink{class_g_e_string_adebf6dcc0fae4898e6dd3410447113d6}{GEString}();
+$s->setData(\textcolor{stringliteral}{"Hello World!"});
+echo \textcolor{stringliteral}{"Length of s is "} . $s->size() . \textcolor{stringliteral}{" characters"} . PHP\_EOL;
+\end{DoxyCode}
+ would result in output\-: 
+\begin{DoxyCode}
+Length of s is 12 characters
+\end{DoxyCode}
+ 
+
+Reimplemented from \hyperlink{class_g_e_symbol_a706a39fc819e1c27e0d92d42c2bebcf6}{G\-E\-Symbol}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+src/gestring.\-h\item 
+src/gestring.\-cpp\end{DoxyCompactItemize}

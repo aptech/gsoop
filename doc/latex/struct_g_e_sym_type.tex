@@ -1,0 +1,174 @@
+\hypertarget{struct_g_e_sym_type}{\section{G\-E\-Sym\-Type Struct Reference}
+\label{struct_g_e_sym_type}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}
+}
+
+
+\hyperlink{struct_g_e_sym_type}{G\-E\-Sym\-Type} stores \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} constant values for different symbol types.  
+
+
+
+
+{\ttfamily \#include $<$gesymtype.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fc}{S\-Y\-M\-T\-Y\-P\-E} \{ \\*
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca0e3633d8cf7dbbdbe3b45bdd24cae7b0}{S\-C\-A\-L\-A\-R} = 16, 
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcaaf5984cc491fc4b4fcf2162f18f0272c}{S\-P\-A\-R\-S\-E} = 38, 
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c}{M\-A\-T\-R\-I\-X} = 6, 
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad7b91a02b7bd02be62866581fb00ab77}{S\-T\-R\-I\-N\-G} = 13, 
+\\*
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad16784afa03e303f68740a9a33dc887b}{S\-T\-R\-U\-C\-T} = 19, 
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcab84d43f39e58b9cd3995b3aafc7239d6}{P\-S\-T\-R\-U\-C\-T} = 23, 
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcadba1b6c2cd5c27167323652b1c23c9e0}{S\-T\-R\-I\-N\-G\-\_\-\-A\-R\-R\-A\-Y} = 15, 
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad3f85fecfcee857d9b08cf4ebe77c32f}{A\-R\-R\-A\-Y\-\_\-\-G\-A\-U\-S\-S} = 17, 
+\\*
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca4793088111ff7058b2bd6e4bde07f816}{P\-R\-O\-C} = 8, 
+\hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca7d507081df635250120e56c8766ec504}{O\-T\-H\-E\-R} = 99
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration of all symbol types known to \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{struct_g_e_sym_type}{G\-E\-Sym\-Type} stores \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} constant values for different symbol types. 
+
+Access these in a static fashion.
+
+Example\-:
+
+\subparagraph*{Python}
+
+
+\begin{DoxyCode}
+1 \textcolor{keyword}{def }checkType(x):
+2     \textcolor{keywordflow}{return} \{
+3         GESymType.SCALAR:
+4             \textcolor{stringliteral}{"Symbol is a scalar."},
+5         GESymType.SPARSE:
+6             \textcolor{stringliteral}{"Symbol is a sparse matrix."},
+7         GESymType.MATRIX:
+8             \textcolor{stringliteral}{"Symbol is a matrix."},
+9         GESymType.STRING:
+10             \textcolor{stringliteral}{"Symbol is a string."},
+11         GESymType.STRUCT:
+12             \textcolor{stringliteral}{"Symbol is a struct."},
+13         GESymType.STRING\_ARRAY:
+14             \textcolor{stringliteral}{"Symbol is a string array."},
+15         GESymType.ARRAY\_GAUSS:
+16             \textcolor{stringliteral}{"Symbol is an array."},
+17         GESymType.PROC:
+18             \textcolor{stringliteral}{"Symbol is a proc."},
+19         GESymType.OTHER:
+20             \textcolor{stringliteral}{"Symbol is of another type."}
+21 
+22         \}.get(x, \textcolor{stringliteral}{"Unknown symbol type"})
+23 
+24 ge.executeString(\textcolor{stringliteral}{"x = 1.0"})
+25 ge.executeString(\textcolor{stringliteral}{"s = \(\backslash\)"test\(\backslash\)""})
+26 ge.executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4)"})
+27 
+28 xType = ge.getSymbolType(\textcolor{stringliteral}{"x"})
+29 sType = ge.getSymbolType(\textcolor{stringliteral}{"s"})
+30 aType = ge.getSymbolType(\textcolor{stringliteral}{"a"})
+31 
+32 \textcolor{keywordflow}{print} checkType(xType)
+33 \textcolor{keywordflow}{print} checkType(sType)
+34 \textcolor{keywordflow}{print} checkType(aType)
+\end{DoxyCode}
+ \subparagraph*{P\-H\-P}
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{function} checkType($type) \{
+    \textcolor{keywordflow}{switch} ($type) \{
+        \textcolor{keywordflow}{case} \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca0e3633d8cf7dbbdbe3b45bdd24cae7b0}{GESymType::SCALAR}:
+            \textcolor{keywordflow}{return} \textcolor{stringliteral}{"Symbol is a scalar."};
+            \textcolor{keywordflow}{break};
+        \textcolor{keywordflow}{case} \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcaaf5984cc491fc4b4fcf2162f18f0272c}{GESymType::SPARSE}:
+            \textcolor{keywordflow}{return} \textcolor{stringliteral}{"Symbol is a sparse matrix."};
+            \textcolor{keywordflow}{break};
+        \textcolor{keywordflow}{case} \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c}{GESymType::MATRIX}:
+            \textcolor{keywordflow}{return} \textcolor{stringliteral}{"Symbol is a matrix."};
+            \textcolor{keywordflow}{break};
+        \textcolor{keywordflow}{case} \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad7b91a02b7bd02be62866581fb00ab77}{GESymType::STRING}:
+            \textcolor{keywordflow}{return} \textcolor{stringliteral}{"Symbol is a string."};
+            \textcolor{keywordflow}{break};
+        \textcolor{keywordflow}{case} \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad16784afa03e303f68740a9a33dc887b}{GESymType::STRUCT}:
+            \textcolor{keywordflow}{return} \textcolor{stringliteral}{"Symbol is a struct."};
+            \textcolor{keywordflow}{break};
+        \textcolor{keywordflow}{case} \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcadba1b6c2cd5c27167323652b1c23c9e0}{GESymType::STRING\_ARRAY}:
+            \textcolor{keywordflow}{return} \textcolor{stringliteral}{"Symbol is a string array."};
+            \textcolor{keywordflow}{break};
+        \textcolor{keywordflow}{case} \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad3f85fecfcee857d9b08cf4ebe77c32f}{GESymType::ARRAY\_GAUSS}:
+            \textcolor{keywordflow}{return} \textcolor{stringliteral}{"Symbol is an array."};
+            \textcolor{keywordflow}{break};
+        \textcolor{keywordflow}{case} \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca4793088111ff7058b2bd6e4bde07f816}{GESymType::PROC}:
+            \textcolor{keywordflow}{return} \textcolor{stringliteral}{"Symbol is a proc."};
+            \textcolor{keywordflow}{break};
+        \textcolor{keywordflow}{case} \hyperlink{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca7d507081df635250120e56c8766ec504}{GESymType::OTHER}:
+            \textcolor{keywordflow}{return} \textcolor{stringliteral}{"Symbol is of another type."};
+            \textcolor{keywordflow}{break};
+        \textcolor{keywordflow}{default}:
+            \textcolor{keywordflow}{return} \textcolor{stringliteral}{"Unknown symbol type"};
+    \}
+\}
+
+$ge->executeString(\textcolor{stringliteral}{"x = 1.0;"});
+$ge->executeString(\textcolor{stringliteral}{"s = \(\backslash\)"test\(\backslash\)";"});
+$ge->executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4);"});
+
+$xType = $ge->getSymbolType(\textcolor{stringliteral}{"x"});
+$sType = $ge->getSymbolType(\textcolor{stringliteral}{"s"});
+$aType = $ge->getSymbolType(\textcolor{stringliteral}{"a"});
+
+echo checkType($xType) . PHP\_EOL;
+echo checkType($sType) . PHP\_EOL;
+echo checkType($aType) . PHP\_EOL;
+\end{DoxyCode}
+ results in output\-: 
+\begin{DoxyCode}
+Symbol is a matrix.
+Symbol is a \textcolor{keywordtype}{string}.
+Symbol is an array.
+\end{DoxyCode}
+ 
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fc}{\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!S\-Y\-M\-T\-Y\-P\-E@{S\-Y\-M\-T\-Y\-P\-E}}
+\index{S\-Y\-M\-T\-Y\-P\-E@{S\-Y\-M\-T\-Y\-P\-E}!GESymType@{G\-E\-Sym\-Type}}
+\subsubsection[{S\-Y\-M\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf G\-E\-Sym\-Type\-::\-S\-Y\-M\-T\-Y\-P\-E}}}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fc}
+
+
+Enumeration of all symbol types known to \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{S\-C\-A\-L\-A\-R@{S\-C\-A\-L\-A\-R}!G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!S\-C\-A\-L\-A\-R@{S\-C\-A\-L\-A\-R}}\item[{\em 
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca0e3633d8cf7dbbdbe3b45bdd24cae7b0}{S\-C\-A\-L\-A\-R}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca0e3633d8cf7dbbdbe3b45bdd24cae7b0}
+}]Scalar (i.\-e. 1, 1.\-5); \index{S\-P\-A\-R\-S\-E@{S\-P\-A\-R\-S\-E}!G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!S\-P\-A\-R\-S\-E@{S\-P\-A\-R\-S\-E}}\item[{\em 
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcaaf5984cc491fc4b4fcf2162f18f0272c}{S\-P\-A\-R\-S\-E}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcaaf5984cc491fc4b4fcf2162f18f0272c}
+}]Sparse Matrix. \index{M\-A\-T\-R\-I\-X@{M\-A\-T\-R\-I\-X}!G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!M\-A\-T\-R\-I\-X@{M\-A\-T\-R\-I\-X}}\item[{\em 
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c}{M\-A\-T\-R\-I\-X}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c}
+}]Matrix. \index{S\-T\-R\-I\-N\-G@{S\-T\-R\-I\-N\-G}!G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!S\-T\-R\-I\-N\-G@{S\-T\-R\-I\-N\-G}}\item[{\em 
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad7b91a02b7bd02be62866581fb00ab77}{S\-T\-R\-I\-N\-G}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad7b91a02b7bd02be62866581fb00ab77}
+}]String. \index{S\-T\-R\-U\-C\-T@{S\-T\-R\-U\-C\-T}!G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!S\-T\-R\-U\-C\-T@{S\-T\-R\-U\-C\-T}}\item[{\em 
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad16784afa03e303f68740a9a33dc887b}{S\-T\-R\-U\-C\-T}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad16784afa03e303f68740a9a33dc887b}
+}]Structure. \index{P\-S\-T\-R\-U\-C\-T@{P\-S\-T\-R\-U\-C\-T}!G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!P\-S\-T\-R\-U\-C\-T@{P\-S\-T\-R\-U\-C\-T}}\item[{\em 
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcab84d43f39e58b9cd3995b3aafc7239d6}{P\-S\-T\-R\-U\-C\-T}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcab84d43f39e58b9cd3995b3aafc7239d6}
+}]P\-Struct. \index{S\-T\-R\-I\-N\-G\-\_\-\-A\-R\-R\-A\-Y@{S\-T\-R\-I\-N\-G\-\_\-\-A\-R\-R\-A\-Y}!G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!S\-T\-R\-I\-N\-G\-\_\-\-A\-R\-R\-A\-Y@{S\-T\-R\-I\-N\-G\-\_\-\-A\-R\-R\-A\-Y}}\item[{\em 
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcadba1b6c2cd5c27167323652b1c23c9e0}{S\-T\-R\-I\-N\-G\-\_\-\-A\-R\-R\-A\-Y}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcadba1b6c2cd5c27167323652b1c23c9e0}
+}]String Array. \index{A\-R\-R\-A\-Y\-\_\-\-G\-A\-U\-S\-S@{A\-R\-R\-A\-Y\-\_\-\-G\-A\-U\-S\-S}!G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!A\-R\-R\-A\-Y\-\_\-\-G\-A\-U\-S\-S@{A\-R\-R\-A\-Y\-\_\-\-G\-A\-U\-S\-S}}\item[{\em 
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad3f85fecfcee857d9b08cf4ebe77c32f}{A\-R\-R\-A\-Y\-\_\-\-G\-A\-U\-S\-S}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fcad3f85fecfcee857d9b08cf4ebe77c32f}
+}]N-\/\-Dimensional Array. \index{P\-R\-O\-C@{P\-R\-O\-C}!G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!P\-R\-O\-C@{P\-R\-O\-C}}\item[{\em 
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca4793088111ff7058b2bd6e4bde07f816}{P\-R\-O\-C}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca4793088111ff7058b2bd6e4bde07f816}
+}]Proc. \index{O\-T\-H\-E\-R@{O\-T\-H\-E\-R}!G\-E\-Sym\-Type@{G\-E\-Sym\-Type}}\index{G\-E\-Sym\-Type@{G\-E\-Sym\-Type}!O\-T\-H\-E\-R@{O\-T\-H\-E\-R}}\item[{\em 
+\hypertarget{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca7d507081df635250120e56c8766ec504}{O\-T\-H\-E\-R}\label{struct_g_e_sym_type_a05477e08255bea70296f7825493e95fca7d507081df635250120e56c8766ec504}
+}]Other. \end{description}
+\end{Desc}
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gesymtype.\-h\end{DoxyCompactItemize}
