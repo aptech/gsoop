@@ -1,4 +1,4 @@
-gsoup
+gSoup
 =====
 
 This library is a set of target language bindings that allows
@@ -265,7 +265,7 @@ Please refresh services that utilize PHP to pick up on the new extension.
 
 This section introduces an implementation of the GAUSS Engine.
 
-### hello_world Hello World! ###
+### Hello World! ###
 
 Getting started with the GAUSS Engine is extremely simple.
 
