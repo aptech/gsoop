@@ -1,34 +1,6 @@
 var NAVTREE =
 [
   [ "GAUSS Engine", "index.html", [
-    [ "Overview", "index.html", [
-      [ "Introduction", "index.html#intro_sec", null ],
-      [ "Configuration", "index.html#getting_started_sec", [
-        [ "Windows", "index.html#windows_install", null ],
-        [ "Linux and Unix", "index.html#linux_unix_install", null ],
-        [ "SWIG", "index.html#swig_config", null ]
-      ] ],
-      [ "Installation", "index.html#installation", [
-        [ "Python", "index.html#python_install", [
-          [ "Binary", "index.html#python_install_binary", null ],
-          [ "Source", "index.html#python_install_source", null ]
-        ] ],
-        [ "PHP", "index.html#php_install", [
-          [ "Source", "index.html#php_install_source", null ],
-          [ "Binary", "index.html#php_install_binary", null ]
-        ] ]
-      ] ],
-      [ "Development", "index.html#example_apps", [
-        [ "Hello World!", "index.html#hello_world", null ],
-        [ "Step 1: Import the required library", "index.html#hw_step1", null ],
-        [ "Step 2: Instantiate the GAUSS Engine object", "index.html#hw_step2", null ],
-        [ "Step 3: Set up callbacks", "index.html#hw_step3", null ],
-        [ "Step 4: Initialize the GAUSS Engine", "index.html#hw_step4", null ],
-        [ "Step 5: Home Free", "index.html#hw_step5", null ],
-        [ "Step 6: Shutdown the GAUSS Engine", "index.html#hw_step6", null ],
-        [ "Conclusion", "index.html#conc", null ]
-      ] ]
-    ] ],
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
       [ "Class Index", "classes.html", null ],

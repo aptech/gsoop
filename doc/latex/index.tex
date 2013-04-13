@@ -1,19 +1,27 @@
-\hypertarget{index_intro_sec}{}\section{Introduction}\label{index_intro_sec}
-Thank you for choosing the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine A\-P\-I.
+A set of target language bindings that allows developers to interface with the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.
 
-This library is a set of target language bindings that allows developers to intuitively and efficiently access the power of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.
+We use the \href{http://www.swig.org}{\tt S\-W\-I\-G} library to generate language-\/specific extensions from C++ for us.
 
-To accomplish the task of providing these bindings for multiple languages, we have created an initial C++ library and use the \href{http://www.swig.org}{\tt S\-W\-I\-G} program to generate language-\/specific bindings.
+Currently, two languages are supported with more planned\-:
+
+
+\begin{DoxyItemize}
+\item Python
+\item P\-H\-P
+\end{DoxyItemize}
 
 While building from source allows complete control over the compile process, we have elected to also release binaries for popular platforms.
 
-You can easily and effectively\-:
+You can\-:
 \begin{DoxyItemize}
 \item Create and destroy workspaces, using multiple for threaded situations
 \item Compile, save, load and execute programs.
 \item Manipulate data in the symbol table
 \item Set up callbacks for integration with \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}'s input/output routines
-\end{DoxyItemize}\hypertarget{index_getting_started_sec}{}\section{Configuration}\label{index_getting_started_sec}
+\end{DoxyItemize}
+
+\subsection*{Configuration}
+
 There are a few things necessary to take care of before starting development.
 
 The A\-P\-I will look for the {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13} environment variable. This will be the location the engine was extracted to (i.\-e. {\ttfamily C\-:\textbackslash{}mteng13} on Windows, {\ttfamily /home/user/mteng13} on Linux)
@@ -25,7 +33,10 @@ The A\-P\-I will look for the {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13} environmen
 \end{TabularC}
 
 
-The following environment variables must {\bfseries contain} the specified values\hypertarget{index_windows_install}{}\subsection{Windows}\label{index_windows_install}
+The following environment variables must {\bfseries contain} the specified values
+
+\subsubsection*{Windows}
+
 \begin{TabularC}{2}
 \hline
 \rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
@@ -35,7 +46,10 @@ The following environment variables must {\bfseries contain} the specified value
 
 The presence of this value allows the engine D\-L\-L to be found and loaded properly.
 
-Ensure you do not {\bfseries replace} {\ttfamily P\-A\-T\-H} with the directory.\hypertarget{index_linux_unix_install}{}\subsection{Linux and Unix}\label{index_linux_unix_install}
+Ensure you do not {\bfseries replace} {\ttfamily P\-A\-T\-H} with the directory.
+
+\subsubsection*{Linux and Unix}
+
 \begin{TabularC}{2}
 \hline
 \rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
@@ -44,7 +58,10 @@ Ensure you do not {\bfseries replace} {\ttfamily P\-A\-T\-H} with the directory.
 \end{TabularC}
 
 
-Note\-: Please adjust the paths accordingly to your specific installation. In this case, the {\ttfamily libpthread.\-so.\-0} reference is for Ubuntu 64-\/bit.\hypertarget{index_swig_config}{}\subsection{S\-W\-I\-G}\label{index_swig_config}
+Note\-: Please adjust the paths accordingly to your specific installation. In this case, the {\ttfamily libpthread.\-so.\-0} reference is for Ubuntu 64-\/bit.
+
+\subsubsection*{S\-W\-I\-G}
+
 If you are building from source, you will need to have the S\-W\-I\-G library available\-:
 
 \href{http://www.swig.org/download.html}{\tt http\-://www.\-swig.\-org/download.\-html}
@@ -53,9 +70,18 @@ Once installed, please ensure {\ttfamily swig} is available in your terminal by 
 
 {\bfseries E\-X\-C\-E\-P\-T\-I\-O\-N}\-: If you are not {\itshape modifying} any source files, the auto generated files have been included in the respective {\ttfamily python} and {\ttfamily php} sub-\/directories.
 
-You can place these in {\ttfamily src} and skip the steps involving S\-W\-I\-G.\hypertarget{index_installation}{}\section{Installation}\label{index_installation}
-This guide will not cover installation of the language itself. Please refer to the vendor documentation for language-\/level installation.\hypertarget{index_python_install}{}\subsection{Python}\label{index_python_install}
-Installation of the Python module is fairly simple, since it uses the {\ttfamily distribute} package.\hypertarget{index_python_install_binary}{}\subsubsection{Binary}\label{index_python_install_binary}
+You can place these in {\ttfamily src} and skip the steps involving S\-W\-I\-G.
+
+\subsection*{Installation}
+
+Please refer to the vendor documentation for language-\/level installation.
+
+\subsubsection*{Python}
+
+The Python installation uses the {\ttfamily distribute} package.
+
+\subsubsection*{Binary}
+
 \paragraph*{Windows}
 
 Select the correct {\ttfamily egg} file according to your architecture.
@@ -70,20 +96,25 @@ Instructions and files can be found at\-: \href{https://pypi.python.org/pypi/set
 
 \begin{DoxyVerb}$ easy_install gauss-0.1-py2.7-linux-x86_64.egg
 \end{DoxyVerb}
-\hypertarget{index_python_install_source}{}\subsubsection{Source}\label{index_python_install_source}
-Due to the nature of the Python installation on Windows, please ensure the following are correctly in your {\ttfamily P\-A\-T\-H} environment variable \begin{DoxyVerb}C:\Python27\;C:\Python27\Scripts\
+
+
+\subsubsection*{Source}
+
+If using Windows, please ensure the following are correctly in your {\ttfamily P\-A\-T\-H} environment variable \begin{DoxyVerb}C:\Python27\;C:\Python27\Scripts\
 \end{DoxyVerb}
 
 
 Note\-: Tested with Python 2.\-7.\-4
 
-Since we are building from source, we need to run S\-W\-I\-G on our interface file.
+Compilation of a Python extension requires 2 steps\-:
 
-This is done automatically with the {\ttfamily setup.\-py} file, however, we must first build the extension.
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf What You're Used To }&{\bf How Python does it}\\\cline{1-2}
+{\ttfamily make} &{\ttfamily python setup.\-py build\-\_\-ext -\/i} \\\cline{1-2}
+{\ttfamily make install} &{\ttfamily python setup.\-py install} \\\cline{1-2}
+\end{TabularC}
 
-By first calling {\ttfamily build\-\_\-ext -\/i}, a {\ttfamily gauss.\-py} file is automatically generated in the current directory.
-
-Subsequently calling the {\ttfamily install} target will now correctly install the files.
 
 \paragraph*{Linux or Cygwin}
 
@@ -138,8 +169,12 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 ImportError: No module named gauss
 \end{DoxyVerb}
-\hypertarget{index_php_install}{}\subsection{P\-H\-P}\label{index_php_install}
-\hypertarget{index_php_install_source}{}\subsubsection{Source}\label{index_php_install_source}
+
+
+\subsubsection*{P\-H\-P}
+
+\paragraph*{Source}
+
 \href{http://www.cmake.org}{\tt C\-Make} is our build tool of choice. Get it.
 
 There are a couple steps common between both platforms that should be done ahead of time.
@@ -228,7 +263,10 @@ Run the {\ttfamily cmake-\/gui} utility to configure and generate the V\-S Solut
 
 I chose to specify {\ttfamily build} as the directory for output.
 
-If all went well, building the solution should now provide a {\ttfamily php\-\_\-gauss.\-dll} file in the {\ttfamily build\textbackslash{}Release} directory.\hypertarget{index_php_install_binary}{}\subsubsection{Binary}\label{index_php_install_binary}
+If all went well, building the solution should now provide a {\ttfamily php\-\_\-gauss.\-dll} file in the {\ttfamily build\textbackslash{}Release} directory.
+
+\subsubsection*{Binary}
+
 \paragraph*{Windows / Linux}
 
 Place the {\ttfamily php\-\_\-gauss.\-dll} (Windows) or {\ttfamily gauss.\-so} (Linux) in your P\-H\-P installation's {\ttfamily ext} directory.
@@ -249,8 +287,14 @@ extension=php_gauss.dll
 
 If running P\-H\-P from the command line, changes should be instantaneous.
 
-Please refresh services that utilize P\-H\-P to pick up on the new extension.\hypertarget{index_example_apps}{}\section{Development}\label{index_example_apps}
-This section introduces an implementation of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.\hypertarget{index_hello_world}{}\subsection{Hello World!}\label{index_hello_world}
+Please refresh services that utilize P\-H\-P to pick up on the new extension.
+
+\subsection*{Development}
+
+This section introduces an implementation of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.
+
+\subsubsection*{Hello World!}
+
 Getting started with the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine is extremely simple.
 
 This assumes the library has been made available to the target language properly.
@@ -309,7 +353,10 @@ $ge->setProgramOutputAll($out);
 $ge->executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""});
 $ge->shutdown();
 \end{DoxyCode}
-\hypertarget{index_hw_step1}{}\subsection{Step 1\-: Import the required library}\label{index_hw_step1}
+
+
+\subsubsection*{Step 1\-: Import the required library}
+
 Before we can make use of the functionality, we have to make the engine library available to us. This is quite simple and straight-\/forward.
 
 \paragraph*{Python}
@@ -328,7 +375,10 @@ include(\textcolor{stringliteral}{"gauss.php"});
 \end{DoxyCode}
 
 
-If you compiled from source and you're not sure where {\ttfamily gauss.\-php} is, recall that S\-W\-I\-G auto-\/generated it for us and it should be in the {\ttfamily src} directory.\hypertarget{index_hw_step2}{}\subsection{Step 2\-: Instantiate the G\-A\-U\-S\-S Engine object}\label{index_hw_step2}
+If you compiled from source and you're not sure where {\ttfamily gauss.\-php} is, recall that S\-W\-I\-G auto-\/generated it for us and it should be in the {\ttfamily src} directory.
+
+\subsubsection*{Step 2\-: Instantiate the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine object}
+
 After importing the correct library, we need to instantiate our engine object. There are multiple constructors available that suit a variety of scenarios.
 
 In this example, we will be using the default constructor. This method relies on an existing environment variable in an effort to locate the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} home directory.
@@ -349,7 +399,10 @@ $ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s}{GAUSS}();  \textcolor
 \end{DoxyCode}
 
 
-{\bfseries Hint\-:} Check out the {\ttfamily G\-A\-U\-S\-S(string)} constructor, as it allows you to pass in a custom environment variable to use.\hypertarget{index_hw_step3}{}\subsection{Step 3\-: Set up callbacks}\label{index_hw_step3}
+{\bfseries Hint\-:} Check out the {\ttfamily G\-A\-U\-S\-S(string)} constructor, as it allows you to pass in a custom environment variable to use.
+
+\subsubsection*{Step 3\-: Set up callbacks}
+
 Technically, this step {\itshape can} be skipped, but creating appropriate callbacks allows you control over specific aspects of program functionality.
 
 While some of these must be implemented to work correctly (i.\-e. setting a string input callback), others have default implementations that don't necessarily require a callback (i.\-e. program output routing to {\ttfamily stdout}), it is generally a good idea to do so.
@@ -415,7 +468,10 @@ $ge->setProgramOutputAll($out);
 
 {\itshape Note\-:} We used the \hyperlink{class_g_a_u_s_s_a0b8379c48d677e05aeab433dba66fbb6}{G\-A\-U\-S\-S.\-set\-Program\-Output\-All} method, which is used to set {\itshape both} the program and error output.
 
-If you wish to separate the callbacks for different functionality, you can use the \hyperlink{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{G\-A\-U\-S\-S.\-set\-Program\-Output} and \hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{G\-A\-U\-S\-S.\-set\-Program\-Error\-Output} methods.\hypertarget{index_hw_step4}{}\subsection{Step 4\-: Initialize the G\-A\-U\-S\-S Engine}\label{index_hw_step4}
+If you wish to separate the callbacks for different functionality, you can use the \hyperlink{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{G\-A\-U\-S\-S.\-set\-Program\-Output} and \hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{G\-A\-U\-S\-S.\-set\-Program\-Error\-Output} methods.
+
+\subsubsection*{Step 4\-: Initialize the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine}
+
 Now that you've made it to this step, if all has been configured correctly, initializing the Engine is quite easy.
 
 \paragraph*{Python}
@@ -437,7 +493,10 @@ Now that you've made it to this step, if all has been configured correctly, init
 \end{DoxyCode}
 
 
-The {\ttfamily initialize} method returns a true/false value depending on whether it was successful or not.\hypertarget{index_hw_step5}{}\subsection{Step 5\-: Home Free}\label{index_hw_step5}
+The {\ttfamily initialize} method returns a true/false value depending on whether it was successful or not.
+
+\subsubsection*{Step 5\-: Home Free}
+
 With everything set up, we are free to run whatever code we choose!
 
 For this small example, we just want the engine to tell us \char`\"{}\-Hello World!\char`\"{} through the callback we've assigned.
@@ -458,7 +517,10 @@ $ge->executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\
 \begin{DoxyCode}
 Hello World!
 \end{DoxyCode}
-\hypertarget{index_hw_step6}{}\subsection{Step 6\-: Shutdown the G\-A\-U\-S\-S Engine}\label{index_hw_step6}
+
+
+\subsubsection*{Step 6\-: Shutdown the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine}
+
 Shutting down the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine is as easy as telling it to do so\-:
 
 \paragraph*{Python}
@@ -475,7 +537,10 @@ $ge->shutdown();
 \end{DoxyCode}
 
 
-This will destroy any active workspaces and perform any cleanup that might be necessary.\hypertarget{index_conc}{}\subsection{Conclusion}\label{index_conc}
+This will destroy any active workspaces and perform any cleanup that might be necessary.
+
+\subsection*{Conclusion}
+
 This wraps up the basics of using the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine A\-P\-I. The documentation is full of code snippets that should help you easily interface with the Engine for your chosen task.
 
 A template file has also been included which represents a full setup and tear-\/down with space in the middle to drop in code snippets. This file will be aptly named in relation to the language it applies to\-:

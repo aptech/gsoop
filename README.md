@@ -1,11 +1,11 @@
-gSoup
+gSoup 0.1
 =====
 
 A set of target language bindings that allows developers to interface with the GAUSS Engine.
 
 We use the [SWIG](http://www.swig.org) library to generate language-specific extensions from C++ for us.
 
-Currently, two languages are supported with more planned:
+Two languages are supported with more planned:
 
 + Python
 + PHP
@@ -94,10 +94,10 @@ Note: Tested with Python 2.7.4
 
 Compilation of a Python extension requires 2 steps:
 
-What You're Used To  | How Python does it
-:--------------------|:-----------
-`make`               | `python setup.py build_ext -i`
-`make install`       | `python setup.py install`
+Makefile syntax  | Python syntax
+:----------------|:-----------
+`make`           | `python setup.py build_ext -i`
+`make install`   | `python setup.py install`
 
 #### Linux or Cygwin ####
 
