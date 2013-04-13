@@ -1,12 +1,14 @@
 gSoup
 =====
 
-This library is a set of target language bindings that allows
-developers to intuitively and efficiently access the power of the GAUSS Engine.
+A set of target language bindings that allows developers to interface with the GAUSS Engine.
 
-To accomplish the task of providing these bindings for multiple languages,
-we have created an initial C++ library and use the [SWIG](http://www.swig.org) program to generate
-language-specific bindings.
+We use the [SWIG](http://www.swig.org) library to generate language-specific extensions for us.
+
+Currently, two languages are supported with more planned:
+
++ Python
++ PHP
 
 While building from source allows complete control over
 the compile process, we have elected to also release binaries for popular platforms.
