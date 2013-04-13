@@ -3,7 +3,7 @@ gSoup
 
 A set of target language bindings that allows developers to interface with the GAUSS Engine.
 
-We use the [SWIG](http://www.swig.org) library to generate language-specific extensions for us.
+We use the [SWIG](http://www.swig.org) library to generate language-specific extensions from C++ for us.
 
 Currently, two languages are supported with more planned:
 
@@ -62,10 +62,10 @@ __EXCEPTION__: If you are not *modifying* any source files, the auto generated f
 You can place these in `src` and skip the steps involving SWIG.
 
 ## Installation ##
-This guide will not cover installation of the language itself. Please refer to the vendor documentation for language-level installation.
+Please refer to the vendor documentation for language-level installation.
 
 ### Python ###
-Installation of the Python module is fairly simple, since it uses the `distribute` package.
+The Python installation uses the `distribute` package.
 
 ### Binary ###
 
@@ -85,20 +85,19 @@ Instructions and files can be found at: https://pypi.python.org/pypi/setuptools#
 
 ### Source ###
 
-Due to the nature of the Python installation on Windows, please ensure the following are correctly in your `PATH`
+If using Windows, please ensure the following are correctly in your `PATH`
 environment variable
 
     C:\Python27\;C:\Python27\Scripts\
 
 Note: Tested with Python 2.7.4
 
-Since we are building from source, we need to run SWIG on our interface file.
+Compilation of a Python extension requires 2 steps:
 
-This is done automatically with the `setup.py` file, however, we must first build the extension.
-
-By first calling `build_ext -i`, a `gauss.py` file is automatically generated in the current directory.
-
-Subsequently calling the `install` target will now correctly install the files.
+What You're Used To  | How Python does it
+:--------------------|:-----------
+`make`               | `python setup.py build_ext -i`
+`make install`       | `python setup.py install`
 
 #### Linux or Cygwin ####
 
