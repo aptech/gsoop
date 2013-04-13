@@ -151,7 +151,6 @@ bool GAUSS::initialize() {
     }
 
     GEWorkspace *wh = createWorkspace("main");
-    setActiveWorkspace(wh);
 
     if (wh->workspace() == NULL) {
         string errorString = getLastErrorText();
@@ -159,6 +158,8 @@ bool GAUSS::initialize() {
 	cout << "Could not create workspace (Error: " << errorString << ")" << endl;
 	return false;
     }
+    
+    setActiveWorkspace(wh);
 
     setHookProgramOutput(GAUSS::internalHookOutput);
     setHookProgramErrorOutput(GAUSS::internalHookError);
