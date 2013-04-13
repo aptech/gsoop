@@ -103,7 +103,6 @@ GAUSS::GAUSS(string inp, bool isEnvVar) {
 }
 
 void GAUSS::Init(string homePath) {
-    this->outputFunc_ = NULL;
     this->gauss_home_ = homePath;
     this->manager_ = new WorkspaceManager;
 
@@ -118,7 +117,7 @@ void GAUSS::Init(string homePath) {
     GAUSS::inputCheckFunc_ = 0;
 
     if (homePath.empty()) {
-        cout << "Unable to find GAUSS Home directory. Aborting." << endl;
+        cerr << "Unable to find GAUSS Home directory. Aborting." << endl;
     }
 }
 
@@ -139,14 +138,14 @@ bool GAUSS::initialize() {
     if (!setHome(this->gauss_home_)) {
         string errorString = getLastErrorText();
 
-	cout << "Could not set GAUSS Home (Error: " << errorString << ")" << endl;
+	cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << endl;
 	return false;
     }
 
     if (GAUSS_Initialize() >  0) {
         string errorString = getLastErrorText();
 
-	cout << "Could initialize GAUSS (Error: " << errorString << ")" << endl;
+	cerr << "Could initialize GAUSS (Error: " << errorString << ")" << endl;
 	return false;
     }
 
@@ -155,7 +154,7 @@ bool GAUSS::initialize() {
     if (wh->workspace() == NULL) {
         string errorString = getLastErrorText();
 
-	cout << "Could not create workspace (Error: " << errorString << ")" << endl;
+	cerr << "Could not create workspace (Error: " << errorString << ")" << endl;
 	return false;
     }
     
