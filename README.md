@@ -21,8 +21,6 @@ You can:
 
 ## Configuration ##
 
-There are a few things necessary to take care of before starting development.
-
 The API will look for the `MTENGHOME13` environment variable.
 This will be the location the engine was extracted to (i.e. `C:\mteng13` on Windows, `/home/user/mteng13` on Linux)
 
@@ -55,7 +53,7 @@ If you are building from source, you will need to have the SWIG library availabl
 
 http://www.swig.org/download.html
 
-Once installed, please ensure `swig` is available in your terminal by placing it's installation directory in your `PATH` environment variable, as building requires it.
+Once installed, please ensure `swig` is available in your terminal by placing its installation directory in your `PATH` environment variable, as building requires it.
 
 __EXCEPTION__: If you are not *modifying* any source files, the auto generated files have been included in the respective `python` and `php` sub-directories.
 
@@ -169,7 +167,7 @@ There are a couple steps common between both platforms that should be done ahead
         $ export PHP_INCLUDE=`php-config --includes`
 
         # Windows you have to create it yourself. Newlines have been removed to clearly show the paths
-        # The actual command should have them all appended to each one another separated by a semi-colon
+        # The actual command should have them all appended to each other separated by a semi-colon
         set PHP_INCLUDE=C:\development\php5.4ts\dev;
                         C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src;
                         C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\main;
@@ -177,9 +175,9 @@ There are a couple steps common between both platforms that should be done ahead
                         C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\TSRM;
                         C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\ext
 
-    __Note__ the Windows line also has the `php5.4ts\dev` as part of the include path.
+    __Note__ on Windows, the environment variable contains `php5.4ts\dev` as part of the include path.
 
-    This is so `php5ts.lib` can be located properly at link-time.
+    This ensures `php5ts.lib` will be located properly at link-time.
 2. Execute SWIG manually (If you are using pre-generated files from the appropriate language's directory, you can skip this step)
 
     Unlike our Python installation script, CMake does not automatically execute SWIG on the source files.
