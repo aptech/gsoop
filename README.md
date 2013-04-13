@@ -11,7 +11,7 @@ language-specific bindings.
 While building from source allows complete control over
 the compile process, we have elected to also release binaries for popular platforms.
 
-You can easily and effectively:
+You can:
 + Create and destroy workspaces, using multiple for threaded situations
 + Compile, save, load and execute programs.
 + Manipulate data in the symbol table
