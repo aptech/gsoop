@@ -90,12 +90,12 @@ environment variable
 
 Note: Tested with Python 2.7.4
 
-Compilation of a Python extension requires 2 steps:
+Just like the traditional `make && make install`, compiling a Python extension requires 2 steps:
 
-Makefile syntax  | Python syntax
-:----------------|:-----------
-`make`           | `python setup.py build_ext -i`
-`make install`   | `python setup.py install`
+~~~
+python setup.py build_ext -i
+python setup.py install`
+~~~
 
 #### Linux or Cygwin ####
 
@@ -111,8 +111,8 @@ python setup.py install           # Everything compiled, now install
 # If installation must be done as root, force set the environment variable
 tar -xvf gauss-0.1.tar.gz
 cd gauss-0.1
-sudo MTENGHOME13=/home/user/mteng python setup.py build_ext -i      # First build the extension and create the gauss.py file
-sudo MTENGHOME13=/home/user/mteng python setup.py install           # Everything compiled, now install
+sudo MTENGHOME13=/home/user/mteng python setup.py build_ext -i # First build the extension and create the gauss.py file
+sudo MTENGHOME13=/home/user/mteng python setup.py install      # Everything compiled, now install
 ~~~
 
 #### Windows ####
@@ -125,7 +125,7 @@ All commands are run through the appropriate Visual Studio command prompt.
 
 64-bit: `Start -> Microsoft Visual Studio 2008 -> Visual Studio Tools -> Visual Studio 2008 x64 Win64 Command Prompt`
 
-If your user does have appropriate permissions to access the Python
+If your user lacks permissions to access the Python
 installation directory, you may have to run `cmd` as Administrator
 
 Execute the following via a `cmd` terminal:
