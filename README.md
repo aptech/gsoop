@@ -1,4 +1,4 @@
-gSoup 0.1
+gSoop 0.1
 =====
 
 A set of target language bindings that allows developers to interface with the GAUSS Engine.
