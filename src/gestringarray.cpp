@@ -64,9 +64,9 @@ Open    High
 Low     Close
  * ~~~
  *
- * @param data	One-dimensional string data
- * @param rows	Row count
- * @param cols	Column count
+ * @param data        One-dimensional string data
+ * @param rows        Row count
+ * @param cols        Column count
  */
 GEStringArray::GEStringArray(vector<string> data, int rows, int cols) {
     setData(data, rows, cols);
@@ -93,15 +93,15 @@ echo $sa->getElement(0, 1);
 bar
  * ~~~
  *
- * @param row	Row index
- * @param col	Column index
- * @return	Value at specified index
+ * @param row        Row index
+ * @param col        Column index
+ * @return        Value at specified index
  */
 string GEStringArray::getElement(int row, int col) {
     unsigned int index = row * this->getCols() + col;
 
     if (index >= data_.size() || row >= this->getRows() || col >= this->getCols())
-	return string();
+        return string();
 
     return string(this->data_[index]);
 }
@@ -142,7 +142,7 @@ FIVE    SIX     SEVEN   EIGHT
 ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT
  * ~~~
  *
- * @return	string vector
+ * @return        string vector
  */
 vector<string> GEStringArray::getData() {
     return vector<string>(data_);
@@ -158,7 +158,7 @@ vector<string> GEStringArray::getData() {
 void GEStringArray::setData(vector<string> data, int rows, int cols) {
     if (rows * cols > data.size()) {
         rows = data.size();
-	cols = 1;
+        cols = 1;
     }
 
     this->data_ = data;
@@ -186,7 +186,7 @@ echo $sa->toString();
  * ~~~
  * results in the output:
  * ~~~
-foo	foo	baz
+foo        foo        baz
  * ~~~
  *
  * @param row      Row
@@ -196,7 +196,7 @@ bool GEStringArray::setElement(string str, int row, int col) {
     unsigned int index = row * this->getCols() + col;
 
     if (index >= data_.size())
-	return false;
+        return false;
 
     data_[index] = str;
 
@@ -205,7 +205,7 @@ bool GEStringArray::setElement(string str, int row, int col) {
 
 bool GEStringArray::fromStringArray(StringArray_t *sa) {
     if (sa == NULL)
-	return false;
+        return false;
 
     int rows = sa->rows;
     int cols = sa->cols;
@@ -214,7 +214,7 @@ bool GEStringArray::fromStringArray(StringArray_t *sa) {
     this->setCols(cols);
 
     if (rows == 0 || cols == 0)
-	return false;
+        return false;
 
     int element_count = rows * cols;
 
@@ -228,13 +228,13 @@ bool GEStringArray::fromStringArray(StringArray_t *sa) {
     char *ch_ptr;
 
     for (int i = 0; i < rows; ++i) {
-	for (int j = 0; j < cols; ++j) {
-	    current_ptr = base_ptr + (i * cols + j);
-	    ch_ptr = (char*)((char*)base_ptr + base_offset + current_ptr->offset);
+        for (int j = 0; j < cols; ++j) {
+            current_ptr = base_ptr + (i * cols + j);
+            ch_ptr = (char*)((char*)base_ptr + base_offset + current_ptr->offset);
 
-	    string val = string(ch_ptr);
-	    this->data_[i * cols + j] = val;
-	}
+            string val = string(ch_ptr);
+            this->data_[i * cols + j] = val;
+        }
     }
 
     GAUSS_Free(sa->table);
@@ -250,12 +250,12 @@ string GEStringArray::toString() {
     int cols = getCols();
 
     for (int i = 0; i < rows; ++i) {
-	for (int j = 0; j < cols; ++j) {
-	    s << getElement(i, j) << '\t';
-	}
+        for (int j = 0; j < cols; ++j) {
+            s << getElement(i, j) << '\t';
+        }
 
-	if (i < rows - 1)
-	    s << endl;
+        if (i < rows - 1)
+            s << endl;
     }
 
     return s.str();

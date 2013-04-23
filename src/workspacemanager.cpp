@@ -14,12 +14,12 @@ GEWorkspace* WorkspaceManager::getCurrent() {
 
 bool WorkspaceManager::setCurrent(GEWorkspace *wh) {
     if (!wh)
-	return false;
+        return false;
 
     current_ = wh;
 
     if (!this->contains(wh)) {
-	workspaces_.insert(pair<string, GEWorkspace*>(wh->name(), wh));
+        workspaces_.insert(pair<string, GEWorkspace*>(wh->name(), wh));
     }
 
     return true;
@@ -29,14 +29,14 @@ bool WorkspaceManager::contains(GEWorkspace *wh) {
     map<string, GEWorkspace*>::iterator it;
 
     for (it = workspaces_.begin(); it != workspaces_.end(); ++it)
-	if ((*it).second == wh) return true;
+        if ((*it).second == wh) return true;
 
     return false;
 }
 
 GEWorkspace* WorkspaceManager::getWorkspace(string name) {
     if (workspaces_.find(name) == workspaces_.end())
-	return 0;
+        return 0;
 
     return workspaces_[name];
 }
@@ -46,13 +46,13 @@ void WorkspaceManager::destroyAll() {
     map<string, GEWorkspace*>::iterator it;
 
     if (workspaces_.empty())
-	return;
+        return;
 
     for (it = workspaces_.begin(); it != workspaces_.end(); ++it)
-	whs.push_back((*it).second);
+        whs.push_back((*it).second);
 
     for (int i = 0; i < whs.size(); ++i)
-	destroy(whs.at(i));
+        destroy(whs.at(i));
 }
 
 bool WorkspaceManager::isValidWorkspace(GEWorkspace *wh) {
@@ -61,15 +61,15 @@ bool WorkspaceManager::isValidWorkspace(GEWorkspace *wh) {
 
 bool WorkspaceManager::destroy(GEWorkspace *wh) {
     if (current_ == wh)
-	current_ = 0;
+        current_ = 0;
 
     if (!wh || !this->contains(wh))
-	return false;
+        return false;
 
     this->workspaces_.erase(workspaces_.find(wh->name()));
 
     if (wh->workspace() != 0)
-	GAUSS_FreeWorkspace(wh->workspace());
+        GAUSS_FreeWorkspace(wh->workspace());
 
     wh->clear();
 
@@ -82,7 +82,7 @@ GEWorkspace* WorkspaceManager::create(string name) {
     GEWorkspace *ews = this->getWorkspace(name);
 
     if (ews)
-	return ews;
+        return ews;
 
     GEWorkspace *workspace = new GEWorkspace(name, GAUSS_CreateWorkspace(const_cast<char*>(name.c_str())));
 
@@ -99,7 +99,7 @@ vector<string> WorkspaceManager::workspaceNames() {
     map<string, GEWorkspace*>::iterator it;
 
     for (it = workspaces_.begin(); it != workspaces_.end(); ++it)
-	names.push_back((*it).first);
+        names.push_back((*it).first);
 
     return names;
 }

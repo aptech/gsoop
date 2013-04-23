@@ -47,7 +47,7 @@ GAUSS::GAUSS(void)
     string homeVal;
 
     if (envVal)
-	homeVal = string(envVal);
+        homeVal = string(envVal);
 
     Init(homeVal);
 }
@@ -84,10 +84,10 @@ $ge = new GAUSS("/home/user/mteng", false);
 GAUSS ge = new GAUSS("MY_CUSTOM_VAR");
  * ~~~-->
  *
- * @param inp   	Environment variable or absolute path to GAUSS Home (i.e. mteng.dll, libmteng.so)
- * @param isEnvVar	Whether the `inp` argument is an environment variable name
+ * @param inp           Environment variable or absolute path to GAUSS Home (i.e. mteng.dll, libmteng.so)
+ * @param isEnvVar        Whether the `inp` argument is an environment variable name
  *
- * @see	GAUSS()
+ * @see        GAUSS()
  */
 GAUSS::GAUSS(string inp, bool isEnvVar) {
     string homeVal = inp;
@@ -138,15 +138,15 @@ bool GAUSS::initialize() {
     if (!setHome(this->gauss_home_)) {
         string errorString = getLastErrorText();
 
-	cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << endl;
-	return false;
+        cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << endl;
+        return false;
     }
 
     if (GAUSS_Initialize() >  0) {
         string errorString = getLastErrorText();
 
-	cerr << "Could initialize GAUSS (Error: " << errorString << ")" << endl;
-	return false;
+        cerr << "Could initialize GAUSS (Error: " << errorString << ")" << endl;
+        return false;
     }
 
     GEWorkspace *wh = createWorkspace("main");
@@ -154,8 +154,8 @@ bool GAUSS::initialize() {
     if (wh->workspace() == NULL) {
         string errorString = getLastErrorText();
 
-	cerr << "Could not create workspace (Error: " << errorString << ")" << endl;
-	return false;
+        cerr << "Could not create workspace (Error: " << errorString << ")" << endl;
+        return false;
     }
     
     setActiveWorkspace(wh);
@@ -188,8 +188,8 @@ void GAUSS::shutdown() {
  *
  * Calling this does not replace the currently active workspace.
  *
- * @param name	Name of workspace to create
- * @return	Handle to newly created workspace
+ * @param name        Name of workspace to create
+ * @return        Handle to newly created workspace
  *
  * @see setActiveWorkspace(GEWorkspace*)
  * @see destroyWorkspace(GEWorkspace*)
@@ -227,8 +227,8 @@ void GAUSS::destroyAllWorkspaces() {
 /**
  * Returns a handle to a specified workspace by _name_
  *
- * @param wkspName	Name of workspace
- * @return	Workspace handle
+ * @param wkspName        Name of workspace
+ * @return        Workspace handle
  *
  * @see setActiveWorkspace(GEWorkspace*)
  * @see getActiveWorkspace()
@@ -252,8 +252,8 @@ GEWorkspace* GAUSS::getActiveWorkspace() {
  * Saves workspace information contained in a workspace handle into a file.
  * The file will have the name given by _fn_. Load the workspace information with loadWorkspace(string).
  *
- * @param wh	Workspace object
- * @param fn	Filename to save workspace as
+ * @param wh        Workspace object
+ * @param fn        Filename to save workspace as
  *
  * @see loadWorkspace(string)
  */
@@ -269,9 +269,9 @@ bool GAUSS::saveWorkspace(GEWorkspace *wh, string fn) {
  * workspace information, which is contained in the program handle. The file will have
  * the name given by _fn_. Load the program with loadCompiledFile(string).
  *
- * @param ph	Program handle
- * @param fn	Filename to save program to
- * @return	True on success, false on failure
+ * @param ph        Program handle
+ * @param fn        Filename to save program to
+ * @return        True on success, false on failure
  *
  * @see loadCompiledFile(string)
  */
@@ -282,7 +282,7 @@ bool GAUSS::saveProgram(ProgramHandle_t *ph, string fn) {
 /**
  * Sets the active workspace to be the specified workspace.
  *
- * @param wh	Workspace object
+ * @param wh        Workspace object
  *
  * @see getActiveWorkspace()
  */
@@ -293,7 +293,7 @@ bool GAUSS::setActiveWorkspace(GEWorkspace *wh) {
 /**
  * Returns the current path known by the GAUSS Engine for the user home directory.
  *
- * @return	Path to user GAUSS home directory.
+ * @return        Path to user GAUSS home directory.
  *
  * @see setHome(string)
  */
@@ -308,7 +308,7 @@ string GAUSS::getHome() {
 /**
  * Returns the current environment variable value set by the GAUSS Engine that represents the GAUSS Home path.
  *
- * @return	Environment variable name
+ * @return        Environment variable name
  *
  * @see setHomeVar(string)
  */
@@ -323,7 +323,7 @@ string GAUSS::getHomeVar() {
 /**
  * Returns the current log file location used by the GAUSS Engine
  *
- * @return	Path to log file
+ * @return        Path to log file
  *
  * @see setLogFile(string, string)
  */
@@ -360,7 +360,7 @@ string GAUSS::makePathAbsolute(string path) {
  * The callbacks are thread specific. programInputString will call the
  * input string function that was hooked in that particular thread.
  *
- * @return		user input from hooked function
+ * @return        user input from hooked function
  *
  * @see setProgramInputString(IGEProgramInputString*)
  */
@@ -438,7 +438,7 @@ ge.executeString("print x", myWorkspace);
  */
 bool GAUSS::executeString(string command, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return false;
+        return false;
 
     ProgramHandle_t *ph = GAUSS_CompileString(wh->workspace(), removeConst(&command), 0, 0);
 
@@ -469,7 +469,7 @@ success = ge.executeFile("ols.e")
 $success = $ge->executeString("ols.e");
  * ~~~
  *
- * @param filename	Filename to execute.
+ * @param filename        Filename to execute.
  * @return true on success; false on failure
  *
  * @see compileFile(string)
@@ -497,14 +497,14 @@ success = ge.executeFile("ols.e", myWorkspace)
 $success = $ge->executeString("ols.e", $myWorkspace);
  * ~~~
  *
- * @param filename	Filename to execute.
+ * @param filename        Filename to execute.
  * @return true on success; false on failure
  *
  * @see compileFile(string)
  */
 bool GAUSS::executeFile(string fname, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return false;
+        return false;
 
     ProgramHandle_t *ph = GAUSS_CompileFile(wh->workspace(), removeConst(&fname), 0, 0);
 
@@ -541,7 +541,7 @@ $success = $ge->executeCompiledFile("example.gcg");
 bool success = ge.executeCompiledFile("example.gcg");
  * ~~~-->
  *
- * @param filename	gcg file to execute.
+ * @param filename        gcg file to execute.
  * @return true on success; false on failure
  *
  * @see loadWorkspace(string)
@@ -574,7 +574,7 @@ $success = $ge->executeCompiledFile("example.gcg", $myWorkspace);
 bool success = ge.executeCompiledFile("example.gcg", myWorkspace);
  * ~~~-->
  *
- * @param filename	gcg file to execute.
+ * @param filename        gcg file to execute.
  * @return true on success; false on failure
  *
  * @see loadWorkspace(string)
@@ -582,7 +582,7 @@ bool success = ge.executeCompiledFile("example.gcg", myWorkspace);
  */
 bool GAUSS::executeCompiledFile(string fname, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return false;
+        return false;
 
     ProgramHandle_t *ph = GAUSS_LoadCompiledFile(wh->workspace(), removeConst(&fname));
 
@@ -627,8 +627,8 @@ Hello World!
 Hello World!
  * ~~~
  *
- * @param command	Code to compile
- * @return	Program handle
+ * @param command        Code to compile
+ * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
  * @see executeString(string)
@@ -671,8 +671,8 @@ Hello World!
 Hello World!
  * ~~~
  *
- * @param command	Code to compile
- * @return	Program handle
+ * @param command        Code to compile
+ * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
  * @see executeString(string)
@@ -680,7 +680,7 @@ Hello World!
  */
 ProgramHandle_t* GAUSS::compileString(string command, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return NULL;
+        return NULL;
 
     return GAUSS_CompileString(wh->workspace(), removeConst(&command), 0, 0);
 }
@@ -704,8 +704,8 @@ $ph = $ge->compileFile("ols.e");
 $ge->executeProgram(ph);
  * ~~~
  *
- * @param fn	Filename to compile
- * @return	Program handle
+ * @param fn        Filename to compile
+ * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
  * @see executeFile(string)
@@ -736,15 +736,15 @@ $ph = $ge->compileFile("ols.e", $myWorkspace);
 $ge->executeProgram(ph);
  * ~~~
  *
- * @param fn	Filename to compile
- * @return	Program handle
+ * @param fn        Filename to compile
+ * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
  * @see executeFile(string)
  */
 ProgramHandle_t* GAUSS::compileFile(string fname, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return NULL;
+        return NULL;
 
     return GAUSS_CompileFile(wh->workspace(), removeConst(&fname), 0, 0);
 }
@@ -754,8 +754,8 @@ ProgramHandle_t* GAUSS::compileFile(string fname, GEWorkspace *wh) {
  * be followed with a call to executeProgram(ProgramHandle_t*). Note that if you do not care about
  * keeping the program handle, a convenience method executeCompiledFile(string) is available.
  *
- * @param fn	Filename to load
- * @return	Program handle
+ * @param fn        Filename to load
+ * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
  * @see executeCompiledFile(string)
@@ -769,15 +769,15 @@ ProgramHandle_t* GAUSS::loadCompiledFile(string fn) {
  * be followed with a call executeProgram(ProgramHandle_t*). Note that if you do not care about
  * keeping the program handle, a convenience method executeCompiledFile(string) is available.
  *
- * @param fn	Filename to load
- * @return	Program handle
+ * @param fn        Filename to load
+ * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
  * @see executeCompiledFile(string)
  */
 ProgramHandle_t* GAUSS::loadCompiledFile(string fn, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return NULL;
+        return NULL;
 
     return GAUSS_LoadCompiledFile(wh->workspace(), removeConst(&fn));
 }
@@ -807,7 +807,7 @@ ge.executeProgram(ph);
  * ~~~-->
  *
  * @param ph Program handle
- * @return	True on success. False on failure
+ * @return        True on success. False on failure
  *
  * @see compileString(string)
  * @see compileFile(string)
@@ -816,10 +816,10 @@ ge.executeProgram(ph);
  */
 bool GAUSS::executeProgram(ProgramHandle_t *ph) {
     if (!ph)
-	return false;
+        return false;
 
     if (GAUSS_Execute(ph) > 0)
-	return false;
+        return false;
 
     return true;
 }
@@ -838,8 +838,8 @@ bool GAUSS::executeProgram(ProgramHandle_t *ph) {
  * 30    | Insufficient memory.
  * 495   | Workspace inactive or corrupt.
  *
- * @param gcgfile	name of file workspace is stored in
- * @return	pointer to a workspace handle.
+ * @param gcgfile        name of file workspace is stored in
+ * @return        pointer to a workspace handle.
  */
 GEWorkspace* GAUSS::loadWorkspace(string gcgfile) {
     WorkspaceHandle_t *wh = GAUSS_LoadWorkspace(removeConst(&gcgfile));
@@ -861,7 +861,7 @@ GEWorkspace* GAUSS::loadWorkspace(string gcgfile) {
  * Returns the current associated name of a workspace according to GAUSS
  *
  * @param wh Workspace handle
- * @return	Workspace name
+ * @return        Workspace name
  *
  * @see getActiveWorkspace()
  */
@@ -881,7 +881,7 @@ string GAUSS::getWorkspaceName(GEWorkspace *wh) {
  * Request the workspace name from GAUSS, and set the _name_
  * field in the GEWorkspace object.
  *
- * @param wh	Workspace handle
+ * @param wh        Workspace handle
  *
  * @see getWorkspaceName(GEWorkspace*)
  */
@@ -895,7 +895,7 @@ void GAUSS::updateWorkspaceName(GEWorkspace *wh) {
  * Free a program handle created by compileString(string),
  * compileFile(string), and loadCompiledFile(string)
  *
- * @param ph	Program handle
+ * @param ph        Program handle
  *
  * @see compileString(string)
  * @see compileFile(string)
@@ -930,7 +930,7 @@ if (ge.getSymbolType("x") == GESymType.MATRIX)
     doSomething();
  * ~~~->
  *
- * @param name	Name of GAUSS Symbol
+ * @param name        Name of GAUSS Symbol
  * @return int that represents symbol type. Refer to GESymType const list.
  *
  * @see GESymType.ARRAY_GAUSS
@@ -968,7 +968,7 @@ if (ge.getSymbolType("x", myWorkspace) == GESymType.MATRIX)
     doSomething();
  * ~~~-->
  *
- * @param name	Name of GAUSS Symbol
+ * @param name        Name of GAUSS Symbol
  * @return int that represents symbol type. Refer to GESymType const list.
  *
  * @see GESymType.ARRAY_GAUSS
@@ -980,7 +980,7 @@ if (ge.getSymbolType("x", myWorkspace) == GESymType.MATRIX)
  */
 int GAUSS::getSymbolType(string name, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return -1;
+        return -1;
 
     return GAUSS_GetSymbolType(wh->workspace(), removeConst(&name));
 }
@@ -989,7 +989,7 @@ int GAUSS::getSymbolType(string name, GEWorkspace *wh) {
  * Manually set the current error code for the GAUSS Engine. Setting this to 0
  * will clear out the current error code.
  *
- * @param errNum	Error code
+ * @param errNum        Error code
  *
  * @see getError()
  * @see getErrorText(int)
@@ -1011,9 +1011,9 @@ char* GAUSS::removeConst(string *str) {
  *
  * You can turn off the error logging to file by inputting an empty string for _logfn_.
  *
- * @param logfn	name of log file.
- * @param mode	**w** to overwrite the contents of the file.\n **a** to append to the contents of the file.
- * @return	True on success, false on failure
+ * @param logfn        name of log file.
+ * @param mode        **w** to overwrite the contents of the file.\n **a** to append to the contents of the file.
+ * @return        True on success, false on failure
  *
  * @see getLogFile()
  */
@@ -1031,8 +1031,8 @@ bool GAUSS::setLogFile(string logfn, string mode) {
  * library files, etc. in a normal engine installation. It overrides any environment
  * variable.
  *
- * @param path	Directory path of engine installation
- * @return	True on success, false on failure
+ * @param path        Directory path of engine installation
+ * @return        True on success, false on failure
  *
  * @see getHome()
  * @see setHomeVar(string)
@@ -1047,8 +1047,8 @@ bool GAUSS::setHome(string path) {
  * It is better to use setHome(string) which sets the home directory, overriding
  * the environment variable.
  *
- * @param envVar	Name of environment variable
- * @return	True on success, false on failure
+ * @param envVar        Name of environment variable
+ * @return        True on success, false on failure
  *
  * @see getHomeVar()
  * @see setHome(string)
@@ -1082,7 +1082,7 @@ if (!ge.initialize()) {
 }
  * ~~~-->
  *
- * @return	Description of last GAUSS error code
+ * @return        Description of last GAUSS error code
  *
  * @see getError()
  * @see getErrorText(int)
@@ -1098,7 +1098,7 @@ string GAUSS::getLastErrorText() {
  * of this error code by calling getErrorText(int) and passing in this value, or use the
  * getLastErrorText() method provided that does both.
  *
- * @return	Last error code
+ * @return        Last error code
  *
  * @see getErrorText(int)
  * @see getLastErrorText()
@@ -1112,8 +1112,8 @@ int GAUSS::getError() {
  * the error description of the last error that occurred, you can use getLastErrorText()
  * instead.
  *
- * @param errorNum	Error number
- * @return			Complete error description
+ * @param errorNum        Error number
+ * @return                        Complete error description
  *
  * @see getError()
  * @see getLastErrorText()
@@ -1129,8 +1129,8 @@ string GAUSS::getErrorText(int errorNum) {
 /**
  * Check a double to see if it contains a GAUSS missing value
  *
- * @param d	double value to check
- * @return	true if <i>d</i> contains a GAUSS missing value. false if not.
+ * @param d        double value to check
+ * @return        true if <i>d</i> contains a GAUSS missing value. false if not.
  *
  * @see kMissingValue
  */
@@ -1162,8 +1162,8 @@ echo "\$x = " . $x . PHP_EOL;
 $x = 5
  * ~~~
  *
- * @param name	Name of symbol
- * @return	Scalar object representing GAUSS symbol
+ * @param name        Name of symbol
+ * @return        Scalar object representing GAUSS symbol
  *
  * @see getScalar(string, GEWorkspace*)
  * @see setSymbol(GEMatrix*, string)
@@ -1201,8 +1201,8 @@ echo "\$x = " . $x . PHP_EOL;
 $x = 5
  * ~~~
  *
- * @param name	Name of symbol
- * @return	Scalar object representing GAUSS symbol
+ * @param name        Name of symbol
+ * @return        Scalar object representing GAUSS symbol
  *
  * @see getScalar(string)
  * @see setSymbol(GEMatrix*, string)
@@ -1250,8 +1250,8 @@ echo "x = " . $x->getElement() . PHP_EOL;
 x = 5
  * ~~~
  *
- * @param name	Name of GAUSS symbol
- * @return	Matrix object
+ * @param name        Name of GAUSS symbol
+ * @return        Matrix object
  *
  * @see getMatrix(string, GEWorkspace*)
  * @see setSymbol(GEMatrix*, string)
@@ -1292,8 +1292,8 @@ echo "x = " . $x->getElement() . PHP_EOL;
 x = 5
  * ~~~
  *
- * @param name	Name of GAUSS symbol
- * @return	Matrix object
+ * @param name        Name of GAUSS symbol
+ * @return        Matrix object
  *
  * @see getMatrix(string)
  * @see setSymbol(GEMatrix*, string)
@@ -1305,12 +1305,12 @@ x = 5
  */
 GEMatrix* GAUSS::getMatrix(string name, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return NULL;
+        return NULL;
 
     Matrix_t *gsMat = GAUSS_GetMatrix(wh->workspace(), removeConst(&name));
 
     if (gsMat == NULL) {
-	return NULL;
+        return NULL;
     }
 
     return new GEMatrix(gsMat);
@@ -1346,8 +1346,8 @@ $x = 5
 x =        0.0000000
  * ~~~
  *
- * @param name	Name of GAUSS symbol
- * @return	Matrix object
+ * @param name        Name of GAUSS symbol
+ * @return        Matrix object
  *
  * @see getMatrixAndClear(string, GEWorkspace*)
  * @see setSymbol(GEMatrix*, string)
@@ -1393,8 +1393,8 @@ $x = 5
 x =        0.0000000
  * ~~~
  *
- * @param name	Name of GAUSS symbol
- * @return	Matrix object
+ * @param name        Name of GAUSS symbol
+ * @return        Matrix object
  *
  * @see getMatrixAndClear(string)
  * @see setSymbol(GEMatrix*, string)
@@ -1406,12 +1406,12 @@ x =        0.0000000
  */
 GEMatrix* GAUSS::getMatrixAndClear(string name, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return NULL;
+        return NULL;
 
     Matrix_t *gsMat = GAUSS_GetMatrixAndClear(wh->workspace(), removeConst(&name));
 
     if (gsMat == NULL)
-	return NULL;
+        return NULL;
 
     return new GEMatrix(gsMat);
 }
@@ -1421,8 +1421,8 @@ GEMatrix* GAUSS::getMatrixAndClear(string name, GEWorkspace *wh) {
  * from the symbol table, and therefore changes made will not be reflected without first
  * calling setSymbol(GEArray*, string).
  *
- * @param name	Name of GAUSS symbol
- * @return	Array object
+ * @param name        Name of GAUSS symbol
+ * @return        Array object
  *
  * @see getArray(string, GEWorkspace*)
  * @see setSymbol(GEArray*, string)
@@ -1439,8 +1439,8 @@ GEArray* GAUSS::getArray(string name) {
  * from the symbol table, and therefore changes made will not be reflected without first
  * calling setSymbol(GEArray*, string).
  *
- * @param name	Name of GAUSS symbol
- * @return	Array object
+ * @param name        Name of GAUSS symbol
+ * @return        Array object
  *
  * @see getArray(string)
  * @see setSymbol(GEArray*, string)
@@ -1450,12 +1450,12 @@ GEArray* GAUSS::getArray(string name) {
  */
 GEArray* GAUSS::getArray(string name, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return NULL;
+        return NULL;
 
     Array_t *gsArray = GAUSS_GetArray(wh->workspace(), removeConst(&name));
 
     if (gsArray == NULL)
-	return NULL;
+        return NULL;
 
     return new GEArray(gsArray);
 }
@@ -1467,8 +1467,8 @@ GEArray* GAUSS::getArray(string name, GEWorkspace *wh) {
  *
  * In addition, this function will clear the symbol from the GAUSS symbol table.
  *
- * @param name	Name of GAUSS symbol
- * @return	Array object
+ * @param name        Name of GAUSS symbol
+ * @return        Array object
  *
  * @see getArrayAndClear(string, GEWorkspace*)
  * @see setSymbol(GEArray*, string)
@@ -1487,8 +1487,8 @@ GEArray* GAUSS::getArrayAndClear(string name) {
  *
  * In addition, this function will clear the symbol from the GAUSS symbol table.
  *
- * @param name	Name of GAUSS symbol
- * @return	Array object
+ * @param name        Name of GAUSS symbol
+ * @return        Array object
  *
  * @see getArrayAndClear(string)
  * @see setSymbol(GEArray*, string)
@@ -1498,12 +1498,12 @@ GEArray* GAUSS::getArrayAndClear(string name) {
  */
 GEArray* GAUSS::getArrayAndClear(string name, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return NULL;
+        return NULL;
 
     Array_t *gsArray = GAUSS_GetArrayAndClear(wh->workspace(), removeConst(&name));
 
     if (gsArray == NULL)
-	return NULL;
+        return NULL;
 
     return new GEArray(gsArray);
 }
@@ -1513,8 +1513,8 @@ GEArray* GAUSS::getArrayAndClear(string name, GEWorkspace *wh) {
  * from the symbol table, and therefore changes made will not be reflected without first
  * calling setSymbol(GEStringArray*, string).
  *
- * @param name	Name of GAUSS symbol
- * @return	string array object
+ * @param name        Name of GAUSS symbol
+ * @return        string array object
  *
  * @see getStringArray(string, GEWorkspace*)
  * @see setSymbol(GEStringArray*, string)
@@ -1529,8 +1529,8 @@ GEStringArray* GAUSS::getStringArray(string name) {
  * from the symbol table, and therefore changes made will not be reflected without first
  * calling setSymbol(GEStringArray*, string).
  *
- * @param name	Name of GAUSS symbol
- * @return	string array object
+ * @param name        Name of GAUSS symbol
+ * @return        string array object
  *
  * @see getStringArray(string, GEWorkspace*)
  * @see setSymbol(GEStringArray*, string)
@@ -1538,12 +1538,12 @@ GEStringArray* GAUSS::getStringArray(string name) {
  */
 GEStringArray* GAUSS::getStringArray(string name, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return NULL;
+        return NULL;
 
     StringArray_t *gsStringArray = GAUSS_GetStringArray(wh->workspace(), removeConst(&name));
 
     if (gsStringArray == NULL)
-	return NULL;
+        return NULL;
 
     return new GEStringArray(gsStringArray);
 }
@@ -1553,8 +1553,8 @@ GEStringArray* GAUSS::getStringArray(string name, GEWorkspace *wh) {
  * from the symbol table, and therefore changes made will not be reflected without
  * first calling setSymbol(GEString*, string).
  *
- * @param name	Name of GAUSS symbol
- * @return	string object
+ * @param name        Name of GAUSS symbol
+ * @return        string object
  *
  * @see getString(string, GEWorkspace*)
  * @see setSymbol(GEString*, string)
@@ -1569,8 +1569,8 @@ GEString* GAUSS::getString(string name) {
  * from the symbol table, and therefore changes made will not be reflected without
  * first calling setSymbol(GEString*, string).
  *
- * @param name	Name of GAUSS symbol
- * @return	string object
+ * @param name        Name of GAUSS symbol
+ * @return        string object
  *
  * @see getString(string)
  * @see setSymbol(GEString*, string)
@@ -1578,12 +1578,12 @@ GEString* GAUSS::getString(string name) {
  */
 GEString* GAUSS::getString(string name, GEWorkspace *wh) {
     if (!manager_->isValidWorkspace(wh))
-	return NULL;
+        return NULL;
 
     String_t *gsString = GAUSS_GetString(wh->workspace(), removeConst(&name));
 
     if (gsString == NULL)
-	return NULL;
+        return NULL;
 
     return new GEString(gsString);
 }
@@ -1660,19 +1660,19 @@ ge.setSymbol(x, "x", myWorkspace);
  */
 bool GAUSS::setSymbol(GEMatrix *matrix, string name, GEWorkspace *wh) {
     if (!matrix || name.empty())
-	return false;
+        return false;
 
     if (!manager_->isValidWorkspace(wh))
-	return false;
+        return false;
 
     int ret = 0;
 
     if (!matrix->isComplex() && (matrix->getRows() == 1) && (matrix->getCols() == 1)) {
         ret = GAUSS_PutDouble(wh->workspace(), matrix->getElement(), removeConst(&name));
     } else {
-	Matrix_t* newMat = this->createTempMatrix(matrix);
-	ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat, removeConst(&name));
-	delete newMat;
+        Matrix_t* newMat = this->createTempMatrix(matrix);
+        ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat, removeConst(&name));
+        delete newMat;
     }
 
     return (ret == GAUSS_SUCCESS);
@@ -1707,8 +1707,8 @@ GEArray a = new GEArray(orders, data);
 ge.setSymbol(a, "a");
  * ~~~-->
  *
- * @param array	Array object to store in GAUSS symbol table
- * @param name	Name to give newly added symbol
+ * @param array        Array object to store in GAUSS symbol table
+ * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
  * @see setSymbol(GEArray*, string, GEWorkspace*)
@@ -1750,8 +1750,8 @@ GEArray a = new GEArray(orders, data);
 ge.setSymbol(a, "a", myWorkspace);
  * ~~~-->
  *
- * @param array	Array object to store in GAUSS symbol table
- * @param name	Name to give newly added symbol
+ * @param array        Array object to store in GAUSS symbol table
+ * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
  * @see setSymbol(GEArray*, string)
@@ -1760,15 +1760,15 @@ ge.setSymbol(a, "a", myWorkspace);
  */
 bool GAUSS::setSymbol(GEArray *array, string name, GEWorkspace *wh) {
     if (!array || name.empty())
-	return false;
+        return false;
 
     if (!manager_->isValidWorkspace(wh))
-	return false;
+        return false;
 
     Array_t *newArray = createPermArray(array);
 
     if (!newArray)
-	return false;
+        return false;
 
     return (GAUSS_MoveArrayToGlobal(wh->workspace(), newArray, removeConst(&name)) == GAUSS_SUCCESS);
 }
@@ -1796,8 +1796,8 @@ GEString s = new GEString("Hello World");
 ge.setSymbol(s, "s");
  * ~~~-->
  *
- * @param str	string to add to GAUSS symbol table
- * @param name	Name to give newly added symbol
+ * @param str        string to add to GAUSS symbol table
+ * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
  * @see setSymbol(GEString*, string, GEWorkspace*)
@@ -1832,8 +1832,8 @@ GEString s = new GEString("Hello World");
 ge.setSymbol(s, "s", myWorkspace);
  * ~~~-->
  *
- * @param str	string to add to GAUSS symbol table
- * @param name	Name to give newly added symbol
+ * @param str        string to add to GAUSS symbol table
+ * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
  * @see setSymbol(GEString*, string)
@@ -1841,15 +1841,15 @@ ge.setSymbol(s, "s", myWorkspace);
  */
 bool GAUSS::setSymbol(GEString *str, string name, GEWorkspace *wh) {
     if (!str || name.empty())
-	return false;
+        return false;
 
     if (!manager_->isValidWorkspace(wh))
-	return false;
+        return false;
 
     String_t* newStr = createPermString(str);
 
     if (!newStr)
-	return false;
+        return false;
 
     return (GAUSS_MoveStringToGlobal(wh->workspace(), newStr, removeConst(&name)) == GAUSS_SUCCESS);
 }
@@ -1873,8 +1873,8 @@ $sa = new GEStringArray(saData, 2, 2);
 $ge->setSymbol($sa, "sa");
  * ~~~
  *
- * @param sa	string array to add to GAUSS symbol table
- * @param name	Name to give newly added symbol
+ * @param sa        string array to add to GAUSS symbol table
+ * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
  * @see getStringArray(string)
@@ -1904,23 +1904,23 @@ $sa = new GEStringArray(saData, 2, 2);
 $ge->setSymbol($sa, "sa", $myWorkspace);
  * ~~~
  *
- * @param sa	string array to add to GAUSS symbol table
- * @param name	Name to give newly added symbol
+ * @param sa        string array to add to GAUSS symbol table
+ * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
  * @see getStringArray(string)
  */
 bool GAUSS::setSymbol(GEStringArray *sa, string name, GEWorkspace *wh) {
     if (!sa || name.empty())
-	return false;
+        return false;
 
     if (!manager_->isValidWorkspace(wh))
-	return false;
+        return false;
 
     StringArray_t *newSa = createTempStringArray(sa);
 
     if (!newSa)
-	return false;
+        return false;
 
     bool ret = (GAUSS_CopyStringArrayToGlobal(wh->workspace(), newSa, removeConst(&name)) == GAUSS_SUCCESS);
 
@@ -1939,8 +1939,8 @@ bool GAUSS::setSymbol(GEStringArray *sa, string name, GEWorkspace *wh) {
  * then you must call setProgramErrorOutput(IGEProgramOutput*) before calling
  * translateDataloopFile.
  *
- * @param srcfile	Name of source file.
- * @return	Name of translated file. Empty if failure.
+ * @param srcfile        Name of source file.
+ * @return        Name of translated file. Empty if failure.
  *
  * @see compileFile(string)
  * @see setProgramErrorOutput(IGEProgramOutput*)
@@ -1989,17 +1989,17 @@ StringArray_t* GAUSS::createTempStringArray(GEStringArray *sa) {
     char **saList = new char*[sa->size()];
 
     for (int i = 0; i < sa->size(); ++i) {
-	string str = strings->at(i);
+        string str = strings->at(i);
 
-	char *str_ptr = new char[str.length() + 1];
-	strncpy(str_ptr, str.c_str(), str.length() + 1);
-	saList[i] = str_ptr;
+        char *str_ptr = new char[str.length() + 1];
+        strncpy(str_ptr, str.c_str(), str.length() + 1);
+        saList[i] = str_ptr;
     }
 
     StringArray_t *newSa = GAUSS_StringArray(sa->getRows(), sa->getCols(), saList);
 
     for (int i = 0; i < sa->size(); ++i) {
-	delete[] saList[i];
+        delete[] saList[i];
     }
 
     delete[] saList;
@@ -2017,10 +2017,10 @@ Array_t* GAUSS::createPermArray(GEArray *array) {
     double *data = (double*)GAUSS_Malloc((size + dims) * sizeof(double));
 
     for (int i = 0; i < dims; ++i)
-	data[i] = orders[i];
+        data[i] = orders[i];
 
     for (int i = dims; i < size + dims; ++i)
-	data[i] = vals[i - dims];
+        data[i] = vals[i - dims];
 
     Array_t *newArray = (Array_t*)GAUSS_Malloc(sizeof(Array_t));
     newArray->dims = dims;
@@ -2036,7 +2036,7 @@ void GAUSS::internalHookOutput(char *output) {
     if (GAUSS::outputFunc_) {
         GAUSS::outputFunc_->invoke(string(output));
     } else {
-	cout << output;
+        cout << output;
     }
 }
 
@@ -2044,7 +2044,7 @@ void GAUSS::internalHookError(char *output) {
     if (GAUSS::errorFunc_) {
         GAUSS::errorFunc_->invoke(string(output));
     } else {
-	cerr << output;
+        cerr << output;
     }
 }
 
@@ -2067,9 +2067,9 @@ int GAUSS::internalHookInputString(char *buf, int len) {
 
         string ret = GAUSS::inputStringFunc_->value();
 
-	// write ret data to buf;
-	strncpy(buf, ret.c_str(), len);
-	return ret.length();
+        // write ret data to buf;
+        strncpy(buf, ret.c_str(), len);
+        return ret.length();
     }
 
     return 0;
@@ -2163,7 +2163,7 @@ Undefined symbols:
     y
  * ~~~
  *
- * @param fn	User-defined output function.
+ * @param fn        User-defined output function.
  *
  * @see setProgramOutput(IGEProgramOutput*)
  * @see setProgramErrorOutput(IGEProgramOutput*)
@@ -2233,7 +2233,7 @@ ge.executeString("rndu(3, 3)");
       0.70726755       0.077567409        0.83558391
  * ~~~
  *
- * @param fn	User-defined output function.
+ * @param fn        User-defined output function.
  *
  * @see setProgramOutputAll(IGEProgramOutput*)
  * @see setProgramErrorOutput(IGEProgramOutput*)
@@ -2297,7 +2297,7 @@ Undefined symbols:
     y
  * ~~~
  *
- * @param fn	User-defined output function.
+ * @param fn        User-defined output function.
  *
  * @see setProgramOutputAll(IGEProgramOutput*)
  * @see setProgramOutput(IGEProgramOutput*)
@@ -2360,7 +2360,7 @@ Hello World!
 A flush was requested.
  * ~~~
  *
- * @param fn	User-defined flush output function.
+ * @param fn        User-defined flush output function.
  *
  * @see setProgramOutput(IGEProgramOutput*)
  * @see setProgramErrorOutput(IGEProgramOutput*)
@@ -2436,7 +2436,7 @@ System.out.println("s = " + s.getData());
  * s = Hello World!
  * ~~~
  *
- * @param fn	User-defined output function.
+ * @param fn        User-defined output function.
  *
  * @see setProgramInputChar(IGEProgramInputChar*)
  * @see setProgramInputCharBlocking(IGEProgramInputChar*)
@@ -2516,7 +2516,7 @@ System.out.println("k = " + k);
 k = 99
  * ~~~
  *
- * @param fn	User-defined input function.
+ * @param fn        User-defined input function.
  *
  * @see setProgramInputString(IGEProgramInputString*)
  * @see setProgramInputCharBlocking(IGEProgramInputChar*)
@@ -2595,7 +2595,7 @@ System.out.println("k = " + k);
 k = 99
  * ~~~
  *
- * @param fn	User-defined input function.
+ * @param fn        User-defined input function.
  *
  * @see setProgramInputString(IGEProgramInputString*)
  * @see setProgramInputChar(IGEProgramInputChar*)
@@ -2651,7 +2651,7 @@ Input check requested
 Key available
  * ~~~
  *
- * @param fn	User-defined input function.
+ * @param fn        User-defined input function.
  *
  * @see setProgramInputString(IGEProgramInputString*)
  * @see setProgramInputChar(IGEProgramInputChar*)
@@ -2700,7 +2700,7 @@ void GAUSS::setHookProgramInputCheck(int (*get_string_function)(void)) {
 
 GAUSS::~GAUSS() {
     if (this->manager_)
-	delete this->manager_;
+        delete this->manager_;
 
     if (GAUSS::outputFunc_) {
         // Prevent double-delete for user doing setProgramOutputAll

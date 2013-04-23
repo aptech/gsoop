@@ -107,15 +107,15 @@ struct GESymType
       */
     enum SYMTYPE {
         SCALAR = 16,        /**< Scalar (i.e. 1, 1.5); */
-        SPARSE = 38,	    /**< Sparse Matrix */
-        MATRIX = 6,	    /**< Matrix */
-        STRING = 13,	    /**< String */
-        STRUCT = 19,	    /**< Structure */
-        PSTRUCT = 23,	    /**< PStruct */
+        SPARSE = 38,            /**< Sparse Matrix */
+        MATRIX = 6,            /**< Matrix */
+        STRING = 13,            /**< String */
+        STRUCT = 19,            /**< Structure */
+        PSTRUCT = 23,            /**< PStruct */
         STRING_ARRAY = 15,  /**< String Array */
         ARRAY_GAUSS = 17,   /**< N-Dimensional Array */
-        PROC = 8,	    /**< Proc */
-        OTHER = 99	    /**< Other */
+        PROC = 8,            /**< Proc */
+        OTHER = 99            /**< Other */
     };
 };
 

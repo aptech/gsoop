@@ -30,7 +30,7 @@ s = GEString("Hello World!")
 $s = new GEString("Hello World!");
  * ~~~
  *
- * @param data	User-defined string
+ * @param data        User-defined string
  */
 GEString::GEString(string data) {
     setData(data);
@@ -89,7 +89,7 @@ void GEString::setData(string data) {
 
 bool GEString::setString(String_t *str) {
     if (!str)
-	return false;
+        return false;
 
     this->data_ = string(str->stdata);
 

@@ -266,20 +266,20 @@ void GEMatrix::Init(vector<double> real_data, vector<double> imag_data, int rows
     for (int i = 0; i < elements; ++i) {
         this->data_[i] = static_cast<double>(real_data.at(i));
 
-	if (complex)
-	    this->data_imag_[i] = static_cast<double>(imag_data.at(i));
+        if (complex)
+            this->data_imag_[i] = static_cast<double>(imag_data.at(i));
     }
 }
 
 void GEMatrix::clear() {
-    if (this->data_) {	
+    if (this->data_) {        
         // wipe imag data if it's not part - should NOT happen
         if (isComplex() && data_imag_ && (data_imag_ != (data_ + size()))) {
-	    // imag data is not linearly part of real data
-	    delete[] data_imag_;
-	}
+            // imag data is not linearly part of real data
+            delete[] data_imag_;
+        }
 
-	delete[] data_;
+        delete[] data_;
     }
 
     data_ = 0;
@@ -290,14 +290,14 @@ void GEMatrix::clear() {
  * Set the first value in matrix. This method can be used to set both
  * real and imaginary values, determined by the _imag_ flag.
  *
- * @param val	Value to set
- * @param imag	True if setting imaginary data, false if setting real data.
+ * @param val        Value to set
+ * @param imag        True if setting imaginary data, false if setting real data.
  *
  * @see setElement(double, int, int, bool)
  */
 bool GEMatrix::setElement(double value, bool imag) {
     if (data_ == NULL || (!isComplex() && imag))
-	return false;
+        return false;
 
     double *data_ptr = imag ? data_imag_ : data_;
 
@@ -312,14 +312,14 @@ bool GEMatrix::setElement(double value, bool imag) {
  * are interested in seeing real data you can use the convenience method
  * getElement(int, int) that is also available.
  *
- * @param imag	True for imaginary data, false for real
- * @return	Double precision number at row/column coordinates.
+ * @param imag        True for imaginary data, false for real
+ * @return        Double precision number at row/column coordinates.
  *
  * @see getElement(int, int, bool)
  */
 double GEMatrix::getElement(bool imag) {
     if (!data_)
-	return false;
+        return false;
 
     return this->data_[0 + (imag ? this->size() : 0)];
 }
@@ -330,19 +330,19 @@ double GEMatrix::getElement(bool imag) {
  * are interested in seeing real data you can use the convenience method
  * getElement(int, int) that is also available.
  *
- * @param row	Row index
- * @param col	Column index
- * @param imag	True for imaginary data, false for real
- * @return	Double precision number at row/column coordinates.
+ * @param row        Row index
+ * @param col        Column index
+ * @param imag        True for imaginary data, false for real
+ * @return        Double precision number at row/column coordinates.
  *
  * @see getElement(bool)
  */
 double GEMatrix::getElement(int row, int col, bool imag) {
     if (!data_ || (!isComplex() && imag))
-	return 0;
+        return 0;
 
     if (row >= this->getRows() || col >= this->getCols())
-	return 0;
+        return 0;
 
     double *data_ptr = imag ? data_imag_ : data_;
 
@@ -354,19 +354,19 @@ double GEMatrix::getElement(int row, int col, bool imag) {
  * method can be used to set both real and imaginary values, determined
  * by the _imag_ flag.
  *
- * @param row	Row index
- * @param col	Column index
- * @param val	Value to set
- * @param imag	True if setting imaginary data, false if setting real data.
+ * @param row        Row index
+ * @param col        Column index
+ * @param val        Value to set
+ * @param imag        True if setting imaginary data, false if setting real data.
  *
  * @see setElement(double, bool)
  */
 bool GEMatrix::setElement(double value, int row, int col, bool imag) {
     if (data_ == NULL || (!isComplex() && imag))
-	return false;
+        return false;
 
     if (row >= this->getRows() || col >= this->getCols())
-	return false;
+        return false;
 
     double *data_ptr = imag ? data_imag_ : data_;
 
@@ -412,7 +412,7 @@ echo implode(", ", $x->getData());
  *
  * @param imag  Whether to return imaginary data as well.
  *
- * @return	Double precision vector of data
+ * @return        Double precision vector of data
  *
  * @see getImagData()
  */
@@ -459,7 +459,7 @@ echo implode(", ", $x->getImagData());
 5, 6, 7, 8
  * ~~~
  *
- * @return	Double precision vector of data
+ * @return        Double precision vector of data
  *
  * @see getData()
  */
@@ -485,18 +485,18 @@ string GEMatrix::toString() {
     bool complex = isComplex();
 
     for (int i = 0; i < rows; ++i) {
-	for (int j = 0; j < cols; ++j) {
-	    s << getElement(i, j);
+        for (int j = 0; j < cols; ++j) {
+            s << getElement(i, j);
 
-	    if (complex)
-		s << " + " << getElement(i, j, true);
+            if (complex)
+                s << " + " << getElement(i, j, true);
 
-	    if (j < cols - 1)
-		s << "\t";
-	}
+            if (j < cols - 1)
+                s << "\t";
+        }
 
-	if (i < rows - 1)
-	    s << endl;
+        if (i < rows - 1)
+            s << endl;
     }
 
     return s.str();
