@@ -1,7 +1,7 @@
 gSoop 0.1
 =====
 
-A set of target language bindings that allows developers to interface with the GAUSS Engine.
+A light-weight OOP wrapper for various target languages that allows developers to interface with the GAUSS Engine.
 
 We use the [SWIG](http://www.swig.org) library to generate language-specific extensions from C++ for us.
 
@@ -94,7 +94,7 @@ Just like the traditional `make && make install`, compiling a Python extension r
 
 ~~~
 python setup.py build_ext -i
-python setup.py install`
+python setup.py install
 ~~~
 
 #### Linux or Cygwin ####
@@ -432,7 +432,7 @@ if not ge.initialize():
 #### PHP ####
 ~~~{.php}
 if (!$ge->initialize()) {
-    echo "Initialization failed."
+    echo "Initialization failed.";
     return;
 }
 ~~~
