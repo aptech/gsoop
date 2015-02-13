@@ -10,10 +10,10 @@ For building Python extension _gauss.so
 import os, sys
 from setuptools import setup, Extension
 
-lib_dir = os.environ.get('MTENGHOME13')
+lib_dir = os.environ.get('MTENGHOME15')
 
 if lib_dir is None:
-    print "Please set your MTENGHOME13 environment variable. Aborting."
+    print "Please set your MTENGHOME15 environment variable. Aborting."
     sys.exit(1)
 
 os.environ["CC"] = "g++"

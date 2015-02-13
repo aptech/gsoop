@@ -10,6 +10,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <map>
+#include <utility>
 #include "mteng.h"
 #include "gesymtype.h"
 using namespace std;
@@ -26,6 +28,8 @@ class IGEProgramInputString;
 class IGEProgramInputChar;
 class IGEProgramInputCheck;
 
+#define UNUSED_VAR(x) (void*)x;
+
 /**
  * Main class that must be instantiated to interface with the GAUSS Engine.
  * While not enforced, only __one__ instance of this class should be present. If threading is an issue,
@@ -33,14 +37,14 @@ class IGEProgramInputCheck;
  *
  * #### Python ####
  * ~~~{.py}
-ge = GAUSS() # Use MTENGHOME13 environment variable value as GAUSS home location
+ge = GAUSS() # Use MTENGHOME14 environment variable value as GAUSS home location
 ge = GAUSS("MYHOMEVAR") # Use specified environment variable for GAUSS home location
 ge = GAUSS("/home/user/mteng", False) # Use specified paths for GAUSS home location
  * ~~~
  *
  * #### PHP ####
  * ~~~{.php}
-$ge = new GAUSS(); // Use MTENGHOME13 environment variable value as GAUSS home location
+$ge = new GAUSS(); // Use MTENGHOME14 environment variable value as GAUSS home location
 $ge = new GAUSS("MYHOMEVAR"); // Use specified environment variable for GAUSS home location
 $ge = new GAUSS("/home/user/mteng", false); // Use specified paths for GAUSS home location
  * ~~~
@@ -142,6 +146,11 @@ public:
     static int internalHookInputBlockingChar();
     static int internalHookInputCheck();
 
+	string getOutput();
+    void clearOutput();
+	string getErrorOutput();
+    void clearErrorOutput();
+
     void setProgramOutputAll(IGEProgramOutput *func);
     void setProgramOutput(IGEProgramOutput *func);
     void setProgramErrorOutput(IGEProgramOutput *func);
@@ -184,6 +193,10 @@ private:
     Array_t* createPermArray(GEArray*);
 
     static string kHomeVar;
+    static pthread_mutex_t kOutputMutex;
+    static std::map<int, string> kOutputStore;
+    static pthread_mutex_t kErrorMutex;
+    static std::map<int, string> kErrorStore;
 };
 
 

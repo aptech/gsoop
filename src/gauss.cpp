@@ -9,6 +9,17 @@
 #include "geworkspace.h"
 #include "workspacemanager.h"
 #include "gefuncwrapper.h"
+#include "pthread.h"
+#ifdef _WIN32
+#include "WinBase.h"
+#else
+#define _GNU_SOURCE
+#include <unistd.h>
+#include <sys/syscall.h>
+#include <sys/types.h>
+#endif
+
+#include <stdio.h>
 using namespace std;
 
 #ifdef _WIN32
@@ -24,6 +35,11 @@ using namespace std;
  */
 double GAUSS::kMissingValue;
 
+map<int, string> GAUSS::kOutputStore;
+pthread_mutex_t GAUSS::kOutputMutex;
+map<int, string> GAUSS::kErrorStore;
+pthread_mutex_t GAUSS::kErrorMutex;
+
 IGEProgramOutput* GAUSS::outputFunc_ = 0;
 IGEProgramOutput* GAUSS::errorFunc_ = 0;
 IGEProgramFlushOutput* GAUSS::flushFunc_ = 0;
@@ -32,10 +48,25 @@ IGEProgramInputChar* GAUSS::inputCharFunc_ = 0;
 IGEProgramInputChar* GAUSS::inputBlockingCharFunc_ = 0;
 IGEProgramInputCheck* GAUSS::inputCheckFunc_ = 0;
 
-string GAUSS::kHomeVar = "MTENGHOME13";
+string GAUSS::kHomeVar = "MTENGHOME15";
+
+int getThreadId() {
+    int tid = -1;
+
+#ifdef _WIN32
+    tid = (int)GetCurrentThreadId();
+#else
+    tid = (int)syscall(SYS_gettid);
+#endif
+
+//    printf("thread id is %d\n", tid);
+//    fflush(stdout);
+
+    return tid;
+}
 
 /**
- * Initialize the library using the environment variable value of `MTENGHOME13` as the
+ * Initialize the library using the environment variable value of `MTENGHOME14` as the
  * path for the GAUSS Home path.
  *
  * @see GAUSS(string, bool)
@@ -118,6 +149,8 @@ void GAUSS::Init(string homePath) {
 
     if (homePath.empty()) {
         cerr << "Unable to find GAUSS Home directory. Aborting." << endl;
+		cerr.flush();
+		return;
     }
 }
 
@@ -139,6 +172,7 @@ bool GAUSS::initialize() {
         string errorString = getLastErrorText();
 
         cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << endl;
+		cerr.flush();
         return false;
     }
 
@@ -146,6 +180,7 @@ bool GAUSS::initialize() {
         string errorString = getLastErrorText();
 
         cerr << "Could initialize GAUSS (Error: " << errorString << ")" << endl;
+		cerr.flush();
         return false;
     }
 
@@ -155,6 +190,7 @@ bool GAUSS::initialize() {
         string errorString = getLastErrorText();
 
         cerr << "Could not create workspace (Error: " << errorString << ")" << endl;
+		cerr.flush();
         return false;
     }
     
@@ -818,8 +854,13 @@ bool GAUSS::executeProgram(ProgramHandle_t *ph) {
     if (!ph)
         return false;
 
-    if (GAUSS_Execute(ph) > 0)
+    // Setup output hook
+    setHookProgramOutput(GAUSS::internalHookOutput);
+    setHookProgramErrorOutput(GAUSS::internalHookError);
+
+	if (GAUSS_Execute(ph) > 0) {
         return false;
+	}
 
     return true;
 }
@@ -833,7 +874,7 @@ bool GAUSS::executeProgram(ProgramHandle_t *ph) {
  * get the number of the error. _loadWorkspace_ may fail with either of
  * the following errors:
  *
- * Error  | Reason
+ * Error | Reason
  * -----:|------------
  * 30    | Insufficient memory.
  * 495   | Workspace inactive or corrupt.
@@ -2032,20 +2073,74 @@ Array_t* GAUSS::createPermArray(GEArray *array) {
     return newArray;
 }
 
+void GAUSS::clearOutput() {
+    pthread_mutex_lock(&GAUSS::kOutputMutex);
+    int tid = getThreadId();
+    GAUSS::kOutputStore[tid] = string();
+    pthread_mutex_unlock(&GAUSS::kOutputMutex);
+}
+
+void GAUSS::clearErrorOutput() {
+    pthread_mutex_lock(&GAUSS::kErrorMutex);
+    int tid = getThreadId();
+    GAUSS::kErrorStore[tid] = string();
+    pthread_mutex_unlock(&GAUSS::kErrorMutex);
+}
+
+string GAUSS::getOutput() {
+    pthread_mutex_lock(&GAUSS::kOutputMutex);
+
+    int tid = getThreadId();
+
+    string ret = GAUSS::kOutputStore[tid];
+
+    GAUSS::kOutputStore[tid] = string();
+
+    pthread_mutex_unlock(&GAUSS::kOutputMutex);
+
+	return ret;
+}
+
+string GAUSS::getErrorOutput() {
+    pthread_mutex_lock(&GAUSS::kErrorMutex);
+
+    int tid = getThreadId();
+
+    string ret = GAUSS::kErrorStore[tid];
+
+    GAUSS::kErrorStore[tid] = string();
+
+    pthread_mutex_unlock(&GAUSS::kErrorMutex);
+
+    return ret;
+}
+
 void GAUSS::internalHookOutput(char *output) {
-    if (GAUSS::outputFunc_) {
-        GAUSS::outputFunc_->invoke(string(output));
-    } else {
-        cout << output;
-    }
+    pthread_mutex_lock(&GAUSS::kOutputMutex);
+
+    int tid = getThreadId();
+
+    string store = GAUSS::kOutputStore[getThreadId()];
+
+    store.append(output);
+
+    GAUSS::kOutputStore[tid] = store;
+
+    pthread_mutex_unlock(&GAUSS::kOutputMutex);
 }
 
 void GAUSS::internalHookError(char *output) {
-    if (GAUSS::errorFunc_) {
-        GAUSS::errorFunc_->invoke(string(output));
-    } else {
-        cerr << output;
-    }
+    pthread_mutex_lock(&GAUSS::kErrorMutex);
+
+    int tid = getThreadId();
+
+    string store = GAUSS::kErrorStore[getThreadId()];
+
+    store.append(output);
+
+    GAUSS::kErrorStore[tid] = store;
+
+    pthread_mutex_unlock(&GAUSS::kErrorMutex);
 }
 
 void GAUSS::internalHookFlush() {

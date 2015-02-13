@@ -9,8 +9,8 @@ ENDIF()
 
 SET(CMAKE_BUILD_TYPE Release CACHE STRING "Default to Release" FORCE)
 
-IF(NOT DEFINED ENV{MTENGHOME13})
-  message("MTENGHOME13 is not defined.  You must tell CMake where to find it. This will be your GAUSS Installation directory")
+IF(NOT DEFINED ENV{MTENGHOME15})
+  message("MTENGHOME15 is not defined.  You must tell CMake where to find it. This will be your GAUSS Installation directory")
   # exit early 
   return()
 ENDIF()
@@ -20,7 +20,7 @@ IF(NOT DEFINED ENV{PHP_INCLUDE})
   return()
 ENDIF()
 
-SET(MTENGHOME13 $ENV{MTENGHOME13})
+SET(MTENGHOME15 $ENV{MTENGHOME15})
 SET(PHP_INCLUDE $ENV{PHP_INCLUDE})
 
 IF (WIN32)
@@ -60,14 +60,14 @@ foreach (_phpHeader ${PHP_INCLUDE})
 endforeach()
 
 IF (WIN32)
-    list(APPEND gauss_INCLUDE_DIRS "${MTENGHOME13}/pthreads")
+    list(APPEND gauss_INCLUDE_DIRS "${MTENGHOME15}/pthreads")
 ENDIF()
 
 list(REMOVE_DUPLICATES gauss_INCLUDE_DIRS)
 
 include_directories(${gauss_INCLUDE_DIRS})
 
-find_library(MTENG_LIB mteng ${MTENGHOME13})
+find_library(MTENG_LIB mteng ${MTENGHOME15})
 
 add_library (gauss SHARED ${gauss_SOURCES})
 
