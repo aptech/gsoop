@@ -11,7 +11,7 @@
 #include "gefuncwrapper.h"
 #include "pthread.h"
 #ifdef _WIN32
-#include "WinBase.h"
+#include "windows.h"
 #else
 #define _GNU_SOURCE
 #include <unistd.h>
