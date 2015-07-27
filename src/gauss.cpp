@@ -502,7 +502,7 @@ success = ge.executeFile("ols.e")
  *
  * #### PHP ####
  * ~~~{.php}
-$success = $ge->executeString("ols.e");
+$success = $ge->executeFile("ols.e");
  * ~~~
  *
  * @param filename        Filename to execute.
@@ -530,7 +530,7 @@ success = ge.executeFile("ols.e", myWorkspace)
  *
  * #### PHP ####
  * ~~~{.php}
-$success = $ge->executeString("ols.e", $myWorkspace);
+$success = $ge->executeFile("ols.e", $myWorkspace);
  * ~~~
  *
  * @param filename        Filename to execute.
