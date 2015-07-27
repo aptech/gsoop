@@ -48,7 +48,7 @@ IGEProgramInputChar* GAUSS::inputCharFunc_ = 0;
 IGEProgramInputChar* GAUSS::inputBlockingCharFunc_ = 0;
 IGEProgramInputCheck* GAUSS::inputCheckFunc_ = 0;
 
-string GAUSS::kHomeVar = "MTENGHOME15";
+string GAUSS::kHomeVar = "MTENGHOME";
 
 int getThreadId() {
     int tid = -1;
@@ -66,7 +66,7 @@ int getThreadId() {
 }
 
 /**
- * Initialize the library using the environment variable value of `MTENGHOME14` as the
+ * Initialize the library using the environment variable value of `MTENGHOME` as the
  * path for the GAUSS Home path.
  *
  * @see GAUSS(string, bool)
@@ -1083,7 +1083,7 @@ bool GAUSS::setHome(string path) {
 }
 
 /**
- * The default value is `MTENGHOME##`. Use the Java library function to get the value of the environment variable.
+ * The default value is `MTENGHOME`.
  *
  * It is better to use setHome(string) which sets the home directory, overriding
  * the environment variable.

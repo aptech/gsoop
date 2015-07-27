@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="gauss_logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">GAUSS Engine
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Language bindings for the GAUSS Engine</div>
   </td>
@@ -100,9 +100,9 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">GAUSS Engine Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>A set of target language bindings that allows developers to interface with the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine.</p>
+<div class="textblock"><p>A light-weight OOP wrapper for various target languages that allows developers to interface with the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine.</p>
 <p>We use the <a href="http://www.swig.org">SWIG</a> library to generate language-specific extensions from C++ for us.</p>
-<p>Currently, two languages are supported with more planned:</p>
+<p>Two languages are supported with more planned:</p>
 <ul>
 <li>Python</li>
 <li>PHP</li>
@@ -116,13 +116,12 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li>Set up callbacks for integration with <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>'s input/output routines</li>
 </ul>
 <h2>Configuration</h2>
-<p>There are a few things necessary to take care of before starting development.</p>
-<p>The API will look for the <code>MTENGHOME13</code> environment variable. This will be the location the engine was extracted to (i.e. <code>C:\mteng13</code> on Windows, <code>/home/user/mteng13</code> on Linux)</p>
+<p>The API will look for the <code>MTENGHOME</code> environment variable. This will be the location the engine was extracted to (i.e. <code>C:\mteng15</code> on Windows, <code>/home/user/mteng13</code> on Linux)</p>
 <table class="doxtable">
 <tr>
 <th align="left">Variable </th><th align="left">Value</th></tr>
 <tr>
-<td align="left"><code>MTENGHOME13</code> </td><td align="left"><code>/home/user/mteng13</code> </td></tr>
+<td align="left"><code>MTENGHOME</code> </td><td align="left"><code>/home/user/mteng15</code> </td></tr>
 </table>
 <p>The following environment variables must <b>contain</b> the specified values</p>
 <h3>Windows</h3>
@@ -130,7 +129,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <tr>
 <th align="left">Variable </th><th align="left">Value</th></tr>
 <tr>
-<td align="left"><code>PATH</code> </td><td align="left">Append <code>C:\mteng13</code> </td></tr>
+<td align="left"><code>PATH</code> </td><td align="left">Append <code>C:\mteng15</code> </td></tr>
 </table>
 <p>The presence of this value allows the engine DLL to be found and loaded properly.</p>
 <p>Ensure you do not <b>replace</b> <code>PATH</code> with the directory.</p>
@@ -139,15 +138,15 @@ $(document).ready(function(){initNavTree('index.html','');});
 <tr>
 <th align="left">Variable </th><th align="left">Value</th></tr>
 <tr>
-<td align="left"><code>LD_LIBRARY_PATH</code> </td><td align="left">Append <code>/home/user/mteng13</code> </td></tr>
+<td align="left"><code>LD_LIBRARY_PATH</code> </td><td align="left">Append <code>/home/user/mteng15</code> </td></tr>
 <tr>
-<td align="left"><code>LD_PRELOAD</code> </td><td align="left">Append <code>/lib/x86_64-linux-gnu/libpthread.so.0:/home/user/mteng13/bin/libiomp5.so</code> </td></tr>
+<td align="left"><code>LD_PRELOAD</code> </td><td align="left">Append <code>/lib/x86_64-linux-gnu/libpthread.so.0:/home/user/mteng15/bin/libiomp5.so</code> </td></tr>
 </table>
 <p>Note: Please adjust the paths accordingly to your specific installation. In this case, the <code>libpthread.so.0</code> reference is for Ubuntu 64-bit.</p>
 <h3>SWIG</h3>
 <p>If you are building from source, you will need to have the SWIG library available:</p>
 <p><a href="http://www.swig.org/download.html">http://www.swig.org/download.html</a></p>
-<p>Once installed, please ensure <code>swig</code> is available in your terminal by placing it's installation directory in your <code>PATH</code> environment variable, as building requires it.</p>
+<p>Once installed, please ensure <code>swig</code> is available in your terminal by placing its installation directory in your <code>PATH</code> environment variable, as building requires it.</p>
 <p><b>EXCEPTION</b>: If you are not <em>modifying</em> any source files, the auto generated files have been included in the respective <code>python</code> and <code>php</code> sub-directories.</p>
 <p>You can place these in <code>src</code> and skip the steps involving SWIG.</p>
 <h2>Installation</h2>
@@ -159,47 +158,41 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>Select the correct <code>egg</code> file according to your architecture.</p>
 <p>Please ensure your Python installation contains the <code>setuptools</code> package, which provides the <code>easy_install</code> application.</p>
 <p>Instructions and files can be found at: <a href="https://pypi.python.org/pypi/setuptools#windows">https://pypi.python.org/pypi/setuptools#windows</a> </p>
-<pre class="fragment">$ easy_install gauss-0.1-py2.7-win-amd64.egg
+<pre class="fragment">$ easy_install gauss-0.2-py2.7-win-amd64.egg
 </pre><h4>Linux</h4>
-<pre class="fragment">$ easy_install gauss-0.1-py2.7-linux-x86_64.egg
+<pre class="fragment">$ easy_install gauss-0.2-py2.7-linux-x86_64.egg
 </pre><h3>Source</h3>
 <p>If using Windows, please ensure the following are correctly in your <code>PATH</code> environment variable </p>
 <pre class="fragment">C:\Python27\;C:\Python27\Scripts\
 </pre><p>Note: Tested with Python 2.7.4</p>
-<p>Compilation of a Python extension requires 2 steps:</p>
-<table class="doxtable">
-<tr>
-<th align="left">What You're Used To </th><th align="left">How Python does it</th></tr>
-<tr>
-<td align="left"><code>make</code> </td><td align="left"><code>python setup.py build_ext -i</code> </td></tr>
-<tr>
-<td align="left"><code>make install</code> </td><td align="left"><code>python setup.py install</code> </td></tr>
-</table>
-<h4>Linux or Cygwin</h4>
-<div class="fragment"><div class="line"><span class="preprocessor"># The setup.py utilizes the &#39;MTENGHOME13&#39; environment variable.</span></div>
+<p>Just like the traditional <code>make &amp;&amp; make install</code>, compiling a Python extension requires 2 steps:</p>
+<div class="fragment"><div class="line">python setup.py build_ext -i</div>
+<div class="line">python setup.py install</div>
+</div><!-- fragment --><h4>Linux or Cygwin</h4>
+<div class="fragment"><div class="line"><span class="preprocessor"># The setup.py utilizes the &#39;MTENGHOME&#39; environment variable.</span></div>
 <div class="line"><span class="preprocessor"></span><span class="preprocessor"># Please ensure this is set appropriately to your GAUSS Engine installation directory.</span></div>
-<div class="line"><span class="preprocessor"></span>tar -xvf gauss-0.1.tar.gz</div>
-<div class="line">cd gauss-0.1</div>
+<div class="line"><span class="preprocessor"></span>tar -xvf gauss-0.2.tar.gz</div>
+<div class="line">cd gauss-0.2</div>
 <div class="line">python setup.py build_ext -i      # First build the extension and create the gauss.py file</div>
 <div class="line">python setup.py install           # Everything compiled, now install</div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor"># ROOT ONLY</span></div>
 <div class="line"><span class="preprocessor"></span><span class="preprocessor"># If installation must be done as root, force set the environment variable</span></div>
-<div class="line"><span class="preprocessor"></span>tar -xvf gauss-0.1.tar.gz</div>
-<div class="line">cd gauss-0.1</div>
-<div class="line">sudo MTENGHOME13=/home/user/mteng python setup.py build_ext -i      # First build the extension and create the gauss.py file</div>
-<div class="line">sudo MTENGHOME13=/home/user/mteng python setup.py install           # Everything compiled, now install</div>
+<div class="line"><span class="preprocessor"></span>tar -xvf gauss-0.2.tar.gz</div>
+<div class="line">cd gauss-0.2</div>
+<div class="line">sudo MTENGHOME=/home/user/mteng python setup.py build_ext -i # First build the extension and create the gauss.py file</div>
+<div class="line">sudo MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install</div>
 </div><!-- fragment --><h4>Windows</h4>
 <p>Due to <code>mteng.dll</code> being compiled with VS 2008, it is necessary at this time to use MSVC to compile the Python extension.</p>
 <p>All commands are run through the appropriate Visual Studio command prompt.</p>
 <p>32-bit: <code>Start -&gt; Microsoft Visual Studio 2008 -&gt; Visual Studio Tools -&gt; Visual Studio 2008 Command Prompt</code></p>
 <p>64-bit: <code>Start -&gt; Microsoft Visual Studio 2008 -&gt; Visual Studio Tools -&gt; Visual Studio 2008 x64 Win64 Command Prompt</code></p>
-<p>If your user does have appropriate permissions to access the Python installation directory, you may have to run <code>cmd</code> as Administrator</p>
+<p>If your user lacks permissions to access the Python installation directory, you may have to run <code>cmd</code> as Administrator</p>
 <p>Execute the following via a <code>cmd</code> terminal:</p>
-<div class="fragment"><div class="line"><span class="preprocessor"># The setup.py utilizes the &#39;MTENGHOME13&#39; environment variable.</span></div>
+<div class="fragment"><div class="line"><span class="preprocessor"># The setup.py utilizes the &#39;MTENGHOME&#39; environment variable.</span></div>
 <div class="line"><span class="preprocessor"></span><span class="preprocessor"># Please ensure this is set appropriately to your GAUSS Engine installation directory.</span></div>
 <div class="line"><span class="preprocessor"></span><span class="preprocessor"># unzip gauss-01.zip to a directory of your choice</span></div>
-<div class="line"><span class="preprocessor"></span>cd gauss-0.1</div>
+<div class="line"><span class="preprocessor"></span>cd gauss-0.2</div>
 <div class="line">python setup.py build_ext -i      # First build the extension and create the gauss.py file</div>
 <div class="line">python setup.py install           # Everything compiled, now install</div>
 </div><!-- fragment --><p>If you omit the <code>build_ext -i</code> step, the <code>gauss.py</code> generated file will <b>NOT</b> be placed in Python package directory.</p>
@@ -220,15 +213,15 @@ ImportError: No module named gauss
 $ export PHP_INCLUDE=`php-config --includes`
 
 # Windows you have to create it yourself. Newlines have been removed to clearly show the paths
-# The actual command should have them all appended to each one another separated by a semi-colon
+# The actual command should have them all appended to each other separated by a semi-colon
 set PHP_INCLUDE=C:\development\php5.4ts\dev;
                 C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src;
                 C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\main;
                 C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\Zend;
                 C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\TSRM;
                 C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\ext
-</pre><p class="startli"><b>Note</b> the Windows line also has the <code>php5.4ts\dev</code> as part of the include path.</p>
-<p class="startli">This is so <code>php5ts.lib</code> can be located properly at link-time.</p>
+</pre><p class="startli"><b>Note</b> on Windows, the environment variable contains <code>php5.4ts\dev</code> as part of the include path.</p>
+<p class="startli">This ensures <code>php5ts.lib</code> will be located properly at link-time.</p>
 </li>
 <li><p class="startli">Execute SWIG manually (If you are using pre-generated files from the appropriate language's directory, you can skip this step)</p>
 <p class="startli">Unlike our Python installation script, CMake does not automatically execute SWIG on the source files.</p>
@@ -337,11 +330,11 @@ extension=php_gauss.dll
 <h3>Step 2: Instantiate the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine object</h3>
 <p>After importing the correct library, we need to instantiate our engine object. There are multiple constructors available that suit a variety of scenarios.</p>
 <p>In this example, we will be using the default constructor. This method relies on an existing environment variable in an effort to locate the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> home directory.</p>
-<p>By default, this environment variable is <code>MTENGHOME13</code>.</p>
+<p>By default, this environment variable is <code>MTENGHOME</code>.</p>
 <h4>Python</h4>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;ge = <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>()  <span class="comment"># Look up value for MTENGHOME13</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;ge = <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>()  <span class="comment"># Look up value for MTENGHOME</span></div>
 </div><!-- fragment --> <h4>PHP</h4>
-<div class="fragment"><div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>();  <span class="comment">// Look up value for MTENGHOME13</span></div>
+<div class="fragment"><div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>();  <span class="comment">// Look up value for MTENGHOME</span></div>
 </div><!-- fragment --><p><b>Hint:</b> Check out the <code>GAUSS(string)</code> constructor, as it allows you to pass in a custom environment variable to use.</p>
 <h3>Step 3: Set up callbacks</h3>
 <p>Technically, this step <em>can</em> be skipped, but creating appropriate callbacks allows you control over specific aspects of program functionality.</p>
@@ -397,7 +390,7 @@ extension=php_gauss.dll
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    sys.exit(1)</div>
 </div><!-- fragment --> <h4>PHP</h4>
 <div class="fragment"><div class="line"><span class="keywordflow">if</span> (!$ge-&gt;initialize()) {</div>
-<div class="line">    echo <span class="stringliteral">&quot;Initialization failed.&quot;</span></div>
+<div class="line">    echo <span class="stringliteral">&quot;Initialization failed.&quot;</span>;</div>
 <div class="line">    <span class="keywordflow">return</span>;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>The <code>initialize</code> method returns a true/false value depending on whether it was successful or not.</p>
@@ -433,7 +426,7 @@ extension=php_gauss.dll
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Apr 12 2013 17:34:44 for GAUSS Engine by
+    <li class="footer">Generated on Mon Jul 27 2015 16:16:49 for GAUSS Engine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1-20130324 </li>
   </ul>

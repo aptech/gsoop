@@ -1,8 +1,8 @@
-A set of target language bindings that allows developers to interface with the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.
+A light-\/weight O\-O\-P wrapper for various target languages that allows developers to interface with the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.
 
 We use the \href{http://www.swig.org}{\tt S\-W\-I\-G} library to generate language-\/specific extensions from C++ for us.
 
-Currently, two languages are supported with more planned\-:
+Two languages are supported with more planned\-:
 
 
 \begin{DoxyItemize}
@@ -22,14 +22,12 @@ You can\-:
 
 \subsection*{Configuration}
 
-There are a few things necessary to take care of before starting development.
-
-The A\-P\-I will look for the {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13} environment variable. This will be the location the engine was extracted to (i.\-e. {\ttfamily C\-:\textbackslash{}mteng13} on Windows, {\ttfamily /home/user/mteng13} on Linux)
+The A\-P\-I will look for the {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E} environment variable. This will be the location the engine was extracted to (i.\-e. {\ttfamily C\-:\textbackslash{}mteng15} on Windows, {\ttfamily /home/user/mteng13} on Linux)
 
 \begin{TabularC}{2}
 \hline
 \rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
-{\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13} &{\ttfamily /home/user/mteng13} \\\cline{1-2}
+{\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E} &{\ttfamily /home/user/mteng15} \\\cline{1-2}
 \end{TabularC}
 
 
@@ -40,7 +38,7 @@ The following environment variables must {\bfseries contain} the specified value
 \begin{TabularC}{2}
 \hline
 \rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
-{\ttfamily P\-A\-T\-H} &Append {\ttfamily C\-:\textbackslash{}mteng13} \\\cline{1-2}
+{\ttfamily P\-A\-T\-H} &Append {\ttfamily C\-:\textbackslash{}mteng15} \\\cline{1-2}
 \end{TabularC}
 
 
@@ -53,8 +51,8 @@ Ensure you do not {\bfseries replace} {\ttfamily P\-A\-T\-H} with the directory.
 \begin{TabularC}{2}
 \hline
 \rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
-{\ttfamily L\-D\-\_\-\-L\-I\-B\-R\-A\-R\-Y\-\_\-\-P\-A\-T\-H} &Append {\ttfamily /home/user/mteng13} \\\cline{1-2}
-{\ttfamily L\-D\-\_\-\-P\-R\-E\-L\-O\-A\-D} &Append {\ttfamily /lib/x86\-\_\-64-\/linux-\/gnu/libpthread.so.\-0\-:/home/user/mteng13/bin/libiomp5.so} \\\cline{1-2}
+{\ttfamily L\-D\-\_\-\-L\-I\-B\-R\-A\-R\-Y\-\_\-\-P\-A\-T\-H} &Append {\ttfamily /home/user/mteng15} \\\cline{1-2}
+{\ttfamily L\-D\-\_\-\-P\-R\-E\-L\-O\-A\-D} &Append {\ttfamily /lib/x86\-\_\-64-\/linux-\/gnu/libpthread.so.\-0\-:/home/user/mteng15/bin/libiomp5.so} \\\cline{1-2}
 \end{TabularC}
 
 
@@ -66,7 +64,7 @@ If you are building from source, you will need to have the S\-W\-I\-G library av
 
 \href{http://www.swig.org/download.html}{\tt http\-://www.\-swig.\-org/download.\-html}
 
-Once installed, please ensure {\ttfamily swig} is available in your terminal by placing it's installation directory in your {\ttfamily P\-A\-T\-H} environment variable, as building requires it.
+Once installed, please ensure {\ttfamily swig} is available in your terminal by placing its installation directory in your {\ttfamily P\-A\-T\-H} environment variable, as building requires it.
 
 {\bfseries E\-X\-C\-E\-P\-T\-I\-O\-N}\-: If you are not {\itshape modifying} any source files, the auto generated files have been included in the respective {\ttfamily python} and {\ttfamily php} sub-\/directories.
 
@@ -88,13 +86,13 @@ Select the correct {\ttfamily egg} file according to your architecture.
 
 Please ensure your Python installation contains the {\ttfamily setuptools} package, which provides the {\ttfamily easy\-\_\-install} application.
 
-Instructions and files can be found at\-: \href{https://pypi.python.org/pypi/setuptools#windows}{\tt https\-://pypi.\-python.\-org/pypi/setuptools\#windows} \begin{DoxyVerb}$ easy_install gauss-0.1-py2.7-win-amd64.egg
+Instructions and files can be found at\-: \href{https://pypi.python.org/pypi/setuptools#windows}{\tt https\-://pypi.\-python.\-org/pypi/setuptools\#windows} \begin{DoxyVerb}$ easy_install gauss-0.2-py2.7-win-amd64.egg
 \end{DoxyVerb}
 
 
 \paragraph*{Linux}
 
-\begin{DoxyVerb}$ easy_install gauss-0.1-py2.7-linux-x86_64.egg
+\begin{DoxyVerb}$ easy_install gauss-0.2-py2.7-linux-x86_64.egg
 \end{DoxyVerb}
 
 
@@ -106,34 +104,33 @@ If using Windows, please ensure the following are correctly in your {\ttfamily P
 
 Note\-: Tested with Python 2.\-7.\-4
 
-Compilation of a Python extension requires 2 steps\-:
+Just like the traditional {\ttfamily make \&\& make install}, compiling a Python extension requires 2 steps\-:
 
-\begin{TabularC}{2}
-\hline
-\rowcolor{lightgray}{\bf What You're Used To }&{\bf How Python does it}\\\cline{1-2}
-{\ttfamily make} &{\ttfamily python setup.\-py build\-\_\-ext -\/i} \\\cline{1-2}
-{\ttfamily make install} &{\ttfamily python setup.\-py install} \\\cline{1-2}
-\end{TabularC}
+
+\begin{DoxyCode}
+python setup.py build\_ext -i
+python setup.py install
+\end{DoxyCode}
 
 
 \paragraph*{Linux or Cygwin}
 
 
 \begin{DoxyCode}
-\textcolor{preprocessor}{# The setup.py utilizes the 'MTENGHOME13' environment variable.}
+\textcolor{preprocessor}{# The setup.py utilizes the 'MTENGHOME' environment variable.}
 \textcolor{preprocessor}{}\textcolor{preprocessor}{# Please ensure this is set appropriately to your GAUSS Engine installation directory.}
-\textcolor{preprocessor}{}tar -xvf gauss-0.1.tar.gz
-cd gauss-0.1
+\textcolor{preprocessor}{}tar -xvf gauss-0.2.tar.gz
+cd gauss-0.2
 python setup.py build\_ext -i      # First build the extension and create the gauss.py file
 python setup.py install           # Everything compiled, now install
 
 \textcolor{preprocessor}{# ROOT ONLY}
 \textcolor{preprocessor}{}\textcolor{preprocessor}{# If installation must be done as root, force set the environment variable}
-\textcolor{preprocessor}{}tar -xvf gauss-0.1.tar.gz
-cd gauss-0.1
-sudo MTENGHOME13=/home/user/mteng python setup.py build\_ext -i      # First build the extension and create 
-      the gauss.py file
-sudo MTENGHOME13=/home/user/mteng python setup.py install           # Everything compiled, now install
+\textcolor{preprocessor}{}tar -xvf gauss-0.2.tar.gz
+cd gauss-0.2
+sudo MTENGHOME=/home/user/mteng python setup.py build\_ext -i # First build the extension and create the 
+      gauss.py file
+sudo MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install
 \end{DoxyCode}
 
 
@@ -147,16 +144,16 @@ All commands are run through the appropriate Visual Studio command prompt.
 
 64-\/bit\-: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2008 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2008 x64 Win64 Command Prompt}
 
-If your user does have appropriate permissions to access the Python installation directory, you may have to run {\ttfamily cmd} as Administrator
+If your user lacks permissions to access the Python installation directory, you may have to run {\ttfamily cmd} as Administrator
 
 Execute the following via a {\ttfamily cmd} terminal\-:
 
 
 \begin{DoxyCode}
-\textcolor{preprocessor}{# The setup.py utilizes the 'MTENGHOME13' environment variable.}
+\textcolor{preprocessor}{# The setup.py utilizes the 'MTENGHOME' environment variable.}
 \textcolor{preprocessor}{}\textcolor{preprocessor}{# Please ensure this is set appropriately to your GAUSS Engine installation directory.}
 \textcolor{preprocessor}{}\textcolor{preprocessor}{# unzip gauss-01.zip to a directory of your choice}
-\textcolor{preprocessor}{}cd gauss-0.1
+\textcolor{preprocessor}{}cd gauss-0.2
 python setup.py build\_ext -i      # First build the extension and create the gauss.py file
 python setup.py install           # Everything compiled, now install
 \end{DoxyCode}
@@ -189,7 +186,7 @@ For convenience, the Linux implementation does a string replace of '{\ttfamily -
 $ export PHP_INCLUDE=`php-config --includes`
 
 # Windows you have to create it yourself. Newlines have been removed to clearly show the paths
-# The actual command should have them all appended to each one another separated by a semi-colon
+# The actual command should have them all appended to each other separated by a semi-colon
 set PHP_INCLUDE=C:\development\php5.4ts\dev;
                 C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src;
                 C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\main;
@@ -199,9 +196,9 @@ set PHP_INCLUDE=C:\development\php5.4ts\dev;
 \end{DoxyVerb}
 
 
-{\bfseries Note} the Windows line also has the {\ttfamily php5.\-4ts\textbackslash{}dev} as part of the include path.
+{\bfseries Note} on Windows, the environment variable contains {\ttfamily php5.\-4ts\textbackslash{}dev} as part of the include path.
 
-This is so {\ttfamily php5ts.\-lib} can be located properly at link-\/time.
+This ensures {\ttfamily php5ts.\-lib} will be located properly at link-\/time.
 \item Execute S\-W\-I\-G manually (If you are using pre-\/generated files from the appropriate language's directory, you can skip this step)
 
 Unlike our Python installation script, C\-Make does not automatically execute S\-W\-I\-G on the source files.
@@ -383,19 +380,19 @@ After importing the correct library, we need to instantiate our engine object. T
 
 In this example, we will be using the default constructor. This method relies on an existing environment variable in an effort to locate the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} home directory.
 
-By default, this environment variable is {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13}.
+By default, this environment variable is {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E}.
 
 \paragraph*{Python}
 
 
 \begin{DoxyCode}
-1 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}()  \textcolor{comment}{# Look up value for MTENGHOME13}
+1 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}()  \textcolor{comment}{# Look up value for MTENGHOME}
 \end{DoxyCode}
  \paragraph*{P\-H\-P}
 
 
 \begin{DoxyCode}
-$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s}{GAUSS}();  \textcolor{comment}{// Look up value for MTENGHOME13}
+$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s}{GAUSS}();  \textcolor{comment}{// Look up value for MTENGHOME}
 \end{DoxyCode}
 
 
@@ -487,7 +484,7 @@ Now that you've made it to this step, if all has been configured correctly, init
 
 \begin{DoxyCode}
 \textcolor{keywordflow}{if} (!$ge->initialize()) \{
-    echo \textcolor{stringliteral}{"Initialization failed."}
+    echo \textcolor{stringliteral}{"Initialization failed."};
     \textcolor{keywordflow}{return};
 \}
 \end{DoxyCode}

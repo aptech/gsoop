@@ -14,7 +14,7 @@ Main class that must be instantiated to interface with the \hyperlink{class_g_a_
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{G\-A\-U\-S\-S} (void)
-\begin{DoxyCompactList}\small\item\em Initialize the library using the environment variable value of {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13} as the path for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home path. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Initialize the library using the environment variable value of {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E} as the path for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home path. \end{DoxyCompactList}\item 
 \hyperlink{class_g_a_u_s_s_afd3a4f159bc887697d0dc6f1781714ae}{G\-A\-U\-S\-S} (string, bool is\-Env\-Var=true)
 \begin{DoxyCompactList}\small\item\em Initialize the library using the specified environment variable that contains the path for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home directory. \end{DoxyCompactList}\item 
 bool \hyperlink{class_g_a_u_s_s_aad9f7a3a527b9c5961d1cc1b1aa9066c}{initialize} ()
@@ -24,7 +24,7 @@ void \hyperlink{class_g_a_u_s_s_a71721c595c12c94616ef414879c95460}{shutdown} ()
 bool \hyperlink{class_g_a_u_s_s_af1f5a5df0c904bd713c4edea74606e55}{set\-Home} (string)
 \begin{DoxyCompactList}\small\item\em Specifies the home directory used to locate the Run-\/\-Time Library, source files, library files, etc. \end{DoxyCompactList}\item 
 bool \hyperlink{class_g_a_u_s_s_a61b2ebc8c6ac5694e8cc33cb7726cbe3}{set\-Home\-Var} (string)
-\begin{DoxyCompactList}\small\item\em The default value is {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E\#\#}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em The default value is {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E}. \end{DoxyCompactList}\item 
 string \hyperlink{class_g_a_u_s_s_adfe744665cc891f5288d5523083d2a2c}{get\-Home} ()
 \begin{DoxyCompactList}\small\item\em Returns the current path known by the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine for the user home directory. \end{DoxyCompactList}\item 
 string \hyperlink{class_g_a_u_s_s_abb13d8fd5b2abd2844e48279621204e6}{get\-Home\-Var} ()
@@ -147,6 +147,18 @@ bool \hyperlink{class_g_a_u_s_s_aeeac3739521597a74a4eed3640ba1a04}{set\-Symbol} 
 \begin{DoxyCompactList}\small\item\em Add a string array to a specific workspace with the specified symbol name. \end{DoxyCompactList}\item 
 bool \hyperlink{class_g_a_u_s_s_a3e665b3b7d0733f27ca56427e6ec3d49}{is\-Missing\-Value} (double)
 \begin{DoxyCompactList}\small\item\em Check a double to see if it contains a \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} missing value. \end{DoxyCompactList}\item 
+\hypertarget{class_g_a_u_s_s_abf9f8666ef413684b5f70352f5a89b77}{string {\bfseries get\-Output} ()}\label{class_g_a_u_s_s_abf9f8666ef413684b5f70352f5a89b77}
+
+\item 
+\hypertarget{class_g_a_u_s_s_a559e0215a8d9f6d24b9258927bb24533}{void {\bfseries clear\-Output} ()}\label{class_g_a_u_s_s_a559e0215a8d9f6d24b9258927bb24533}
+
+\item 
+\hypertarget{class_g_a_u_s_s_a14a6a4b692f7324ed09f1bbd6247758f}{string {\bfseries get\-Error\-Output} ()}\label{class_g_a_u_s_s_a14a6a4b692f7324ed09f1bbd6247758f}
+
+\item 
+\hypertarget{class_g_a_u_s_s_a7de5e45505c311bb52cb2f1c8f827d58}{void {\bfseries clear\-Error\-Output} ()}\label{class_g_a_u_s_s_a7de5e45505c311bb52cb2f1c8f827d58}
+
+\item 
 void \hyperlink{class_g_a_u_s_s_a0b8379c48d677e05aeab433dba66fbb6}{set\-Program\-Output\-All} (\hyperlink{class_i_g_e_program_output}{I\-G\-E\-Program\-Output} $\ast$func)
 \begin{DoxyCompactList}\small\item\em Dually set the program output hook as well as the error output hook. \end{DoxyCompactList}\item 
 void \hyperlink{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{set\-Program\-Output} (\hyperlink{class_i_g_e_program_output}{I\-G\-E\-Program\-Output} $\ast$func)
@@ -225,7 +237,7 @@ While not enforced, only {\bfseries one} instance of this class should be presen
 
 
 \begin{DoxyCode}
-1 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}() \textcolor{comment}{# Use MTENGHOME13 environment variable value as GAUSS home location}
+1 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}() \textcolor{comment}{# Use MTENGHOME14 environment variable value as GAUSS home location}
 2 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}(\textcolor{stringliteral}{"MYHOMEVAR"}) \textcolor{comment}{# Use specified environment variable for GAUSS home location}
 3 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}(\textcolor{stringliteral}{"/home/user/mteng"}, \textcolor{keyword}{False}) \textcolor{comment}{# Use specified paths for GAUSS home location}
 \end{DoxyCode}
@@ -235,7 +247,7 @@ While not enforced, only {\bfseries one} instance of this class should be presen
 
 
 \begin{DoxyCode}
-$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{GAUSS}(); \textcolor{comment}{// Use MTENGHOME13 environment variable value as GAUSS home location}
+$ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{GAUSS}(); \textcolor{comment}{// Use MTENGHOME14 environment variable value as GAUSS home location}
 $ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{GAUSS}(\textcolor{stringliteral}{"MYHOMEVAR"}); \textcolor{comment}{// Use specified environment variable for GAUSS home location}
 $ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}{GAUSS}(\textcolor{stringliteral}{"/home/user/mteng"}, \textcolor{keyword}{false}); \textcolor{comment}{// Use specified paths for GAUSS home location}
 \end{DoxyCode}
@@ -251,7 +263,7 @@ $ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s_aba6a26957e7dbcd8f6357
 )}}\label{class_g_a_u_s_s_aba6a26957e7dbcd8f6357d1ca6ff4b90}
 
 
-Initialize the library using the environment variable value of {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E13} as the path for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home path. 
+Initialize the library using the environment variable value of {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E} as the path for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Home path. 
 
 \begin{DoxySeeAlso}{See Also}
 \hyperlink{class_g_a_u_s_s_afd3a4f159bc887697d0dc6f1781714ae}{G\-A\-U\-S\-S(string, bool)} 
@@ -2152,9 +2164,7 @@ True on success, false on failure
 )}}\label{class_g_a_u_s_s_a61b2ebc8c6ac5694e8cc33cb7726cbe3}
 
 
-The default value is {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E\#\#}. 
-
-Use the Java library function to get the value of the environment variable.
+The default value is {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E}. 
 
 It is better to use \hyperlink{class_g_a_u_s_s_af1f5a5df0c904bd713c4edea74606e55}{set\-Home(string)} which sets the home directory, overriding the environment variable.
 

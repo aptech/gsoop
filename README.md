@@ -1,4 +1,4 @@
-gSoop 0.1
+gSoop 0.2
 =====
 
 A light-weight OOP wrapper for various target languages that allows developers to interface with the GAUSS Engine.
@@ -21,19 +21,19 @@ You can:
 
 ## Configuration ##
 
-The API will look for the `MTENGHOME13` environment variable.
-This will be the location the engine was extracted to (i.e. `C:\mteng13` on Windows, `/home/user/mteng13` on Linux)
+The API will look for the `MTENGHOME` environment variable.
+This will be the location the engine was extracted to (i.e. `C:\mteng` on Windows, `/home/user/mteng13` on Linux)
 
 Variable          | Value
 :-----------------|:-----------
-`MTENGHOME13`     | `/home/user/mteng13`
+`MTENGHOME`     | `/home/user/mteng`
 
 The following environment variables must **contain** the specified values
 
 ### Windows ###
 Variable   | Value
 :----------|:-----------
-`PATH`     | Append `C:\mteng13`
+`PATH`     | Append `C:\mteng`
 
 The presence of this value allows the engine DLL to be found and loaded properly.
 
@@ -43,8 +43,8 @@ Ensure you do not __replace__ `PATH` with the directory.
 
 Variable          | Value
 :-----------------|:-----------
-`LD_LIBRARY_PATH` | Append `/home/user/mteng13`
-`LD_PRELOAD`      | Append `/lib/x86_64-linux-gnu/libpthread.so.0:/home/user/mteng13/bin/libiomp5.so`
+`LD_LIBRARY_PATH` | Append `/home/user/mteng`
+`LD_PRELOAD`      | Append `/lib/x86_64-linux-gnu/libpthread.so.0:/home/user/mteng/bin/libiomp5.so`
 
 Note: Please adjust the paths accordingly to your specific installation. In this case, the `libpthread.so.0` reference is for Ubuntu 64-bit.
 
@@ -75,11 +75,11 @@ Please ensure your Python installation contains the `setuptools` package, which 
 
 Instructions and files can be found at: https://pypi.python.org/pypi/setuptools#windows
 
-    $ easy_install gauss-0.1-py2.7-win-amd64.egg
+    $ easy_install gauss-0.2-py2.7-win-amd64.egg
 
 #### Linux ####
 
-    $ easy_install gauss-0.1-py2.7-linux-x86_64.egg
+    $ easy_install gauss-0.2-py2.7-linux-x86_64.egg
 
 ### Source ###
 
@@ -100,19 +100,19 @@ python setup.py install
 #### Linux or Cygwin ####
 
 ~~~{.bash}
-# The setup.py utilizes the 'MTENGHOME13' environment variable.
+# The setup.py utilizes the 'MTENGHOME' environment variable.
 # Please ensure this is set appropriately to your GAUSS Engine installation directory.
-tar -xvf gauss-0.1.tar.gz
-cd gauss-0.1
+tar -xvf gauss-0.2.tar.gz
+cd gauss-0.2
 python setup.py build_ext -i      # First build the extension and create the gauss.py file
 python setup.py install           # Everything compiled, now install
 
 # ROOT ONLY
 # If installation must be done as root, force set the environment variable
-tar -xvf gauss-0.1.tar.gz
-cd gauss-0.1
-sudo MTENGHOME13=/home/user/mteng python setup.py build_ext -i # First build the extension and create the gauss.py file
-sudo MTENGHOME13=/home/user/mteng python setup.py install      # Everything compiled, now install
+tar -xvf gauss-0.2.tar.gz
+cd gauss-0.2
+sudo MTENGHOME=/home/user/mteng python setup.py build_ext -i # First build the extension and create the gauss.py file
+sudo MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install
 ~~~
 
 #### Windows ####
@@ -131,10 +131,10 @@ installation directory, you may have to run `cmd` as Administrator
 Execute the following via a `cmd` terminal:
 
 ~~~{.bash}
-# The setup.py utilizes the 'MTENGHOME13' environment variable.
+# The setup.py utilizes the 'MTENGHOME' environment variable.
 # Please ensure this is set appropriately to your GAUSS Engine installation directory.
 # unzip gauss-01.zip to a directory of your choice
-cd gauss-0.1
+cd gauss-0.2
 python setup.py build_ext -i      # First build the extension and create the gauss.py file
 python setup.py install           # Everything compiled, now install
 ~~~
@@ -342,15 +342,15 @@ There are multiple constructors available that suit a variety of scenarios.
 In this example, we will be using the default constructor.
 This method relies on an existing environment variable in an effort to locate the GAUSS home directory.
 
-By default, this environment variable is `MTENGHOME13`.
+By default, this environment variable is `MTENGHOME`.
 
 #### Python ####
 ~~~{.py}
-ge = GAUSS()  # Look up value for MTENGHOME13
+ge = GAUSS()  # Look up value for MTENGHOME
 ~~~
 #### PHP ####
 ~~~{.php}
-$ge = new GAUSS();  // Look up value for MTENGHOME13
+$ge = new GAUSS();  // Look up value for MTENGHOME
 ~~~
 
 __Hint:__ Check out the `GAUSS(string)` constructor, as it allows you to pass in a custom environment variable to use.

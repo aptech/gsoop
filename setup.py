@@ -10,10 +10,10 @@ For building Python extension _gauss.so
 import os, sys
 from setuptools import setup, Extension
 
-lib_dir = os.environ.get('MTENGHOME15')
+lib_dir = os.environ.get('MTENGHOME')
 
-if lib_dir is None:
-    print "Please set your MTENGHOME15 environment variable. Aborting."
+if not lib_dir:
+    print "Please set your MTENGHOME environment variable. Aborting."
     sys.exit(1)
 
 os.environ["CC"] = "g++"
@@ -28,7 +28,7 @@ gauss_module = Extension('_gauss',
       )
 
 setup (name = 'gauss',
-       version = '0.1',
+       version = '0.2',
        author      = "Aptech Systems, Inc.",
        author_email = "matt@aptech.com",
        description = """Python bindings for GAUSS Engine""",

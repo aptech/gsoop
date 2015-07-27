@@ -1,7 +1,0 @@
-<map id="GAUSS" name="GAUSS">
-<area shape="rect" id="node2" href="$class_i_g_e_program_input_string.html" title="String Input callback function for the GAUSS Engine." alt="" coords="9,12,167,41"/>
-<area shape="rect" id="node4" href="$class_i_g_e_program_output.html" title="This is the callback function that GAUSS will call to do normal program output." alt="" coords="21,75,155,104"/>
-<area shape="rect" id="node6" href="$class_i_g_e_program_flush_output.html" title="Flush program output callback." alt="" coords="5,128,171,157"/>
-<area shape="rect" id="node8" href="$class_i_g_e_program_input_check.html" title="Input check callback function for the GAUSS Engine." alt="" coords="8,181,168,211"/>
-<area shape="rect" id="node10" href="$class_i_g_e_program_input_char.html" title="Character input callback function for the GAUSS Engine." alt="" coords="13,261,163,291"/>
-</map>

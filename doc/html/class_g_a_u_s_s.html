@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="gauss_logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">GAUSS Engine
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Language bindings for the GAUSS Engine</div>
   </td>
@@ -122,7 +122,7 @@ $(document).ready(function(){initNavTree('class_g_a_u_s_s.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aba6a26957e7dbcd8f6357d1ca6ff4b90"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90">GAUSS</a> (void)</td></tr>
-<tr class="memdesc:aba6a26957e7dbcd8f6357d1ca6ff4b90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the library using the environment variable value of <code>MTENGHOME13</code> as the path for the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Home path.  <a href="#aba6a26957e7dbcd8f6357d1ca6ff4b90">More...</a><br/></td></tr>
+<tr class="memdesc:aba6a26957e7dbcd8f6357d1ca6ff4b90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the library using the environment variable value of <code>MTENGHOME</code> as the path for the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Home path.  <a href="#aba6a26957e7dbcd8f6357d1ca6ff4b90">More...</a><br/></td></tr>
 <tr class="separator:aba6a26957e7dbcd8f6357d1ca6ff4b90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd3a4f159bc887697d0dc6f1781714ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_a_u_s_s.html#afd3a4f159bc887697d0dc6f1781714ae">GAUSS</a> (string, bool isEnvVar=true)</td></tr>
 <tr class="memdesc:afd3a4f159bc887697d0dc6f1781714ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the library using the specified environment variable that contains the path for the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Home directory.  <a href="#afd3a4f159bc887697d0dc6f1781714ae">More...</a><br/></td></tr>
@@ -137,7 +137,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af1f5a5df0c904bd713c4edea74606e55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the home directory used to locate the Run-Time Library, source files, library files, etc.  <a href="#af1f5a5df0c904bd713c4edea74606e55">More...</a><br/></td></tr>
 <tr class="separator:af1f5a5df0c904bd713c4edea74606e55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61b2ebc8c6ac5694e8cc33cb7726cbe3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_a_u_s_s.html#a61b2ebc8c6ac5694e8cc33cb7726cbe3">setHomeVar</a> (string)</td></tr>
-<tr class="memdesc:a61b2ebc8c6ac5694e8cc33cb7726cbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default value is <code>MTENGHOME##</code>.  <a href="#a61b2ebc8c6ac5694e8cc33cb7726cbe3">More...</a><br/></td></tr>
+<tr class="memdesc:a61b2ebc8c6ac5694e8cc33cb7726cbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default value is <code>MTENGHOME</code>.  <a href="#a61b2ebc8c6ac5694e8cc33cb7726cbe3">More...</a><br/></td></tr>
 <tr class="separator:a61b2ebc8c6ac5694e8cc33cb7726cbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfe744665cc891f5288d5523083d2a2c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_a_u_s_s.html#adfe744665cc891f5288d5523083d2a2c">getHome</a> ()</td></tr>
 <tr class="memdesc:adfe744665cc891f5288d5523083d2a2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current path known by the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine for the user home directory.  <a href="#adfe744665cc891f5288d5523083d2a2c">More...</a><br/></td></tr>
@@ -322,6 +322,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3e665b3b7d0733f27ca56427e6ec3d49"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_a_u_s_s.html#a3e665b3b7d0733f27ca56427e6ec3d49">isMissingValue</a> (double)</td></tr>
 <tr class="memdesc:a3e665b3b7d0733f27ca56427e6ec3d49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check a double to see if it contains a <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> missing value.  <a href="#a3e665b3b7d0733f27ca56427e6ec3d49">More...</a><br/></td></tr>
 <tr class="separator:a3e665b3b7d0733f27ca56427e6ec3d49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9f8666ef413684b5f70352f5a89b77"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf9f8666ef413684b5f70352f5a89b77"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>getOutput</b> ()</td></tr>
+<tr class="separator:abf9f8666ef413684b5f70352f5a89b77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a559e0215a8d9f6d24b9258927bb24533"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a559e0215a8d9f6d24b9258927bb24533"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clearOutput</b> ()</td></tr>
+<tr class="separator:a559e0215a8d9f6d24b9258927bb24533"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14a6a4b692f7324ed09f1bbd6247758f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a14a6a4b692f7324ed09f1bbd6247758f"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>getErrorOutput</b> ()</td></tr>
+<tr class="separator:a14a6a4b692f7324ed09f1bbd6247758f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7de5e45505c311bb52cb2f1c8f827d58"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7de5e45505c311bb52cb2f1c8f827d58"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clearErrorOutput</b> ()</td></tr>
+<tr class="separator:a7de5e45505c311bb52cb2f1c8f827d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b8379c48d677e05aeab433dba66fbb6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_a_u_s_s.html#a0b8379c48d677e05aeab433dba66fbb6">setProgramOutputAll</a> (<a class="el" href="class_i_g_e_program_output.html">IGEProgramOutput</a> *func)</td></tr>
 <tr class="memdesc:a0b8379c48d677e05aeab433dba66fbb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dually set the program output hook as well as the error output hook.  <a href="#a0b8379c48d677e05aeab433dba66fbb6">More...</a><br/></td></tr>
 <tr class="separator:a0b8379c48d677e05aeab433dba66fbb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -403,13 +415,13 @@ static <a class="el" href="class_i_g_e_program_input_check.html">IGEProgramInput
 <div class="textblock"><p>Main class that must be instantiated to interface with the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine. </p>
 <p>While not enforced, only <b>one</b> instance of this class should be present. If threading is an issue, consider the use of multiple workspaces, as each can be accessed in parallel safely.</p>
 <h4>Python</h4>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;ge = <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>() <span class="comment"># Use MTENGHOME13 environment variable value as GAUSS home location</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;ge = <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>() <span class="comment"># Use MTENGHOME14 environment variable value as GAUSS home location</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;ge = <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>(<span class="stringliteral">&quot;MYHOMEVAR&quot;</span>) <span class="comment"># Use specified environment variable for GAUSS home location</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;ge = <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>(<span class="stringliteral">&quot;/home/user/mteng&quot;</span>, <span class="keyword">False</span>) <span class="comment"># Use specified paths for GAUSS home location</span></div>
 </div><!-- fragment --><h4>PHP</h4>
-<div class="fragment"><div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME13 as the path for the GAUSS ...">GAUSS</a>(); <span class="comment">// Use MTENGHOME13 environment variable value as GAUSS home location</span></div>
-<div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME13 as the path for the GAUSS ...">GAUSS</a>(<span class="stringliteral">&quot;MYHOMEVAR&quot;</span>); <span class="comment">// Use specified environment variable for GAUSS home location</span></div>
-<div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME13 as the path for the GAUSS ...">GAUSS</a>(<span class="stringliteral">&quot;/home/user/mteng&quot;</span>, <span class="keyword">false</span>); <span class="comment">// Use specified paths for GAUSS home location</span></div>
+<div class="fragment"><div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME as the path for the GAUSS Ho...">GAUSS</a>(); <span class="comment">// Use MTENGHOME14 environment variable value as GAUSS home location</span></div>
+<div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME as the path for the GAUSS Ho...">GAUSS</a>(<span class="stringliteral">&quot;MYHOMEVAR&quot;</span>); <span class="comment">// Use specified environment variable for GAUSS home location</span></div>
+<div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME as the path for the GAUSS Ho...">GAUSS</a>(<span class="stringliteral">&quot;/home/user/mteng&quot;</span>, <span class="keyword">false</span>); <span class="comment">// Use specified paths for GAUSS home location</span></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aba6a26957e7dbcd8f6357d1ca6ff4b90"></a>
 <div class="memitem">
@@ -425,7 +437,7 @@ static <a class="el" href="class_i_g_e_program_input_check.html">IGEProgramInput
       </table>
 </div><div class="memdoc">
 
-<p>Initialize the library using the environment variable value of <code>MTENGHOME13</code> as the path for the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Home path. </p>
+<p>Initialize the library using the environment variable value of <code>MTENGHOME</code> as the path for the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Home path. </p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_g_a_u_s_s.html#afd3a4f159bc887697d0dc6f1781714ae" title="Initialize the library using the specified environment variable that contains the path for the GAUSS ...">GAUSS(string, bool)</a> </dd></dl>
 
 </div>
@@ -465,10 +477,10 @@ static <a class="el" href="class_i_g_e_program_input_check.html">IGEProgramInput
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;ge = <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>(<span class="stringliteral">&quot;/home/user/mteng&quot;</span>, <span class="keyword">False</span>);</div>
 </div><!-- fragment --><h4>PHP</h4>
 <div class="fragment"><div class="line"><span class="comment">// Using a custom environment variable</span></div>
-<div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME13 as the path for the GAUSS ...">GAUSS</a>(<span class="stringliteral">&quot;MY_CUSTOM_VAR&quot;</span>);</div>
+<div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME as the path for the GAUSS Ho...">GAUSS</a>(<span class="stringliteral">&quot;MY_CUSTOM_VAR&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Setting a specific path</span></div>
-<div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME13 as the path for the GAUSS ...">GAUSS</a>(<span class="stringliteral">&quot;/home/user/mteng&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME as the path for the GAUSS Ho...">GAUSS</a>(<span class="stringliteral">&quot;/home/user/mteng&quot;</span>, <span class="keyword">false</span>);</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inp</td><td>Environment variable or absolute path to <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Home (i.e. mteng.dll, libmteng.so) </td></tr>
@@ -476,7 +488,7 @@ static <a class="el" href="class_i_g_e_program_input_check.html">IGEProgramInput
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME13 as the path for the GAUSS ...">GAUSS()</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_g_a_u_s_s.html#aba6a26957e7dbcd8f6357d1ca6ff4b90" title="Initialize the library using the environment variable value of MTENGHOME as the path for the GAUSS Ho...">GAUSS()</a> </dd></dl>
 
 </div>
 </div>
@@ -1320,7 +1332,7 @@ static <a class="el" href="class_i_g_e_program_input_check.html">IGEProgramInput
 
 <p>Returns the current environment variable value set by the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine that represents the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Home path. </p>
 <dl class="section return"><dt>Returns</dt><dd>Environment variable name</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_g_a_u_s_s.html#a61b2ebc8c6ac5694e8cc33cb7726cbe3" title="The default value is MTENGHOME##.">setHomeVar(string)</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_g_a_u_s_s.html#a61b2ebc8c6ac5694e8cc33cb7726cbe3" title="The default value is MTENGHOME.">setHomeVar(string)</a> </dd></dl>
 
 </div>
 </div>
@@ -2333,7 +2345,7 @@ static <a class="el" href="class_i_g_e_program_input_check.html">IGEProgramInput
 <dl class="section return"><dt>Returns</dt><dd>True on success, false on failure</dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_g_a_u_s_s.html#adfe744665cc891f5288d5523083d2a2c" title="Returns the current path known by the GAUSS Engine for the user home directory.">getHome()</a> </dd>
 <dd>
-<a class="el" href="class_g_a_u_s_s.html#a61b2ebc8c6ac5694e8cc33cb7726cbe3" title="The default value is MTENGHOME##.">setHomeVar(string)</a> </dd></dl>
+<a class="el" href="class_g_a_u_s_s.html#a61b2ebc8c6ac5694e8cc33cb7726cbe3" title="The default value is MTENGHOME.">setHomeVar(string)</a> </dd></dl>
 
 </div>
 </div>
@@ -2351,8 +2363,7 @@ static <a class="el" href="class_i_g_e_program_input_check.html">IGEProgramInput
       </table>
 </div><div class="memdoc">
 
-<p>The default value is <code>MTENGHOME##</code>. </p>
-<p>Use the Java library function to get the value of the environment variable.</p>
+<p>The default value is <code>MTENGHOME</code>. </p>
 <p>It is better to use <a class="el" href="class_g_a_u_s_s.html#af1f5a5df0c904bd713c4edea74606e55" title="Specifies the home directory used to locate the Run-Time Library, source files, library files...">setHome(string)</a> which sets the home directory, overriding the environment variable.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -3381,7 +3392,7 @@ static <a class="el" href="class_i_g_e_program_input_check.html">IGEProgramInput
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_g_a_u_s_s.html">GAUSS</a></li>
-    <li class="footer">Generated on Fri Apr 12 2013 17:34:44 for GAUSS Engine by
+    <li class="footer">Generated on Mon Jul 27 2015 16:16:49 for GAUSS Engine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1-20130324 </li>
   </ul>
