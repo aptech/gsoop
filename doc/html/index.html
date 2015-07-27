@@ -116,12 +116,12 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li>Set up callbacks for integration with <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>'s input/output routines</li>
 </ul>
 <h2>Configuration</h2>
-<p>The API will look for the <code>MTENGHOME</code> environment variable. This will be the location the engine was extracted to (i.e. <code>C:\mteng15</code> on Windows, <code>/home/user/mteng13</code> on Linux)</p>
+<p>The API will look for the <code>MTENGHOME</code> environment variable. This will be the location the engine was extracted to (i.e. <code>C:\mteng</code> on Windows, <code>/home/user/mteng</code> on Linux)</p>
 <table class="doxtable">
 <tr>
 <th align="left">Variable </th><th align="left">Value</th></tr>
 <tr>
-<td align="left"><code>MTENGHOME</code> </td><td align="left"><code>/home/user/mteng15</code> </td></tr>
+<td align="left"><code>MTENGHOME</code> </td><td align="left"><code>/home/user/mteng</code> </td></tr>
 </table>
 <p>The following environment variables must <b>contain</b> the specified values</p>
 <h3>Windows</h3>
@@ -129,7 +129,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <tr>
 <th align="left">Variable </th><th align="left">Value</th></tr>
 <tr>
-<td align="left"><code>PATH</code> </td><td align="left">Append <code>C:\mteng15</code> </td></tr>
+<td align="left"><code>PATH</code> </td><td align="left">Append <code>C:\mteng</code> </td></tr>
 </table>
 <p>The presence of this value allows the engine DLL to be found and loaded properly.</p>
 <p>Ensure you do not <b>replace</b> <code>PATH</code> with the directory.</p>
@@ -138,9 +138,9 @@ $(document).ready(function(){initNavTree('index.html','');});
 <tr>
 <th align="left">Variable </th><th align="left">Value</th></tr>
 <tr>
-<td align="left"><code>LD_LIBRARY_PATH</code> </td><td align="left">Append <code>/home/user/mteng15</code> </td></tr>
+<td align="left"><code>LD_LIBRARY_PATH</code> </td><td align="left">Append <code>/home/user/mteng</code> </td></tr>
 <tr>
-<td align="left"><code>LD_PRELOAD</code> </td><td align="left">Append <code>/lib/x86_64-linux-gnu/libpthread.so.0:/home/user/mteng15/bin/libiomp5.so</code> </td></tr>
+<td align="left"><code>LD_PRELOAD</code> </td><td align="left">Append <code>/lib/x86_64-linux-gnu/libpthread.so.0:/home/user/mteng/bin/libiomp5.so</code> </td></tr>
 </table>
 <p>Note: Please adjust the paths accordingly to your specific installation. In this case, the <code>libpthread.so.0</code> reference is for Ubuntu 64-bit.</p>
 <h3>SWIG</h3>
@@ -426,7 +426,7 @@ extension=php_gauss.dll
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Jul 27 2015 16:16:49 for GAUSS Engine by
+    <li class="footer">Generated on Mon Jul 27 2015 16:25:32 for GAUSS Engine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1-20130324 </li>
   </ul>
