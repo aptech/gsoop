@@ -22,7 +22,7 @@ You can:
 ## Configuration ##
 
 The API will look for the `MTENGHOME` environment variable.
-This will be the location the engine was extracted to (i.e. `C:\mteng` on Windows, `/home/user/mteng13` on Linux)
+This will be the location the engine was extracted to (i.e. `C:\mteng` on Windows, `/home/user/mteng` on Linux)
 
 Variable          | Value
 :-----------------|:-----------
