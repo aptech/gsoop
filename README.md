@@ -199,7 +199,7 @@ The following commands are executed from the root of the source path
     $ mkdir build
     $ cd build
     # You could also use cmake-gui to create the Makefile
-    $ ccmake ..
+    $ cmake -DMTENGHOME=/home/user/mteng ..
     $ make
 
 You should now have a `gauss.so` file in your current  directory.
