@@ -364,7 +364,7 @@ necessarily require a callback (i.e. program output routing to `stdout`), it is 
 
 The following 3 steps are core to setting up a callback:
 1. Define the callback by deriving one of the available callback classes
-2. Set the `thisown` property to __true__ (release ownership)
+2. Set the `thisown` property to __0__ (release ownership)
 3. Assign the callback
 
 Pretty straight-forward!
