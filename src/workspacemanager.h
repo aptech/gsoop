@@ -8,26 +8,27 @@
 #include <iostream>
 using namespace std;
 
-class WorkspaceManager
+class GAUSS_EXPORT WorkspaceManager
 {
 public:
     WorkspaceManager();
+    ~WorkspaceManager();
 
-    GEWorkspace* getCurrent();
+    GEWorkspace* getCurrent() const;
     bool setCurrent(GEWorkspace *wh);
 
-    GEWorkspace* getWorkspace(std::string);
+    GEWorkspace* getWorkspace(const std::string &) const;
     void destroyAll();
     bool destroy(GEWorkspace*);
-    GEWorkspace* create(std::string);
-    std::vector<std::string> workspaceNames();
-    int count();
-    bool contains(GEWorkspace*);
-    bool isValidWorkspace(GEWorkspace*);
+    GEWorkspace* create(const std::string &);
+    std::vector<std::string> workspaceNames() const;
+    int count() const;
+    bool contains(GEWorkspace*) const;
+    bool isValidWorkspace(GEWorkspace*) const;
 
 private:
     std::map<std::string, GEWorkspace*> workspaces_;
-	pthread_mutex_t mutex_;
+    mutable pthread_mutex_t mutex_;
 
     GEWorkspace *current_;
 };

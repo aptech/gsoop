@@ -32,7 +32,7 @@ $s = new GEString("Hello World!");
  *
  * @param data        User-defined string
  */
-GEString::GEString(string data) {
+GEString::GEString(const string &data) {
     setData(data);
 }
 
@@ -57,7 +57,7 @@ echo "s = " . $s->getData() . PHP_EOL; // Specifying '$s' would be identical
 s = Hello World!
  * ~~~
  */
-string GEString::getData() {
+string GEString::getData() const {
     return string(this->data_);
 }
 
@@ -83,7 +83,7 @@ Hello World!
  * ~~~
  *
  */
-void GEString::setData(string data) {
+void GEString::setData(const string &data) {
     this->data_ = data;
 }
 
@@ -121,13 +121,13 @@ Length of s is 12 characters
  * ~~~
  *
  */
-int GEString::size() {
+int GEString::size() const {
     return data_.length();
 }
 
 /**
   * Please see getData().
   */
-string GEString::toString() {
+string GEString::toString() const {
     return this->data_;
 }

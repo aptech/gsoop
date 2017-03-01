@@ -11,17 +11,17 @@ using namespace std;
 /**
   * Abstract parent class for all symbol types.
   */
-class GESymbol
+class GAUSS_EXPORT GESymbol
 {
 public:
-    virtual int getRows();      /**< Return row count. */
-    virtual int getCols();      /**< Return column count. */
-    virtual bool isComplex();   /**< Return if data is complex. Applies to GEArray and GEMatrix only. */
+    virtual int getRows() const;      /**< Return row count. */
+    virtual int getCols() const;      /**< Return column count. */
+    virtual bool isComplex() const;   /**< Return if data is complex. Applies to GEArray and GEMatrix only. */
 
-    virtual int size();         /**< Return element count or in case of GEString, string length. */
+    virtual int size() const;         /**< Return element count or in case of GEString, string length. */
     virtual void clear() {}     /**< Clear all corresponding symbol data. Does not clear from workspace. */
 
-    virtual string toString() { return ""; } /**< Returns a string representation of this object. */
+    virtual string toString() const { return ""; } /**< Returns a string representation of this object. */
 
 protected:
     GESymbol();

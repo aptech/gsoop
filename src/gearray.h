@@ -3,39 +3,38 @@
 
 #include "gesymbol.h"
 
-class GEMatrix;
-
 /**
  * GAUSS Array symbol type. This represents An N-dimensional array of double precision numbers.
  *
  */
-class GEArray : public GESymbol
+class GAUSS_EXPORT GEArray : public GESymbol
 {
 public:
     GEArray();
-    GEArray(vector<int>, vector<double>, bool complex = false);
+    GEArray(const vector<int> &orders, const vector<double> &data, bool complex = false);
+    GEArray(const int *orders, int orders_len, const double *data, int data_len, bool complex = false);
 
-    GEMatrix* getPlane(vector<int>, bool imag = false);
-    vector<double> getVector(vector<int>, bool imag = false);
+    GEMatrix* getPlane(const vector<int> &, bool imag = false) const;
+    vector<double> getVector(const vector<int> &, bool imag = false) const;
 
-    double getElement(vector<int>, bool imag = false);
-    bool setElement(double, vector<int>, bool imag = false);
+    double getElement(const vector<int> &, bool imag = false) const;
+    bool setElement(double, const vector<int> &, bool imag = false);
 
-    vector<double> getData(bool imag = false);
-    vector<double> getImagData();
-    vector<int> getOrders();
+    vector<double> getData(bool imag = false) const;
+    vector<double> getImagData() const;
+    vector<int> getOrders() const;
 
-    int getDimensions();
-    virtual int size();
+    int getDimensions() const;
+    virtual int size() const;
 
-    virtual std::string toString();
+    virtual std::string toString() const;
     virtual void clear();
 
 private:
     GEArray(Array_t*);
     bool Init(Array_t *);
-    void Init(vector<int>, vector<double>, bool complex = false);
-    int totalElements() { return num_elements_ * (isComplex() ? 2: 1); }
+    void Init(const int *orders, int orders_len, const double *data, int data_len, bool complex);
+    int totalElements() const { return num_elements_ * (isComplex() ? 2: 1); }
 
     // Holds array data
     double *data_;

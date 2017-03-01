@@ -102,21 +102,37 @@ Symbol is an array.
  */
 struct GESymType
 {
-    /**
-      * Enumeration of all symbol types known to GAUSS
-      */
-    enum SYMTYPE {
-        SCALAR = 16,        /**< Scalar (i.e. 1, 1.5); */
-        SPARSE = 38,            /**< Sparse Matrix */
-        MATRIX = 6,            /**< Matrix */
-        STRING = 13,            /**< String */
-        STRUCT = 19,            /**< Structure */
-        PSTRUCT = 23,            /**< PStruct */
-        STRING_ARRAY = 15,  /**< String Array */
-        ARRAY_GAUSS = 17,   /**< N-Dimensional Array */
-        PROC = 8,            /**< Proc */
-        OTHER = 99            /**< Other */
-    };
+public:
+    static const int SCALAR = 16;        /**< Scalar (i.e. 1, 1.5); */
+    static const int SPARSE = 38;            /**< Sparse Matrix */
+    static const int MATRIX = 6;            /**< Matrix */
+    static const int STRING = 13;            /**< String */
+    static const int STRUCT = 19;            /**< Structure */
+    static const int PSTRUCT = 23;            /**< PStruct */
+    static const int STRING_ARRAY = 15;  /**< String Array */
+    static const int ARRAY_GAUSS = 17;   /**< N-Dimensional Array */
+    static const int PROC = 8;            /**< Proc */
+    static const int OTHER = 99;            /**< Other */
 };
+
+//class GESymType
+//{
+//    /**
+//      * Enumeration of all symbol types known to GAUSS
+//      */
+//    
+//    enum {
+//        SCALAR = 16,        /**< Scalar (i.e. 1, 1.5); */
+//        SPARSE = 38,            /**< Sparse Matrix */
+//        MATRIX = 6,            /**< Matrix */
+//        STRING = 13,            /**< String */
+//        STRUCT = 19,            /**< Structure */
+//        PSTRUCT = 23,            /**< PStruct */
+//        STRING_ARRAY = 15,  /**< String Array */
+//        ARRAY_GAUSS = 17,   /**< N-Dimensional Array */
+//        PROC = 8,            /**< Proc */
+//        OTHER = 99            /**< Other */
+//    };
+//};
 
 #endif // GESYMTYPE_H

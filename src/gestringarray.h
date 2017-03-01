@@ -12,21 +12,21 @@ using namespace std;
  * internally as a vector.
  *
  */
-class GEStringArray : public GESymbol
+class GAUSS_EXPORT GEStringArray : public GESymbol
 {
 public:
     GEStringArray();
-    GEStringArray(vector<string>);
-    GEStringArray(vector<string>, int, int);
+    GEStringArray(const vector<string> &);
+    GEStringArray(const vector<string> &, int, int);
 
-    string getElement(int, int);
-    vector<string> getData();
+    string getElement(int, int) const;
+    vector<string> getData() const;
 
-    void setData(vector<string>, int, int);
-    bool setElement(string, int, int);
+    void setData(const vector<string> &, int, int);
+    bool setElement(const string &, int, int);
 
-    virtual string toString();
-    virtual int size() { return data_.size(); }
+    virtual string toString() const;
+    virtual int size() const { return data_.size(); }
     virtual void clear() { data_.clear(); setRows(1); setCols(1); }
 
 private:
@@ -36,6 +36,7 @@ private:
     vector<string> data_;
 
     friend class GAUSS;
+    friend class GAUSSPrivate;
 };
 
 #endif // GESTRINGARRAY_H

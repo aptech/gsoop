@@ -11,18 +11,18 @@ using namespace std;
  * wrapper.
  *
  */
-class GEString : public GESymbol
+class GAUSS_EXPORT GEString : public GESymbol
 {
 public:
     GEString();
-    GEString(string);
+    GEString(const string &);
 
-    string getData();
-    void setData(string);
+    string getData() const;
+    void setData(const string &);
 
-    virtual int size();
+    virtual int size() const;
     virtual void clear() { data_.clear(); } /**< Sets the string to empty. */
-    virtual string toString();
+    virtual string toString() const;
 
 private:
     GEString(String_t*);

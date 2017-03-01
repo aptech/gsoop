@@ -1,7 +1,8 @@
-#include "gauss.h"
 #include <cstring>
 #include <cctype>    // for isalnum()
 #include <algorithm> // for back_inserter
+#include <iostream>
+
 #include "gearray.h"
 #include "gematrix.h"
 #include "gestring.h"
@@ -10,6 +11,9 @@
 #include "workspacemanager.h"
 #include "gefuncwrapper.h"
 #include "pthread.h"
+#include "gauss_p.h"
+#include "gauss.h"
+
 #ifdef _WIN32
 #include "windows.h"
 #else
@@ -33,12 +37,13 @@ using namespace std;
 /**
  * Bit pattern of a double missing value (NaN)
  */
-double GAUSS::kMissingValue;
+static double kMissingValue = GAUSS_MissingValue();
+static string kHomeVar = "MTENGHOME";
 
-map<int, string> GAUSS::kOutputStore;
-pthread_mutex_t GAUSS::kOutputMutex;
-map<int, string> GAUSS::kErrorStore;
-pthread_mutex_t GAUSS::kErrorMutex;
+static map<int, string> kOutputStore;
+static pthread_mutex_t kOutputMutex = PTHREAD_MUTEX_INITIALIZER;
+static map<int, string> kErrorStore;
+static pthread_mutex_t kErrorMutex = PTHREAD_MUTEX_INITIALIZER;
 
 IGEProgramOutput* GAUSS::outputFunc_ = 0;
 IGEProgramOutput* GAUSS::errorFunc_ = 0;
@@ -48,9 +53,11 @@ IGEProgramInputChar* GAUSS::inputCharFunc_ = 0;
 IGEProgramInputChar* GAUSS::inputBlockingCharFunc_ = 0;
 IGEProgramInputCheck* GAUSS::inputCheckFunc_ = 0;
 
-string GAUSS::kHomeVar = "MTENGHOME";
+static char* removeConst(string *str) {
+    return const_cast<char*>(str->c_str());
+}
 
-int getThreadId() {
+static int getThreadId() {
     int tid = -1;
 
 #ifdef _WIN32
@@ -71,9 +78,9 @@ int getThreadId() {
  *
  * @see GAUSS(string, bool)
  */
-GAUSS::GAUSS(void)
+GAUSS::GAUSS()
 {
-    char *envVal = getenv(GAUSS::kHomeVar.c_str());
+    char *envVal = getenv(kHomeVar.c_str());
 
     string homeVal;
 
@@ -134,10 +141,9 @@ GAUSS::GAUSS(string inp, bool isEnvVar) {
 }
 
 void GAUSS::Init(string homePath) {
-    this->gauss_home_ = homePath;
-    this->manager_ = new WorkspaceManager;
+    this->d = new GAUSSPrivate(homePath);
 
-    GAUSS::kMissingValue = GAUSS_MissingValue();
+    resetHooks();
 
     GAUSS::outputFunc_ = 0;
     GAUSS::errorFunc_ = 0;
@@ -168,7 +174,10 @@ void GAUSS::Init(string homePath) {
  * @see shutdown()
  */
 bool GAUSS::initialize() {
-    if (!setHome(this->gauss_home_)) {
+    //pthread_mutex_init(&kOutputMutex, nullptr);
+    //pthread_mutex_init(&kErrorMutex, nullptr);
+
+    if (!setHome(this->d->gauss_home_)) {
         string errorString = getLastErrorText();
 
         cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << endl;
@@ -195,14 +204,6 @@ bool GAUSS::initialize() {
     }
     
     setActiveWorkspace(wh);
-
-    setHookProgramOutput(GAUSS::internalHookOutput);
-    setHookProgramErrorOutput(GAUSS::internalHookError);
-    setHookFlushProgramOutput(GAUSS::internalHookFlush);
-    setHookProgramInputString(GAUSS::internalHookInputString);
-    setHookProgramInputChar(GAUSS::internalHookInputChar);
-    setHookProgramInputBlockingChar(GAUSS::internalHookInputBlockingChar);
-    setHookProgramInputCheck(GAUSS::internalHookInputCheck);
 
     return true;
 }
@@ -231,7 +232,7 @@ void GAUSS::shutdown() {
  * @see destroyWorkspace(GEWorkspace*)
  */
 GEWorkspace* GAUSS::createWorkspace(string name) {
-    return this->manager_->create(name);
+    return this->d->manager_->create(name);
 }
 
 /**
@@ -246,7 +247,7 @@ GEWorkspace* GAUSS::createWorkspace(string name) {
  * @see destroyAllWorkspaces()
  */
 bool GAUSS::destroyWorkspace(GEWorkspace *wh) {
-    return this->manager_->destroy(wh);
+    return this->d->manager_->destroy(wh);
 }
 
 /**
@@ -257,7 +258,7 @@ bool GAUSS::destroyWorkspace(GEWorkspace *wh) {
  * @see destroyWorkspace(GEWorkspace*)
  */
 void GAUSS::destroyAllWorkspaces() {
-    this->manager_->destroyAll();
+    this->d->manager_->destroyAll();
 }
 
 /**
@@ -269,8 +270,8 @@ void GAUSS::destroyAllWorkspaces() {
  * @see setActiveWorkspace(GEWorkspace*)
  * @see getActiveWorkspace()
  */
-GEWorkspace* GAUSS::getWorkspace(string name) {
-    return this->manager_->getWorkspace(name);
+GEWorkspace* GAUSS::getWorkspace(string name) const {
+    return this->d->manager_->getWorkspace(name);
 }
 
 /**
@@ -280,8 +281,8 @@ GEWorkspace* GAUSS::getWorkspace(string name) {
  *
  * @see setActiveWorkspace(GEWorkspace*)
  */
-GEWorkspace* GAUSS::getActiveWorkspace() {
-    return this->manager_->getCurrent();
+GEWorkspace* GAUSS::getActiveWorkspace() const {
+    return this->d->manager_->getCurrent();
 }
 
 /**
@@ -294,7 +295,7 @@ GEWorkspace* GAUSS::getActiveWorkspace() {
  * @see loadWorkspace(string)
  */
 bool GAUSS::saveWorkspace(GEWorkspace *wh, string fn) {
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
     return (GAUSS_SaveWorkspace(wh->workspace(), removeConst(&fn)) == GAUSS_SUCCESS);
@@ -323,7 +324,7 @@ bool GAUSS::saveProgram(ProgramHandle_t *ph, string fn) {
  * @see getActiveWorkspace()
  */
 bool GAUSS::setActiveWorkspace(GEWorkspace *wh) {
-    return this->manager_->setCurrent(wh);
+    return this->d->manager_->setCurrent(wh);
 }
 
 /**
@@ -333,7 +334,7 @@ bool GAUSS::setActiveWorkspace(GEWorkspace *wh) {
  *
  * @see setHome(string)
  */
-string GAUSS::getHome() {
+string GAUSS::getHome() const {
     char buf[1024];
 
     GAUSS_GetHome(buf);
@@ -348,7 +349,7 @@ string GAUSS::getHome() {
  *
  * @see setHomeVar(string)
  */
-string GAUSS::getHomeVar() {
+string GAUSS::getHomeVar() const {
     char buf[1024];
 
     GAUSS_GetHomeVar(buf);
@@ -363,7 +364,7 @@ string GAUSS::getHomeVar() {
  *
  * @see setLogFile(string, string)
  */
-string GAUSS::getLogFile() {
+string GAUSS::getLogFile() const {
     char buf[1024];
 
     GAUSS_GetLogFile(buf);
@@ -473,7 +474,7 @@ ge.executeString("print x", myWorkspace);
  * @see compileString(string)
  */
 bool GAUSS::executeString(string command, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
     ProgramHandle_t *ph = GAUSS_CompileString(wh->workspace(), removeConst(&command), 0, 0);
@@ -539,7 +540,7 @@ $success = $ge->executeFile("ols.e", $myWorkspace);
  * @see compileFile(string)
  */
 bool GAUSS::executeFile(string fname, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
     ProgramHandle_t *ph = GAUSS_CompileFile(wh->workspace(), removeConst(&fname), 0, 0);
@@ -617,7 +618,7 @@ bool success = ge.executeCompiledFile("example.gcg", myWorkspace);
  * @see loadCompiledFile(string)
  */
 bool GAUSS::executeCompiledFile(string fname, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
     ProgramHandle_t *ph = GAUSS_LoadCompiledFile(wh->workspace(), removeConst(&fname));
@@ -715,7 +716,7 @@ Hello World!
  * @see freeProgram
  */
 ProgramHandle_t* GAUSS::compileString(string command, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return NULL;
 
     return GAUSS_CompileString(wh->workspace(), removeConst(&command), 0, 0);
@@ -779,7 +780,7 @@ $ge->executeProgram(ph);
  * @see executeFile(string)
  */
 ProgramHandle_t* GAUSS::compileFile(string fname, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return NULL;
 
     return GAUSS_CompileFile(wh->workspace(), removeConst(&fname), 0, 0);
@@ -812,7 +813,7 @@ ProgramHandle_t* GAUSS::loadCompiledFile(string fn) {
  * @see executeCompiledFile(string)
  */
 ProgramHandle_t* GAUSS::loadCompiledFile(string fn, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return NULL;
 
     return GAUSS_LoadCompiledFile(wh->workspace(), removeConst(&fn));
@@ -855,8 +856,7 @@ bool GAUSS::executeProgram(ProgramHandle_t *ph) {
         return false;
 
     // Setup output hook
-    setHookProgramOutput(GAUSS::internalHookOutput);
-    setHookProgramErrorOutput(GAUSS::internalHookError);
+    resetHooks();
 
 	if (GAUSS_Execute(ph) > 0) {
         return false;
@@ -906,8 +906,8 @@ GEWorkspace* GAUSS::loadWorkspace(string gcgfile) {
  *
  * @see getActiveWorkspace()
  */
-string GAUSS::getWorkspaceName(GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+string GAUSS::getWorkspaceName(GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return string();
 
     char name[1024];
@@ -981,7 +981,7 @@ if (ge.getSymbolType("x") == GESymType.MATRIX)
  * @see GESymType.STRING
  * @see GESymType.STRING_ARRAY
  */
-int GAUSS::getSymbolType(string name) {
+int GAUSS::getSymbolType(string name) const {
     return getSymbolType(name, getActiveWorkspace());
 }
 
@@ -1019,8 +1019,8 @@ if (ge.getSymbolType("x", myWorkspace) == GESymType.MATRIX)
  * @see GESymType.STRING
  * @see GESymType.STRING_ARRAY
  */
-int GAUSS::getSymbolType(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+int GAUSS::getSymbolType(string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return -1;
 
     return GAUSS_GetSymbolType(wh->workspace(), removeConst(&name));
@@ -1038,10 +1038,6 @@ int GAUSS::getSymbolType(string name, GEWorkspace *wh) {
  */
 void GAUSS::setError(int errorNum) {
     GAUSS_SetError(errorNum);
-}
-
-char* GAUSS::removeConst(string *str) {
-    return const_cast<char*>(str->c_str());
 }
 
 /**
@@ -1128,7 +1124,7 @@ if (!ge.initialize()) {
  * @see getError()
  * @see getErrorText(int)
  */
-string GAUSS::getLastErrorText() {
+string GAUSS::getLastErrorText() const {
     int errNum = getError();
 
     return getErrorText(errNum);
@@ -1144,7 +1140,7 @@ string GAUSS::getLastErrorText() {
  * @see getErrorText(int)
  * @see getLastErrorText()
  */
-int GAUSS::getError() {
+int GAUSS::getError() const {
     return GAUSS_GetError();
 }
 
@@ -1159,7 +1155,7 @@ int GAUSS::getError() {
  * @see getError()
  * @see getLastErrorText()
  */
-string GAUSS::getErrorText(int errorNum) {
+string GAUSS::getErrorText(int errorNum) const {
     char buf[1024];
 
     GAUSS_ErrorText(buf, errorNum);
@@ -1212,7 +1208,7 @@ $x = 5
  * @see getMatrixAndClear(string)
  * @see getMatrixAndClear(string, GEWorkspace*)
  */
-double GAUSS::getScalar(string name) {
+double GAUSS::getScalar(string name) const {
     return getScalar(name, getActiveWorkspace());
 }
 
@@ -1251,8 +1247,8 @@ $x = 5
  * @see getMatrixAndClear(string)
  * @see getMatrixAndClear(string, GEWorkspace*)
  */
-double GAUSS::getScalar(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+double GAUSS::getScalar(string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return 0;
 
     double d;
@@ -1302,7 +1298,7 @@ x = 5
  * @see getScalar(string)
  * @see getScalar(string, GEWorkspace*)
  */
-GEMatrix* GAUSS::getMatrix(string name) {
+GEMatrix* GAUSS::getMatrix(string name) const {
     return getMatrix(name, getActiveWorkspace());
 }
 
@@ -1344,8 +1340,8 @@ x = 5
  * @see getScalar(string)
  * @see getScalar(string, GEWorkspace*)
  */
-GEMatrix* GAUSS::getMatrix(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+GEMatrix* GAUSS::getMatrix(string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return NULL;
 
     Matrix_t *gsMat = GAUSS_GetMatrix(wh->workspace(), removeConst(&name));
@@ -1398,7 +1394,7 @@ x =        0.0000000
  * @see getScalar(string)
  * @see getScalar(string, GEWorkspace*)
  */
-GEMatrix* GAUSS::getMatrixAndClear(string name) {
+GEMatrix* GAUSS::getMatrixAndClear(string name) const {
     return getMatrixAndClear(name, getActiveWorkspace());
 }
 
@@ -1445,8 +1441,8 @@ x =        0.0000000
  * @see getScalar(string)
  * @see getScalar(string, GEWorkspace*)
  */
-GEMatrix* GAUSS::getMatrixAndClear(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+GEMatrix* GAUSS::getMatrixAndClear(string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return NULL;
 
     Matrix_t *gsMat = GAUSS_GetMatrixAndClear(wh->workspace(), removeConst(&name));
@@ -1471,7 +1467,7 @@ GEMatrix* GAUSS::getMatrixAndClear(string name, GEWorkspace *wh) {
  * @see getArrayAndClear(string)
  * @see getArrayAndClear(string, GEWorkspace*)
  */
-GEArray* GAUSS::getArray(string name) {
+GEArray* GAUSS::getArray(string name) const {
     return getArray(name, getActiveWorkspace());
 }
 
@@ -1489,8 +1485,8 @@ GEArray* GAUSS::getArray(string name) {
  * @see getArrayAndClear(string)
  * @see getArrayAndClear(string, GEWorkspace*)
  */
-GEArray* GAUSS::getArray(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+GEArray* GAUSS::getArray(string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return NULL;
 
     Array_t *gsArray = GAUSS_GetArray(wh->workspace(), removeConst(&name));
@@ -1517,7 +1513,7 @@ GEArray* GAUSS::getArray(string name, GEWorkspace *wh) {
  * @see getArray(string)
  * @see getArray(string, GEWorkspace*)
  */
-GEArray* GAUSS::getArrayAndClear(string name) {
+GEArray* GAUSS::getArrayAndClear(string name) const {
     return getArrayAndClear(name, getActiveWorkspace());
 }
 
@@ -1537,8 +1533,8 @@ GEArray* GAUSS::getArrayAndClear(string name) {
  * @see getArray(string)
  * @see getArray(string, GEWorkspace*)
  */
-GEArray* GAUSS::getArrayAndClear(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+GEArray* GAUSS::getArrayAndClear(string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return NULL;
 
     Array_t *gsArray = GAUSS_GetArrayAndClear(wh->workspace(), removeConst(&name));
@@ -1561,7 +1557,7 @@ GEArray* GAUSS::getArrayAndClear(string name, GEWorkspace *wh) {
  * @see setSymbol(GEStringArray*, string)
  * @see setSymbol(GEStringArray*, string, GEWorkspace*)
  */
-GEStringArray* GAUSS::getStringArray(string name) {
+GEStringArray* GAUSS::getStringArray(string name) const {
     return getStringArray(name, getActiveWorkspace());
 }
 
@@ -1577,8 +1573,8 @@ GEStringArray* GAUSS::getStringArray(string name) {
  * @see setSymbol(GEStringArray*, string)
  * @see setSymbol(GEStringArray*, string, GEWorkspace*)
  */
-GEStringArray* GAUSS::getStringArray(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+GEStringArray* GAUSS::getStringArray(string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return NULL;
 
     StringArray_t *gsStringArray = GAUSS_GetStringArray(wh->workspace(), removeConst(&name));
@@ -1601,7 +1597,7 @@ GEStringArray* GAUSS::getStringArray(string name, GEWorkspace *wh) {
  * @see setSymbol(GEString*, string)
  * @see setSymbol(GEString*, string, GEWorkspace*)
  */
-GEString* GAUSS::getString(string name) {
+GEString* GAUSS::getString(string name) const {
     return getString(name, getActiveWorkspace());
 }
 
@@ -1617,8 +1613,8 @@ GEString* GAUSS::getString(string name) {
  * @see setSymbol(GEString*, string)
  * @see setSymbol(GEString*, string, GEWorkspace*)
  */
-GEString* GAUSS::getString(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+GEString* GAUSS::getString(string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return NULL;
 
     String_t *gsString = GAUSS_GetString(wh->workspace(), removeConst(&name));
@@ -1703,7 +1699,7 @@ bool GAUSS::setSymbol(GEMatrix *matrix, string name, GEWorkspace *wh) {
     if (!matrix || name.empty())
         return false;
 
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
     int ret = 0;
@@ -1711,7 +1707,7 @@ bool GAUSS::setSymbol(GEMatrix *matrix, string name, GEWorkspace *wh) {
     if (!matrix->isComplex() && (matrix->getRows() == 1) && (matrix->getCols() == 1)) {
         ret = GAUSS_PutDouble(wh->workspace(), matrix->getElement(), removeConst(&name));
     } else {
-        Matrix_t* newMat = this->createTempMatrix(matrix);
+        Matrix_t* newMat = this->d->createTempMatrix(matrix);
         ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat, removeConst(&name));
         delete newMat;
     }
@@ -1803,10 +1799,10 @@ bool GAUSS::setSymbol(GEArray *array, string name, GEWorkspace *wh) {
     if (!array || name.empty())
         return false;
 
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    Array_t *newArray = createPermArray(array);
+    Array_t *newArray = this->d->createPermArray(array);
 
     if (!newArray)
         return false;
@@ -1884,10 +1880,10 @@ bool GAUSS::setSymbol(GEString *str, string name, GEWorkspace *wh) {
     if (!str || name.empty())
         return false;
 
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    String_t* newStr = createPermString(str);
+    String_t* newStr = this->d->createPermString(str);
 
     if (!newStr)
         return false;
@@ -1955,10 +1951,10 @@ bool GAUSS::setSymbol(GEStringArray *sa, string name, GEWorkspace *wh) {
     if (!sa || name.empty())
         return false;
 
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    StringArray_t *newSa = createTempStringArray(sa);
+    StringArray_t *newSa = this->d->createTempStringArray(sa);
 
     if (!newSa)
         return false;
@@ -1998,157 +1994,102 @@ string GAUSS::translateDataloopFile(string srcfile) {
     return string(transbuf);
 }
 
-Matrix_t* GAUSS::createTempMatrix(GEMatrix *mat) {
-    Matrix_t *newMat = new Matrix_t;
-
-    // THIS CANNOT BE USED FOR A "MOVE" OPERATION
-    // THIS IS THE ACTUAL POINTER REFERENCE TO THE DATA.
-    newMat->mdata = mat->data_;
-    newMat->rows = mat->getRows();
-    newMat->cols = mat->getCols();
-    newMat->complex = mat->isComplex();
-    newMat->freeable = 0;
-
-    return newMat;
-}
-
-String_t* GAUSS::createPermString(GEString *str) {
-    String_t *newStr = GAUSS_MallocString_t();
-
-    string data = str->getData();
-    newStr->stdata = (char*)GAUSS_Malloc(data.size() + 1);
-    strncpy(newStr->stdata, data.c_str(), data.size() + 1);
-    newStr->length = data.size() + 1;
-    newStr->freeable = 1;
-
-    return newStr;
-}
-
-StringArray_t* GAUSS::createTempStringArray(GEStringArray *sa) {
-    vector<string> *strings = &(sa->data_);
-
-    char **saList = new char*[sa->size()];
-
-    for (int i = 0; i < sa->size(); ++i) {
-        string str = strings->at(i);
-
-        char *str_ptr = new char[str.length() + 1];
-        strncpy(str_ptr, str.c_str(), str.length() + 1);
-        saList[i] = str_ptr;
-    }
-
-    StringArray_t *newSa = GAUSS_StringArray(sa->getRows(), sa->getCols(), saList);
-
-    for (int i = 0; i < sa->size(); ++i) {
-        delete[] saList[i];
-    }
-
-    delete[] saList;
-
-    return newSa;
-}
-
-Array_t* GAUSS::createPermArray(GEArray *array) {
-    vector<double> vals = array->getData();
-    vector<int> orders = array->getOrders();
-
-    const int dims = array->getDimensions();
-    const int size = array->size();
-
-    double *data = (double*)GAUSS_Malloc((size + dims) * sizeof(double));
-
-    for (int i = 0; i < dims; ++i)
-        data[i] = orders[i];
-
-    for (int i = dims; i < size + dims; ++i)
-        data[i] = vals[i - dims];
-
-    Array_t *newArray = (Array_t*)GAUSS_Malloc(sizeof(Array_t));
-    newArray->dims = dims;
-    newArray->nelems = size;
-    newArray->complex = static_cast<int>(array->isComplex());
-    newArray->adata = data;
-    newArray->freeable = 1;
-
-    return newArray;
-}
-
 void GAUSS::clearOutput() {
-    pthread_mutex_lock(&GAUSS::kOutputMutex);
+    pthread_mutex_lock(&kOutputMutex);
     int tid = getThreadId();
-    GAUSS::kOutputStore[tid] = string();
-    pthread_mutex_unlock(&GAUSS::kOutputMutex);
+    kOutputStore[tid] = string();
+    pthread_mutex_unlock(&kOutputMutex);
 }
 
 void GAUSS::clearErrorOutput() {
-    pthread_mutex_lock(&GAUSS::kErrorMutex);
+    pthread_mutex_lock(&kErrorMutex);
     int tid = getThreadId();
-    GAUSS::kErrorStore[tid] = string();
-    pthread_mutex_unlock(&GAUSS::kErrorMutex);
+    kErrorStore[tid] = string();
+    pthread_mutex_unlock(&kErrorMutex);
 }
 
 string GAUSS::getOutput() {
-    pthread_mutex_lock(&GAUSS::kOutputMutex);
+    if (!GAUSS::outputModeManaged())
+        return string();
+
+    pthread_mutex_lock(&kOutputMutex);
 
     int tid = getThreadId();
 
-    string ret = GAUSS::kOutputStore[tid];
+    string ret = kOutputStore[tid];
+    kOutputStore[tid] = string();
 
-    GAUSS::kOutputStore[tid] = string();
-
-    pthread_mutex_unlock(&GAUSS::kOutputMutex);
+    pthread_mutex_unlock(&kOutputMutex);
 
 	return ret;
 }
 
 string GAUSS::getErrorOutput() {
-    pthread_mutex_lock(&GAUSS::kErrorMutex);
+    if (!GAUSS::outputModeManaged())
+        return string();
+
+    pthread_mutex_lock(&kErrorMutex);
 
     int tid = getThreadId();
 
-    string ret = GAUSS::kErrorStore[tid];
+    string ret = kErrorStore[tid];
+    kErrorStore[tid] = string();
 
-    GAUSS::kErrorStore[tid] = string();
-
-    pthread_mutex_unlock(&GAUSS::kErrorMutex);
+    pthread_mutex_unlock(&kErrorMutex);
 
     return ret;
 }
 
+void GAUSS::resetHooks() {
+    setHookProgramOutput(GAUSS::internalHookOutput);
+    setHookProgramErrorOutput(GAUSS::internalHookError);
+    setHookFlushProgramOutput(GAUSS::internalHookFlush);
+    setHookProgramInputString(GAUSS::internalHookInputString);
+    setHookProgramInputChar(GAUSS::internalHookInputChar);
+    setHookProgramInputBlockingChar(GAUSS::internalHookInputBlockingChar);
+    setHookProgramInputCheck(GAUSS::internalHookInputCheck);
+}
+
 void GAUSS::internalHookOutput(char *output) {
-    pthread_mutex_lock(&GAUSS::kOutputMutex);
+    if (GAUSS::outputModeManaged()) {
+        pthread_mutex_lock(&kOutputMutex);
 
-    int tid = getThreadId();
+        int tid = getThreadId();
 
-    string store = GAUSS::kOutputStore[getThreadId()];
+        string &store = kOutputStore[tid];
+        store.append(output);
 
-    store.append(output);
-
-    GAUSS::kOutputStore[tid] = store;
-
-    pthread_mutex_unlock(&GAUSS::kOutputMutex);
+        pthread_mutex_unlock(&kOutputMutex);
+    } else if (GAUSS::outputFunc_) {
+        GAUSS::outputFunc_->invoke(string(output));
+    } else {
+        fprintf(stdout, output);
+    }
 }
 
 void GAUSS::internalHookError(char *output) {
-    pthread_mutex_lock(&GAUSS::kErrorMutex);
+    if (GAUSS::outputModeManaged()) {
+        pthread_mutex_lock(&kErrorMutex);
 
-    int tid = getThreadId();
+        int tid = getThreadId();
 
-    string store = GAUSS::kErrorStore[getThreadId()];
+        string &store = kErrorStore[tid];
+        store.append(output);
 
-    store.append(output);
-
-    GAUSS::kErrorStore[tid] = store;
-
-    pthread_mutex_unlock(&GAUSS::kErrorMutex);
+        pthread_mutex_unlock(&kErrorMutex);
+    } else if (GAUSS::errorFunc_) {
+        GAUSS::errorFunc_->invoke(string(output));
+    } else {
+        fprintf(stderr, output);
+    }
 }
 
 void GAUSS::internalHookFlush() {
     if (GAUSS::flushFunc_) {
         GAUSS::flushFunc_->invoke();
     } else {
-        cout.flush();
-        cerr.flush();
+        fflush(stdout);
+        fflush(stderr);
     }
 }
 
@@ -2192,6 +2133,14 @@ int GAUSS::internalHookInputCheck() {
     }
 
     return 0;
+}
+
+void GAUSS::setOutputModeManaged(bool managed) {
+    GAUSSPrivate::managedOutput_ = managed;
+}
+
+bool GAUSS::outputModeManaged() {
+    return GAUSSPrivate::managedOutput_;
 }
 
 /**
@@ -2794,48 +2743,155 @@ void GAUSS::setHookProgramInputCheck(int (*get_string_function)(void)) {
 //}
 
 GAUSS::~GAUSS() {
-    if (this->manager_)
-        delete this->manager_;
+    //pthread_mutex_destroy(&kOutputMutex);
+    //pthread_mutex_destroy(&kErrorMutex);
 
-    if (GAUSS::outputFunc_) {
-        // Prevent double-delete for user doing setProgramOutputAll
-        if (GAUSS::outputFunc_ == GAUSS::errorFunc_)
-            GAUSS::errorFunc_ = 0;
+//    if (GAUSS::outputFunc_) {
+//        // Prevent double-delete for user doing setProgramOutputAll
+//        if (GAUSS::outputFunc_ == GAUSS::errorFunc_)
+//            GAUSS::errorFunc_ = 0;
 
-        delete GAUSS::outputFunc_;
-        GAUSS::outputFunc_ = 0;
+//        delete GAUSS::outputFunc_;
+//        GAUSS::outputFunc_ = 0;
+//    }
+
+//    if (GAUSS::errorFunc_) {
+//        delete GAUSS::errorFunc_;
+//        GAUSS::errorFunc_ = 0;
+//    }
+
+//    if (GAUSS::flushFunc_) {
+//        delete GAUSS::flushFunc_;
+//        GAUSS::flushFunc_ = 0;
+//    }
+
+//    if (GAUSS::inputStringFunc_) {
+//        delete GAUSS::inputStringFunc_;
+//        GAUSS::inputStringFunc_ = 0;
+//    }
+
+//    if (GAUSS::inputCharFunc_) {
+//        if (GAUSS::inputCharFunc_ == GAUSS::inputBlockingCharFunc_)
+//            GAUSS::inputBlockingCharFunc_ = 0;
+
+//        delete GAUSS::inputCharFunc_;
+//        GAUSS::inputCharFunc_ = 0;
+//    }
+
+//    if (GAUSS::inputBlockingCharFunc_) {
+//        delete GAUSS::inputBlockingCharFunc_;
+//        GAUSS::inputBlockingCharFunc_ = 0;
+//    }
+
+//    if (GAUSS::inputCheckFunc_) {
+//        delete GAUSS::inputCheckFunc_;
+//        GAUSS::inputCheckFunc_ = 0;
+//    }
+}
+
+bool GAUSSPrivate::managedOutput_ = true;
+
+GAUSSPrivate::GAUSSPrivate(const std::string &homePath) {
+    this->gauss_home_ = homePath;
+    this->manager_ = new WorkspaceManager;
+}
+
+GAUSSPrivate::~GAUSSPrivate() {
+    delete this->manager_;
+}
+
+Matrix_t* GAUSSPrivate::createTempMatrix(GEMatrix *mat) {
+    Matrix_t *newMat = new Matrix_t;
+
+    // THIS CANNOT BE USED FOR A "MOVE" OPERATION
+    // THIS IS THE ACTUAL POINTER REFERENCE TO THE DATA.
+    newMat->mdata = mat->data_;
+    newMat->rows = mat->getRows();
+    newMat->cols = mat->getCols();
+    newMat->complex = mat->isComplex();
+    newMat->freeable = 0;
+
+    return newMat;
+}
+
+String_t* GAUSSPrivate::createPermString(GEString *str) {
+    String_t *newStr = GAUSS_MallocString_t();
+
+    string data = str->getData();
+    newStr->stdata = (char*)GAUSS_Malloc(data.size() + 1);
+    strncpy(newStr->stdata, data.c_str(), data.size() + 1);
+    newStr->length = data.size() + 1;
+    newStr->freeable = 1;
+
+    return newStr;
+}
+
+StringArray_t* GAUSSPrivate::createTempStringArray(GEStringArray *sa) {
+    if (!sa || sa->size() == 0)
+        return NULL;
+
+    vector<string> *strings = &(sa->data_);
+
+    char **saList = new char*[sa->size()];
+
+    if (!saList)
+        return NULL;
+
+    for (int i = 0; i < sa->size(); ++i) {
+        string str = strings->at(i);
+
+        char *str_ptr = new char[str.length() + 1];
+
+        if (!str_ptr)
+            return NULL;
+
+        strncpy(str_ptr, str.c_str(), str.length() + 1);
+        saList[i] = str_ptr;
     }
 
-    if (GAUSS::errorFunc_) {
-        delete GAUSS::errorFunc_;
-        GAUSS::errorFunc_ = 0;
+    StringArray_t *newSa = GAUSS_StringArray(sa->getRows(), sa->getCols(), saList);
+
+    for (int i = 0; i < sa->size(); ++i)
+        delete[] saList[i];
+
+    delete[] saList;
+
+    return newSa;
+}
+
+Array_t* GAUSSPrivate::createPermArray(GEArray *array) {
+    const int dims = array->getDimensions();
+    const int size = array->size();
+
+    if (!array || !dims || !size)
+        return NULL;
+
+    vector<double> vals = array->getData();
+    vector<int> orders = array->getOrders();
+
+    double *data = (double*)GAUSS_Malloc((size + dims) * sizeof(double));
+
+    if (!data)
+        return NULL;
+
+    for (int i = 0; i < dims; ++i)
+        data[i] = orders[i];
+
+    for (int i = dims; i < size + dims; ++i)
+        data[i] = vals[i - dims];
+
+    Array_t *newArray = (Array_t*)GAUSS_Malloc(sizeof(Array_t));
+
+    if (!newArray) {
+        delete data;
+        return NULL;
     }
 
-    if (GAUSS::flushFunc_) {
-        delete GAUSS::flushFunc_;
-        GAUSS::flushFunc_ = 0;
-    }
+    newArray->dims = dims;
+    newArray->nelems = size;
+    newArray->complex = static_cast<int>(array->isComplex());
+    newArray->adata = data;
+    newArray->freeable = 1;
 
-    if (GAUSS::inputStringFunc_) {
-        delete GAUSS::inputStringFunc_;
-        GAUSS::inputStringFunc_ = 0;
-    }
-
-    if (GAUSS::inputCharFunc_) {
-        if (GAUSS::inputCharFunc_ == GAUSS::inputBlockingCharFunc_)
-            GAUSS::inputBlockingCharFunc_ = 0;
-
-        delete GAUSS::inputCharFunc_;
-        GAUSS::inputCharFunc_ = 0;
-    }
-
-    if (GAUSS::inputBlockingCharFunc_) {
-        delete GAUSS::inputBlockingCharFunc_;
-        GAUSS::inputBlockingCharFunc_ = 0;
-    }
-
-    if (GAUSS::inputCheckFunc_) {
-        delete GAUSS::inputCheckFunc_;
-        GAUSS::inputCheckFunc_ = 0;
-    }
+    return newArray;
 }

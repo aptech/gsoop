@@ -13,22 +13,22 @@ from setuptools import setup, Extension
 lib_dir = os.environ.get('MTENGHOME')
 
 if not lib_dir:
-    print "Please set your MTENGHOME environment variable. Aborting."
+    print("Please set your MTENGHOME environment variable. Aborting.")
     sys.exit(1)
 
 os.environ["CC"] = "g++"
 os.environ["CXX"] = "g++"
 
-gauss_module = Extension('_gauss', 
+gauss_module = Extension('_ge', 
       sources=['gauss.i', 'src/gauss.cpp', 'src/gematrix.cpp', 'src/gearray.cpp', 'src/gestring.cpp', 'src/gestringarray.cpp', 'src/geworkspace.cpp', 'src/workspacemanager.cpp', 'src/gesymbol.cpp', 'src/gesymtype.cpp'], 
       include_dirs=['include', 'src', lib_dir + '/pthreads'],
       library_dirs=[lib_dir],
       libraries=['mteng'],
-      swig_opts=['-c++'],
+      swig_opts=['-c++', '-py3'],
       )
 
-setup (name = 'gauss',
-       version = '0.2',
+setup (name = 'ge',
+       version = '0.3',
        author      = "Aptech Systems, Inc.",
        author_email = "matt@aptech.com",
        description = """Python bindings for GAUSS Engine""",

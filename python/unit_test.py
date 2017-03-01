@@ -1,66 +1,121 @@
 import random
 import unittest
 import sys
-from gauss import *
+from ge import *
 
 # Unit Test to Check functionality
 
 class Output(IGEProgramOutput):
+    def __init__(self):
+        super().__init__()
+        print("Creating output class")
+
     def invoke(self, output):
-        print output,
+        print(output, end='', flush=True)
+
+    def __del__(self):
+        print("Deleting output class")
 
 class FlushOutput(IGEProgramFlushOutput):
+    def __init__(self):
+        super().__init__()
+
     def invoke(self):
-        print "A flush was requested."
+        print("A flush was requested.")
 
 class StringInput(IGEProgramInputString):
+    def __init__(self):
+        super().__init__()
+
     # length is the maximum accepted string length
     def invoke(self, length):
         self.setValue("Hello World!")
 
 class CharInput(IGEProgramInputChar):
+    def __init__(self):
+        super().__init__()
+
     def invoke(self):
         return ord('a')
 
 class InputCheck(IGEProgramInputCheck):
+    def __init__(self):
+        super().__init__()
+
     def invoke(self):
         # We pretend we have character input available.
-        print "Input check requested"
+        print("Input check requested")
         return 1
 
+eng = GAUSS()
+eng.setOutputModeManaged(False)
+
+#thisown = 0
+
+# Set output callback
+out = Output() #.__disown__()
+eng.setProgramOutputAll(out)
+
+# Set output flush callback
+flush = FlushOutput().__disown__()
+
+eng.setProgramFlushOutput(flush)
+
+# Set string input callback
+inString = StringInput().__disown__()
+
+eng.setProgramInputString(inString)
+
+# Set character input callback
+inChar = CharInput().__disown__()
+
+eng.setProgramInputCharBlocking(inChar)
+eng.setProgramInputChar(inChar)
+
+# Set character input check callback
+inputCheckCallback = InputCheck().__disown__()
+#inputCheckCallback.thisown = 0;
+eng.setProgramInputCheck(inputCheckCallback)
+
+eng.initialize()
+
 class TestGAUSSEngine(unittest.TestCase):
-    def setUp(self):
-        self.ge = GAUSS()
+    ge = eng
 
-        self.assertTrue(self.ge is not None)
-
-        # Set output callback
-        out = Output()
-        out.thisown = 0;
-        self.ge.setProgramOutputAll(out)
-
-        # Set output flush callback
-        flush = FlushOutput()
-        flush.thisown = 0;
-        self.ge.setProgramFlushOutput(flush)
-
-        # Set string input callback
-        inString = StringInput()
-        inString.thisown = 0;
-        self.ge.setProgramInputString(inString)
-
-        # Set character input callback
-        inChar = CharInput()
-        inChar.thisown = 0;
-        self.ge.setProgramInputCharBlocking(inChar)
-        self.ge.setProgramInputChar(inChar)
-
-        # Set character input check callback
-        inputCheckCallback = InputCheck()
-        inputCheckCallback.thisown = 0;
-        self.ge.setProgramInputCheck(inputCheckCallback)
-
-        self.assertTrue(self.ge.initialize())
+#    def setUp(self):
+#        self.ge = GAUSS()
+#        self.ge.setOutputModeManaged(False)
+#
+#        self.assertTrue(self.ge is not None)
+#
+#        #thisown = 0
+#
+#        # Set output callback
+#        self.out = Output() #.__disown__()
+#        self.ge.setProgramOutputAll(self.out)
+#
+#        # Set output flush callback
+#        flush = FlushOutput().__disown__()
+#        
+#        self.ge.setProgramFlushOutput(flush)
+#
+#        # Set string input callback
+#        inString = StringInput().__disown__()
+#        
+#        self.ge.setProgramInputString(inString)
+#
+#        # Set character input callback
+#        inChar = CharInput().__disown__()
+#        
+#        self.ge.setProgramInputCharBlocking(inChar)
+#        self.ge.setProgramInputChar(inChar)
+#
+#        # Set character input check callback
+#        inputCheckCallback = InputCheck().__disown__()
+#        #inputCheckCallback.thisown = 0;
+#        self.ge.setProgramInputCheck(inputCheckCallback)
+#
+#        self.assertTrue(self.ge.initialize())
 
     def testMatrices(self):
         self.ge.executeString("x = 5")
@@ -88,7 +143,7 @@ class TestGAUSSEngine(unittest.TestCase):
 
         self.ge.setSymbol(GEMatrix(range(0, 10)), "y")
         y = self.ge.getMatrix("y")
-        self.assertEquals(list(y.getData()), range(0, 10))
+        self.assertEquals(list(y.getData()), [float(i) for i in range(0, 10)])
         pass
 
     def testArrays(self):
@@ -104,8 +159,8 @@ class TestGAUSSEngine(unittest.TestCase):
         self.assertEquals(auArray.getDimensions(), 3)
 
         self.assertEquals(auArray.size(), 24) # complex
-        self.assertEquals(list(auArray.getData()), range(1, 25))
-        self.assertEquals(list(auArray.getImagData()), range(25, 49))
+        self.assertEquals(list(auArray.getData()), [float(i) for i in range(1, 25)])
+        self.assertEquals(list(auArray.getImagData()), [float(i) for i in range(25, 49)])
 
         # Extract a plane from the array
         self.assertEquals(list(auArray.getPlane([0, 2, 0]).getData()), [5, 6, 7, 8, 17, 18, 19, 20])
@@ -140,6 +195,7 @@ class TestGAUSSEngine(unittest.TestCase):
 
         # Change the value of 's' in GAUSS
         self.ge.executeString("s = \"Goodbye World\"", tempWh)
+        self.ge.executeString("print s", tempWh)
 
         s = self.ge.getString("s")
         self.assertEquals(str(s), "Hello World")
@@ -180,8 +236,9 @@ class TestGAUSSEngine(unittest.TestCase):
         self.assertEquals(sa.size(), 4)
         self.assertEquals(list(sa.getData()), ["one", "two", "three", "four"])
 
-    def tearDown(self):
-        self.ge.shutdown()
+#    def tearDown(self):
+#        self.ge.shutdown()
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestGAUSSEngine)
-unittest.TextTestRunner(verbosity=2).run(suite)
+unittest.TextTestRunner(verbosity=3).run(suite)
+

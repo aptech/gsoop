@@ -3,13 +3,16 @@
 #include <cstring>
 using namespace std;
 
-WorkspaceManager::WorkspaceManager()
-{
+WorkspaceManager::WorkspaceManager() {
     current_ = 0;
-	mutex_ = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_init(&mutex_, NULL);
 }
 
-GEWorkspace* WorkspaceManager::getCurrent() {
+WorkspaceManager::~WorkspaceManager() {
+    pthread_mutex_destroy(&mutex_);
+}
+
+GEWorkspace* WorkspaceManager::getCurrent() const {
 	pthread_mutex_lock(&mutex_);
     GEWorkspace *wh = current_;
     pthread_mutex_unlock(&mutex_);
@@ -33,8 +36,8 @@ bool WorkspaceManager::setCurrent(GEWorkspace *wh) {
     return true;
 }
 
-bool WorkspaceManager::contains(GEWorkspace *wh) {
-    map<string, GEWorkspace*>::iterator it;
+bool WorkspaceManager::contains(GEWorkspace *wh) const {
+    map<string, GEWorkspace*>::const_iterator it;
 
 	pthread_mutex_lock(&mutex_);
 
@@ -50,7 +53,7 @@ bool WorkspaceManager::contains(GEWorkspace *wh) {
     return false;
 }
 
-GEWorkspace* WorkspaceManager::getWorkspace(string name) {
+GEWorkspace* WorkspaceManager::getWorkspace(const string &name) const {
     pthread_mutex_lock(&mutex_);
 
 	if (workspaces_.find(name) == workspaces_.end()) {
@@ -58,7 +61,7 @@ GEWorkspace* WorkspaceManager::getWorkspace(string name) {
         return 0;
 	}
 
-	GEWorkspace *wksp = workspaces_[name];
+    GEWorkspace *wksp = workspaces_.at(name);
 
 	pthread_mutex_unlock(&mutex_);
 
@@ -66,13 +69,13 @@ GEWorkspace* WorkspaceManager::getWorkspace(string name) {
 }
 
 void WorkspaceManager::destroyAll() {
-    vector<GEWorkspace*> whs;
-    map<string, GEWorkspace*>::iterator it;
-
     if (workspaces_.empty())
         return;
 
+    vector<GEWorkspace*> whs;
+
     pthread_mutex_lock(&mutex_);
+    map<string, GEWorkspace*>::iterator it;
     for (it = workspaces_.begin(); it != workspaces_.end(); ++it)
         whs.push_back((*it).second);
     pthread_mutex_unlock(&mutex_);
@@ -81,7 +84,7 @@ void WorkspaceManager::destroyAll() {
         destroy(whs.at(i));
 }
 
-bool WorkspaceManager::isValidWorkspace(GEWorkspace *wh) {
+bool WorkspaceManager::isValidWorkspace(GEWorkspace *wh) const {
     return wh && wh->workspace();
 }
 
@@ -106,7 +109,7 @@ bool WorkspaceManager::destroy(GEWorkspace *wh) {
     return true;
 }
 
-GEWorkspace* WorkspaceManager::create(string name) {
+GEWorkspace* WorkspaceManager::create(const string &name) {
     GEWorkspace *ews = this->getWorkspace(name);
 
     if (ews)
@@ -121,14 +124,15 @@ GEWorkspace* WorkspaceManager::create(string name) {
     return workspace;
 }
 
-vector<string> WorkspaceManager::workspaceNames() {
+vector<string> WorkspaceManager::workspaceNames() const {
     vector<string> names;
+
+    pthread_mutex_lock(&mutex_);
 
     names.reserve(this->count());
 
-    map<string, GEWorkspace*>::iterator it;
+    map<string, GEWorkspace*>::const_iterator it;
 
-    pthread_mutex_lock(&mutex_);
     for (it = workspaces_.begin(); it != workspaces_.end(); ++it)
         names.push_back((*it).first);
     pthread_mutex_unlock(&mutex_);
@@ -136,6 +140,6 @@ vector<string> WorkspaceManager::workspaceNames() {
     return names;
 }
 
-int WorkspaceManager::count() {
+int WorkspaceManager::count() const {
     return workspaces_.size();
 }

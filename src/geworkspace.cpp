@@ -1,16 +1,17 @@
 #include "geworkspace.h"
+#include "mteng.h"
 
 GEWorkspace::GEWorkspace(WorkspaceHandle_t *wh)
 {
     this->workspace_ = wh;
 }
 
-GEWorkspace::GEWorkspace(std::string name, WorkspaceHandle_t *wh) {
+GEWorkspace::GEWorkspace(const std::string &name, WorkspaceHandle_t *wh) {
     this->name_ = name;
     this->workspace_ = wh;
 }
 
-void GEWorkspace::setName(std::string name) {
+void GEWorkspace::setName(const std::string &name) {
     this->name_ = name;
 }
 

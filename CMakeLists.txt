@@ -13,7 +13,7 @@ else()
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
 endif()
 
-set(CMAKE_BUILD_TYPE Release CACHE STRING "Default to Release")
+#set(CMAKE_BUILD_TYPE Release CACHE STRING "Default to Release")
 
 if(NOT MTENGHOME)
     message(FATAL_ERROR "MTENGHOME is not defined.  You must tell CMake where to find it. This will be your GAUSS Engine Installation directory")
@@ -21,30 +21,40 @@ if(NOT MTENGHOME)
     return()
 endif()
 
-if(NOT DEFINED ENV{PHP_INCLUDE})
-    message(FATAL_ERROR "PHP_INCLUDE is not defined. Please set this variable as a semi-colon separated list of PHP include paths.")
-    return()
-endif()
-set(PHP_INCLUDE $ENV{PHP_INCLUDE})
+
+find_program(PHP_CONFIG_BINARY NAMES php-config5 php-config)
+execute_process(
+    COMMAND ${PHP_CONFIG_BINARY} --includes
+    OUTPUT_VARIABLE PHP_INCLUDE_DIRS
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+string(REGEX REPLACE "\s?-I" ";" PHP_INCLUDE_DIRS ${PHP_INCLUDE_DIRS})
+
+#if(NOT PHP_INCLUDE)
+#    if(NOT DEFINED ENV{PHP_INCLUDE})
+#        message(FATAL_ERROR "PHP_INCLUDE is not defined. Please set this variable as a semi-colon separated list of PHP include paths.")
+#        return()
+#    endif()
+#endif()
+#
+#set(PHP_INCLUDE $ENV{PHP_INCLUDE} CACHE STRING "PHP include directories")
 
 if(WIN32)
     add_definitions(-DZEND_WIN32 -DPHP_WIN32 -DZEND_WIN32_FORCE_INLINE -D_USE_32BIT_TIME_T -DZEND_DEBUG=0 -DZTS=1 -DNSAPI=1)
 endif()
 
 # remove ":" from path
-if(UNIX)
-    string(REPLACE "-I" ";" PHP_INCLUDE ${PHP_INCLUDE})
-endif()
+#if(UNIX)
+#    string(REPLACE "-I" ";" PHP_INCLUDE ${PHP_INCLUDE})
+#endif()
 
-message("Using PHP Include Path: ${PHP_INCLUDE}")
+message("Using PHP Include Path: ${PHP_INCLUDE_DIRS}")
 
 file(GLOB_RECURSE gauss_SOURCES "src/*.cpp")
 file(GLOB_RECURSE gauss_HEADERS "src/*.h")
 
-set(gauss_INCLUDE_DIRS "include;src;.")
-foreach(_phpHeader ${PHP_INCLUDE})
-    list(APPEND gauss_INCLUDE_DIRS ${_phpHeader})
-endforeach()
+set(gauss_INCLUDE_DIRS . include src ${PHP_INCLUDE_DIRS})
 
 if(WIN32)
     list(APPEND gauss_INCLUDE_DIRS "${MTENGHOME}/pthreads")

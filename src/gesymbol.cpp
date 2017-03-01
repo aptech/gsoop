@@ -11,7 +11,7 @@ GESymbol::GESymbol() {
  *
  * @return Row count
  */
-int GESymbol::getRows() {
+int GESymbol::getRows() const {
     return this->rows_;
 }
 
@@ -24,7 +24,7 @@ void GESymbol::setRows(int rows) {
  *
  * @return        Column count
  */
-int GESymbol::getCols() {
+int GESymbol::getCols() const {
     return this->cols_;
 }
 
@@ -36,7 +36,7 @@ void GESymbol::setCols(int cols) {
  * Returns whether or not the data is complex or not.
  * @return        True if data is complex, false if not.
  */
-bool GESymbol::isComplex() {
+bool GESymbol::isComplex() const {
     return this->complex_;
 }
 
@@ -49,7 +49,7 @@ void GESymbol::setComplex(bool isComplex) {
  *
  * @return        Total element count
  */
-int GESymbol::size() {
+int GESymbol::size() const {
     return this->rows_ * this->cols_;
 }
 

@@ -1,4 +1,4 @@
-%module(directors="1") gauss
+%module(directors="1") ge
 %feature("director") IGEProgramOutput;
 %feature("director") IGEProgramFlushOutput;
 %feature("director") IGEProgramInputString;
@@ -7,6 +7,15 @@
 %include "std_string.i"
 %include "std_vector.i"
 %include "typemaps.i"
+
+#ifdef SWIGPYTHON
+%include "pyabc.i"
+#endif
+
+#ifdef SWIGWIN
+%include "windows.i"
+#endif
+
 namespace std {
     %template(DoubleVector) vector<double>;
     %template(DoubleDoubleVector) vector<vector<double> >;
@@ -16,7 +25,43 @@ namespace std {
     %template(StringStringVector) vector<vector<string> >;
 }
 
+#ifdef SWIGCSHARP
+%include "arrays_csharp.i"
+%apply double INPUT[] {double *data}
+%apply double INPUT[] {double *imag_data}
+%apply int INPUT[] {int *orders}
+/* allow partial c# classes */
+/*%typemap(csclassmodifiers) SWIGTYPE "public partial class"*/
+/*%extend StringVector {
+    public string[] toArray()
+};*/
+/*
+namespace std {
+%typemap(csclassmodifiers) StringVector "public partial class"
+%typemap(cscode) StringVector %{
+    // cast from C# string array
+    public static implicit operator StringVector(string[] inVal) {
+        var outVal= new StringVector();
+        foreach (string element in inVal) {
+            outVal.Add(element);
+        }
+        return outVal;
+    }
+
+    // cast to C# string array
+    public static implicit operator string[](StringVector inVal) {
+        var outVal= new string[inVal.Count];
+        inVal.CopyTo(outVal);
+        return outVal;
+    }
+%}
+*/
+}
+
+#endif
+
 /*%rename(GESymType) GESymTypeNS;*/
+#define GAUSS_EXPORT 
 
 %{
  /* Includes the header in the wrapper code */
@@ -34,6 +79,7 @@ namespace std {
 
 // Start Python only
 #ifdef SWIGPYTHON
+
 %extend GESymbol {
     string __str__() {
         return $self->toString();
@@ -41,6 +87,7 @@ namespace std {
 };
 
 // Automatically release ownership of callback classes
+/*
 %pythonappend IGEProgramOutput() {
     self.thisown = 0
 };
@@ -60,6 +107,7 @@ namespace std {
 %pythonappend IGEProgramInputCheck() {
     self.thisown = 0
 };
+*/
 
 #endif
 // End Python only
@@ -211,3 +259,4 @@ namespace std {
 %include "src/workspacemanager.h"
 %include "src/gefuncwrapper.h"
 %include "src/gesymtype.h"
+

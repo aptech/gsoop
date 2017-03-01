@@ -38,7 +38,7 @@ Open    High    Low
  *
  * @param data
  */
-GEStringArray::GEStringArray(vector<string> data) {
+GEStringArray::GEStringArray(const vector<string> &data) {
     setData(data, 1, data.size());
 }
 
@@ -68,7 +68,7 @@ Low     Close
  * @param rows        Row count
  * @param cols        Column count
  */
-GEStringArray::GEStringArray(vector<string> data, int rows, int cols) {
+GEStringArray::GEStringArray(const vector<string> &data, int rows, int cols) {
     setData(data, rows, cols);
 }
 
@@ -97,7 +97,7 @@ bar
  * @param col        Column index
  * @return        Value at specified index
  */
-string GEStringArray::getElement(int row, int col) {
+string GEStringArray::getElement(int row, int col) const {
     unsigned int index = row * this->getCols() + col;
 
     if (index >= data_.size() || row >= this->getRows() || col >= this->getCols())
@@ -144,7 +144,7 @@ ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT
  *
  * @return        string vector
  */
-vector<string> GEStringArray::getData() {
+vector<string> GEStringArray::getData() const {
     return vector<string>(data_);
 }
 
@@ -155,7 +155,7 @@ vector<string> GEStringArray::getData() {
   * @param rows     Rows
   * @param cols     Cols
   */
-void GEStringArray::setData(vector<string> data, int rows, int cols) {
+void GEStringArray::setData(const vector<string> &data, int rows, int cols) {
     if (rows * cols > data.size()) {
         rows = data.size();
         cols = 1;
@@ -192,7 +192,7 @@ foo        foo        baz
  * @param row      Row
  * @param col      Col
  */
-bool GEStringArray::setElement(string str, int row, int col) {
+bool GEStringArray::setElement(const string &str, int row, int col) {
     unsigned int index = row * this->getCols() + col;
 
     if (index >= data_.size())
@@ -243,7 +243,7 @@ bool GEStringArray::fromStringArray(StringArray_t *sa) {
     return true;
 }
 
-string GEStringArray::toString() {
+string GEStringArray::toString() const {
     stringstream s;
 
     int rows = getRows();
