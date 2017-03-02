@@ -55,8 +55,8 @@ namespace std {
         return outVal;
     }
 %}
-*/
 }
+*/
 
 #endif
 
