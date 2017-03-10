@@ -5,7 +5,6 @@
 
 #include "gearray.h"
 #include "gematrix.h"
-#include "gestring.h"
 #include "gestringarray.h"
 #include "geworkspace.h"
 #include "workspacemanager.h"
@@ -1588,41 +1587,47 @@ GEStringArray* GAUSS::getStringArray(string name, GEWorkspace *wh) const {
 /**
  * Retrieve a string from the GAUSS symbol table in the active workspace. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without
- * first calling setSymbol(GEString*, string).
+ * first calling setSymbol(string, name).
  *
- * @param name        Name of GAUSS symbol
+ * @param name    Name of GAUSS symbol
  * @return        string object
  *
  * @see getString(string, GEWorkspace*)
- * @see setSymbol(GEString*, string)
- * @see setSymbol(GEString*, string, GEWorkspace*)
+ * @see setSymbol(string, string)
+ * @see setSymbol(string, string, GEWorkspace*)
  */
-GEString* GAUSS::getString(string name) const {
+string GAUSS::getString(string name) const {
     return getString(name, getActiveWorkspace());
 }
 
 /**
  * Retrieve a string from the GAUSS symbol table in workspace _wh_. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without
- * first calling setSymbol(GEString*, string).
+ * first calling setSymbol(string, string).
  *
- * @param name        Name of GAUSS symbol
+ * @param name    Name of GAUSS symbol
  * @return        string object
  *
  * @see getString(string)
- * @see setSymbol(GEString*, string)
- * @see setSymbol(GEString*, string, GEWorkspace*)
+ * @see setSymbol(string, string)
+ * @see setSymbol(string, string, GEWorkspace*)
  */
-GEString* GAUSS::getString(string name, GEWorkspace *wh) const {
+string GAUSS::getString(string name, GEWorkspace *wh) const {
+    string ret;
     if (!this->d->manager_->isValidWorkspace(wh))
-        return NULL;
+        return ret;
 
     String_t *gsString = GAUSS_GetString(wh->workspace(), removeConst(&name));
 
-    if (gsString == NULL)
-        return NULL;
+    if (gsString == NULL || gsString->stdata == NULL)
+        return ret;
 
-    return new GEString(gsString);
+    ret = string(gsString->stdata);
+    GAUSS_Free(gsString->stdata);
+    GAUSS_Free(gsString);
+
+
+    return ret;
 }
 
 /**
@@ -1817,19 +1822,19 @@ bool GAUSS::setSymbol(GEArray *array, string name, GEWorkspace *wh) {
  *
  * #### Python ####
  * ~~~{.py}
-s = GEString("Hello World")
+s = "Hello World"
 ge.setSymbol(s, "s")
  * ~~~
  *
  * #### PHP ####
  * ~~~{.php}
-$s = new GEString("Hello World");
+$s = "Hello World";
 $ge->setSymbol($s, "s");
  * ~~~
  *
  * <!--#### Java ####
  * ~~~{.java}
-GEString s = new GEString("Hello World");
+s = "Hello World";
 ge.setSymbol(s, "s");
  * ~~~-->
  *
@@ -1837,10 +1842,10 @@ ge.setSymbol(s, "s");
  * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
- * @see setSymbol(GEString*, string, GEWorkspace*)
+ * @see setSymbol(string, string, GEWorkspace*)
  * @see getString(string)
  */
-bool GAUSS::setSymbol(GEString *str, string name) {
+bool GAUSS::setSymbol(string str, string name) {
     return setSymbol(str, name, getActiveWorkspace());
 }
 
@@ -1853,19 +1858,19 @@ bool GAUSS::setSymbol(GEString *str, string name) {
  *
  * #### Python ####
  * ~~~{.py}
-s = GEString("Hello World")
+s = "Hello World"
 ge.setSymbol(s, "s", myWorkspace)
  * ~~~
  *
  * #### PHP ####
  * ~~~{.php}
-$s = new GEString("Hello World");
+$s = "Hello World";
 $ge->setSymbol($s, "s", $myWorkspace);
  * ~~~
  *
  * <!--#### Java ####
  * ~~~{.java}
-GEString s = new GEString("Hello World");
+s = "Hello World";
 ge.setSymbol(s, "s", myWorkspace);
  * ~~~-->
  *
@@ -1873,11 +1878,11 @@ ge.setSymbol(s, "s", myWorkspace);
  * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
- * @see setSymbol(GEString*, string)
+ * @see setSymbol(string, string)
  * @see getString(string)
  */
-bool GAUSS::setSymbol(GEString *str, string name, GEWorkspace *wh) {
-    if (!str || name.empty())
+bool GAUSS::setSymbol(string str, string name, GEWorkspace *wh) {
+    if (name.empty())
         return false;
 
     if (!this->d->manager_->isValidWorkspace(wh))
@@ -2434,7 +2439,7 @@ ge.setProgramInputString(strCallback)
 ge.executeString("s = cons")
 
 s = ge.getString("s")
-print "s = " + s.getData()
+print "s = " + s
  * ~~~
  *
  * #### PHP ####
@@ -2453,7 +2458,7 @@ $ge->setProgramInputString($strCallback);
 $ge->executeString("s = cons");
 
 $s = $ge->getString("s");
-echo "s = " . $s->getData() . PHP_EOL;
+echo "s = " . $s . PHP_EOL;
  * ~~~
  *
  * <!--#### Java <NOT IMPLEMENTED> ####
@@ -2471,8 +2476,8 @@ GEProgramInputString consFn = new GEProgramInputString() {
 
 ge.setProgramInputString(consFn);
 ge.executeString("s = cons");
-GEString s = ge.getString("s");
-System.out.println("s = " + s.getData());
+String s = ge.getString("s");
+System.out.println("s = " + s);
  * ~~~-->
  *
  * will result in the output:
@@ -2814,10 +2819,9 @@ Matrix_t* GAUSSPrivate::createTempMatrix(GEMatrix *mat) {
     return newMat;
 }
 
-String_t* GAUSSPrivate::createPermString(GEString *str) {
+String_t* GAUSSPrivate::createPermString(string data) {
     String_t *newStr = GAUSS_MallocString_t();
 
-    string data = str->getData();
     newStr->stdata = (char*)GAUSS_Malloc(data.size() + 1);
     strncpy(newStr->stdata, data.c_str(), data.size() + 1);
     newStr->length = data.size() + 1;

@@ -61,7 +61,6 @@ namespace std {
 #endif
 
 /*%rename(GESymType) GESymTypeNS;*/
-#define GAUSS_EXPORT 
 
 %{
  /* Includes the header in the wrapper code */
@@ -69,7 +68,6 @@ namespace std {
  #include "src/gesymbol.h"
  #include "src/gearray.h"
  #include "src/gematrix.h"
- #include "src/gestring.h"
  #include "src/gestringarray.h"
  #include "src/geworkspace.h"
  #include "src/workspacemanager.h"
@@ -245,15 +243,12 @@ namespace std {
 %ignore GEArray::Init(Array_t*);
 %ignore GEMatrix::GEMatrix(Matrix_t*);
 %ignore GEMatrix::Init(Matrix_t*);
-%ignore GEString::GEString(String_t*);
-%ignore GEString::Init(String_t*);
 
 /* Parse the header file to generate wrappers */
 %include "src/gauss.h"
 %include "src/gesymbol.h"
 %include "src/gearray.h"
 %include "src/gematrix.h"
-%include "src/gestring.h"
 %include "src/gestringarray.h"
 %include "src/geworkspace.h"
 %include "src/workspacemanager.h"

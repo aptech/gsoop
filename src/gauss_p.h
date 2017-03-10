@@ -9,7 +9,6 @@ class WorkspaceManager;
 class GEArray;
 class GEMatrix;
 class GEStringArray;
-class GEString;
 
 class GAUSSPrivate
 {
@@ -23,7 +22,7 @@ public:
 
     Matrix_t* createTempMatrix(GEMatrix*);
     StringArray_t* createTempStringArray(GEStringArray*);
-    String_t* createPermString(GEString*);
+    String_t* createPermString(std::string);
     Array_t* createPermArray(GEArray*);
 };
 

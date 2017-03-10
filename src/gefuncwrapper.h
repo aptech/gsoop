@@ -167,7 +167,7 @@ ge.setProgramInputString(strCallback)
 ge.executeString("s = cons")
 
 s = ge.getString("s")
-print "s = " + s.getData()
+print "s = " + s
  * ~~~
  *
  * #### PHP ####
@@ -187,7 +187,7 @@ $ge->setProgramInputString($strCallback);
 $ge->executeString("s = cons;");
 
 $s = $ge->getString("s");
-echo "s = " . $s->getData() . PHP_EOL;
+echo "s = " . $s . PHP_EOL;
  * ~~~
  *
  * <!--#### Java `<NOT IMPLEMENTED>` ####
@@ -209,8 +209,8 @@ GEProgramInputString consFn = new GEProgramInputString() {
 
 ge.setProgramInputString(consFn);
 ge.executeString("s = cons;");
-GEString s = ge.getString("s");
-System.out.println("s = " + s.getData());
+String s = ge.getString("s");
+System.out.println("s = " + s);
  * ~~~-->
  * will result in the output:
  * ~~~

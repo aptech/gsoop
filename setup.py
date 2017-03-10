@@ -3,7 +3,7 @@
 """
 setup.py file for GAUSS Engine Python bindings 
 
-For building Python extension _gauss.so
+For building Python extension _ge.so
 
 """
 
@@ -16,14 +16,19 @@ if not lib_dir:
     print("Please set your MTENGHOME environment variable. Aborting.")
     sys.exit(1)
 
+is_win = os.name == 'nt'
 os.environ["CC"] = "g++"
 os.environ["CXX"] = "g++"
 
 gauss_module = Extension('_ge', 
-      sources=['gauss.i', 'src/gauss.cpp', 'src/gematrix.cpp', 'src/gearray.cpp', 'src/gestring.cpp', 'src/gestringarray.cpp', 'src/geworkspace.cpp', 'src/workspacemanager.cpp', 'src/gesymbol.cpp', 'src/gesymtype.cpp'], 
-      include_dirs=['include', 'src', lib_dir + '/pthreads'],
+      sources=['gauss.i', 'src/gauss.cpp', 'src/gematrix.cpp', 
+               'src/gearray.cpp', 'src/gestringarray.cpp', 
+               'src/geworkspace.cpp', 'src/workspacemanager.cpp', 
+               'src/gesymbol.cpp', 'src/gesymtype.cpp'], 
+      include_dirs=['include', 'src'] + ([lib_dir + '/pthreads'] if is_win else []),
       library_dirs=[lib_dir],
-      libraries=['mteng'],
+      libraries=['mteng'] + (['pthreadVC2'] if is_win == 'nt' else []),
+      define_macros=[('GAUSS_LIBRARY', None)],
       swig_opts=['-c++', '-py3'],
       )
 

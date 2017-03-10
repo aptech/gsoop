@@ -1,6 +1,10 @@
 #ifndef GAUSS_H
 #define GAUSS_H
 
+#ifdef SWIG
+#define GAUSS_EXPORT 
+#endif
+
 #ifndef GAUSS_EXPORT
 #ifdef _WIN32
 #ifdef GAUSS_LIBRARY
@@ -21,7 +25,6 @@
 
 class GEArray;
 class GEMatrix;
-class GEString;
 class GEStringArray;
 class GEWorkspace;
 class WorkspaceManager;
@@ -124,8 +127,8 @@ public:
     GEArray* getArray(std::string, GEWorkspace*) const;
     GEArray* getArrayAndClear(std::string) const;
     GEArray* getArrayAndClear(std::string, GEWorkspace*) const;
-    GEString* getString(std::string) const;
-    GEString* getString(std::string, GEWorkspace*) const;
+    std::string getString(std::string) const;
+    std::string getString(std::string, GEWorkspace*) const;
     GEStringArray* getStringArray(std::string) const;
     GEStringArray* getStringArray(std::string, GEWorkspace*) const;
 
@@ -133,8 +136,8 @@ public:
     bool setSymbol(GEMatrix*, std::string, GEWorkspace*);
     bool setSymbol(GEArray*, std::string);
     bool setSymbol(GEArray*, std::string, GEWorkspace*);
-    bool setSymbol(GEString*, std::string);
-    bool setSymbol(GEString*, std::string, GEWorkspace*);
+    bool setSymbol(std::string, std::string);
+    bool setSymbol(std::string, std::string, GEWorkspace*);
     bool setSymbol(GEStringArray*, std::string);
     bool setSymbol(GEStringArray*, std::string, GEWorkspace*);
 
