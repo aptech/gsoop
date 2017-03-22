@@ -61,7 +61,7 @@ $ge->executeString("print x;");
  * @param d Scalar value
  */
 GEMatrix::GEMatrix(double n) : GESymbol() {
-	this->data_->push_back(n);
+	this->data_.push_back(n);
     this->setRows(1);
     this->setCols(1);
     this->setComplex(false);
@@ -81,8 +81,8 @@ GEMatrix::GEMatrix(Matrix_t* mat) : GESymbol() {
 	int elements = size() * (isComplex() ? 2 : 1);
 
 	this->data_;
-	this->data_->resize(elements);
-	memcpy(this->data_->data(), mat->mdata, elements * sizeof(double));
+	this->data_.resize(elements);
+	memcpy(this->data_.data(), mat->mdata, elements * sizeof(double));
 
 	GAUSS_Free(mat->mdata); // We have ownership of original from symbol table
 	GAUSS_Free(mat);
@@ -102,8 +102,8 @@ GEMatrix::GEMatrix(GAUSS_MatrixInfo_t* mat) : GESymbol() {
 
 	int elements = size() * (isComplex() ? 2 : 1);
 
-	this->data_->resize(elements);
-	memcpy(this->data_->data(), mat->maddr, elements * sizeof(double));
+	this->data_.resize(elements);
+	memcpy(this->data_.data(), mat->maddr, elements * sizeof(double));
 
 	delete mat;
 }
@@ -271,16 +271,16 @@ void GEMatrix::Init(const double *p_real_data, const double *p_imag_data, int ro
 
     int elements = rows * cols;
 
-	this->data_->resize(elements * (complex ? 2 : 1));
+	this->data_.resize(elements * (complex ? 2 : 1));
 
-    memcpy(this->data_->data(), p_real_data, elements * sizeof(double));
+    memcpy(this->data_.data(), p_real_data, elements * sizeof(double));
 
     if (complex)
-        memcpy(this->data_->data() + elements, p_imag_data, elements * sizeof(double));
+        memcpy(this->data_.data() + elements, p_imag_data, elements * sizeof(double));
 }
 
 void GEMatrix::clear() {
-	this->data_->resize(1);
+	this->data_.resize(1);
 	this->data_[0] = 0.0;
 	GESymbol::clear();
 }
@@ -295,7 +295,7 @@ void GEMatrix::clear() {
  * @see setElement(double, int, int, bool)
  */
 bool GEMatrix::setElement(double value, bool imag) {
-    if (this->data_->empty() || (!isComplex() && imag))
+    if (this->data_.empty() || (!isComplex() && imag))
         return false;
 
 	int index = imag ? this->size() : 0;
@@ -317,7 +317,7 @@ bool GEMatrix::setElement(double value, bool imag) {
  * @see getElement(int, int, bool)
  */
 double GEMatrix::getElement(bool imag) const {
-    if (this->data_->empty())
+    if (this->data_.empty())
         return false;
 
     return this->data_[imag ? this->size() : 0];
@@ -337,14 +337,14 @@ double GEMatrix::getElement(bool imag) const {
  * @see getElement(bool)
  */
 double GEMatrix::getElement(int row, int col, bool imag) const {
-    if (this->data_->empty() || (!isComplex() && imag))
+    if (this->data_.empty() || (!isComplex() && imag))
         return 0;
 	else if (row >= this->getRows() || col >= this->getCols())
         return 0;
 	
 	int index = row * getCols() + col + (imag ? size() : 0);
 
-	return this->data_->at(index);
+	return this->data_.at(index);
 }
 
 /**
@@ -360,7 +360,7 @@ double GEMatrix::getElement(int row, int col, bool imag) const {
  * @see setElement(double, bool)
  */
 bool GEMatrix::setElement(double value, int row, int col, bool imag) {
-	if (this->data_->empty() || (!isComplex() && imag))
+	if (this->data_.empty() || (!isComplex() && imag))
 		return false;
 	else if (row >= this->getRows() || col >= this->getCols())
 		return false;
@@ -423,7 +423,7 @@ vector<double> GEMatrix::getData(bool imag) const {
 	int elements = this->size();
 	vector<double> ret(elements);
 
-	memcpy(ret.data(), this->data_->data(), elements * sizeof(double));
+	memcpy(ret.data(), this->data_.data(), elements * sizeof(double));
 
 	return ret;
 }
@@ -471,7 +471,7 @@ vector<double> GEMatrix::getImagData() const {
 
 	ret.resize(elements);
 
-	memcpy(ret.data(), this->data_->data() + elements, elements * sizeof(double));
+	memcpy(ret.data(), this->data_.data() + elements, elements * sizeof(double));
 
 	return ret;
 }
