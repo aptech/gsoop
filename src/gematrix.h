@@ -14,7 +14,6 @@ class GAUSS_EXPORT GEMatrix : public GESymbol
 {
 public:
     GEMatrix();
-	GEMatrix(const GEMatrix &other);
     virtual ~GEMatrix();
     GEMatrix(double);
     GEMatrix(const std::vector<double> &data);
