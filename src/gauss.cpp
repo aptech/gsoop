@@ -39,9 +39,9 @@ using namespace std;
 static double kMissingValue = GAUSS_MissingValue();
 static string kHomeVar = "MTENGHOME";
 
-static map<int, string> kOutputStore;
+static unordered_map<int, string> kOutputStore;
 static pthread_mutex_t kOutputMutex = PTHREAD_MUTEX_INITIALIZER;
-static map<int, string> kErrorStore;
+static unordered_map<int, string> kErrorStore;
 static pthread_mutex_t kErrorMutex = PTHREAD_MUTEX_INITIALIZER;
 
 IGEProgramOutput* GAUSS::outputFunc_ = 0;
@@ -1343,13 +1343,15 @@ GEMatrix* GAUSS::getMatrix(string name, GEWorkspace *wh) const {
     if (!this->d->manager_->isValidWorkspace(wh))
         return NULL;
 
-    Matrix_t *gsMat = GAUSS_GetMatrix(wh->workspace(), removeConst(&name));
+	GAUSS_MatrixInfo_t *info = new GAUSS_MatrixInfo_t;
+	int ret = GAUSS_GetMatrixInfo(wh->workspace(), info, removeConst(&name));
 
-    if (gsMat == NULL) {
-        return NULL;
-    }
+	if (ret) {
+		delete info;
+		return NULL;
+	}
 
-    return new GEMatrix(gsMat);
+    return new GEMatrix(info);
 }
 
 /**
@@ -1713,6 +1715,7 @@ bool GAUSS::setSymbol(GEMatrix *matrix, string name, GEWorkspace *wh) {
         ret = GAUSS_PutDouble(wh->workspace(), matrix->getElement(), removeConst(&name));
     } else {
         Matrix_t* newMat = this->d->createTempMatrix(matrix);
+
         ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat, removeConst(&name));
         delete newMat;
     }
@@ -1807,12 +1810,12 @@ bool GAUSS::setSymbol(GEArray *array, string name, GEWorkspace *wh) {
     if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    Array_t *newArray = this->d->createPermArray(array);
+    Array_t *newArray = this->d->createTempArray(array);
 
     if (!newArray)
         return false;
 
-    return (GAUSS_MoveArrayToGlobal(wh->workspace(), newArray, removeConst(&name)) == GAUSS_SUCCESS);
+    return (GAUSS_CopyArrayToGlobal(wh->workspace(), newArray, removeConst(&name)) == GAUSS_SUCCESS);
 }
 
 /**
@@ -1959,17 +1962,290 @@ bool GAUSS::setSymbol(GEStringArray *sa, string name, GEWorkspace *wh) {
     if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    StringArray_t *newSa = this->d->createTempStringArray(sa);
+    StringArray_t *newSa = this->d->createPermStringArray(sa);
 
     if (!newSa)
         return false;
 
-    bool ret = (GAUSS_CopyStringArrayToGlobal(wh->workspace(), newSa, removeConst(&name)) == GAUSS_SUCCESS);
+    bool ret = (GAUSS_MoveStringArrayToGlobal(wh->workspace(), newSa, removeConst(&name)) == GAUSS_SUCCESS);
 
-    GAUSS_Free(newSa->table);
-    GAUSS_Free(newSa);
+    //GAUSS_Free(newSa->table);
+    //GAUSS_Free(newSa);
 
     return ret;
+}
+
+/**
+* Add a matrix to the active workspace with the specified symbol name.
+* This implementation clears the local data after the move is completed.
+*
+* Example:
+*
+* #### Python ####
+* ~~~{.py}
+x = GEMatrix(5.0)
+ge.moveSymbol(x, "x")
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$x = new GEMatrix(5);
+$ge->moveSymbol($x, "x");
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+GEMatrix x = new GEMatrix(5);
+ge.moveSymbol(x, "x");
+* ~~~->
+*
+* @param matrix    Matrix object to store in GAUSS symbol table
+* @param name      Name to give newly added symbol
+* @return          True on success, false on failure
+*
+* @see moveSymbol(GEMatrix*, string, GEWorkspace*)
+* @see getMatrix(string)
+* @see getMatrixAndClear(string)
+* @see getScalar(string)
+*/
+bool GAUSS::moveSymbol(GEMatrix *matrix, string name) {
+	return moveSymbol(matrix, name, getActiveWorkspace());
+}
+
+/**
+* Add a matrix to a specific workspace with the specified symbol name.
+* This implementation clears the local data after the move is completed.
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### PHP ####
+* ~~~{.php}
+x = GEMatrix(5.0)
+ge.moveSymbol(x, "x", myWorkspace)
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$x = new GEMatrix(5);
+$ge->moveSymbol($x, "x", $myWorkspace);
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+GEMatrix x = new GEMatrix(5);
+ge.moveSymbol(x, "x", myWorkspace);
+* ~~~-->
+*
+* @param matrix    Matrix object to store in GAUSS symbol table
+* @param name      Name to give newly added symbol
+* @return          True on success, false on failure
+*
+* @see moveSymbol(GEMatrix*, string)
+* @see getMatrix(string)
+* @see getMatrixAndClear(string)
+* @see getScalar(string)
+*/
+bool GAUSS::moveSymbol(GEMatrix *matrix, string name, GEWorkspace *wh) {
+	if (!matrix || name.empty())
+		return false;
+
+	if (!this->d->manager_->isValidWorkspace(wh))
+		return false;
+
+	int ret = 0;
+
+	if (!matrix->isComplex() && (matrix->getRows() == 1) && (matrix->getCols() == 1)) {
+		ret = GAUSS_PutDouble(wh->workspace(), matrix->getElement(), removeConst(&name));
+	}
+	else {
+		Matrix_t* newMat = this->d->createTempMatrix(matrix);
+
+		ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat, removeConst(&name));
+		delete newMat;
+	}
+
+	matrix->clear();
+
+	return (ret == GAUSS_SUCCESS);
+}
+
+/**
+* Add an array to the active workspace with the specified symbol name.
+*
+* Example:
+*
+* #### Python ####
+* ~~~{.py}
+orders = [2, 2, 2]
+data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+a = GEArray(orders, data)
+ge.moveSymbol(a, "a")
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$orders = array(2, 2, 2);
+$data = array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+$a = new GEArray($orders, $data);
+$ge->moveSymbol($a, "a");
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+int[] orders = new int[] { 2, 2, 2 };
+double[] data = new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 };
+GEArray a = new GEArray(orders, data);
+ge.moveSymbol(a, "a");
+* ~~~-->
+*
+* @param array        Array object to store in GAUSS symbol table
+* @param name        Name to give newly added symbol
+* @return True on success, false on failure
+*
+* @see moveSymbol(GEArray*, string, GEWorkspace*)
+* @see getArray(string)
+* @see getArrayAndClear(string)
+*/
+bool GAUSS::moveSymbol(GEArray *array, string name) {
+	return moveSymbol(array, name, getActiveWorkspace());
+}
+
+/**
+* Add an array to a specific workspace with the specified symbol name.
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### Python ####
+* ~~~{.py}
+orders = [2, 2, 2]
+data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+a = GEArray(orders, data)
+ge.moveSymbol(a, "a", myWorkspace)
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$orders = array(2, 2, 2);
+$data = array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+$a = new GEArray($orders, $data);
+$ge->moveSymbol($a, "a", $myWorkspace);
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+int[] orders = new int[] { 2, 2, 2 };
+double[] data = new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 };
+GEArray a = new GEArray(orders, data);
+ge.moveSymbol(a, "a", myWorkspace);
+* ~~~-->
+*
+* @param array        Array object to store in GAUSS symbol table
+* @param name        Name to give newly added symbol
+* @return True on success, false on failure
+*
+* @see moveSymbol(GEArray*, string)
+* @see getArray(string)
+* @see getArrayAndClear(string)
+*/
+bool GAUSS::moveSymbol(GEArray *array, string name, GEWorkspace *wh) {
+	if (!array || name.empty())
+		return false;
+
+	if (!this->d->manager_->isValidWorkspace(wh))
+		return false;
+
+	Array_t *newArray = this->d->createTempArray(array);
+
+	if (!newArray)
+		return false;
+
+	bool ret = (GAUSS_CopyArrayToGlobal(wh->workspace(), newArray, removeConst(&name)) == GAUSS_SUCCESS);
+
+	if (ret)
+		array->clear();
+
+	return ret;
+}
+
+/**
+* Add a string array to the active workspace with the specified symbol name.
+* This implementation clears the local data after the move is completed.
+*
+* Example:
+*
+* #### Python ####
+* ~~~{.py}
+saData = ["one", "two", "three", "four"]
+sa = GEStringArray(saData, 2, 2)
+ge.moveSymbol(sa, "sa")
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$saData = array("one", "two", "three", "four");
+$sa = new GEStringArray(saData, 2, 2);
+$ge->moveSymbol($sa, "sa");
+* ~~~
+*
+* @param sa        string array to add to GAUSS symbol table
+* @param name        Name to give newly added symbol
+* @return True on success, false on failure
+*
+* @see getStringArray(string)
+*/
+bool GAUSS::moveSymbol(GEStringArray *sa, string name) {
+	return moveSymbol(sa, name, getActiveWorkspace());
+}
+
+/**
+* Add a string array to a specific workspace with the specified symbol name.
+* This implementation clears the local data after the move is completed.
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### Python ####
+* ~~~{.py}
+saData = ["one", "two", "three", "four"]
+sa = GEStringArray(saData, 2, 2)
+ge.moveSymbol(sa, "sa", myWorkspace)
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$saData = array("one", "two", "three", "four");
+$sa = new GEStringArray(saData, 2, 2);
+$ge->moveSymbol($sa, "sa", $myWorkspace);
+* ~~~
+*
+* @param sa        string array to add to GAUSS symbol table
+* @param name        Name to give newly added symbol
+* @return True on success, false on failure
+*
+* @see getStringArray(string)
+*/
+bool GAUSS::moveSymbol(GEStringArray *sa, string name, GEWorkspace *wh) {
+	if (!sa || name.empty())
+		return false;
+
+	if (!this->d->manager_->isValidWorkspace(wh))
+		return false;
+
+	StringArray_t *newSa = this->d->createPermStringArray(sa);
+
+	if (!newSa)
+		return false;
+
+	bool ret = (GAUSS_MoveStringArrayToGlobal(wh->workspace(), newSa, removeConst(&name)) == GAUSS_SUCCESS);
+
+	sa->clear();
+
+	return ret;
 }
 
 /**
@@ -2807,10 +3083,9 @@ GAUSSPrivate::~GAUSSPrivate() {
 
 Matrix_t* GAUSSPrivate::createTempMatrix(GEMatrix *mat) {
     Matrix_t *newMat = new Matrix_t;
-
     // THIS CANNOT BE USED FOR A "MOVE" OPERATION
     // THIS IS THE ACTUAL POINTER REFERENCE TO THE DATA.
-    newMat->mdata = mat->data_;
+    newMat->mdata = mat->data_.data();
     newMat->rows = mat->getRows();
     newMat->cols = mat->getCols();
     newMat->complex = mat->isComplex();
@@ -2830,71 +3105,107 @@ String_t* GAUSSPrivate::createPermString(string data) {
     return newStr;
 }
 
-StringArray_t* GAUSSPrivate::createTempStringArray(GEStringArray *sa) {
-    if (!sa || sa->size() == 0)
+#define getsize(R,C,S) ((R)*(C)*(S)/(size_t)8 + ( ((R)*(C)*(S))%(size_t)8 != (size_t)0 ) )
+
+StringArray_t* GAUSSPrivate::createPermStringArray(GEStringArray *gesa) {
+    if (!gesa || gesa->size() == 0)
         return NULL;
 
-    vector<string> *strings = &(sa->data_);
+    vector<string> *strings = &(gesa->data_);
 
-    char **saList = new char*[sa->size()];
+    StringArray_t *sa;
+    StringElement_t *stable;
+    StringElement_t *sep;
+    StringElement_t *pdata;
+    size_t elem;
+    size_t strsize, sasize;
 
-    if (!saList)
+    sa = (StringArray_t *)malloc(sizeof(StringArray_t));
+
+    if (sa == NULL)
         return NULL;
 
-    for (int i = 0; i < sa->size(); ++i) {
-        string str = strings->at(i);
+    elem = gesa->size();
+    sa->baseoffset = (size_t)(elem*sizeof(StringElement_t));
 
-        char *str_ptr = new char[str.length() + 1];
+    stable = (StringElement_t *)malloc(sa->baseoffset);
 
-        if (!str_ptr)
-            return NULL;
-
-        strncpy(str_ptr, str.c_str(), str.length() + 1);
-        saList[i] = str_ptr;
+    if (stable == NULL)
+    {
+        free(sa);
+        return NULL;
     }
 
-    StringArray_t *newSa = GAUSS_StringArray(sa->getRows(), sa->getCols(), saList);
+    sep = stable;
+    strsize = 0;
 
-    for (int i = 0; i < sa->size(); ++i)
-        delete[] saList[i];
+    for (int i = 0; i < elem; ++i) {
+        const char *src = strings->at(i).c_str();
+        sep->offset = strsize;
+        sep->length = strlen(src) + 1;
+        strsize += sep->length;
+        ++sep;
+    }
 
-    delete[] saList;
+    sasize = getsize(strsize + sa->baseoffset, 1, 1);
+    pdata = (StringElement_t*)realloc(stable, sasize * sizeof(double));
 
-    return newSa;
+    if (pdata == NULL)
+    {
+        free(sa);
+        free(stable);
+        return NULL;
+    }
+
+    stable = (StringElement_t *)pdata;
+    sep = stable;
+
+    for (int i = 0; i < elem; ++i) {
+        const char *src = strings->at(i).c_str();
+        memcpy((char *)stable + sa->baseoffset + sep->offset, src, sep->length);
+        ++sep;
+    }
+
+    sa->size = sasize;
+    sa->rows = gesa->getRows();
+    sa->cols = gesa->getCols();
+    sa->table = stable;
+    sa->freeable = TRUE;
+
+    return sa;
 }
 
-Array_t* GAUSSPrivate::createPermArray(GEArray *array) {
+Array_t* GAUSSPrivate::createTempArray(GEArray *array) {
     const int dims = array->getDimensions();
     const int size = array->size();
 
     if (!array || !dims || !size)
         return NULL;
 
-    vector<double> vals = array->getData();
-    vector<int> orders = array->getOrders();
+	/*
+    const double *array_data = array->data_.data();
 
     double *data = (double*)GAUSS_Malloc((size + dims) * sizeof(double));
 
     if (!data)
         return NULL;
 
-    for (int i = 0; i < dims; ++i)
-        data[i] = orders[i];
+    // copy orders
+    memcpy(data, array_data, dims * sizeof(double));
 
-    for (int i = dims; i < size + dims; ++i)
-        data[i] = vals[i - dims];
-
+    // copy remaining data (start + orders len)
+    memcpy(data + dims, array_data + dims, size * sizeof(double));
+	*/
     Array_t *newArray = (Array_t*)GAUSS_Malloc(sizeof(Array_t));
 
     if (!newArray) {
-        delete data;
         return NULL;
     }
 
     newArray->dims = dims;
     newArray->nelems = size;
     newArray->complex = static_cast<int>(array->isComplex());
-    newArray->adata = data;
+    newArray->adata = array->data_.data();
     newArray->freeable = 1;
 
     return newArray;

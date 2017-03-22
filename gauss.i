@@ -27,8 +27,8 @@ namespace std {
 
 #ifdef SWIGCSHARP
 %include "arrays_csharp.i"
-%apply double INPUT[] {double *data}
-%apply double INPUT[] {double *imag_data}
+%apply double INPUT[] {const double *data}
+%apply double INPUT[] {const double *imag_data}
 %apply int INPUT[] {int *orders}
 /* allow partial c# classes */
 /*%typemap(csclassmodifiers) SWIGTYPE "public partial class"*/
@@ -74,6 +74,16 @@ namespace std {
  #include "src/gefuncwrapper.h"
  #include "src/gesymtype.h"
 %}
+
+%newobject GAUSS::getMatrix;
+%newobject GAUSS::getMatrixAndClear;
+%newobject GAUSS::getArray;
+%newobject GAUSS::getArrayAndClear;
+%newobject GAUSS::getStringArray;
+%newobject GEArray::getPlane;
+%newobject GAUSS::loadWorkspace;
+//%newobject GAUSS::createWorkspace;
+%delobject GAUSS::destroyWorkspace;
 
 // Start Python only
 #ifdef SWIGPYTHON
@@ -242,7 +252,7 @@ namespace std {
 %ignore GEArray::GEArray(Array_t*);
 %ignore GEArray::Init(Array_t*);
 %ignore GEMatrix::GEMatrix(Matrix_t*);
-%ignore GEMatrix::Init(Matrix_t*);
+%ignore GEMatrix::GEMatrix(GAUSS_MatrixInfo_t*);
 
 /* Parse the header file to generate wrappers */
 %include "src/gauss.h"

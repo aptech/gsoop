@@ -141,6 +141,13 @@ public:
     bool setSymbol(GEStringArray*, std::string);
     bool setSymbol(GEStringArray*, std::string, GEWorkspace*);
 
+	bool moveSymbol(GEMatrix*, std::string);
+	bool moveSymbol(GEMatrix*, std::string, GEWorkspace*);
+	bool moveSymbol(GEArray*, std::string);
+	bool moveSymbol(GEArray*, std::string, GEWorkspace*);
+	bool moveSymbol(GEStringArray*, std::string);
+	bool moveSymbol(GEStringArray*, std::string, GEWorkspace*);
+
     static bool isMissingValue(double);
 
     static void internalHookOutput(char *output);

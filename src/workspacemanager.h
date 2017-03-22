@@ -3,7 +3,7 @@
 
 #include "gauss.h"
 #include <stdio.h>
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -27,7 +27,7 @@ public:
     bool isValidWorkspace(GEWorkspace*) const;
 
 private:
-    std::map<std::string, GEWorkspace*> workspaces_;
+    std::unordered_map<std::string, GEWorkspace*> workspaces_;
     mutable pthread_mutex_t mutex_;
 
     GEWorkspace *current_;

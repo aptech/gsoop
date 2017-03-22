@@ -4,6 +4,7 @@ using namespace std;
 GESymbol::GESymbol() {
     this->rows_ = 1;
     this->cols_ = 1;
+	this->complex_ = false;
 }
 
 /**

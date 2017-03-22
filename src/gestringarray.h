@@ -27,7 +27,7 @@ public:
 
     virtual string toString() const;
     virtual int size() const { return data_.size(); }
-    virtual void clear() { data_.clear(); setRows(1); setCols(1); }
+	virtual void clear() { data_.clear(); data_.resize(1); setRows(1); setCols(1); }
 
 private:
     GEStringArray(StringArray_t*);

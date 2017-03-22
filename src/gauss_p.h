@@ -20,10 +20,11 @@ public:
     WorkspaceManager *manager_;
     static bool managedOutput_;
 
-    Matrix_t* createTempMatrix(GEMatrix*);
-    StringArray_t* createTempStringArray(GEStringArray*);
+	Matrix_t* createTempMatrix(GEMatrix*);
+    Matrix_t* createPermMatrix(GEMatrix*);
+    StringArray_t* createPermStringArray(GEStringArray*);
     String_t* createPermString(std::string);
-    Array_t* createPermArray(GEArray*);
+    Array_t* createTempArray(GEArray*);
 };
 
 #endif // GAUSS_P_H

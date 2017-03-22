@@ -19,9 +19,9 @@ public:
     virtual bool isComplex() const;   /**< Return if data is complex. Applies to GEArray and GEMatrix only. */
 
     virtual int size() const;         /**< Return element count. */
-    virtual void clear() {}     /**< Clear all corresponding symbol data. Does not clear from workspace. */
+	virtual void clear() { rows_ = 1; cols_ = 1; complex_ = false; }     /**< Clear all corresponding symbol data. Does not clear from workspace. */
 
-    virtual string toString() const { return ""; } /**< Returns a string representation of this object. */
+    virtual string toString() const { return string(); } /**< Returns a string representation of this object. */
 
 protected:
     GESymbol();

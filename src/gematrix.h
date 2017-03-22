@@ -3,6 +3,7 @@
 
 #include "gesymbol.h"
 #include <stdio.h>
+#include <memory>
 
 /**
  * GAUSS Matrix symbol type. Represents two dimensional array of double precision numbers. Matrices can
@@ -13,10 +14,12 @@ class GAUSS_EXPORT GEMatrix : public GESymbol
 {
 public:
     GEMatrix();
+	GEMatrix(const GEMatrix &other);
+    virtual ~GEMatrix();
     GEMatrix(double);
-    GEMatrix(const vector<double> &data);
-    GEMatrix(const vector<double> &data, int rows, int cols, bool complex = false);
-    GEMatrix(const vector<double> &data, const vector<double> &imag_data, int rows, int cols);
+    GEMatrix(const std::vector<double> &data);
+    GEMatrix(const std::vector<double> &data, int rows, int cols, bool complex = false);
+    GEMatrix(const std::vector<double> &data, const std::vector<double> &imag_data, int rows, int cols);
     GEMatrix(const double *data, int rows, int cols, bool complex = false);
     GEMatrix(const double *data, const double *imag_data, int rows, int cols);
 
@@ -32,23 +35,15 @@ public:
     virtual void clear();
     virtual std::string toString() const;
 
-//    using GESymbol::getRows;
-//    using GESymbol::getCols;
-//    using GESymbol::isComplex;
-
-//    using GESymbol::setRows;
-//    using GESymbol::setCols;
-//    using GESymbol::setComplex;
-
 private:
-    GEMatrix(Matrix_t*);
+	GEMatrix(Matrix_t*);
+    GEMatrix(GAUSS_MatrixInfo_t*);
 
-    void Init(const vector<double> &data, int rows, int cols, bool complex = false);
-    void Init(const vector<double> &real_data, const vector<double> &imag_data, int rows, int cols, bool complex = false);
-    void Init(const double *real_data, const double *imag_data, int rows, int cols, bool complex = false); 
+    void Init(const std::vector<double> &data, int rows, int cols, bool complex = false);
+    void Init(const std::vector<double> &real_data, const std::vector<double> &imag_data, int rows, int cols, bool complex = false);
+    void Init(const double *data, const double *imag_data, int rows, int cols, bool complex = false); 
 
-    double *data_;
-    double *data_imag_;
+	std::vector<double> data_;
 
     friend class GAUSS;
     friend class GAUSSPrivate;

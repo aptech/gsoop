@@ -13,6 +13,7 @@ public:
     GEArray();
     GEArray(const vector<int> &orders, const vector<double> &data, bool complex = false);
     GEArray(const int *orders, int orders_len, const double *data, int data_len, bool complex = false);
+	virtual ~GEArray();
 
     GEMatrix* getPlane(const vector<int> &, bool imag = false) const;
     vector<double> getVector(const vector<int> &, bool imag = false) const;
@@ -34,17 +35,17 @@ private:
     GEArray(Array_t*);
     bool Init(Array_t *);
     void Init(const int *orders, int orders_len, const double *data, int data_len, bool complex);
-    int totalElements() const { return num_elements_ * (isComplex() ? 2: 1); }
+    int totalElements() const { return this->num_elements_ * (isComplex() ? 2: 1); }
 
     // Holds array data
-    double *data_;
+	vector<double> data_;
 
     // Orders of array
-    int *orders_;
     int dims_;
     int num_elements_;
 
     friend class GAUSS;
+    friend class GAUSSPrivate;
 };
 
 #endif // GEARRAY_H
