@@ -7,7 +7,7 @@ using namespace std;
 /**
  * Initialize a one dimensional array with a single element set to zero.
  */
-GEArray::GEArray()
+GEArray::GEArray() : GESymbol(GESymType::ARRAY_GAUSS)
 {
 	clear();
 }
@@ -16,7 +16,7 @@ GEArray::~GEArray() {
 
 }
 
-GEArray::GEArray(Array_t *array) {
+GEArray::GEArray(Array_t *array) : GESymbol(GESymType::ARRAY_GAUSS) {
     Init(array);
 }
 
@@ -60,11 +60,13 @@ $a = new GEArray($orders, $data, true); // Indicate data is complex
  * @param data                Data in one dimensional format
  * @param complex        True if array is complex, false otherwise.
  */
-GEArray::GEArray(const vector<int> &orders, const vector<double> &data, bool complex) : GESymbol() {
-    Init(&orders[0], orders.size(), &data[0], data.size(), complex);
+GEArray::GEArray(vector<int> orders, VECTOR_DATA(double) data, bool complex) : GESymbol(GESymType::ARRAY_GAUSS) {
+    Init(&orders.front(), orders.size(), &VECTOR_VAR(data) front(), VECTOR_VAR(data) size(), complex);
+
+    VECTOR_VAR_DELETE_CHECK(data);
 }
 
-GEArray::GEArray(const int *orders, int orders_len, const double *data, int data_len, bool complex) : GESymbol() {
+GEArray::GEArray(const int *orders, int orders_len, const double *data, int data_len, bool complex) : GESymbol(GESymType::ARRAY_GAUSS) {
     Init(orders, orders_len, data, data_len, complex);
 }
 
@@ -101,11 +103,14 @@ bool GEArray::Init(Array_t *array) {
 
     this->setComplex(static_cast<bool>(array->complex));
     this->dims_ = array->dims;
-    this->num_elements_ = array->nelems;
+	this->num_elements_ = 1; // Fix for getArrayAndClear not setting nelems.
+
+	for (int i = 0; i < this->dims_; ++i)
+		this->num_elements_ *= (size_t)array->adata[i];
 
     int realElements = totalElements();
 
-    this->data_.resize(realElements + this->dims_);
+	this->data_.resize(realElements + this->dims_);
 
     for (int i = 0; i < this->dims_; ++i) {
         int order = array->adata[i];
@@ -261,7 +266,7 @@ Plane [2,.,.]
  * @return        2 dimensional array slice.
  */
 
-GEMatrix* GEArray::getPlane(const vector<int> &indices, bool imag) const {
+GEMatrix* GEArray::getPlane(vector<int> indices, bool imag) const {
     bool complex = isComplex();
     int offset = (imag && complex ? this->num_elements_ : 0);
 
@@ -309,21 +314,23 @@ GEMatrix* GEArray::getPlane(const vector<int> &indices, bool imag) const {
 
 	const double *base = this->data_.data() + this->dims_;
 
-    vector<double> plane(rows * cols);
+    VECTOR_DATA_INIT(plane, double, rows * cols);
 
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             // If it's not complex but they want imaginary data, returns 0's.
             if (!complex && imag)
-                plane[i * cols + j] = 0;
+                VECTOR_VAR(plane) at(i * cols + j) = 0;
             else {
                 int index = jumpoff + (jdoi[HIGH] * i) + (jdoi[LOW] * j) + offset;
 
                 // index out of range
-                if (index > num_elements_)
+                if (index > num_elements_) {
+                    VECTOR_VAR_DELETE_CHECK(plane);
                     return NULL;
+                }
 
-                plane[i * cols + j] = base[index];
+                VECTOR_VAR(plane) at(i * cols + j) = base[index];
             }
         }
     }
@@ -382,7 +389,7 @@ Plane [2,.,.]
  * @param imag        Whether to return imaginary data instead of real data.
  * @return        Vector of data
  */
-vector<double> GEArray::getVector(const vector<int> &indices, bool imag) const {
+vector<double> GEArray::getVector(vector<int> indices, bool imag) const {
 	bool complex = isComplex();
 
 	if (indices.empty() || (imag && !complex))
@@ -491,9 +498,9 @@ Plane [2,.,.]
  * @param imag        Whether to return imaginary data instead of real data.
  * @return        double precision element
  */
-double GEArray::getElement(const vector<int> &indices, bool imag) const {
-	if (indices.empty() || (imag && !isComplex()))
-		return 0.0;
+double GEArray::getElement(vector<int> indices, bool imag) const {
+    if (indices.empty() || (imag && !isComplex()))
+        return 0.0;
 
     int offset = imag ? this->num_elements_ / 2 : 0;
 
@@ -582,7 +589,7 @@ Plane [2,.,.]
  * @param indices        Indices indicating the element to set
  * @param imag                Whether to set imaginary data instead of real data.
  */
-bool GEArray::setElement(double value, const vector<int> &indices, bool imag) {
+bool GEArray::setElement(double value, vector<int> indices, bool imag) {
 	if (indices.empty() || (imag && !isComplex()))
 		return false;
 

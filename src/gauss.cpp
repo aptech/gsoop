@@ -9,7 +9,6 @@
 #include "geworkspace.h"
 #include "workspacemanager.h"
 #include "gefuncwrapper.h"
-#include "pthread.h"
 #include "gauss_p.h"
 #include "gauss.h"
 
@@ -23,6 +22,7 @@
 #endif
 
 #include <stdio.h>
+#include <mutex>
 using namespace std;
 
 #ifdef _WIN32
@@ -40,9 +40,9 @@ static double kMissingValue = GAUSS_MissingValue();
 static string kHomeVar = "MTENGHOME";
 
 static unordered_map<int, string> kOutputStore;
-static pthread_mutex_t kOutputMutex = PTHREAD_MUTEX_INITIALIZER;
+static std::mutex kOutputMutex;
 static unordered_map<int, string> kErrorStore;
-static pthread_mutex_t kErrorMutex = PTHREAD_MUTEX_INITIALIZER;
+static std::mutex kErrorMutex;
 
 IGEProgramOutput* GAUSS::outputFunc_ = 0;
 IGEProgramOutput* GAUSS::errorFunc_ = 0;
@@ -173,9 +173,6 @@ void GAUSS::Init(string homePath) {
  * @see shutdown()
  */
 bool GAUSS::initialize() {
-    //pthread_mutex_init(&kOutputMutex, nullptr);
-    //pthread_mutex_init(&kErrorMutex, nullptr);
-
     if (!setHome(this->d->gauss_home_)) {
         string errorString = getLastErrorText();
 
@@ -953,7 +950,7 @@ void GAUSS::freeProgram(ProgramHandle_t *ph) {
  * Example:
  *
  * #### Python ####
- * ~~~{.php}
+ * ~~~{.py}
 if ge.getSymbolType("x") == GESymType.MATRIX:
     doSomething()
  * ~~~
@@ -1172,6 +1169,58 @@ string GAUSS::getErrorText(int errorNum) const {
  */
 bool GAUSS::isMissingValue(double d) {
     return (GAUSS_IsMissingValue(d) > 0);
+}
+
+bool GAUSS::_setSymbol(GESymbol *symbol, std::string name) {
+    return _setSymbol(symbol, name, getActiveWorkspace());
+}
+
+bool GAUSS::_setSymbol(GESymbol *symbol, std::string name, GEWorkspace *wh) {
+    if (!symbol || name.empty() || !this->d->manager_->isValidWorkspace(wh))
+        return false;
+
+    switch(symbol->type()) {
+    case GESymType::SCALAR:
+    case GESymType::MATRIX:
+        return setSymbol(static_cast<GEMatrix*>(symbol), name, wh);
+        break;
+    case GESymType::ARRAY_GAUSS:
+        return setSymbol(static_cast<GEArray*>(symbol), name, wh);
+        break;
+    case GESymType::STRING:
+    case GESymType::STRING_ARRAY:
+        return setSymbol(static_cast<GEStringArray*>(symbol), name, wh);
+        break;
+    default:
+        return false;
+    }
+}
+
+GESymbol* GAUSS::getSymbol(string name) const {
+    return getSymbol(name, getActiveWorkspace());
+}
+
+GESymbol* GAUSS::getSymbol(string name, GEWorkspace *wh) const {
+    if (name.empty() || !this->d->manager_->isValidWorkspace(wh))
+        return 0;
+
+    int type = getSymbolType(name, wh);
+
+    switch (type) {
+    case GESymType::SCALAR:
+    case GESymType::MATRIX:
+        return getMatrix(name, wh);
+        break;
+    case GESymType::ARRAY_GAUSS:
+        return getArray(name, wh);
+        break;
+    case GESymType::STRING:
+    case GESymType::STRING_ARRAY:
+        return getStringArray(name, wh);
+        break;
+    default:
+        return nullptr;
+    }
 }
 
 /**
@@ -1452,6 +1501,122 @@ GEMatrix* GAUSS::getMatrixAndClear(string name, GEWorkspace *wh) const {
         return NULL;
 
     return new GEMatrix(gsMat);
+}
+
+/**
+*
+* NOTICE: This function is intended for advanced usage only. It provides a direct pointer to the data
+*     inside the GAUSS symbol table. There are no guarantees or bounds checking performed when accessing
+*     memory provided by this function. Do so at your own risk.
+*
+* Retrieve pointer to a matrix from the GAUSS symbol name in the active workspace. This will be the ORIGINAL symbol in the symbol table.
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### Python ####
+* ~~~{.py}
+ge.executeString("x = 5")
+x = ge.getMatrixDirect("x")
+print "\$x = " + str(x.getitem(0))
+ge.executeString("print \"x = \" x");
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$ge->executeString("x = 5");
+$x = $ge->getMatrixDirect("x");
+echo "\$x = " . $x->getitem(0) . PHP_EOL;
+$ge->executeString("print \"x = \" x");
+* ~~~
+* will result in the output:
+* ~~~
+$x = 5
+x =        0.0000000
+* ~~~
+*
+* @param name        Name of GAUSS symbol
+* @return        Matrix object
+*
+* @see getMatrixDirect(string, GEWorkspace*)
+* @see setSymbol(GEMatrix*, string)
+* @see setSymbol(GEMatrix*, string, GEWorkspace*)
+* @see getMatrix(string)
+* @see getMatrix(string, GEWorkspace*)
+* @see getScalar(string)
+* @see getScalar(string, GEWorkspace*)
+*/
+doubleArray* GAUSS::getMatrixDirect(std::string name) {
+	return getMatrixDirect(name, getActiveWorkspace());
+}
+
+/**
+*
+* NOTICE: This function is intended for advanced usage only. It provides a direct pointer to the data
+*     inside the GAUSS symbol table. There are no guarantees or bounds checking performed when accessing
+*     memory provided by this function. Do so at your own risk.
+*
+* Retrieve pointer to a matrix from the GAUSS symbol name in workspace _wh_. This will be the ORIGINAL symbol in the symbol table.
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### Python ####
+* ~~~{.py}
+ge.executeString("x = 5", myWorkspace)
+x = ge.getMatrixDirect("x", myWorkspace)
+print "\$x = " + str(x.getitem(0))
+ge.executeString("print \"x = \" x", myWorkspace);
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$ge->executeString("x = 5", $myWorkspace);
+$x = $ge->getMatrixDirect("x", $myWorkspace);
+echo "\$x = " . $x->getitem(0) . PHP_EOL;
+$ge->executeString("print \"x = \" x", $myWorkspace);
+* ~~~
+* will result in the output:
+* ~~~
+$x = 5
+x =        0.0000000
+* ~~~
+*
+* @param name        Name of GAUSS symbol
+* @return        Matrix object
+*
+* @see getMatrixDirect(string)
+* @see setSymbol(GEMatrix*, string)
+* @see setSymbol(GEMatrix*, string, GEWorkspace*)
+* @see getMatrix(string)
+* @see getMatrix(string, GEWorkspace*)
+* @see getScalar(string)
+* @see getScalar(string, GEWorkspace*)
+*/
+doubleArray* GAUSS::getMatrixDirect(std::string name, GEWorkspace* wh) {
+    if (name.empty() || !this->d->manager_->isValidWorkspace(wh))
+		return NULL;
+
+	GAUSS_MatrixInfo_t info;
+	int ret = GAUSS_GetMatrixInfo(wh->workspace(), &info, removeConst(&name));
+
+    if (ret)
+		return NULL;
+
+    return new doubleArray(info.maddr, info.rows * info.cols);
+}
+
+bool GAUSS::_setSymbol(doubleArray *data, string name) {
+    return _setSymbol(data, name, getActiveWorkspace());
+}
+
+bool GAUSS::_setSymbol(doubleArray *data, string name, GEWorkspace *wh) {
+    if (!data || name.empty() || !this->d->manager_->isValidWorkspace(wh))
+        return false;
+
+    return moveMatrix(data, 1, data->size(), false, name, wh);
 }
 
 /**
@@ -2020,8 +2185,8 @@ bool GAUSS::moveSymbol(GEMatrix *matrix, string name) {
 *
 * Given _myWorkspace_ is a GEWorkspace object
 *
-* #### PHP ####
-* ~~~{.php}
+* #### Python ####
+* ~~~{.py}
 x = GEMatrix(5.0)
 ge.moveSymbol(x, "x", myWorkspace)
 * ~~~
@@ -2249,6 +2414,111 @@ bool GAUSS::moveSymbol(GEStringArray *sa, string name, GEWorkspace *wh) {
 }
 
 /**
+* Add a matrix and give ownership to the active workspace with the specified symbol name.
+* 
+* WARNING: This is a low-level function. Once this function has been called it
+* is potentially unsafe to access the object passed in  if GAUSS has 
+* performed any operation that is not "in-place" (ie the memory has moved).
+*
+*
+* Example:
+*
+* #### Python ####
+* ~~~{.py}
+x = doubleArray(1)
+x.setitem(0, 5.0);
+ge.moveMatrix(x.cast(), 1, 1, False, "x")
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$x = new doubleArray(1);
+$x->setitem(0, 5.0);
+$ge->moveMatrix($x->cast(), 1, 1, false, "x");
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+doubleArray x = new doubleArray(1);
+x.setitem(0, 5.0);
+ge.moveMatrix(x.cast(), 1, 1, false, "x");
+* ~~~->
+*
+* @param data      doubleArray wrapper containing data to assign to symbol table
+* @param rows      Row count
+* @param cols      Column count
+* @param complex   True if data contains complex data, False otherwise
+* @param name      Name to give newly added symbol
+* @return          True on success, false on failure
+*
+* @see moveSymbol(GEMatrix*, string, GEWorkspace*)
+* @see getMatrix(string)
+* @see getMatrixAndClear(string)
+* @see getScalar(string)
+*/
+bool GAUSS::moveMatrix(doubleArray *data, int rows, int cols, bool complex, string name) {
+    return moveMatrix(data, rows, cols, complex, name, getActiveWorkspace());
+}
+
+/**
+* Add a matrix and give ownership to a specific workspace with the specified symbol name.
+*
+* WARNING: This is a low-level function. Once this function has been called it
+* is potentially unsafe to access the object passed in if GAUSS has
+* performed any operation that is not "in-place" (ie the memory has moved).
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### Python ####
+* ~~~{.py}
+x = doubleArray(2)
+x.setitem(0, 5.0);
+x.setitem(1, 10.0);
+ge.moveMatrix(x.cast(), 2, 1, False, "x", myWorkspace)
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$x = new doubleArray(2);
+$x->setitem(0, 5.0);
+$x->setitem(1, 10.0);
+$ge->moveMatrix($x->cast(), 2, 1, false, "x", $myWorkspace);
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+doubleArray x = new doubleArray(2);
+x.setitem(0, 5.0);
+x.setitem(1, 10.0);
+ge.moveMatrix(x.cast(), 2, 1, false, "x", myWorkspace);
+* ~~~->
+*
+* @param data      doubleArray wrapper containing data to assign to symbol table
+* @param rows      Row count
+* @param cols      Column count
+* @param complex   True if data contains complex data, False otherwise
+* @param name      Name to give newly added symbol
+* @param wh        Workspace to assign symbol to
+* @return          True on success, false on failure
+*
+* @see moveMatrix(double*,int,int,bool,string)
+* @see getMatrix(string)
+* @see getMatrixAndClear(string)
+*/
+bool GAUSS::moveMatrix(doubleArray *data, int rows, int cols, bool complex, string name, GEWorkspace *wh) {
+    if (!data || name.empty() || !this->d->manager_->isValidWorkspace(wh))
+		return false;
+
+    int ret = GAUSS_AssignFreeableMatrix(wh->workspace(), rows, cols, complex, data->data(), removeConst(&name));
+
+    data->reset();
+
+	return (ret == GAUSS_SUCCESS);
+}
+
+/**
  * Translates a file that contains a dataloop, so it can be read by the compiler.
  * After translating a file, you can compile it with compileFile(string) and then
  * run it with executeProgram(ProgramHandle_t*).
@@ -2276,31 +2546,26 @@ string GAUSS::translateDataloopFile(string srcfile) {
 }
 
 void GAUSS::clearOutput() {
-    pthread_mutex_lock(&kOutputMutex);
+    std::lock_guard<std::mutex> guard(kOutputMutex);
     int tid = getThreadId();
     kOutputStore[tid] = string();
-    pthread_mutex_unlock(&kOutputMutex);
 }
 
 void GAUSS::clearErrorOutput() {
-    pthread_mutex_lock(&kErrorMutex);
+    std::lock_guard<std::mutex> guard(kErrorMutex);
     int tid = getThreadId();
     kErrorStore[tid] = string();
-    pthread_mutex_unlock(&kErrorMutex);
 }
 
 string GAUSS::getOutput() {
     if (!GAUSS::outputModeManaged())
         return string();
 
-    pthread_mutex_lock(&kOutputMutex);
-
+    std::lock_guard<std::mutex> guard(kOutputMutex);
     int tid = getThreadId();
 
     string ret = kOutputStore[tid];
     kOutputStore[tid] = string();
-
-    pthread_mutex_unlock(&kOutputMutex);
 
 	return ret;
 }
@@ -2309,14 +2574,12 @@ string GAUSS::getErrorOutput() {
     if (!GAUSS::outputModeManaged())
         return string();
 
-    pthread_mutex_lock(&kErrorMutex);
+    std::lock_guard<std::mutex> guard(kErrorMutex);
 
     int tid = getThreadId();
 
     string ret = kErrorStore[tid];
     kErrorStore[tid] = string();
-
-    pthread_mutex_unlock(&kErrorMutex);
 
     return ret;
 }
@@ -2333,14 +2596,10 @@ void GAUSS::resetHooks() {
 
 void GAUSS::internalHookOutput(char *output) {
     if (GAUSS::outputModeManaged()) {
-        pthread_mutex_lock(&kOutputMutex);
-
+        std::lock_guard<std::mutex> guard(kOutputMutex);
         int tid = getThreadId();
-
         string &store = kOutputStore[tid];
         store.append(output);
-
-        pthread_mutex_unlock(&kOutputMutex);
     } else if (GAUSS::outputFunc_) {
         GAUSS::outputFunc_->invoke(string(output));
     } else {
@@ -2350,14 +2609,10 @@ void GAUSS::internalHookOutput(char *output) {
 
 void GAUSS::internalHookError(char *output) {
     if (GAUSS::outputModeManaged()) {
-        pthread_mutex_lock(&kErrorMutex);
-
+        std::lock_guard<std::mutex> guard(kErrorMutex);
         int tid = getThreadId();
-
         string &store = kErrorStore[tid];
         store.append(output);
-
-        pthread_mutex_unlock(&kErrorMutex);
     } else if (GAUSS::errorFunc_) {
         GAUSS::errorFunc_->invoke(string(output));
     } else {
@@ -3024,9 +3279,6 @@ void GAUSS::setHookProgramInputCheck(int (*get_string_function)(void)) {
 //}
 
 GAUSS::~GAUSS() {
-    //pthread_mutex_destroy(&kOutputMutex);
-    //pthread_mutex_destroy(&kErrorMutex);
-
 //    if (GAUSS::outputFunc_) {
 //        // Prevent double-delete for user doing setProgramOutputAll
 //        if (GAUSS::outputFunc_ == GAUSS::errorFunc_)
@@ -3206,7 +3458,7 @@ Array_t* GAUSSPrivate::createTempArray(GEArray *array) {
     newArray->nelems = size;
     newArray->complex = static_cast<int>(array->isComplex());
     newArray->adata = array->data_.data();
-    newArray->freeable = 1;
+    newArray->freeable = TRUE;
 
     return newArray;
 }

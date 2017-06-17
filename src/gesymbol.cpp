@@ -1,10 +1,13 @@
 #include "gesymbol.h"
 using namespace std;
 
-GESymbol::GESymbol() {
-    this->rows_ = 1;
-    this->cols_ = 1;
-	this->complex_ = false;
+GESymbol::GESymbol(int type) :
+    rows_(1),
+    cols_(1),
+    complex_(false),
+    type_(type)
+{
+
 }
 
 /**

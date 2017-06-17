@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <unordered_map>
 #include <vector>
+#include <mutex>
 #include <iostream>
 using namespace std;
 
@@ -28,7 +29,7 @@ public:
 
 private:
     std::unordered_map<std::string, GEWorkspace*> workspaces_;
-    mutable pthread_mutex_t mutex_;
+    mutable std::mutex mutex_;
 
     GEWorkspace *current_;
 };

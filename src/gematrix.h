@@ -16,16 +16,18 @@ public:
     GEMatrix();
     virtual ~GEMatrix();
     GEMatrix(double);
-    GEMatrix(const std::vector<double> &data);
-    GEMatrix(const std::vector<double> &data, int rows, int cols, bool complex = false);
-    GEMatrix(const std::vector<double> &data, const std::vector<double> &imag_data, int rows, int cols);
+    GEMatrix(VECTOR_DATA(double) data);
+    GEMatrix(VECTOR_DATA(double) data, int rows, int cols, bool complex = false);
+    GEMatrix(VECTOR_DATA(double) data, VECTOR_DATA(double) imag_data, int rows, int cols);
     GEMatrix(const double *data, int rows, int cols, bool complex = false);
     GEMatrix(const double *data, const double *imag_data, int rows, int cols);
 
-    bool setElement(double, bool imag = false);
-    bool setElement(double, int row, int col, bool imag = false);
+    bool setElement(double value, bool imag = false);
+    bool setElement(double value, int idx, bool imag = false);
+    bool setElement(double value, int row, int col, bool imag = false);
 
     double getElement(bool imag = false) const;
+    double getElement(int idx, bool imag = false) const;
     double getElement(int row, int col, bool imag = false) const;
 
     vector<double> getData(bool imag = false) const;
@@ -34,12 +36,16 @@ public:
     virtual void clear();
     virtual std::string toString() const;
 
+#ifdef SWIGPHP
+    int position_;
+#endif
+
 private:
 	GEMatrix(Matrix_t*);
     GEMatrix(GAUSS_MatrixInfo_t*);
 
-    void Init(const std::vector<double> &data, int rows, int cols, bool complex = false);
-    void Init(const std::vector<double> &real_data, const std::vector<double> &imag_data, int rows, int cols, bool complex = false);
+    void Init(VECTOR_DATA(double) data, int rows, int cols, bool complex = false);
+    void Init(VECTOR_DATA(double) real_data, VECTOR_DATA(double) imag_data, int rows, int cols, bool complex = false);
     void Init(const double *data, const double *imag_data, int rows, int cols, bool complex = false); 
 
 	std::vector<double> data_;

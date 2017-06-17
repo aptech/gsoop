@@ -100,7 +100,7 @@ Symbol is an array.
  * ~~~
  *
  */
-struct GESymType
+typedef struct GESymType_s
 {
 public:
     static const int SCALAR = 16;        /**< Scalar (i.e. 1, 1.5); */
@@ -113,7 +113,7 @@ public:
     static const int ARRAY_GAUSS = 17;   /**< N-Dimensional Array */
     static const int PROC = 8;            /**< Proc */
     static const int OTHER = 99;            /**< Other */
-};
+} GESymType;
 
 //class GESymType
 //{

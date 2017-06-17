@@ -7,7 +7,8 @@ For building Python extension _ge.so
 
 """
 
-import os, sys
+import os
+import sys
 from setuptools import setup, Extension
 
 lib_dir = os.environ.get('MTENGHOME')
@@ -17,19 +18,18 @@ if not lib_dir:
     sys.exit(1)
 
 is_win = os.name == 'nt'
-os.environ["CC"] = "g++"
-os.environ["CXX"] = "g++"
 
 gauss_module = Extension('_ge', 
       sources=['gauss.i', 'src/gauss.cpp', 'src/gematrix.cpp', 
                'src/gearray.cpp', 'src/gestringarray.cpp', 
                'src/geworkspace.cpp', 'src/workspacemanager.cpp', 
-               'src/gesymbol.cpp', 'src/gesymtype.cpp'], 
-      include_dirs=['include', 'src'] + ([lib_dir + '/pthreads'] if is_win else []),
+               'src/gesymbol.cpp'], 
+      include_dirs=['include', 'src'],
       library_dirs=[lib_dir],
-      libraries=['mteng'] + (['pthreadVC2'] if is_win == 'nt' else []),
+      libraries=['mteng'],
       define_macros=[('GAUSS_LIBRARY', None)],
-      swig_opts=['-c++', '-py3'],
+      extra_compile_args=['-std=c++11'] if not is_win else None,
+      swig_opts=['-c++'] + (['-py3'] if sys.version_info >= (3,0) else []),
       )
 
 setup (name = 'ge',
@@ -41,7 +41,7 @@ setup (name = 'ge',
        platforms=['Windows', 'Linux'],
        url='http://github.com/aptech/gsoop',
        ext_modules = [gauss_module],
-       py_modules = ["gauss"],
+       py_modules = ["ge"],
        license = "MIT",
        )
 

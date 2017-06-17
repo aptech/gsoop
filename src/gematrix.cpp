@@ -1,5 +1,6 @@
 #include "gematrix.h"
 #include <cstring>
+#include <cmath>
 #include <sstream>
 using namespace std;
 
@@ -26,7 +27,7 @@ $ge->executeString("print x;");
        0.0000000
  * ~~~
  */
-GEMatrix::GEMatrix() : GESymbol()
+GEMatrix::GEMatrix() : GESymbol(GESymType::MATRIX)
 {
     GEMatrix(0.0);
 }
@@ -60,7 +61,7 @@ $ge->executeString("print x;");
  *
  * @param d Scalar value
  */
-GEMatrix::GEMatrix(double n) : GESymbol() {
+GEMatrix::GEMatrix(double n) : GESymbol(GESymType::MATRIX) {
 	this->data_.push_back(n);
     this->setRows(1);
     this->setCols(1);
@@ -70,7 +71,7 @@ GEMatrix::GEMatrix(double n) : GESymbol() {
 /**
 * Internal use only for use with GetMatrixAndClear.
 */
-GEMatrix::GEMatrix(Matrix_t* mat) : GESymbol() {
+GEMatrix::GEMatrix(Matrix_t* mat) : GESymbol(GESymType::MATRIX) {
 	if (mat == NULL)
 		return;
 
@@ -80,7 +81,6 @@ GEMatrix::GEMatrix(Matrix_t* mat) : GESymbol() {
 
 	int elements = size() * (isComplex() ? 2 : 1);
 
-	this->data_;
 	this->data_.resize(elements);
 	memcpy(this->data_.data(), mat->mdata, elements * sizeof(double));
 
@@ -92,7 +92,7 @@ GEMatrix::GEMatrix(Matrix_t* mat) : GESymbol() {
 /**
   * Internal use only.
   */
-GEMatrix::GEMatrix(GAUSS_MatrixInfo_t* mat) : GESymbol() {
+GEMatrix::GEMatrix(GAUSS_MatrixInfo_t* mat) : GESymbol(GESymType::MATRIX) {
     if (mat == NULL)
         return;
 
@@ -136,8 +136,8 @@ $ge->executeString("print x;");
  * @see GEMatrix(vector<double>, int, int, bool)
  * @see GEMatrix(vector<double>, vector<double>, int, int)
  */
-GEMatrix::GEMatrix(const vector<double> &data) : GESymbol() {
-    Init(data, 1, data.size(), false);
+GEMatrix::GEMatrix(VECTOR_DATA(double) data) : GESymbol(GESymType::MATRIX) {
+    Init(data, 1, VECTOR_VAR(data) size(), false);
 }
 
 /**
@@ -191,9 +191,8 @@ $ge->executeString("print xc;");
  *
  * @see GEMatrix(vector<double>, vector<double>, int, int)
  */
-GEMatrix::GEMatrix(const vector<double> &data, int rows, int cols, bool complex) : GESymbol() {
-    const double *imag_data = complex ? &data[0] + rows * cols : NULL;
-    Init(&data[0], imag_data, rows, cols, complex);
+GEMatrix::GEMatrix(VECTOR_DATA(double) data, int rows, int cols, bool complex) : GESymbol(GESymType::MATRIX) {
+    Init(data, rows, cols, complex);
 }
 
 /**
@@ -231,32 +230,42 @@ $ge->executeString("print xc;");
  *
  * @see GEMatrix(vector<double>, int, int, bool)
  */
-GEMatrix::GEMatrix(const vector<double> &real_data, const vector<double> &imag_data, int rows, int cols) : GESymbol() {
+GEMatrix::GEMatrix(VECTOR_DATA(double) real_data, VECTOR_DATA(double) imag_data, int rows, int cols) : GESymbol(GESymType::MATRIX) {
     Init(real_data, imag_data, rows, cols, true);
 }
 
-GEMatrix::GEMatrix(const double *data, int rows, int cols, bool complex) : GESymbol() {
+GEMatrix::GEMatrix(const double *data, int rows, int cols, bool complex) : GESymbol(GESymType::MATRIX) {
     const double *imag_data = complex ? data + rows * cols : NULL;
     Init(data, imag_data, rows, cols, complex);
 }
 
-GEMatrix::GEMatrix(const double *data, const double *imag_data, int rows, int cols) : GESymbol() {
+GEMatrix::GEMatrix(const double *data, const double *imag_data, int rows, int cols) : GESymbol(GESymType::MATRIX) {
     Init(data, imag_data, rows, cols, true);
 }
 
-void GEMatrix::Init(const vector<double> &data, int rows, int cols, bool complex) {
-	const double *imag_data = complex ? &data[0] + rows * cols : NULL;
-	Init(&data[0], imag_data, rows, cols, complex);
+void GEMatrix::Init(VECTOR_DATA(double) data, int rows, int cols, bool complex) {
+    if (VECTOR_VAR(data) empty() || (rows * cols != VECTOR_VAR(data) size()))
+        return;
+    else if (complex && (rows * cols * 2 != VECTOR_VAR(data) size()))
+        return;
+
+    const double *imag_data = complex ? &VECTOR_VAR(data) front() + rows * cols : NULL;
+    Init(&VECTOR_VAR(data) front(), imag_data, rows, cols, complex);
+
+    VECTOR_VAR_DELETE_CHECK(data);
 }
 
-void GEMatrix::Init(const vector<double> &real_data, const vector<double> &imag_data, int rows, int cols, bool complex) {
+void GEMatrix::Init(VECTOR_DATA(double) real_data, VECTOR_DATA(double) imag_data, int rows, int cols, bool complex) {
     // Validate input
-    if (real_data.empty())
+    if (VECTOR_VAR(real_data) empty() || (rows * cols != VECTOR_VAR(real_data) size()))
         return;
-    else if (complex && imag_data.empty())
+    else if (complex && (VECTOR_VAR(imag_data) empty() || (rows * cols != VECTOR_VAR(imag_data) size())))
         return;
 
-    Init(&real_data[0], &imag_data[0], rows, cols, complex);
+    Init(&VECTOR_VAR(real_data) front(), &VECTOR_VAR(imag_data) front(), rows, cols, complex);
+
+    VECTOR_VAR_DELETE_CHECK(real_data);
+    VECTOR_VAR_DELETE_CHECK(imag_data);
 }
 
 void GEMatrix::Init(const double *p_real_data, const double *p_imag_data, int rows, int cols, bool complex) {
@@ -324,6 +333,32 @@ double GEMatrix::getElement(bool imag) const {
 }
 
 /**
+ * Returns a value from the matrix at the specified index. This will return
+ * real or imaginary data depending on the _imag_ flag passed in. If you only
+ * are interested in seeing real data you can use the convenience method
+ * getElement(int) that is also available.
+ *
+ * @param row        Row index
+ * @param col        Column index
+ * @param imag       True for imaginary data, false for real
+ * @return           Double precision number at row/column coordinates.
+ *
+ * @see getElement(bool)
+ */
+double GEMatrix::getElement(int index, bool imag) const {
+    if (this->data_.empty() || (!isComplex() && imag))
+        return 0;
+
+    if (index < 0)
+        index += this->data_.size();
+
+    if (index >= this->data_.size())
+        return 0;
+
+    return this->data_.at(index);
+}
+
+/**
  * Returns a value from the matrix at the specified row/column index. This will return
  * real or imaginary data depending on the _imag_ flag passed in. If you only
  * are interested in seeing real data you can use the convenience method
@@ -348,14 +383,39 @@ double GEMatrix::getElement(int row, int col, bool imag) const {
 }
 
 /**
+ * Set a value in the matrix at the specified index. This
+ * method can be used to set both real and imaginary values, determined
+ * by the _imag_ flag.
+ *
+ * @param val         Value to set
+ * @param index       index
+ * @param imag        True if setting imaginary data, false if setting real data.
+ *
+ * @see setElement(double, bool)
+ */
+bool GEMatrix::setElement(double value, int index, bool imag) {
+    if (this->data_.empty() || (!isComplex() && imag))
+        return false;
+    else if (fabs(index) >= this->size())
+        return false;
+
+    if (index < 0)
+        index = this->size() - index;
+
+    this->data_[index] = value;
+
+    return true;
+}
+
+/**
  * Set a value in the matrix at the specified row/column index. This
  * method can be used to set both real and imaginary values, determined
  * by the _imag_ flag.
  *
- * @param row        Row index
- * @param col        Column index
  * @param val        Value to set
- * @param imag        True if setting imaginary data, false if setting real data.
+ * @param row        Row index
+ * @param col        Column inde
+ * @param imag       True if setting imaginary data, false if setting real data.
  *
  * @see setElement(double, bool)
  */

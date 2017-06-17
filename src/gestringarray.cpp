@@ -1,16 +1,17 @@
 #include "gestringarray.h"
 #include <iostream>
 #include <cstring>
+#include <cmath>
 #include <sstream>
 using namespace std;
 
-GEStringArray::GEStringArray()
+GEStringArray::GEStringArray() : GESymbol(GESymType::STRING_ARRAY)
 {
     this->setRows(1);
     this->setCols(1);
 }
 
-GEStringArray::GEStringArray(StringArray_t *sa) {
+GEStringArray::GEStringArray(StringArray_t *sa) : GESymbol(GESymType::STRING_ARRAY) {
     fromStringArray(sa);
 }
 
@@ -38,8 +39,8 @@ Open    High    Low
  *
  * @param data
  */
-GEStringArray::GEStringArray(const vector<string> &data) {
-    setData(data, 1, data.size());
+GEStringArray::GEStringArray(VECTOR_DATA(string) data) : GESymbol(GESymType::STRING_ARRAY) {
+    setData(data, 1, VECTOR_VAR(data) size());
 }
 
 /**
@@ -68,7 +69,7 @@ Low     Close
  * @param rows        Row count
  * @param cols        Column count
  */
-GEStringArray::GEStringArray(const vector<string> &data, int rows, int cols) {
+GEStringArray::GEStringArray(VECTOR_DATA(string) data, int rows, int cols) : GESymbol(GESymType::STRING_ARRAY) {
     setData(data, rows, cols);
 }
 
@@ -100,10 +101,44 @@ bar
 string GEStringArray::getElement(int row, int col) const {
     unsigned int index = row * this->getCols() + col;
 
-    if (index >= data_.size() || row >= this->getRows() || col >= this->getCols())
+    if (index >= this->data_.size() || row >= this->getRows() || col >= this->getCols())
         return string();
 
-    return string(this->data_[index]);
+    return this->data_[index];
+}
+
+/**
+ * Return the string value at the absolute position _index_.
+ *
+ * Example:
+ *
+ * #### Python ####
+ * ~~~{.py}
+sa = GEStringArray(["foo", "bar", "baz"])
+print sa[-2]
+ * ~~~
+ *
+ * #### PHP ####
+ * ~~~{.php}
+$sa = new GEStringArray(array("foo", "bar", "baz"));
+echo $sa->getElement(0, 1);
+ * ~~~
+ * results in the output:
+ * ~~~
+bar
+ * ~~~
+ *
+ * @param index        Index
+ * @return        Value at specified index
+ */
+string GEStringArray::getElement(int index) const {
+    if (index < 0)
+        index += this->data_.size();
+
+    if (index >= this->data_.size())
+        return string();
+
+    return this->data_[index];
 }
 
 /**
@@ -145,7 +180,7 @@ ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT
  * @return        string vector
  */
 vector<string> GEStringArray::getData() const {
-    return vector<string>(data_);
+    return this->data_;
 }
 
 /**
@@ -155,13 +190,18 @@ vector<string> GEStringArray::getData() const {
   * @param rows     Rows
   * @param cols     Cols
   */
-void GEStringArray::setData(const vector<string> &data, int rows, int cols) {
-    if (rows * cols > data.size()) {
-        rows = data.size();
+void GEStringArray::setData(VECTOR_DATA(string) data, int rows, int cols) {
+#ifdef SWIGPHP
+    data->swap(this->data_);
+    delete data;
+#else
+    this->data_ = data;
+#endif
+    if (rows * cols > this->data_.size()) {
+        rows = this->data_.size();
         cols = 1;
     }
 
-    this->data_ = data;
     this->setRows(rows);
     this->setCols(cols);
 }
@@ -203,6 +243,43 @@ bool GEStringArray::setElement(const string &str, int row, int col) {
     return true;
 }
 
+/**
+ * Set string value to _str_ at absolute position _index_.
+ *
+ * Example:
+ *
+ * #### Python ####
+ * ~~~{.py}
+sa = GEStringArray(["foo", "bar", "baz"])
+sa[1] = "foo"
+print sa
+ * ~~~
+ *
+ * #### PHP ####
+ * ~~~{.php}
+$sa = new GEStringArray(array("foo", "bar", "baz"));
+$sa->setElement("foo", 0, 1);
+echo $sa->toString();
+ * ~~~
+ * results in the output:
+ * ~~~
+foo        foo        baz
+ * ~~~
+ *
+ * @param index      Index
+ */
+bool GEStringArray::setElement(const string &str, int index) {
+    if (fabs(index) >= data_.size())
+        return false;
+
+    if (index < 0)
+        index += this->data_.size();
+
+    this->data_[index] = str;
+
+    return true;
+}
+
 bool GEStringArray::fromStringArray(StringArray_t *sa) {
     if (sa == NULL)
         return false;
@@ -218,7 +295,6 @@ bool GEStringArray::fromStringArray(StringArray_t *sa) {
 
     int element_count = rows * cols;
 
-    this->data_.clear();
     this->data_.resize(element_count);
 
     StringElement_t *current_ptr = 0;
@@ -232,8 +308,7 @@ bool GEStringArray::fromStringArray(StringArray_t *sa) {
             current_ptr = base_ptr + (i * cols + j);
             ch_ptr = (char*)((char*)base_ptr + base_offset + current_ptr->offset);
 
-            string val = string(ch_ptr);
-            this->data_[i * cols + j] = val;
+            this->data_[i * cols + j] = string(ch_ptr);
         }
     }
 

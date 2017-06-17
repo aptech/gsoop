@@ -15,6 +15,7 @@ class GAUSS_EXPORT GEWorkspace
 public:
     GEWorkspace(WorkspaceHandle_t*);
     GEWorkspace(const std::string &, WorkspaceHandle_t*);
+    ~GEWorkspace();
 
     void setName(const std::string &);
     std::string name();

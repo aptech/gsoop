@@ -11,15 +11,15 @@ class GAUSS_EXPORT GEArray : public GESymbol
 {
 public:
     GEArray();
-    GEArray(const vector<int> &orders, const vector<double> &data, bool complex = false);
+    GEArray(vector<int> orders, VECTOR_DATA(double) data, bool complex = false);
     GEArray(const int *orders, int orders_len, const double *data, int data_len, bool complex = false);
 	virtual ~GEArray();
 
-    GEMatrix* getPlane(const vector<int> &, bool imag = false) const;
-    vector<double> getVector(const vector<int> &, bool imag = false) const;
+    GEMatrix* getPlane(vector<int> orders, bool imag = false) const;
+    vector<double> getVector(vector<int> orders, bool imag = false) const;
 
-    double getElement(const vector<int> &, bool imag = false) const;
-    bool setElement(double, const vector<int> &, bool imag = false);
+    double getElement(vector<int> orders, bool imag = false) const;
+    bool setElement(double, vector<int> orders, bool imag = false);
 
     vector<double> getData(bool imag = false) const;
     vector<double> getImagData() const;
@@ -35,14 +35,14 @@ private:
     GEArray(Array_t*);
     bool Init(Array_t *);
     void Init(const int *orders, int orders_len, const double *data, int data_len, bool complex);
-    int totalElements() const { return this->num_elements_ * (isComplex() ? 2: 1); }
+    size_t totalElements() const { return this->num_elements_ * (isComplex() ? 2: 1); }
 
     // Holds array data
 	vector<double> data_;
 
     // Orders of array
     int dims_;
-    int num_elements_;
+    size_t num_elements_;
 
     friend class GAUSS;
     friend class GAUSSPrivate;

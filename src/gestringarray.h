@@ -16,18 +16,23 @@ class GAUSS_EXPORT GEStringArray : public GESymbol
 {
 public:
     GEStringArray();
-    GEStringArray(const vector<string> &);
-    GEStringArray(const vector<string> &, int, int);
+    GEStringArray(VECTOR_DATA(string) data);
+    GEStringArray(VECTOR_DATA(string) data, int rows, int cols);
+    void setData(VECTOR_DATA(string) data, int, int);
+    bool setElement(const string &value, int index);
+    bool setElement(const string &value, int row, int col);
 
-    string getElement(int, int) const;
+    string getElement(int index) const;
+    string getElement(int row, int col) const;
     vector<string> getData() const;
-
-    void setData(const vector<string> &, int, int);
-    bool setElement(const string &, int, int);
 
     virtual string toString() const;
     virtual int size() const { return data_.size(); }
 	virtual void clear() { data_.clear(); data_.resize(1); setRows(1); setCols(1); }
+
+#ifdef SWIGPHP
+    int position_;
+#endif
 
 private:
     GEStringArray(StringArray_t*);

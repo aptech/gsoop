@@ -1,14 +1,15 @@
-gSoop 0.2
+gsoop 0.3
 =====
 
 A light-weight OOP wrapper for various target languages that allows developers to interface with the GAUSS Engine.
 
 We use the [SWIG](http://www.swig.org) library to generate language-specific extensions from C++ for us.
 
-Two languages are supported with more planned:
+The following languages are supported with more planned:
 
 + Python
 + PHP
++ C#
 
 While building from source allows complete control over
 the compile process, we have elected to also release binaries for popular platforms.
@@ -22,7 +23,7 @@ You can:
 ## Configuration ##
 
 The API will look for the `MTENGHOME` environment variable.
-This will be the location the engine was extracted to (i.e. `C:\mteng` on Windows, `/home/user/mteng` on Linux)
+This will be the location the engine was extracted to (i.e. `C:\mteng` on Windows, `$HOME/mteng` on Linux)
 
 Variable          | Value
 :-----------------|:-----------
@@ -39,12 +40,12 @@ The presence of this value allows the engine DLL to be found and loaded properly
 
 Ensure you do not __replace__ `PATH` with the directory.
 
-### Linux and Unix ###
+### Linux ###
 
 Variable          | Value
 :-----------------|:-----------
-`LD_LIBRARY_PATH` | Append `/home/user/mteng`
-`LD_PRELOAD`      | Append `/lib/x86_64-linux-gnu/libpthread.so.0:/home/user/mteng/bin/libiomp5.so`
+`LD_LIBRARY_PATH` | Append `$HOME/mteng`
+`LD_PRELOAD`      | Append `/lib/x86_64-linux-gnu/libpthread.so.0:$HOME/mteng/bin/libiomp5.so`
 
 Note: Please adjust the paths accordingly to your specific installation. In this case, the `libpthread.so.0` reference is for Ubuntu 64-bit.
 
@@ -75,11 +76,11 @@ Please ensure your Python installation contains the `setuptools` package, which 
 
 Instructions and files can be found at: https://pypi.python.org/pypi/setuptools#windows
 
-    $ easy_install gauss-0.2-py2.7-win-amd64.egg
+    $ easy_install ge-0.3-py2.7-win-amd64.egg
 
 #### Linux ####
 
-    $ easy_install gauss-0.2-py2.7-linux-x86_64.egg
+    $ easy_install ge-0.3-py2.7-linux-x86_64.egg
 
 ### Source ###
 
@@ -93,7 +94,7 @@ Note: Tested with Python 2.7.4
 Just like the traditional `make && make install`, compiling a Python extension requires 2 steps:
 
 ~~~
-python setup.py build_ext -i
+python setup.py build\_ext -i
 python setup.py install
 ~~~
 
@@ -102,28 +103,28 @@ python setup.py install
 ~~~{.bash}
 # The setup.py utilizes the 'MTENGHOME' environment variable.
 # Please ensure this is set appropriately to your GAUSS Engine installation directory.
-tar -xvf gauss-0.2.tar.gz
-cd gauss-0.2
-python setup.py build_ext -i      # First build the extension and create the gauss.py file
+tar -xvf ge-0.3.tar.gz
+cd ge-0.3
+python setup.py build\_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install
 
 # ROOT ONLY
 # If installation must be done as root, force set the environment variable
-tar -xvf gauss-0.2.tar.gz
-cd gauss-0.2
-sudo MTENGHOME=/home/user/mteng python setup.py build_ext -i # First build the extension and create the gauss.py file
-sudo MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install
+tar -xvf ge-0.3.tar.gz
+cd ge-0.3
+MTENGHOME=/home/user/mteng python setup.py build\_ext -i # First build the extension and create the ge.py file
+MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install
 ~~~
 
 #### Windows ####
 
-Due to `mteng.dll` being compiled with VS 2008, it is necessary at this time to use MSVC to compile the Python extension.
+Due to `mteng.dll` being compiled with Visual Studio 2015, it is necessary at this time to use MSVC to compile the Python extension.
 
 All commands are run through the appropriate Visual Studio command prompt.
 
-32-bit: `Start -> Microsoft Visual Studio 2008 -> Visual Studio Tools -> Visual Studio 2008 Command Prompt`
+32-bit: `Start -> Microsoft Visual Studio 2015 -> Visual Studio Tools -> Visual Studio 2015 Command Prompt`
 
-64-bit: `Start -> Microsoft Visual Studio 2008 -> Visual Studio Tools -> Visual Studio 2008 x64 Win64 Command Prompt`
+64-bit: `Start -> Microsoft Visual Studio 2015 -> Visual Studio Tools -> Visual Studio 2015 x64 Win64 Command Prompt`
 
 If your user lacks permissions to access the Python
 installation directory, you may have to run `cmd` as Administrator
@@ -133,20 +134,22 @@ Execute the following via a `cmd` terminal:
 ~~~{.bash}
 # The setup.py utilizes the 'MTENGHOME' environment variable.
 # Please ensure this is set appropriately to your GAUSS Engine installation directory.
-# unzip gauss-01.zip to a directory of your choice
-cd gauss-0.2
-python setup.py build_ext -i      # First build the extension and create the gauss.py file
+# unzip ge-0.3.zip to a directory of your choice
+cd ge-0.3
+python setup.py build\_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install
 ~~~
 
-If you omit the `build_ext -i` step, the `gauss.py` generated file will __NOT__ be placed in Python package directory.
+If you omit the `build_ext -i` step, the `ge.py` generated file will __NOT__ be placed in Python package directory.
 
 The result of this behavior is the following when attempting to `import gauss`:
 
-    >>> import gauss
+~~~{.py}
+    >>> import ge
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
-    ImportError: No module named gauss
+    ImportError: No module named ge
+~~~
 
 ### PHP ###
 
@@ -166,18 +169,6 @@ There are a couple steps common between both platforms that should be done ahead
         # Linux
         $ export PHP_INCLUDE=`php-config --includes`
 
-        # Windows you have to create it yourself. Newlines have been removed to clearly show the paths
-        # The actual command should have them all appended to each other separated by a semi-colon
-        set PHP_INCLUDE=C:\development\php5.4ts\dev;
-                        C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src;
-                        C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\main;
-                        C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\Zend;
-                        C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\TSRM;
-                        C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\ext
-
-    __Note__ on Windows, the environment variable contains `php5.4ts\dev` as part of the include path.
-
-    This ensures `php5ts.lib` will be located properly at link-time.
 2. Execute SWIG manually (If you are using pre-generated files from the appropriate language's directory, you can skip this step)
 
     Unlike our Python installation script, CMake does not automatically execute SWIG on the source files.
@@ -186,11 +177,11 @@ There are a couple steps common between both platforms that should be done ahead
 
         swig -c++ -php -outdir src -o src/gauss_wrap.cpp gauss.i
 
-After executing `swig`, you will find a newly created `gauss.php` in the `src` directory.
+After executing `swig`, you will find a newly created `ge.php` in the `src` directory.
 
 This will need to be used with any project that makes use of the GAUSS Engine, as the first line of any program will be
 
-    include("gauss.php");
+    include("ge.php");
 
 #### Linux ####
 
@@ -199,51 +190,28 @@ The following commands are executed from the root of the source path
     $ mkdir build
     $ cd build
     # You could also use cmake-gui to create the Makefile
-    $ cmake -DMTENGHOME=/home/user/mteng ..
+    $ cmake -DMTENGHOME=/home/user/mteng -G"Unix Makefiles" ..
     $ make
 
-You should now have a `gauss.so` file in your current  directory.
+You should now have a `ge.so` file in your current  directory.
 
 Refer to the [PHP Binary](#php_install_binary) section for instructions on installation.
 
 #### Windows ####
 
-Currently, only compilation against PHP 5.4.14 (x86) _Thread Safe_ version has been verified to work. Tested with Windows 7 Enterprise with Visual Studio 2008 SP1
-
-__Compile bug work-around:__
-
-Per a bug report at, https://bugs.php.net/bug.php?id=63130, and until a better solution is presented,
-you should make the following changes to `malloc.h`:
-
-This is a possible path where you might find it:
-
-    C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\malloc.h
-
-open it up as Administrator and change
-
-~~~{.cpp}
-#define _STATIC_ASSERT(expr) typedef char __static_assert_t[ (expr) ]
-~~~
-to
-~~~{.cpp}
-#ifdef PHP_WIN32
-#define _STATIC_ASSERT(expr) typedef char __static_assert_t[ 1 ]
-#else
-#define _STATIC_ASSERT(expr) typedef char __static_assert_t[ (expr) ]
-#endif
-~~~
+Currently, only compilation against PHP 5.4.14 (x86) _Thread Safe_ version has been verified to work. Tested with Windows 10 with Visual Studio 2015 Update 3
 
 Run the `cmake-gui` utility to configure and generate the VS Solution or NMake Makefile.
 
 I chose to specify `build` as the directory for output.
 
-If all went well, building the solution should now provide a `php_gauss.dll` file in the `build\Release` directory.
+If all went well, building the solution should now provide a `ge.dll` file in the `build\Release` directory.
 
 ### Binary ###
 
 #### Windows / Linux ####
 
-Place the `php_gauss.dll` (Windows) or `gauss.so` (Linux) in your PHP installation's `ext` directory.
+Place the `ge.dll` (Windows) or `ge.so` (Linux) in your PHP installation's `ext` directory.
 
 This value can be found by either:
 
@@ -254,7 +222,7 @@ There is also the opportunity to load the extension directly by PHP, requiring t
 
     ; load gauss engine extension
     ; specify gauss.so if Linux
-    extension=php_gauss.dll
+    extension=ge.dll
 
 If running PHP from the command line, changes should be instantaneous.
 
@@ -274,7 +242,7 @@ The following snippet will be described step-by-step in detail:
 
 #### Python ####
 ~~~{.py}
-from gauss import GAUSS, IGEProgramOutput
+from ge import GAUSS, IGEProgramOutput
 
 class Output(IGEProgramOutput):
     def invoke(self, message):
@@ -282,8 +250,7 @@ class Output(IGEProgramOutput):
 
 ge = GAUSS()
 
-out = Output()
-out.thisown = 0
+out = Output().__disown__()
 ge.setProgramOutputAll(out)
 
 if not ge.initialize():
@@ -325,7 +292,7 @@ Before we can make use of the functionality, we have to make the engine library 
 
 #### Python ####
 ~~~{.py}
-from gauss import GAUSS, IGEProgramOutput
+from ge import GAUSS, IGEProgramOutput
 ~~~
 
 #### PHP ####
