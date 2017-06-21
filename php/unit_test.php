@@ -141,6 +141,7 @@ final class TestGAUSSEngine extends TestCase
         self::$ge->updateWorkspaceName($wh2);
         $this->assertEquals("wh2", $wh2->name());
 
+        /*
         $count = 100;
 
         for ($i = 0; $i < $count; ++$i)
@@ -153,6 +154,7 @@ final class TestGAUSSEngine extends TestCase
         {
             self::$ge->destroyWorkspace(self::$ge->getWorkspace("temp" . $i));
         }
+        */
     }
 
 
@@ -206,15 +208,17 @@ final class TestGAUSSEngine extends TestCase
             $lowLevelMat1[$i] = $i + 1;
         }
 
+        /*
         foreach ($lowLevelMat1 as $n) {
             echo "num = " . $n . PHP_EOL;
         }
+        */
 
         //$this->assertTrue(self::$ge->moveMatrix($lowLevelMat1, 5, 2, false, "x1"));
         self::$ge["x1"] = $lowLevelMat1;
-        self::$ge->executeString("\"x1 = \" x1");
+        //self::$ge->executeString("\"x1 = \" x1");
         $mat1Copy = self::$ge["x1"];
-        var_dump($mat1Copy);
+        //var_dump($mat1Copy);
         $this->assertEquals(range(1, 10), $mat1Copy->getData());
 
         $this->assertTrue(self::$ge->executeString("x2 = x1 + 1"));
@@ -283,7 +287,6 @@ final class TestGAUSSEngine extends TestCase
         self::$ge->setSymbol($geStr, "s", $wh);
 
         $s = self::$ge["s"][0];
-        var_dump($s);
         $this->assertEquals("H", $s[0]);
 
         //$this->assertEquals("e", $s[0][1]);
@@ -296,7 +299,7 @@ final class TestGAUSSEngine extends TestCase
 
         // Change the value of 's' in GAUSS
         self::$ge->executeString("s = \"Goodbye World\"", $tempWh);
-        self::$ge->executeString("print s", $tempWh);
+        //self::$ge->executeString("print s", $tempWh);
 
         $s = self::$ge->getString("s", $wh);
         $this->assertEquals("Hello World", $s);

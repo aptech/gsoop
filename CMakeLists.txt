@@ -30,37 +30,37 @@ endif()
 #if(NOT PHP_ROOT_DIR)
 find_program(PHP_CONFIG_BINARY NAMES php-config5 php-config ${PHP_CONFIG_HINT})
 
-    if(NOT PHP_CONFIG_BINARY)
-        message(FATAL_ERROR "Could not locate php-config binary. Ensure it can be found in PATH or provide PHP_ROOT_DIR argument instead")
-    endif()
+if(NOT PHP_CONFIG_BINARY)
+    message(FATAL_ERROR "Could not locate php-config binary. Ensure it can be found in PATH or provide PHP_ROOT_DIR argument instead")
+endif()
 
-    execute_process(
-        COMMAND ${PHP_CONFIG_BINARY} --includes
-        OUTPUT_VARIABLE PHP_INCLUDE_DIRS
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+execute_process(
+    COMMAND ${PHP_CONFIG_BINARY} --includes
+    OUTPUT_VARIABLE PHP_INCLUDE_DIRS
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
-    set(CMAKE_CXX_FLAGS "${PHP_INCLUDE_DIRS} ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${PHP_INCLUDE_DIRS} ${CMAKE_CXX_FLAGS}")
 
-    execute_process(
-        COMMAND ${PHP_CONFIG_BINARY} --extension-dir
-        OUTPUT_VARIABLE PHP_EXTENSION_DIR
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+execute_process(
+    COMMAND ${PHP_CONFIG_BINARY} --extension-dir
+    OUTPUT_VARIABLE PHP_EXTENSION_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
-    execute_process(
-        COMMAND ${PHP_CONFIG_BINARY} --version
-        OUTPUT_VARIABLE PHP_VERSION_RAW
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+execute_process(
+    COMMAND ${PHP_CONFIG_BINARY} --version
+    OUTPUT_VARIABLE PHP_VERSION_RAW
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
-    string(SUBSTRING "${PHP_VERSION_RAW}" 0 1 PHP_VERSION)
+string(SUBSTRING "${PHP_VERSION_RAW}" 0 1 PHP_VERSION)
 
-    if(PHP_VERSION EQUAL 5)
-        set(SWIG_PHP5_FOUND ON)
-    else()
-        set(SWIG_PHP5_FOUND OFF)
-    endif()
+if(PHP_VERSION EQUAL 5)
+    set(SWIG_PHP5_FOUND ON)
+else()
+    set(SWIG_PHP5_FOUND OFF)
+endif()
 
 #else()
 #    set(PHP_INCLUDE_DIRS "${PHP_ROOT_DIR}/include/php")
@@ -77,51 +77,86 @@ message(STATUS "Found PHP ${PHP_VERSION}")
 message(STATUS "Using PHP Include Path: ${PHP_INCLUDE_DIRS}")
 
 option(PHP5 "Use PHP5 mode for SWIG instead of PHP7" ${SWIG_PHP5_FOUND})
+option(SWIG "Execute SWIG to build wrapper" OFF)
+option(SWIGOFFICIAL "Create official prebuilt SWIG wrappers" OFF)
 
 add_definitions(-DGAUSS_LIBRARY -DSWIGPHP)
 
 #swig -c++ -php7 -outdir php -o src/gauss_wrap.cpp gauss.i
 if (PHP5)
-    set(SWIG_PHP_FLAG -php5)
+    set(SWIG_PHP_FLAG php5)
     add_definitions(-DSWIGPHP5)
 else()
-    set(SWIG_PHP_FLAG -php7)
+    set(SWIG_PHP_FLAG php7)
     add_definitions(-DSWIGPHP7)
 endif()
 
-if(NOT SWIG_BINARY)
-    find_program(SWIG_BINARY swig)
 
+set(SWIG_CPP_WRAP_FILENAME "gauss_wrap.cpp")
+set(SWIG_H_WRAP_FILENAME "gauss_wrap.h")
+set(SWIG_PHP_H_WRAP_FILENAME "php_ge.h")
+set(SWIG_GE_PHP_FILENAME "ge.php")
+set(SWIG_WRAP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/php/${SWIG_PHP_FLAG}")
+set(SWIG_CPP_WRAP_OUT "${SWIG_WRAP_DIR}/${SWIG_CPP_WRAP_FILENAME}")
+set(SWIG_H_WRAP_OUT "${SWIG_WRAP_DIR}/${SWIG_H_WRAP_FILENAME}")
+set(SWIG_PHP_H_WRAP_OUT "${SWIG_WRAP_DIR}/${SWIG_PHP_H_WRAP_FILENAME}")
+set(SWIG_GE_PHP_OUT "${SWIG_WRAP_DIR}/${SWIG_GE_PHP_FILENAME}")
+
+if(SWIG)
     if(NOT SWIG_BINARY)
-        message(FATAL_ERROR "Can't find SWIG binary. Please provide SWIG_BINARY_ARGUMENT or ensure it is findable in PATH")
+        find_program(SWIG_BINARY swig)
+    
+        if(NOT SWIG_BINARY)
+            message(FATAL_ERROR "Can't find SWIG binary. Please provide SWIG_BINARY argument or ensure it is findable in PATH")
+        endif()
     endif()
+   
+    set(SWIG_CPP_WRAP_OUT "${CMAKE_CURRENT_BINARY_DIR}/${SWIG_CPP_WRAP_FILENAME}")
+    set(SWIG_H_WRAP_OUT "${CMAKE_CURRENT_BINARY_DIR}/${SWIG_H_WRAP_FILENAME}")
+    set(SWIG_PHP_H_WRAP_OUT "${CMAKE_CURRENT_BINARY_DIR}/${SWIG_PHP_H_WRAP_FILENAME}")
+
+    add_custom_command(
+        OUTPUT "${SWIG_CPP_WRAP_OUT}" "${SWIG_H_WRAP_OUT}" "${SWIG_PHP_H_WRAP_OUT}" "${SWIG_GE_PHP_OUT}"
+        COMMAND "${SWIG_BINARY}" -c++ -${SWIG_PHP_FLAG} -outdir "${CMAKE_CURRENT_BINARY_DIR}" -o "${SWIG_CPP_WRAP_OUT}" -oh "${SWIG_H_WRAP_OUT}" gauss.i
+        MAIN_DEPENDENCY "${CMAKE_CURRENT_SOURCE_DIR}/gauss.i"
+        DEPENDS 
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/gauss.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/gesymbol.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/gearray.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/gematrix.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/gestringarray.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/geworkspace.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/workspacemanager.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/gefuncwrapper.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/gesymtype.h"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        COMMENT "Executing SWIG generator binary"
+    )
+    
+    add_custom_target(swig 
+        DEPENDS "${SWIG_CPP_WRAP_OUT}"
+        COMMENT "Checking SWIG interface file for changes"
+    )
+
+    if(SWIGOFFICIAL)
+        add_custom_command(TARGET swig POST_BUILD
+            COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${SWIG_CPP_WRAP_FILENAME}" "${SWIG_WRAP_DIR}"
+            COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${SWIG_H_WRAP_FILENAME}" "${SWIG_WRAP_DIR}"
+            COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${SWIG_PHP_H_WRAP_FILENAME}" "${SWIG_WRAP_DIR}"
+            COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${SWIG_GE_PHP_FILENAME}" "${SWIG_WRAP_DIR}"
+            DEPENDS "${SWIG_CPP_WRAP_OUT}" "${SWIG_H_WRAP_OUT}" "${SWIG_PHP_H_WRAP_OUT}" "${SWIG_GE_PHP_OUT}"
+            WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+            COMMENT "Copying generated SWIG files to ${SWIG_WRAP_DIR}")
+    endif()
+else()
+    # use pre-built
+    configure_file("${SWIG_CPP_WRAP_OUT}" "${CMAKE_CURRENT_BINARY_DIR}" COPYONLY)
+    configure_file("${SWIG_H_WRAP_OUT}" "${CMAKE_CURRENT_BINARY_DIR}" COPYONLY)
+    configure_file("${SWIG_PHP_H_WRAP_OUT}" "${CMAKE_CURRENT_BINARY_DIR}" COPYONLY)
+    configure_file("${SWIG_GE_PHP_OUT}" "${CMAKE_CURRENT_BINARY_DIR}" COPYONLY)
 endif()
 
-set(SWIG_CPP_WRAP_OUT "${CMAKE_CURRENT_BINARY_DIR}/gauss_wrap.cpp")
-add_custom_command(
-    OUTPUT "${SWIG_CPP_WRAP_OUT}"
-    COMMAND "${SWIG_BINARY}" -c++ ${SWIG_PHP_FLAG} -outdir php -o "${SWIG_CPP_WRAP_OUT}" gauss.i
-    MAIN_DEPENDENCY "${CMAKE_CURRENT_SOURCE_DIR}/gauss.i"
-    DEPENDS 
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/gauss.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/gesymbol.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/gearray.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/gematrix.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/gestringarray.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/geworkspace.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/workspacemanager.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/gefuncwrapper.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/gesymtype.h"
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Executing SWIG generator binary"
-)
-
-add_custom_target(swig 
-    DEPENDS "${SWIG_CPP_WRAP_OUT}"
-    COMMENT "Checking SWIG interface file for changes"
-)
-
-find_library(MTENG_LIB mteng PATHS ${MTENGHOME})
+find_library(MTENG_LIB mteng PATHS ${MTENGHOME} NO_DEFAULT_PATH)
 add_library(ge SHARED 
     "${SWIG_CPP_WRAP_OUT}"
     src/gauss.cpp src/gematrix.cpp src/gearray.cpp 
@@ -129,17 +164,22 @@ add_library(ge SHARED
     src/gesymbol.cpp
 )
 
-add_dependencies(ge swig)
+target_include_directories(ge PUBLIC include src "${CMAKE_CURRENT_BINARY_DIR}")
 
-target_include_directories(ge PUBLIC include src php "${CMAKE_CURRENT_BINARY_DIR}")
-target_link_libraries(ge ${MTENG_LIB})
+if(SWIG)
+    add_dependencies(ge swig)
+else()
+    target_include_directories(ge PUBLIC "${SWIG_WRAP_DIR}")
+endif()
+
+target_link_libraries(ge PUBLIC ${MTENG_LIB})
 
 if(PHP_EXTENSION_DIR)
     message(STATUS "PHP Extension directory found: ${PHP_EXTENSION_DIR}")
     message(STATUS "Run 'make installext' to install directly. Please edit php.ini manually")
 
     add_custom_target(installext
-        COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:ge>" "${PHP_EXTENSION_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:ge>" "${PHP_EXTENSION_DIR}"
         DEPENDS ge
         COMMENT "Copying GE extension to PHP directory"
     )
@@ -151,7 +191,7 @@ if(PHP_EXTENSION_DIR)
         message(STATUS "Found php and phpunit. Run 'make unittest' to execute unit test")
         add_custom_target(unittest 
             ${CMAKE_COMMAND} -E env MTENGHOME=${MTENGHOME} "${PHP_BINARY}" "${PHP_UNIT_PHAR}" "${CMAKE_CURRENT_SOURCE_DIR}/php/unit_test.php"
-            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/php"
+            WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
             COMMENT "Running unit test")
         add_dependencies(unittest installext)
     endif()
