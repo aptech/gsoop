@@ -44,7 +44,7 @@ Ensure you do not __replace__ `PATH` with the directory.
 
 Variable          | Value
 :-----------------|:-----------
-`LD_LIBRARY_PATH` | Append `$HOME/mteng`
+`LD_LIBRARY_PATH` | Append `/home/user/mteng`
 
 Note: Please adjust the paths accordingly to your specific installation.
 
@@ -178,8 +178,6 @@ You should now have a `ge.so` file, as well as `ge.php`, in your current directo
 This will need to be used with any project that makes use of the GAUSS Engine, as the first line of any program will be
 
     include("ge.php");
-
-Refer to the [PHP Binary](#php_install_binary) section for instructions on installation.
 
 ### Binary ###
 
