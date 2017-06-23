@@ -17,26 +17,32 @@ Inheritance diagram for G\-E\-Symbol\-:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{class_g_e_symbol__inherit__graph}
+\includegraphics[width=308pt]{class_g_e_symbol__inherit__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-virtual int \hyperlink{class_g_e_symbol_a3f12da45e65b190ccca3601ffe513c6c}{get\-Rows} ()
+virtual int \hyperlink{class_g_e_symbol_a470e7764dc5d1a68e991fd75f64861e9}{get\-Rows} () const 
 \begin{DoxyCompactList}\small\item\em Return row count. \end{DoxyCompactList}\item 
-virtual int \hyperlink{class_g_e_symbol_a56c400ba8211b292bab8d67816d0e04d}{get\-Cols} ()
+virtual int \hyperlink{class_g_e_symbol_a39fa2193c2edfdd0fb062472fd4a445d}{get\-Cols} () const 
 \begin{DoxyCompactList}\small\item\em Return column count. \end{DoxyCompactList}\item 
-virtual bool \hyperlink{class_g_e_symbol_aece6cf0d25baffbad8059d36f19a691e}{is\-Complex} ()
+virtual bool \hyperlink{class_g_e_symbol_af65ad912b91392ff60dcfa002878a3c4}{is\-Complex} () const 
 \begin{DoxyCompactList}\small\item\em Return if data is complex. \end{DoxyCompactList}\item 
-virtual int \hyperlink{class_g_e_symbol_a706a39fc819e1c27e0d92d42c2bebcf6}{size} ()
-\begin{DoxyCompactList}\small\item\em Return element count or in case of \hyperlink{class_g_e_string}{G\-E\-String}, string length. \end{DoxyCompactList}\item 
+virtual int \hyperlink{class_g_e_symbol_a9dfb28fc5c1a67658c5380d5fbdfbc24}{size} () const 
+\begin{DoxyCompactList}\small\item\em Return element count. \end{DoxyCompactList}\item 
 virtual void \hyperlink{class_g_e_symbol_a39d2e523aec771a73e1cc5d7a9618b88}{clear} ()
 \begin{DoxyCompactList}\small\item\em Clear all corresponding symbol data. \end{DoxyCompactList}\item 
-virtual string \hyperlink{class_g_e_symbol_a6790ac75620cc1a9e37d67279e8bd4d1}{to\-String} ()
-\begin{DoxyCompactList}\small\item\em Returns a string representation of this object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+virtual string \hyperlink{class_g_e_symbol_ac79ba555226072d4b03f06e9f8bb6afb}{to\-String} () const 
+\begin{DoxyCompactList}\small\item\em Returns a string representation of this object. \end{DoxyCompactList}\item 
+\hypertarget{class_g_e_symbol_ad1959d131a38822003f597fb977d80e4}{int {\bfseries type} () const }\label{class_g_e_symbol_ad1959d131a38822003f597fb977d80e4}
+
+\end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_g_e_symbol_a8bec3b923598e9daab2aab824a619db5}{{\bfseries G\-E\-Symbol} (int type)}\label{class_g_e_symbol_a8bec3b923598e9daab2aab824a619db5}
+
 \item 
 \hypertarget{class_g_e_symbol_a8f5a7ba90f2d124529d6b9d7aa59cb59}{virtual void {\bfseries set\-Rows} (int)}\label{class_g_e_symbol_a8f5a7ba90f2d124529d6b9d7aa59cb59}
 
@@ -58,6 +64,9 @@ virtual string \hyperlink{class_g_e_symbol_a6790ac75620cc1a9e37d67279e8bd4d1}{to
 \item 
 \hypertarget{class_g_e_symbol_a8ad78c322adee566f1180f9d9b359798}{bool {\bfseries complex\-\_\-}}\label{class_g_e_symbol_a8ad78c322adee566f1180f9d9b359798}
 
+\item 
+\hypertarget{class_g_e_symbol_a0cc2349d51f6c7111f79755761f86f01}{int {\bfseries type\-\_\-}}\label{class_g_e_symbol_a0cc2349d51f6c7111f79755761f86f01}
+
 \end{DoxyCompactItemize}
 
 
@@ -78,15 +87,15 @@ Clear all corresponding symbol data.
 
 Does not clear from workspace. 
 
-Reimplemented in \hyperlink{class_g_e_array_ad7fd6880da03d11c13387ea9e1e1cd5d}{G\-E\-Array}, \hyperlink{class_g_e_matrix_a1bf6ddd9f46248e1c03c0d952d572103}{G\-E\-Matrix}, \hyperlink{class_g_e_string_array_a9bd5bd32a9efeb1e74128bd1d7c5c57d}{G\-E\-String\-Array}, and \hyperlink{class_g_e_string_a18bdaa90b17b538174ce61bb6dcc87c7}{G\-E\-String}.
+Reimplemented in \hyperlink{class_g_e_matrix_a1bf6ddd9f46248e1c03c0d952d572103}{G\-E\-Matrix}, \hyperlink{class_g_e_array_ad7fd6880da03d11c13387ea9e1e1cd5d}{G\-E\-Array}, and \hyperlink{class_g_e_string_array_a9bd5bd32a9efeb1e74128bd1d7c5c57d}{G\-E\-String\-Array}.
 
-\hypertarget{class_g_e_symbol_a56c400ba8211b292bab8d67816d0e04d}{\index{G\-E\-Symbol@{G\-E\-Symbol}!get\-Cols@{get\-Cols}}
+\hypertarget{class_g_e_symbol_a39fa2193c2edfdd0fb062472fd4a445d}{\index{G\-E\-Symbol@{G\-E\-Symbol}!get\-Cols@{get\-Cols}}
 \index{get\-Cols@{get\-Cols}!GESymbol@{G\-E\-Symbol}}
 \subsubsection[{get\-Cols}]{\setlength{\rightskip}{0pt plus 5cm}int G\-E\-Symbol\-::get\-Cols (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_symbol_a56c400ba8211b292bab8d67816d0e04d}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_symbol_a39fa2193c2edfdd0fb062472fd4a445d}
 
 
 Return column count. 
@@ -96,13 +105,13 @@ Returns the column count.
 \begin{DoxyReturn}{Returns}
 Column count 
 \end{DoxyReturn}
-\hypertarget{class_g_e_symbol_a3f12da45e65b190ccca3601ffe513c6c}{\index{G\-E\-Symbol@{G\-E\-Symbol}!get\-Rows@{get\-Rows}}
+\hypertarget{class_g_e_symbol_a470e7764dc5d1a68e991fd75f64861e9}{\index{G\-E\-Symbol@{G\-E\-Symbol}!get\-Rows@{get\-Rows}}
 \index{get\-Rows@{get\-Rows}!GESymbol@{G\-E\-Symbol}}
 \subsubsection[{get\-Rows}]{\setlength{\rightskip}{0pt plus 5cm}int G\-E\-Symbol\-::get\-Rows (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_symbol_a3f12da45e65b190ccca3601ffe513c6c}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_symbol_a470e7764dc5d1a68e991fd75f64861e9}
 
 
 Return row count. 
@@ -112,13 +121,13 @@ Returns the row count.
 \begin{DoxyReturn}{Returns}
 Row count 
 \end{DoxyReturn}
-\hypertarget{class_g_e_symbol_aece6cf0d25baffbad8059d36f19a691e}{\index{G\-E\-Symbol@{G\-E\-Symbol}!is\-Complex@{is\-Complex}}
+\hypertarget{class_g_e_symbol_af65ad912b91392ff60dcfa002878a3c4}{\index{G\-E\-Symbol@{G\-E\-Symbol}!is\-Complex@{is\-Complex}}
 \index{is\-Complex@{is\-Complex}!GESymbol@{G\-E\-Symbol}}
 \subsubsection[{is\-Complex}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-E\-Symbol\-::is\-Complex (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_symbol_aece6cf0d25baffbad8059d36f19a691e}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_symbol_af65ad912b91392ff60dcfa002878a3c4}
 
 
 Return if data is complex. 
@@ -130,16 +139,16 @@ Applies to \hyperlink{class_g_e_array}{G\-E\-Array} and \hyperlink{class_g_e_mat
 \begin{DoxyReturn}{Returns}
 True if data is complex, false if not. 
 \end{DoxyReturn}
-\hypertarget{class_g_e_symbol_a706a39fc819e1c27e0d92d42c2bebcf6}{\index{G\-E\-Symbol@{G\-E\-Symbol}!size@{size}}
+\hypertarget{class_g_e_symbol_a9dfb28fc5c1a67658c5380d5fbdfbc24}{\index{G\-E\-Symbol@{G\-E\-Symbol}!size@{size}}
 \index{size@{size}!GESymbol@{G\-E\-Symbol}}
 \subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}int G\-E\-Symbol\-::size (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_symbol_a706a39fc819e1c27e0d92d42c2bebcf6}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_symbol_a9dfb28fc5c1a67658c5380d5fbdfbc24}
 
 
-Return element count or in case of \hyperlink{class_g_e_string}{G\-E\-String}, string length. 
+Return element count. 
 
 Returns the total element count for the data.
 
@@ -148,22 +157,22 @@ Total element count
 \end{DoxyReturn}
 
 
-Reimplemented in \hyperlink{class_g_e_array_a92572639729f917920a1c387bdf54c50}{G\-E\-Array}, \hyperlink{class_g_e_string_array_aa713dfa2931e223578a9fe41e3acd85d}{G\-E\-String\-Array}, and \hyperlink{class_g_e_string_a7bb7b3fdc5f217ad32f6795250bdb376}{G\-E\-String}.
+Reimplemented in \hyperlink{class_g_e_string_array_aab1e6ad88ece669100fab114efe43b43}{G\-E\-String\-Array}, and \hyperlink{class_g_e_array_a4030556e997a324e09abcf46e6a9e7ef}{G\-E\-Array}.
 
-\hypertarget{class_g_e_symbol_a6790ac75620cc1a9e37d67279e8bd4d1}{\index{G\-E\-Symbol@{G\-E\-Symbol}!to\-String@{to\-String}}
+\hypertarget{class_g_e_symbol_ac79ba555226072d4b03f06e9f8bb6afb}{\index{G\-E\-Symbol@{G\-E\-Symbol}!to\-String@{to\-String}}
 \index{to\-String@{to\-String}!GESymbol@{G\-E\-Symbol}}
 \subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}virtual string G\-E\-Symbol\-::to\-String (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_g_e_symbol_a6790ac75620cc1a9e37d67279e8bd4d1}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_g_e_symbol_ac79ba555226072d4b03f06e9f8bb6afb}
 
 
 Returns a string representation of this object. 
 
 
 
-Reimplemented in \hyperlink{class_g_e_array_a363c7ca4a422994013edc81905a6d836}{G\-E\-Array}, \hyperlink{class_g_e_matrix_a6f46cc050d3f8966a01676791b362387}{G\-E\-Matrix}, \hyperlink{class_g_e_string_array_ab74fcbfee54edd0db02b61b299b3a7af}{G\-E\-String\-Array}, and \hyperlink{class_g_e_string_a058bcd0c32105659eab4194e2c9efe92}{G\-E\-String}.
+Reimplemented in \hyperlink{class_g_e_matrix_af17030b3ac740673ebe81612d9fe5963}{G\-E\-Matrix}, \hyperlink{class_g_e_array_a9f0f5b80ff919ebbf663e0e2ad257512}{G\-E\-Array}, and \hyperlink{class_g_e_string_array_af561837dd261d89c356d1c9cf428b1d5}{G\-E\-String\-Array}.
 
 
 

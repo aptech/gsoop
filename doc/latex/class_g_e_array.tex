@@ -26,27 +26,30 @@ Inheritance diagram for G\-E\-Array\-:
 \hypertarget{class_g_e_array_a59934816e881cf01fb22d08f1d8fc1e0}{\hyperlink{class_g_e_array_a59934816e881cf01fb22d08f1d8fc1e0}{G\-E\-Array} ()}\label{class_g_e_array_a59934816e881cf01fb22d08f1d8fc1e0}
 
 \begin{DoxyCompactList}\small\item\em Initialize a one dimensional array with a single element set to zero. \end{DoxyCompactList}\item 
-\hyperlink{class_g_e_array_a51213e054718836f9bea482c3d2e01fc}{G\-E\-Array} (vector$<$ int $>$, vector$<$ double $>$, bool complex=false)
+\hyperlink{class_g_e_array_a99e59c84b9ee6288030cda2fecc116af}{G\-E\-Array} (vector$<$ int $>$ orders, V\-E\-C\-T\-O\-R\-\_\-\-D\-A\-T\-A(double) data, bool complex=false)
 \begin{DoxyCompactList}\small\item\em Initialize an array with the orders specified. \end{DoxyCompactList}\item 
-\hyperlink{class_g_e_matrix}{G\-E\-Matrix} $\ast$ \hyperlink{class_g_e_array_aef823665c01857bc134d70b5a8a9f18c}{get\-Plane} (vector$<$ int $>$, bool imag=false)
+\hypertarget{class_g_e_array_aff83dc2b4d74f050eff84e360a8df3c9}{{\bfseries G\-E\-Array} (const int $\ast$orders, int orders\-\_\-len, const double $\ast$data, int data\-\_\-len, bool complex=false)}\label{class_g_e_array_aff83dc2b4d74f050eff84e360a8df3c9}
+
+\item 
+\hyperlink{class_g_e_matrix}{G\-E\-Matrix} $\ast$ \hyperlink{class_g_e_array_a760dc4efc92eb480a6892fe0336a5c13}{get\-Plane} (vector$<$ int $>$ orders, bool imag=false) const 
 \begin{DoxyCompactList}\small\item\em Retrieve a 2-\/dimensional slice from an array. \end{DoxyCompactList}\item 
-vector$<$ double $>$ \hyperlink{class_g_e_array_ae77d4eb43d45ebaa8ac81d0ec16bbb5b}{get\-Vector} (vector$<$ int $>$, bool imag=false)
+vector$<$ double $>$ \hyperlink{class_g_e_array_a157c2c5a9a96ba4d70873a502439c142}{get\-Vector} (vector$<$ int $>$ orders, bool imag=false) const 
 \begin{DoxyCompactList}\small\item\em Retrieve a one dimensional vector from an array. \end{DoxyCompactList}\item 
-double \hyperlink{class_g_e_array_a1430d1c4f30b9f147cd1dfd574bb0965}{get\-Element} (vector$<$ int $>$, bool imag=false)
+double \hyperlink{class_g_e_array_a3eb9ae37593f93cd912242e34d864a7b}{get\-Element} (vector$<$ int $>$ orders, bool imag=false) const 
 \begin{DoxyCompactList}\small\item\em Retrieve an element from an array. \end{DoxyCompactList}\item 
-bool \hyperlink{class_g_e_array_ad35d973752916a501182c16540b0fb27}{set\-Element} (double, vector$<$ int $>$, bool imag=false)
+bool \hyperlink{class_g_e_array_a0e89787df523a69a1834c89adcfdfc3f}{set\-Element} (double, vector$<$ int $>$ orders, bool imag=false)
 \begin{DoxyCompactList}\small\item\em Set an element in an array. \end{DoxyCompactList}\item 
-vector$<$ double $>$ \hyperlink{class_g_e_array_a925784223f63e75859f6db66c4a5ac9d}{get\-Data} (bool imag=false)
+vector$<$ double $>$ \hyperlink{class_g_e_array_a213163c7bc79ff072d3fe0de53afcdbe}{get\-Data} (bool imag=false) const 
 \begin{DoxyCompactList}\small\item\em Retrieve a copy of underlying numeric vector. \end{DoxyCompactList}\item 
-vector$<$ double $>$ \hyperlink{class_g_e_array_a268b4844815433c66d860333dbca4923}{get\-Imag\-Data} ()
+vector$<$ double $>$ \hyperlink{class_g_e_array_a88801ecb7d0845932a5df91e0d87f512}{get\-Imag\-Data} () const 
 \begin{DoxyCompactList}\small\item\em Retrieve underlying imaginary data storage. \end{DoxyCompactList}\item 
-vector$<$ int $>$ \hyperlink{class_g_e_array_a399db53fbe251d26375db2c651227c85}{get\-Orders} ()
+vector$<$ int $>$ \hyperlink{class_g_e_array_aefb8352fe78692588d285be165267498}{get\-Orders} () const 
 \begin{DoxyCompactList}\small\item\em Retrieve the vector of array orders. \end{DoxyCompactList}\item 
-int \hyperlink{class_g_e_array_ae9b16f0cd411b9e4d705fb49fab5efc3}{get\-Dimensions} ()
+int \hyperlink{class_g_e_array_afad41971475ee5588ba8f5d0d396b5fc}{get\-Dimensions} () const 
 \begin{DoxyCompactList}\small\item\em Return the number of array dimensions. \end{DoxyCompactList}\item 
-virtual int \hyperlink{class_g_e_array_a92572639729f917920a1c387bdf54c50}{size} ()
+virtual int \hyperlink{class_g_e_array_a4030556e997a324e09abcf46e6a9e7ef}{size} () const 
 \begin{DoxyCompactList}\small\item\em Returns the total element count. \end{DoxyCompactList}\item 
-virtual std\-::string \hyperlink{class_g_e_array_a363c7ca4a422994013edc81905a6d836}{to\-String} ()
+virtual std\-::string \hyperlink{class_g_e_array_a9f0f5b80ff919ebbf663e0e2ad257512}{to\-String} () const 
 \begin{DoxyCompactList}\small\item\em Returns a string representation of this object. \end{DoxyCompactList}\item 
 virtual void \hyperlink{class_g_e_array_ad7fd6880da03d11c13387ea9e1e1cd5d}{clear} ()
 \begin{DoxyCompactList}\small\item\em Clear all corresponding symbol data. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -54,6 +57,9 @@ virtual void \hyperlink{class_g_e_array_ad7fd6880da03d11c13387ea9e1e1cd5d}{clear
 \begin{DoxyCompactItemize}
 \item 
 \hypertarget{class_g_e_array_abc89e64d0ec6c939575c3125753c6309}{class {\bfseries G\-A\-U\-S\-S}}\label{class_g_e_array_abc89e64d0ec6c939575c3125753c6309}
+
+\item 
+\hypertarget{class_g_e_array_a2e5e14117f0e69078f45b8d512f056de}{class {\bfseries G\-A\-U\-S\-S\-Private}}\label{class_g_e_array_a2e5e14117f0e69078f45b8d512f056de}
 
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
@@ -65,15 +71,15 @@ virtual void \hyperlink{class_g_e_array_ad7fd6880da03d11c13387ea9e1e1cd5d}{clear
 This represents An N-\/dimensional array of double precision numbers. 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{class_g_e_array_a51213e054718836f9bea482c3d2e01fc}{\index{G\-E\-Array@{G\-E\-Array}!G\-E\-Array@{G\-E\-Array}}
+\hypertarget{class_g_e_array_a99e59c84b9ee6288030cda2fecc116af}{\index{G\-E\-Array@{G\-E\-Array}!G\-E\-Array@{G\-E\-Array}}
 \index{G\-E\-Array@{G\-E\-Array}!GEArray@{G\-E\-Array}}
 \subsubsection[{G\-E\-Array}]{\setlength{\rightskip}{0pt plus 5cm}G\-E\-Array\-::\-G\-E\-Array (
 \begin{DoxyParamCaption}
 \item[{vector$<$ int $>$}]{orders, }
-\item[{vector$<$ double $>$}]{data, }
+\item[{V\-E\-C\-T\-O\-R\-\_\-\-D\-A\-T\-A(double)}]{data, }
 \item[{bool}]{complex = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}}\label{class_g_e_array_a51213e054718836f9bea482c3d2e01fc}
+)}}\label{class_g_e_array_a99e59c84b9ee6288030cda2fecc116af}
 
 
 Initialize an array with the orders specified. 
@@ -145,18 +151,18 @@ Does not clear from workspace.
 
 Reimplemented from \hyperlink{class_g_e_symbol_a39d2e523aec771a73e1cc5d7a9618b88}{G\-E\-Symbol}.
 
-\hypertarget{class_g_e_array_a925784223f63e75859f6db66c4a5ac9d}{\index{G\-E\-Array@{G\-E\-Array}!get\-Data@{get\-Data}}
+\hypertarget{class_g_e_array_a213163c7bc79ff072d3fe0de53afcdbe}{\index{G\-E\-Array@{G\-E\-Array}!get\-Data@{get\-Data}}
 \index{get\-Data@{get\-Data}!GEArray@{G\-E\-Array}}
 \subsubsection[{get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ G\-E\-Array\-::get\-Data (
 \begin{DoxyParamCaption}
 \item[{bool}]{imag = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}}\label{class_g_e_array_a925784223f63e75859f6db66c4a5ac9d}
+) const}}\label{class_g_e_array_a213163c7bc79ff072d3fe0de53afcdbe}
 
 
 Retrieve a copy of underlying numeric vector. 
 
-Imaginary data can also be queried by supplying the {\itshape imag} argument, thus appending it to the end of the real data. Omitting or specifying the {\itshape imag} argument as {\ttfamily false} will return only real data. If you wish to only view the imaginary data, there is a \hyperlink{class_g_e_array_a268b4844815433c66d860333dbca4923}{get\-Imag\-Data()} method for convenience.
+Imaginary data can also be queried by supplying the {\itshape imag} argument, thus appending it to the end of the real data. Omitting or specifying the {\itshape imag} argument as {\ttfamily false} will return only real data. If you wish to only view the imaginary data, there is a \hyperlink{class_g_e_array_a88801ecb7d0845932a5df91e0d87f512}{get\-Imag\-Data()} method for convenience.
 
 Example\-:
 
@@ -194,18 +200,18 @@ echo implode(\textcolor{stringliteral}{", "}, $a->getData()) . PHP\_EOL;
 \begin{DoxyReturn}{Returns}
 Array data as a one-\/dimensional vector 
 \end{DoxyReturn}
-\hypertarget{class_g_e_array_ae9b16f0cd411b9e4d705fb49fab5efc3}{\index{G\-E\-Array@{G\-E\-Array}!get\-Dimensions@{get\-Dimensions}}
+\hypertarget{class_g_e_array_afad41971475ee5588ba8f5d0d396b5fc}{\index{G\-E\-Array@{G\-E\-Array}!get\-Dimensions@{get\-Dimensions}}
 \index{get\-Dimensions@{get\-Dimensions}!GEArray@{G\-E\-Array}}
 \subsubsection[{get\-Dimensions}]{\setlength{\rightskip}{0pt plus 5cm}int G\-E\-Array\-::get\-Dimensions (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{class_g_e_array_ae9b16f0cd411b9e4d705fb49fab5efc3}
+) const}}\label{class_g_e_array_afad41971475ee5588ba8f5d0d396b5fc}
 
 
 Return the number of array dimensions. 
 
-This should be equal to the length of \hyperlink{class_g_e_array_a399db53fbe251d26375db2c651227c85}{get\-Orders()}
+This should be equal to the length of \hyperlink{class_g_e_array_aefb8352fe78692588d285be165267498}{get\-Orders()}
 
 Example\-:
 
@@ -241,14 +247,14 @@ a order count = 3
 \begin{DoxyReturn}{Returns}
 Array dimension count 
 \end{DoxyReturn}
-\hypertarget{class_g_e_array_a1430d1c4f30b9f147cd1dfd574bb0965}{\index{G\-E\-Array@{G\-E\-Array}!get\-Element@{get\-Element}}
+\hypertarget{class_g_e_array_a3eb9ae37593f93cd912242e34d864a7b}{\index{G\-E\-Array@{G\-E\-Array}!get\-Element@{get\-Element}}
 \index{get\-Element@{get\-Element}!GEArray@{G\-E\-Array}}
 \subsubsection[{get\-Element}]{\setlength{\rightskip}{0pt plus 5cm}double G\-E\-Array\-::get\-Element (
 \begin{DoxyParamCaption}
 \item[{vector$<$ int $>$}]{indices, }
 \item[{bool}]{imag = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}}\label{class_g_e_array_a1430d1c4f30b9f147cd1dfd574bb0965}
+) const}}\label{class_g_e_array_a3eb9ae37593f93cd912242e34d864a7b}
 
 
 Retrieve an element from an array. 
@@ -313,13 +319,13 @@ Plane [2,.,.]
 \begin{DoxyReturn}{Returns}
 double precision element 
 \end{DoxyReturn}
-\hypertarget{class_g_e_array_a268b4844815433c66d860333dbca4923}{\index{G\-E\-Array@{G\-E\-Array}!get\-Imag\-Data@{get\-Imag\-Data}}
+\hypertarget{class_g_e_array_a88801ecb7d0845932a5df91e0d87f512}{\index{G\-E\-Array@{G\-E\-Array}!get\-Imag\-Data@{get\-Imag\-Data}}
 \index{get\-Imag\-Data@{get\-Imag\-Data}!GEArray@{G\-E\-Array}}
 \subsubsection[{get\-Imag\-Data}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ G\-E\-Array\-::get\-Imag\-Data (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{class_g_e_array_a268b4844815433c66d860333dbca4923}
+) const}}\label{class_g_e_array_a88801ecb7d0845932a5df91e0d87f512}
 
 
 Retrieve underlying imaginary data storage. 
@@ -362,13 +368,13 @@ echo implode(\textcolor{stringliteral}{", "}, $c->getImagData()) . PHP\_EOL;
 \begin{DoxyReturn}{Returns}
 Array data as a one-\/dimensional vector 
 \end{DoxyReturn}
-\hypertarget{class_g_e_array_a399db53fbe251d26375db2c651227c85}{\index{G\-E\-Array@{G\-E\-Array}!get\-Orders@{get\-Orders}}
+\hypertarget{class_g_e_array_aefb8352fe78692588d285be165267498}{\index{G\-E\-Array@{G\-E\-Array}!get\-Orders@{get\-Orders}}
 \index{get\-Orders@{get\-Orders}!GEArray@{G\-E\-Array}}
 \subsubsection[{get\-Orders}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ int $>$ G\-E\-Array\-::get\-Orders (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{class_g_e_array_a399db53fbe251d26375db2c651227c85}
+) const}}\label{class_g_e_array_aefb8352fe78692588d285be165267498}
 
 
 Retrieve the vector of array orders. 
@@ -406,21 +412,21 @@ a orders = 2x3x4
 \begin{DoxyReturn}{Returns}
 Vector of array orders 
 \end{DoxyReturn}
-\hypertarget{class_g_e_array_aef823665c01857bc134d70b5a8a9f18c}{\index{G\-E\-Array@{G\-E\-Array}!get\-Plane@{get\-Plane}}
+\hypertarget{class_g_e_array_a760dc4efc92eb480a6892fe0336a5c13}{\index{G\-E\-Array@{G\-E\-Array}!get\-Plane@{get\-Plane}}
 \index{get\-Plane@{get\-Plane}!GEArray@{G\-E\-Array}}
 \subsubsection[{get\-Plane}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-E\-Matrix} $\ast$ G\-E\-Array\-::get\-Plane (
 \begin{DoxyParamCaption}
 \item[{vector$<$ int $>$}]{indices, }
 \item[{bool}]{imag = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}}\label{class_g_e_array_aef823665c01857bc134d70b5a8a9f18c}
+) const}}\label{class_g_e_array_a760dc4efc92eb480a6892fe0336a5c13}
 
 
 Retrieve a 2-\/dimensional slice from an array. 
 
 The indices array will contain N-\/2 normal indices into the array, positioning to the first element of the plane of interest, and two indices set to 0, indicating the dimensions of interest. The plane of elements across those 2 dimensions will be returned, the lower dimension becoming columns and the higher dimension becoming rows. This function returns either the real or the imaginary part of the data, based on the {\itshape imag} argument.
 
-If you need to extract more than two dimensions of data, you can use the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} indexing (square bracket) operators or the \hyperlink{class_g_a_u_s_s_a4016aa13feb5c5648556dcca73caf030}{G\-A\-U\-S\-S.\-get\-Array(string)} function. See the N-\/\-Dimensional Arrays and Working With Arrays chapters of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} User Guide.
+If you need to extract more than two dimensions of data, you can use the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} indexing (square bracket) operators or the G\-A\-U\-S\-S.\-get\-Array(string) function. See the N-\/\-Dimensional Arrays and Working With Arrays chapters of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} User Guide.
 
 Example\-:
 
@@ -491,14 +497,14 @@ Plane [2,.,.]
 \begin{DoxyReturn}{Returns}
 2 dimensional array slice. 
 \end{DoxyReturn}
-\hypertarget{class_g_e_array_ae77d4eb43d45ebaa8ac81d0ec16bbb5b}{\index{G\-E\-Array@{G\-E\-Array}!get\-Vector@{get\-Vector}}
+\hypertarget{class_g_e_array_a157c2c5a9a96ba4d70873a502439c142}{\index{G\-E\-Array@{G\-E\-Array}!get\-Vector@{get\-Vector}}
 \index{get\-Vector@{get\-Vector}!GEArray@{G\-E\-Array}}
 \subsubsection[{get\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ double $>$ G\-E\-Array\-::get\-Vector (
 \begin{DoxyParamCaption}
 \item[{vector$<$ int $>$}]{indices, }
 \item[{bool}]{imag = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}}\label{class_g_e_array_ae77d4eb43d45ebaa8ac81d0ec16bbb5b}
+) const}}\label{class_g_e_array_a157c2c5a9a96ba4d70873a502439c142}
 
 
 Retrieve a one dimensional vector from an array. 
@@ -563,7 +569,7 @@ Plane [2,.,.]
 \begin{DoxyReturn}{Returns}
 Vector of data 
 \end{DoxyReturn}
-\hypertarget{class_g_e_array_ad35d973752916a501182c16540b0fb27}{\index{G\-E\-Array@{G\-E\-Array}!set\-Element@{set\-Element}}
+\hypertarget{class_g_e_array_a0e89787df523a69a1834c89adcfdfc3f}{\index{G\-E\-Array@{G\-E\-Array}!set\-Element@{set\-Element}}
 \index{set\-Element@{set\-Element}!GEArray@{G\-E\-Array}}
 \subsubsection[{set\-Element}]{\setlength{\rightskip}{0pt plus 5cm}bool G\-E\-Array\-::set\-Element (
 \begin{DoxyParamCaption}
@@ -571,7 +577,7 @@ Vector of data
 \item[{vector$<$ int $>$}]{indices, }
 \item[{bool}]{imag = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}}\label{class_g_e_array_ad35d973752916a501182c16540b0fb27}
+)}}\label{class_g_e_array_a0e89787df523a69a1834c89adcfdfc3f}
 
 
 Set an element in an array. 
@@ -647,40 +653,40 @@ Plane [2,.,.]
 {\em imag} & Whether to set imaginary data instead of real data. \\
 \hline
 \end{DoxyParams}
-\hypertarget{class_g_e_array_a92572639729f917920a1c387bdf54c50}{\index{G\-E\-Array@{G\-E\-Array}!size@{size}}
+\hypertarget{class_g_e_array_a4030556e997a324e09abcf46e6a9e7ef}{\index{G\-E\-Array@{G\-E\-Array}!size@{size}}
 \index{size@{size}!GEArray@{G\-E\-Array}}
 \subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}int G\-E\-Array\-::size (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_array_a92572639729f917920a1c387bdf54c50}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_array_a4030556e997a324e09abcf46e6a9e7ef}
 
 
 Returns the total element count. 
 
-This is the product of \hyperlink{class_g_e_array_a399db53fbe251d26375db2c651227c85}{get\-Orders()}.
+This is the product of \hyperlink{class_g_e_array_aefb8352fe78692588d285be165267498}{get\-Orders()}.
 
 \begin{DoxyReturn}{Returns}
 Total element count 
 \end{DoxyReturn}
 
 
-Reimplemented from \hyperlink{class_g_e_symbol_a706a39fc819e1c27e0d92d42c2bebcf6}{G\-E\-Symbol}.
+Reimplemented from \hyperlink{class_g_e_symbol_a9dfb28fc5c1a67658c5380d5fbdfbc24}{G\-E\-Symbol}.
 
-\hypertarget{class_g_e_array_a363c7ca4a422994013edc81905a6d836}{\index{G\-E\-Array@{G\-E\-Array}!to\-String@{to\-String}}
+\hypertarget{class_g_e_array_a9f0f5b80ff919ebbf663e0e2ad257512}{\index{G\-E\-Array@{G\-E\-Array}!to\-String@{to\-String}}
 \index{to\-String@{to\-String}!GEArray@{G\-E\-Array}}
 \subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}string G\-E\-Array\-::to\-String (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_array_a363c7ca4a422994013edc81905a6d836}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_g_e_array_a9f0f5b80ff919ebbf663e0e2ad257512}
 
 
 Returns a string representation of this object. 
 
 
 
-Reimplemented from \hyperlink{class_g_e_symbol_a6790ac75620cc1a9e37d67279e8bd4d1}{G\-E\-Symbol}.
+Reimplemented from \hyperlink{class_g_e_symbol_ac79ba555226072d4b03f06e9f8bb6afb}{G\-E\-Symbol}.
 
 
 

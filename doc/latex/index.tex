@@ -2,12 +2,13 @@ A light-\/weight O\-O\-P wrapper for various target languages that allows develo
 
 We use the \href{http://www.swig.org}{\tt S\-W\-I\-G} library to generate language-\/specific extensions from C++ for us.
 
-Two languages are supported with more planned\-:
+The following languages are supported with more planned\-:
 
 
 \begin{DoxyItemize}
 \item Python
 \item P\-H\-P
+\item C\#
 \end{DoxyItemize}
 
 While building from source allows complete control over the compile process, we have elected to also release binaries for popular platforms.
@@ -22,7 +23,7 @@ You can\-:
 
 \subsection*{Configuration}
 
-The A\-P\-I will look for the {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E} environment variable. This will be the location the engine was extracted to (i.\-e. {\ttfamily C\-:\textbackslash{}mteng} on Windows, {\ttfamily /home/user/mteng} on Linux)
+The A\-P\-I will look for the {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E} environment variable. This will be the location the engine was extracted to (i.\-e. {\ttfamily C\-:\textbackslash{}mteng} on Windows, {\ttfamily \$\-H\-O\-M\-E/mteng} on Linux)
 
 \begin{TabularC}{2}
 \hline
@@ -46,17 +47,16 @@ The presence of this value allows the engine D\-L\-L to be found and loaded prop
 
 Ensure you do not {\bfseries replace} {\ttfamily P\-A\-T\-H} with the directory.
 
-\subsubsection*{Linux and Unix}
+\subsubsection*{Linux}
 
 \begin{TabularC}{2}
 \hline
 \rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
-{\ttfamily L\-D\-\_\-\-L\-I\-B\-R\-A\-R\-Y\-\_\-\-P\-A\-T\-H} &Append {\ttfamily /home/user/mteng} \\\cline{1-2}
-{\ttfamily L\-D\-\_\-\-P\-R\-E\-L\-O\-A\-D} &Append {\ttfamily /lib/x86\-\_\-64-\/linux-\/gnu/libpthread.so.\-0\-:/home/user/mteng/bin/libiomp5.so} \\\cline{1-2}
+{\ttfamily L\-D\-\_\-\-L\-I\-B\-R\-A\-R\-Y\-\_\-\-P\-A\-T\-H} &Append {\ttfamily \$\-H\-O\-M\-E/mteng} \\\cline{1-2}
 \end{TabularC}
 
 
-Note\-: Please adjust the paths accordingly to your specific installation. In this case, the {\ttfamily libpthread.\-so.\-0} reference is for Ubuntu 64-\/bit.
+Note\-: Please adjust the paths accordingly to your specific installation.
 
 \subsubsection*{S\-W\-I\-G}
 
@@ -66,7 +66,7 @@ If you are building from source, you will need to have the S\-W\-I\-G library av
 
 Once installed, please ensure {\ttfamily swig} is available in your terminal by placing its installation directory in your {\ttfamily P\-A\-T\-H} environment variable, as building requires it.
 
-{\bfseries E\-X\-C\-E\-P\-T\-I\-O\-N}\-: If you are not {\itshape modifying} any source files, the auto generated files have been included in the respective {\ttfamily python} and {\ttfamily php} sub-\/directories.
+{\bfseries E\-X\-C\-E\-P\-T\-I\-O\-N}\-: If you are not {\itshape modifying} any source files, the auto generated files have been included in the respective {\ttfamily python} and {\ttfamily php} sub-\/directories. Please refer to php5/php7 based on the version of P\-H\-P being used.
 
 You can place these in {\ttfamily src} and skip the steps involving S\-W\-I\-G.
 
@@ -86,13 +86,13 @@ Select the correct {\ttfamily egg} file according to your architecture.
 
 Please ensure your Python installation contains the {\ttfamily setuptools} package, which provides the {\ttfamily easy\-\_\-install} application.
 
-Instructions and files can be found at\-: \href{https://pypi.python.org/pypi/setuptools#windows}{\tt https\-://pypi.\-python.\-org/pypi/setuptools\#windows} \begin{DoxyVerb}$ easy_install gauss-0.2-py2.7-win-amd64.egg
+Instructions and files can be found at\-: \href{https://pypi.python.org/pypi/setuptools#windows}{\tt https\-://pypi.\-python.\-org/pypi/setuptools\#windows} \begin{DoxyVerb}$ easy_install ge-0.3-py2.7-win-amd64.egg
 \end{DoxyVerb}
 
 
 \paragraph*{Linux}
 
-\begin{DoxyVerb}$ easy_install gauss-0.2-py2.7-linux-x86_64.egg
+\begin{DoxyVerb}$ easy_install ge-0.3-py2.7-linux-x86_64.egg
 \end{DoxyVerb}
 
 
@@ -119,30 +119,30 @@ python setup.py install
 \begin{DoxyCode}
 \textcolor{preprocessor}{# The setup.py utilizes the 'MTENGHOME' environment variable.}
 \textcolor{preprocessor}{}\textcolor{preprocessor}{# Please ensure this is set appropriately to your GAUSS Engine installation directory.}
-\textcolor{preprocessor}{}tar -xvf gauss-0.2.tar.gz
-cd gauss-0.2
-python setup.py build\_ext -i      # First build the extension and create the gauss.py file
+\textcolor{preprocessor}{}tar -xvf ge-0.3.tar.gz
+cd ge-0.3
+python setup.py build\_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install
 
 \textcolor{preprocessor}{# ROOT ONLY}
 \textcolor{preprocessor}{}\textcolor{preprocessor}{# If installation must be done as root, force set the environment variable}
-\textcolor{preprocessor}{}tar -xvf gauss-0.2.tar.gz
-cd gauss-0.2
-sudo MTENGHOME=/home/user/mteng python setup.py build\_ext -i # First build the extension and create the 
-      gauss.py file
-sudo MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install
+\textcolor{preprocessor}{}tar -xvf ge-0.3.tar.gz
+cd ge-0.3
+MTENGHOME=/home/user/mteng python setup.py build\_ext -i # First build the extension and create the ge.py 
+      file
+MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install
 \end{DoxyCode}
 
 
 \paragraph*{Windows}
 
-Due to {\ttfamily mteng.\-dll} being compiled with V\-S 2008, it is necessary at this time to use M\-S\-V\-C to compile the Python extension.
+Due to {\ttfamily mteng.\-dll} being compiled with Visual Studio 2015, it is necessary at this time to use M\-S\-V\-C to compile the Python extension.
 
 All commands are run through the appropriate Visual Studio command prompt.
 
-32-\/bit\-: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2008 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2008 Command Prompt}
+32-\/bit\-: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2015 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2015 Command Prompt}
 
-64-\/bit\-: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2008 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2008 x64 Win64 Command Prompt}
+64-\/bit\-: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2015 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2015 x64 Win64 Command Prompt}
 
 If your user lacks permissions to access the Python installation directory, you may have to run {\ttfamily cmd} as Administrator
 
@@ -152,133 +152,68 @@ Execute the following via a {\ttfamily cmd} terminal\-:
 \begin{DoxyCode}
 \textcolor{preprocessor}{# The setup.py utilizes the 'MTENGHOME' environment variable.}
 \textcolor{preprocessor}{}\textcolor{preprocessor}{# Please ensure this is set appropriately to your GAUSS Engine installation directory.}
-\textcolor{preprocessor}{}\textcolor{preprocessor}{# unzip gauss-01.zip to a directory of your choice}
-\textcolor{preprocessor}{}cd gauss-0.2
-python setup.py build\_ext -i      # First build the extension and create the gauss.py file
+\textcolor{preprocessor}{}\textcolor{preprocessor}{# unzip ge-0.3.zip to a directory of your choice}
+\textcolor{preprocessor}{}cd ge-0.3
+python setup.py build\_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install
 \end{DoxyCode}
 
 
-If you omit the {\ttfamily build\-\_\-ext -\/i} step, the {\ttfamily gauss.\-py} generated file will {\bfseries N\-O\-T} be placed in Python package directory.
+If you omit the {\ttfamily build\-\_\-ext -\/i} step, the {\ttfamily ge.\-py} generated file will {\bfseries N\-O\-T} be placed in Python package directory.
 
-The result of this behavior is the following when attempting to {\ttfamily import gauss}\-: \begin{DoxyVerb}>>> import gauss
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-ImportError: No module named gauss
-\end{DoxyVerb}
+The result of this behavior is the following when attempting to {\ttfamily import gauss}\-:
 
 
-\subsubsection*{P\-H\-P}
+\begin{DoxyCode}
+1 >>> \textcolor{keyword}{import} ge
+2 Traceback (most recent call last):
+3   File \textcolor{stringliteral}{"<stdin>"}, line 1, \textcolor{keywordflow}{in} <module>
+4 ImportError: No module named ge
+\end{DoxyCode}
+
+
+\subsubsection*{P\-H\-P (Linux Only)}
 
 \paragraph*{Source}
 
-\href{http://www.cmake.org}{\tt C\-Make} is our build tool of choice. Get it.
+\href{http://www.cmake.org}{\tt C\-Make} is our build tool of choice for building the P\-H\-P extension.
 
-There are a couple steps common between both platforms that should be done ahead of time.
+Currently, only Linux is supported/tested. The C\-Make file uses information from the {\ttfamily php-\/config} binary to configure itself appropriately.
 
-
-\begin{DoxyEnumerate}
-\item Set P\-H\-P specific environment variables.
-
-Our C\-Make file uses the {\ttfamily P\-H\-P\-\_\-\-I\-N\-C\-L\-U\-D\-E} environment variable to locate P\-H\-P headers. It expects a semi-\/colon delimited list of paths.
-
-For convenience, the Linux implementation does a string replace of '{\ttfamily -\/\-I}' with a semi-\/colon, so the following will work fine. \begin{DoxyVerb}# Linux
-$ export PHP_INCLUDE=`php-config --includes`
-
-# Windows you have to create it yourself. Newlines have been removed to clearly show the paths
-# The actual command should have them all appended to each other separated by a semi-colon
-set PHP_INCLUDE=C:\development\php5.4ts\dev;
-                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src;
-                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\main;
-                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\Zend;
-                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\TSRM;
-                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\ext
-\end{DoxyVerb}
-
-
-{\bfseries Note} on Windows, the environment variable contains {\ttfamily php5.\-4ts\textbackslash{}dev} as part of the include path.
-
-This ensures {\ttfamily php5ts.\-lib} will be located properly at link-\/time.
-\item Execute S\-W\-I\-G manually (If you are using pre-\/generated files from the appropriate language's directory, you can skip this step)
-
-Unlike our Python installation script, C\-Make does not automatically execute S\-W\-I\-G on the source files.
-
-Run one directory up from {\ttfamily src}\-: \begin{DoxyVerb}swig -c++ -php -outdir src -o src/gauss_wrap.cpp gauss.i
-\end{DoxyVerb}
-
-\end{DoxyEnumerate}
-
-After executing {\ttfamily swig}, you will find a newly created {\ttfamily gauss.\-php} in the {\ttfamily src} directory.
-
-This will need to be used with any project that makes use of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine, as the first line of any program will be \begin{DoxyVerb}include("gauss.php");
-\end{DoxyVerb}
-
-
-\paragraph*{Linux}
-
-The following commands are executed from the root of the source path \begin{DoxyVerb}$ mkdir build
+The following commands are executed from the root of the source path\-: \begin{DoxyVerb}$ mkdir build
 $ cd build
 # You could also use cmake-gui to create the Makefile
-$ cmake -DMTENGHOME=/home/user/mteng ..
-$ make
 \end{DoxyVerb}
 
 
-You should now have a {\ttfamily gauss.\-so} file in your current directory.
+To use the pre-\/generated wrappers, configure as follows\-: \$ cmake -\/\-D\-M\-T\-E\-N\-G\-H\-O\-M\-E=/home/user/mteng -\/\-G\char`\"{}\-Unix Makefiles\char`\"{} ..
+
+If you have modified source files and need to regenerate the wrappers\-: \$ cmake -\/\-D\-M\-T\-E\-N\-G\-H\-O\-M\-E=/home/user/mteng -\/\-G\char`\"{}\-Unix Makefiles\char`\"{} -\/\-D\-S\-W\-I\-G=O\-N ..
+
+Now build the extension \$ make
+
+You should now have a {\ttfamily ge.\-so} file, as well as {\ttfamily ge.\-php}, in your current directory.
+
+This will need to be used with any project that makes use of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine, as the first line of any program will be \begin{DoxyVerb}include("ge.php");
+\end{DoxyVerb}
+
 
 Refer to the \href{#php_install_binary}{\tt P\-H\-P Binary} section for instructions on installation.
 
-\paragraph*{Windows}
-
-Currently, only compilation against P\-H\-P 5.\-4.\-14 (x86) {\itshape Thread Safe} version has been verified to work. Tested with Windows 7 Enterprise with Visual Studio 2008 S\-P1
-
-{\bfseries Compile bug work-\/around\-:}
-
-Per a bug report at, \href{https://bugs.php.net/bug.php?id=63130,}{\tt https\-://bugs.\-php.\-net/bug.\-php?id=63130,} and until a better solution is presented, you should make the following changes to {\ttfamily malloc.\-h}\-:
-
-This is a possible path where you might find it\-: \begin{DoxyVerb}C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\malloc.h
-\end{DoxyVerb}
-
-
-open it up as Administrator and change
-
-
-\begin{DoxyCode}
-\textcolor{preprocessor}{#define \_STATIC\_ASSERT(expr) typedef char \_\_static\_assert\_t[ (expr) ]}
-\end{DoxyCode}
- to 
-\begin{DoxyCode}
-\textcolor{preprocessor}{#ifdef PHP\_WIN32}
-\textcolor{preprocessor}{}\textcolor{preprocessor}{#define \_STATIC\_ASSERT(expr) typedef char \_\_static\_assert\_t[ 1 ]}
-\textcolor{preprocessor}{}\textcolor{preprocessor}{#else}
-\textcolor{preprocessor}{}\textcolor{preprocessor}{#define \_STATIC\_ASSERT(expr) typedef char \_\_static\_assert\_t[ (expr) ]}
-\textcolor{preprocessor}{#endif}
-\end{DoxyCode}
-
-
-Run the {\ttfamily cmake-\/gui} utility to configure and generate the V\-S Solution or N\-Make Makefile.
-
-I chose to specify {\ttfamily build} as the directory for output.
-
-If all went well, building the solution should now provide a {\ttfamily php\-\_\-gauss.\-dll} file in the {\ttfamily build\textbackslash{}Release} directory.
-
 \subsubsection*{Binary}
 
-\paragraph*{Windows / Linux}
+Place the {\ttfamily ge.\-so} file in your P\-H\-P installation's extension directory. If a valid directory was found during the C\-Make configuration phase, you can run {\ttfamily make installext} to automatically copy the newly built library into the appropriate extension directory.
 
-Place the {\ttfamily php\-\_\-gauss.\-dll} (Windows) or {\ttfamily gauss.\-so} (Linux) in your P\-H\-P installation's {\ttfamily ext} directory.
-
-This value can be found by either\-:
+If you prefer to do this manually, the location can be found by either\-:
 
 
 \begin{DoxyEnumerate}
-\item {\ttfamily echo `php-\/config -\/-\/extension-\/dir`} on Linux
+\item {\ttfamily php-\/config -\/-\/extension-\/dir}
 \item Looking for the {\ttfamily extension\-\_\-dir} value in your {\ttfamily php.\-ini} file.
 \end{DoxyEnumerate}
 
-There is also the opportunity to load the extension directly by P\-H\-P, requiring the addition of the following to your {\ttfamily php.\-ini}\-: \begin{DoxyVerb}; load gauss engine extension
-; specify gauss.so if Linux
-extension=php_gauss.dll
+For use with a web server, the extension must be loaded directly by P\-H\-P, requiring the following change to your {\ttfamily php.\-ini}\-: \begin{DoxyVerb}; load gauss engine extension
+extension=ge.so
 \end{DoxyVerb}
 
 
@@ -302,7 +237,7 @@ The following snippet will be described step-\/by-\/step in detail\-:
 
 
 \begin{DoxyCode}
-1 \textcolor{keyword}{from} gauss \textcolor{keyword}{import} GAUSS, IGEProgramOutput
+1 \textcolor{keyword}{from} ge \textcolor{keyword}{import} GAUSS, IGEProgramOutput
 2 
 3 \textcolor{keyword}{class }Output(\hyperlink{class_i_g_e_program_output}{IGEProgramOutput}):
 4     \textcolor{keyword}{def }invoke(self, message):
@@ -311,15 +246,14 @@ The following snippet will be described step-\/by-\/step in detail\-:
 7 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}()
 8 
 9 out = Output()
-10 out.thisown = 0
-11 ge.setProgramOutputAll(out)
-12 
-13 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} ge.initialize():
-14     \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Initialization failed."}
-15     sys.exit(1)     \textcolor{comment}{# import sys for usage}
-16 
-17 ge.executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""})
-18 ge.shutdown()
+10 ge.setProgramOutputAll(out)
+11 
+12 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} ge.initialize():
+13     \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Initialization failed."}
+14     sys.exit(1)     \textcolor{comment}{# import sys for usage}
+15 
+16 ge.executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""})
+17 ge.shutdown()
 \end{DoxyCode}
 
 
@@ -327,7 +261,7 @@ The following snippet will be described step-\/by-\/step in detail\-:
 
 
 \begin{DoxyCode}
-include(\textcolor{stringliteral}{"gauss.php"});
+include(\textcolor{stringliteral}{"ge.php"});
 
 \textcolor{keyword}{class }Output \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_output}{IGEProgramOutput} \{
     \textcolor{keyword}{function} invoke($message) \{
@@ -338,7 +272,6 @@ include(\textcolor{stringliteral}{"gauss.php"});
 $ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s}{GAUSS}();
 
 $out = \textcolor{keyword}{new} Output();
-$out->thisown = 0;
 
 $ge->setProgramOutputAll($out);
 
@@ -360,7 +293,7 @@ Before we can make use of the functionality, we have to make the engine library 
 
 
 \begin{DoxyCode}
-1 \textcolor{keyword}{from} gauss \textcolor{keyword}{import} GAUSS, IGEProgramOutput
+1 \textcolor{keyword}{from} ge \textcolor{keyword}{import} GAUSS, IGEProgramOutput
 \end{DoxyCode}
 
 
@@ -368,11 +301,11 @@ Before we can make use of the functionality, we have to make the engine library 
 
 
 \begin{DoxyCode}
-include(\textcolor{stringliteral}{"gauss.php"});
+include(\textcolor{stringliteral}{"ge.php"});
 \end{DoxyCode}
 
 
-If you compiled from source and you're not sure where {\ttfamily gauss.\-php} is, recall that S\-W\-I\-G auto-\/generated it for us and it should be in the {\ttfamily src} directory.
+If you compiled from source and you're not sure where {\ttfamily ge.\-php} is, it will be in the {\ttfamily build} directory.
 
 \subsubsection*{Step 2\-: Instantiate the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine object}
 
@@ -407,7 +340,7 @@ While some of these must be implemented to work correctly (i.\-e. setting a stri
 The following 3 steps are core to setting up a callback\-:
 \begin{DoxyEnumerate}
 \item Define the callback by deriving one of the available callback classes
-\item Set the {\ttfamily thisown} property to {\bfseries 0} (release ownership)
+\item Set the {\ttfamily thisown} property to {\bfseries 0} (release ownership) if the object would go out of scope before the {\ttfamily \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}} object
 \item Assign the callback
 \end{DoxyEnumerate}
 
@@ -419,11 +352,11 @@ Simply override the callback method {\ttfamily invoke} and print out the {\ttfam
 
 {\bfseries Important Note\-:}
 
-We must set the {\ttfamily thisown} property of the newly instantiated object to {\ttfamily 0}
+We must set the {\ttfamily thisown} property of the newly instantiated object to {\ttfamily 0} if it will go out of scope before the {\ttfamily \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}} object
 
 This is necessary because ownership of this object will be transferred to the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} object.
 
-Without setting this, if the {\ttfamily out} var was to go out of scope, it could be deleted. When the engine attempts to clean up after itself, that object will no longer exist.
+Without setting this, if the {\ttfamily out} var was to go out of scope, it could be deleted and \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} will now attempt to reference a non-\/existent callback.
 
 \paragraph*{Python}
 
@@ -434,13 +367,11 @@ Without setting this, if the {\ttfamily out} var was to go out of scope, it coul
 3     \textcolor{keyword}{def }invoke(self, message):
 4         \textcolor{keywordflow}{print} message,
 5 
-6 out = Output()
-7 
-8 \textcolor{comment}{# Step 2}
-9 out.thisown = 0 \textcolor{comment}{# Prevent garbage collection}
-10 
-11 \textcolor{comment}{# Step 3}
-12 ge.setProgramOutputAll(out)
+6 \textcolor{comment}{# Step 2}
+7 out = Output().\_\_disown\_\_() \textcolor{comment}{# Prevent garbage collection}
+8 
+9 \textcolor{comment}{# Step 3}
+10 ge.setProgramOutputAll(out)
 \end{DoxyCode}
  \paragraph*{P\-H\-P}
 
@@ -548,3 +479,13 @@ A template file has also been included which represents a full setup and tear-\/
 Python &{\ttfamily python/template\-\_\-example.\-py} \\\cline{1-2}
 P\-H\-P &{\ttfamily php/template\-\_\-example.\-php} \\\cline{1-2}
 \end{TabularC}
+
+
+\subsubsection*{Unit Tests}
+
+Some simple unit tests have also been provided. The P\-H\-P unit test example uses \href{https://phpunit.de}{\tt P\-H\-P Unit} and can ran accordingly\-: \begin{DoxyVerb}php -f phpunit.phar unit_test.php
+\end{DoxyVerb}
+
+
+The C\-Make configure stage will also attempt to locate a P\-H\-P\-Unit binary, and if found, will offer a 'unittest' make target that can be used\-: \begin{DoxyVerb}make unittest\end{DoxyVerb}
+ 

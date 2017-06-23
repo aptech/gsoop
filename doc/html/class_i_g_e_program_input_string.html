@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="gauss_logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">GAUSS Engine
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.3</span>
    </div>
    <div id="projectbrief">Language bindings for the GAUSS Engine</div>
   </td>
@@ -94,7 +94,7 @@ $(document).ready(function(){initNavTree('class_i_g_e_program_input_string.html'
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -155,7 +155,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>GAUSS</b></td></tr>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;ge.executeString(<span class="stringliteral">&quot;s = cons&quot;</span>)</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;s = ge.getString(<span class="stringliteral">&quot;s&quot;</span>)</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&quot;s = &quot;</span> + s.getData()</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&quot;s = &quot;</span> + s</div>
 </div><!-- fragment --><h4>PHP</h4>
 <div class="fragment"><div class="line"><span class="keyword">class </span>StringInput <span class="keyword">extends</span> <a class="code" href="class_i_g_e_program_input_string.html" title="String Input callback function for the GAUSS Engine.">IGEProgramInputString</a> {</div>
 <div class="line">    <span class="comment">// The callback does not return a string directly, rather through a method call.</span></div>
@@ -172,10 +172,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>GAUSS</b></td></tr>
 <div class="line">$ge-&gt;executeString(<span class="stringliteral">&quot;s = cons;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">$s = $ge-&gt;getString(<span class="stringliteral">&quot;s&quot;</span>);</div>
-<div class="line">echo <span class="stringliteral">&quot;s = &quot;</span> . $s-&gt;getData() . PHP_EOL;</div>
+<div class="line">echo <span class="stringliteral">&quot;s = &quot;</span> . $s . PHP_EOL;</div>
 </div><!-- fragment --><p>will result in the output: </p>
 <div class="fragment"><div class="line">s = Hello World!</div>
-</div><!-- fragment --><dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_g_a_u_s_s.html#ae82b5bfdf26971433c46936a812506c3" title="Set the callback function that GAUSS will call for blocking string input.">GAUSS::setProgramInputString(IGEProgramInputString*)</a> </dd></dl>
+</div><!-- fragment --><dl class="section see"><dt>See Also</dt><dd><a class="el" href="class_g_a_u_s_s.html#ae82b5bfdf26971433c46936a812506c3" title="Set the callback function that GAUSS will call for blocking std::string input.">GAUSS::setProgramInputString(IGEProgramInputString*)</a> </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="aff170652d98f6a992a27134a7c674e01"></a>
 <div class="memitem">
@@ -200,7 +200,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>GAUSS</b></td></tr>
 </div><div class="memdoc">
 
 <p>Invocation method for callback. </p>
-<p>This method is called when the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine needs user supplied input. This callback can also be triggered directly via a call to <a class="el" href="class_g_a_u_s_s.html#a7e1284a1d44e68aadb6c70e4416abb7b" title="Calls the program input string function hooked with setProgramInputString(IGEProgramInputString*).">GAUSS::programInputString()</a></p>
+<p>This method is called when the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine needs user supplied input. This callback can also be triggered directly via a call to <a class="el" href="class_g_a_u_s_s.html#afdcb5a64e926589539138da46dc92020" title="Calls the program input std::string function hooked with setProgramInputString(IGEProgramInputString*...">GAUSS::programInputString()</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">length</td><td>Max length allowed for return string </td></tr>
@@ -219,7 +219,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>GAUSS</b></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_i_g_e_program_input_string.html">IGEProgramInputString</a></li>
-    <li class="footer">Generated on Mon Jul 27 2015 16:54:10 for GAUSS Engine by
+    <li class="footer">Generated on Thu Jun 22 2017 17:45:07 for GAUSS Engine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1-20130324 </li>
   </ul>

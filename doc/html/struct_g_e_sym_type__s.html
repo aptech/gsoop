@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1-20130324"/>
-<title>GAUSS Engine: GESymType Struct Reference</title>
+<title>GAUSS Engine: GESymType_s Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="gauss_logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">GAUSS Engine
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.3</span>
    </div>
    <div id="projectbrief">Language bindings for the GAUSS Engine</div>
   </td>
@@ -86,7 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('struct_g_e_sym_type.html','');});
+$(document).ready(function(){initNavTree('struct_g_e_sym_type__s.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -94,7 +94,7 @@ $(document).ready(function(){initNavTree('struct_g_e_sym_type.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,40 +105,62 @@ $(document).ready(function(){initNavTree('struct_g_e_sym_type.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="struct_g_e_sym_type-members.html">List of all members</a>  </div>
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="struct_g_e_sym_type__s-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">GESymType Struct Reference</div>  </div>
+<div class="title">GESymType_s Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="struct_g_e_sym_type.html" title="GESymType stores GAUSS constant values for different symbol types.">GESymType</a> stores <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> constant values for different symbol types.  
- <a href="struct_g_e_sym_type.html#details">More...</a></p>
+<p>GESymType stores <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> constant values for different symbol types.  
+ <a href="struct_g_e_sym_type__s.html#details">More...</a></p>
 
 <p><code>#include &lt;gesymtype.h&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a05477e08255bea70296f7825493e95fc"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fc">SYMTYPE</a> { <br/>
-&#160;&#160;<a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fca0e3633d8cf7dbbdbe3b45bdd24cae7b0">SCALAR</a> = 16, 
-<a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcaaf5984cc491fc4b4fcf2162f18f0272c">SPARSE</a> = 38, 
-<a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c">MATRIX</a> = 6, 
-<a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcad7b91a02b7bd02be62866581fb00ab77">STRING</a> = 13, 
-<br/>
-&#160;&#160;<a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcad16784afa03e303f68740a9a33dc887b">STRUCT</a> = 19, 
-<a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcab84d43f39e58b9cd3995b3aafc7239d6">PSTRUCT</a> = 23, 
-<a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcadba1b6c2cd5c27167323652b1c23c9e0">STRING_ARRAY</a> = 15, 
-<a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcad3f85fecfcee857d9b08cf4ebe77c32f">ARRAY_GAUSS</a> = 17, 
-<br/>
-&#160;&#160;<a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fca4793088111ff7058b2bd6e4bde07f816">PROC</a> = 8, 
-<a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fca7d507081df635250120e56c8766ec504">OTHER</a> = 99
-<br/>
- }</td></tr>
-<tr class="memdesc:a05477e08255bea70296f7825493e95fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of all symbol types known to <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>.  <a href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fc">More...</a><br/></td></tr>
-<tr class="separator:a05477e08255bea70296f7825493e95fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a4868e0d2833270b164c4a78b497f4fdc"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type__s.html#a4868e0d2833270b164c4a78b497f4fdc">SCALAR</a> = 16</td></tr>
+<tr class="memdesc:a4868e0d2833270b164c4a78b497f4fdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scalar (i.e.  <a href="#a4868e0d2833270b164c4a78b497f4fdc">More...</a><br/></td></tr>
+<tr class="separator:a4868e0d2833270b164c4a78b497f4fdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17bff9bfcefd9f4c639d20d256f20a7d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a17bff9bfcefd9f4c639d20d256f20a7d"></a>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type__s.html#a17bff9bfcefd9f4c639d20d256f20a7d">SPARSE</a> = 38</td></tr>
+<tr class="memdesc:a17bff9bfcefd9f4c639d20d256f20a7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sparse Matrix. <br/></td></tr>
+<tr class="separator:a17bff9bfcefd9f4c639d20d256f20a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3874c4c2df1ed454c13722031e582f66"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3874c4c2df1ed454c13722031e582f66"></a>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type__s.html#a3874c4c2df1ed454c13722031e582f66">MATRIX</a> = 6</td></tr>
+<tr class="memdesc:a3874c4c2df1ed454c13722031e582f66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Matrix. <br/></td></tr>
+<tr class="separator:a3874c4c2df1ed454c13722031e582f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e719c96f22a8453e460f7d87a09696a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0e719c96f22a8453e460f7d87a09696a"></a>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type__s.html#a0e719c96f22a8453e460f7d87a09696a">STRING</a> = 13</td></tr>
+<tr class="memdesc:a0e719c96f22a8453e460f7d87a09696a"><td class="mdescLeft">&#160;</td><td class="mdescRight">String. <br/></td></tr>
+<tr class="separator:a0e719c96f22a8453e460f7d87a09696a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7abc9ab4e83c0b99f9fde37450489944"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7abc9ab4e83c0b99f9fde37450489944"></a>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type__s.html#a7abc9ab4e83c0b99f9fde37450489944">STRUCT</a> = 19</td></tr>
+<tr class="memdesc:a7abc9ab4e83c0b99f9fde37450489944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure. <br/></td></tr>
+<tr class="separator:a7abc9ab4e83c0b99f9fde37450489944"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a604a22cdce168927932ee303c2aa9c8c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a604a22cdce168927932ee303c2aa9c8c"></a>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type__s.html#a604a22cdce168927932ee303c2aa9c8c">PSTRUCT</a> = 23</td></tr>
+<tr class="memdesc:a604a22cdce168927932ee303c2aa9c8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">PStruct. <br/></td></tr>
+<tr class="separator:a604a22cdce168927932ee303c2aa9c8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b841bad6dacbbacf0d423219bd08a98"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8b841bad6dacbbacf0d423219bd08a98"></a>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type__s.html#a8b841bad6dacbbacf0d423219bd08a98">STRING_ARRAY</a> = 15</td></tr>
+<tr class="memdesc:a8b841bad6dacbbacf0d423219bd08a98"><td class="mdescLeft">&#160;</td><td class="mdescRight">String Array. <br/></td></tr>
+<tr class="separator:a8b841bad6dacbbacf0d423219bd08a98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae49660fdf27d7d165463abb2ccc941e4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae49660fdf27d7d165463abb2ccc941e4"></a>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type__s.html#ae49660fdf27d7d165463abb2ccc941e4">ARRAY_GAUSS</a> = 17</td></tr>
+<tr class="memdesc:ae49660fdf27d7d165463abb2ccc941e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">N-Dimensional Array. <br/></td></tr>
+<tr class="separator:ae49660fdf27d7d165463abb2ccc941e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a117901fdf3914c09101a90fe7867f111"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a117901fdf3914c09101a90fe7867f111"></a>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type__s.html#a117901fdf3914c09101a90fe7867f111">PROC</a> = 8</td></tr>
+<tr class="memdesc:a117901fdf3914c09101a90fe7867f111"><td class="mdescLeft">&#160;</td><td class="mdescRight">Proc. <br/></td></tr>
+<tr class="separator:a117901fdf3914c09101a90fe7867f111"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae27a11fce0f32a022df8925068b4257c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae27a11fce0f32a022df8925068b4257c"></a>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_g_e_sym_type__s.html#ae27a11fce0f32a022df8925068b4257c">OTHER</a> = 99</td></tr>
+<tr class="memdesc:ae27a11fce0f32a022df8925068b4257c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Other. <br/></td></tr>
+<tr class="separator:ae27a11fce0f32a022df8925068b4257c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="struct_g_e_sym_type.html" title="GESymType stores GAUSS constant values for different symbol types.">GESymType</a> stores <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> constant values for different symbol types. </p>
+<div class="textblock"><p>GESymType stores <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> constant values for different symbol types. </p>
 <p>Access these in a static fashion.</p>
 <p>Example:</p>
 <h4>Python</h4>
@@ -179,31 +201,31 @@ Public Types</h2></td></tr>
 </div><!-- fragment --> <h4>PHP</h4>
 <div class="fragment"><div class="line"><span class="keyword">function</span> checkType($type) {</div>
 <div class="line">    <span class="keywordflow">switch</span> ($type) {</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fca0e3633d8cf7dbbdbe3b45bdd24cae7b0" title="Scalar (i.e.">GESymType::SCALAR</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#a4868e0d2833270b164c4a78b497f4fdc" title="Scalar (i.e.">GESymType::SCALAR</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a scalar.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcaaf5984cc491fc4b4fcf2162f18f0272c" title="Sparse Matrix.">GESymType::SPARSE</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#a17bff9bfcefd9f4c639d20d256f20a7d" title="Sparse Matrix.">GESymType::SPARSE</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a sparse matrix.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c" title="Matrix.">GESymType::MATRIX</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#a3874c4c2df1ed454c13722031e582f66" title="Matrix.">GESymType::MATRIX</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a matrix.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcad7b91a02b7bd02be62866581fb00ab77" title="String.">GESymType::STRING</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#a0e719c96f22a8453e460f7d87a09696a" title="String.">GESymType::STRING</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a string.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcad16784afa03e303f68740a9a33dc887b" title="Structure.">GESymType::STRUCT</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#a7abc9ab4e83c0b99f9fde37450489944" title="Structure.">GESymType::STRUCT</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a struct.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcadba1b6c2cd5c27167323652b1c23c9e0" title="String Array.">GESymType::STRING_ARRAY</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#a8b841bad6dacbbacf0d423219bd08a98" title="String Array.">GESymType::STRING_ARRAY</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a string array.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fcad3f85fecfcee857d9b08cf4ebe77c32f" title="N-Dimensional Array.">GESymType::ARRAY_GAUSS</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#ae49660fdf27d7d165463abb2ccc941e4" title="N-Dimensional Array.">GESymType::ARRAY_GAUSS</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is an array.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fca4793088111ff7058b2bd6e4bde07f816" title="Proc.">GESymType::PROC</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#a117901fdf3914c09101a90fe7867f111" title="Proc.">GESymType::PROC</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a proc.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fca7d507081df635250120e56c8766ec504" title="Other.">GESymType::OTHER</a>:</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#ae27a11fce0f32a022df8925068b4257c" title="Other.">GESymType::OTHER</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is of another type.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">        <span class="keywordflow">default</span>:</div>
@@ -226,51 +248,27 @@ Public Types</h2></td></tr>
 <div class="fragment"><div class="line">Symbol is a matrix.</div>
 <div class="line">Symbol is a <span class="keywordtype">string</span>.</div>
 <div class="line">Symbol is an array.</div>
-</div><!-- fragment --> </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a class="anchor" id="a05477e08255bea70296f7825493e95fc"></a>
+</div><!-- fragment --> </div><h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a4868e0d2833270b164c4a78b497f4fdc"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="struct_g_e_sym_type.html#a05477e08255bea70296f7825493e95fc">GESymType::SYMTYPE</a></td>
+          <td class="memname">const int GESymType_s::SCALAR = 16</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Enumeration of all symbol types known to <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><em><a class="anchor" id="a05477e08255bea70296f7825493e95fca0e3633d8cf7dbbdbe3b45bdd24cae7b0"></a>SCALAR</em>&nbsp;</td><td class="fielddoc">
 <p>Scalar (i.e. </p>
 <p>1, 1.5); </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a05477e08255bea70296f7825493e95fcaaf5984cc491fc4b4fcf2162f18f0272c"></a>SPARSE</em>&nbsp;</td><td class="fielddoc">
-<p>Sparse Matrix. </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a05477e08255bea70296f7825493e95fcace35d10ede406b8a2768ddac17b1d22c"></a>MATRIX</em>&nbsp;</td><td class="fielddoc">
-<p>Matrix. </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a05477e08255bea70296f7825493e95fcad7b91a02b7bd02be62866581fb00ab77"></a>STRING</em>&nbsp;</td><td class="fielddoc">
-<p>String. </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a05477e08255bea70296f7825493e95fcad16784afa03e303f68740a9a33dc887b"></a>STRUCT</em>&nbsp;</td><td class="fielddoc">
-<p>Structure. </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a05477e08255bea70296f7825493e95fcab84d43f39e58b9cd3995b3aafc7239d6"></a>PSTRUCT</em>&nbsp;</td><td class="fielddoc">
-<p>PStruct. </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a05477e08255bea70296f7825493e95fcadba1b6c2cd5c27167323652b1c23c9e0"></a>STRING_ARRAY</em>&nbsp;</td><td class="fielddoc">
-<p>String Array. </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a05477e08255bea70296f7825493e95fcad3f85fecfcee857d9b08cf4ebe77c32f"></a>ARRAY_GAUSS</em>&nbsp;</td><td class="fielddoc">
-<p>N-Dimensional Array. </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a05477e08255bea70296f7825493e95fca4793088111ff7058b2bd6e4bde07f816"></a>PROC</em>&nbsp;</td><td class="fielddoc">
-<p>Proc. </p>
-</td></tr>
-<tr><td class="fieldname"><em><a class="anchor" id="a05477e08255bea70296f7825493e95fca7d507081df635250120e56c8766ec504"></a>OTHER</em>&nbsp;</td><td class="fielddoc">
-<p>Other. </p>
-</td></tr>
-</table>
 
 </div>
 </div>
@@ -282,8 +280,8 @@ Public Types</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="struct_g_e_sym_type.html">GESymType</a></li>
-    <li class="footer">Generated on Mon Jul 27 2015 16:54:09 for GAUSS Engine by
+    <li class="navelem"><a class="el" href="struct_g_e_sym_type__s.html">GESymType_s</a></li>
+    <li class="footer">Generated on Thu Jun 22 2017 17:45:07 for GAUSS Engine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1-20130324 </li>
   </ul>
