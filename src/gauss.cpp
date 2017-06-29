@@ -1463,7 +1463,7 @@ GEMatrix* GAUSS::getMatrixAndClear(std::string name) const {
  * ~~~{.py}
 ge.executeString("x = 5", myWorkspace)
 x = ge.getMatrixAndClear("x", myWorkspace)
-print "\$x = " + str(x.getElement())
+print("x = {}".format(str(x.getElement())))
 ge.executeString("print \"x = \" x", myWorkspace);
  * ~~~
  *
@@ -1511,15 +1511,11 @@ GEMatrix* GAUSS::getMatrixAndClear(std::string name, GEWorkspace *wh) const {
 *
 * Retrieve pointer to a matrix from the GAUSS symbol name in the active workspace. This will be the ORIGINAL symbol in the symbol table.
 *
-* Example:
-*
-* Given _myWorkspace_ is a GEWorkspace object
-*
 * #### Python ####
 * ~~~{.py}
 ge.executeString("x = 5")
 x = ge.getMatrixDirect("x")
-print "\$x = " + str(x.getitem(0))
+print "$x = " + str(x.getitem(0))
 ge.executeString("print \"x = \" x");
 * ~~~
 *
@@ -1567,7 +1563,7 @@ doubleArray* GAUSS::getMatrixDirect(std::string name) {
 * ~~~{.py}
 ge.executeString("x = 5", myWorkspace)
 x = ge.getMatrixDirect("x", myWorkspace)
-print "\$x = " + str(x.getitem(0))
+print("x = {}".format(str(x.getitem(0))))
 ge.executeString("print \"x = \" x", myWorkspace);
 * ~~~
 *

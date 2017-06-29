@@ -57,8 +57,6 @@ Once installed, please ensure `swig` is available in your terminal by placing it
 
 __EXCEPTION__: If you are not *modifying* any source files, the auto generated files have been included in the respective `python` and `php` sub-directories. Please refer to php5/php7 based on the version of PHP being used.
 
-You can place these in `src` and skip the steps involving SWIG.
-
 ## Installation ##
 Please refer to the vendor documentation for language-level installation.
 
@@ -111,8 +109,10 @@ python setup.py install           # Everything compiled, now install
 # If installation must be done as root, force set the environment variable
 tar -xvf ge-0.3.tar.gz
 cd ge-0.3
-MTENGHOME=/home/user/mteng python setup.py build_ext -i # First build the extension and create the ge.py file
-MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install
+export MTENGHOME=/home/user/mteng
+# If you need customized wrapper~
+python setup.py build_ext -i # First build the extension and create the ge.py file
+python setup.py install      # Everything compiled, now install
 ~~~
 
 #### Windows ####
@@ -132,16 +132,17 @@ Execute the following via a `cmd` terminal:
 
 ~~~{.bash}
 # The setup.py utilizes the 'MTENGHOME' environment variable.
-# Please ensure this is set appropriately to your GAUSS Engine installation directory.
+# Please ensure this is set appropriately to your GAUSS Engine installation directory or set it on the command line.
 # unzip ge-0.3.zip to a directory of your choice
 cd ge-0.3
+set MTENGHOME=C:\mteng
 python setup.py build_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install
 ~~~
 
 If you omit the `build_ext -i` step, the `ge.py` generated file will __NOT__ be placed in Python package directory.
 
-The result of this behavior is the following when attempting to `import gauss`:
+The result of this behavior is the following when attempting to `import ge`:
 
 ~~~{.py}
     >>> import ge
@@ -165,12 +166,15 @@ The following commands are executed from the root of the source path:
     # You could also use cmake-gui to create the Makefile
 
 To use the pre-generated wrappers, configure as follows:
+
     $ cmake -DMTENGHOME=/home/user/mteng -G"Unix Makefiles" ..
 
 If you have modified source files and need to regenerate the wrappers:
+
     $ cmake -DMTENGHOME=/home/user/mteng -G"Unix Makefiles" -DSWIG=ON ..
 
 Now build the extension
+
     $ make
 
 You should now have a `ge.so` file, as well as `ge.php`, in your current directory.
@@ -179,7 +183,7 @@ This will need to be used with any project that makes use of the GAUSS Engine, a
 
     include("ge.php");
 
-### Binary ###
+#### Binary ####
 
 Place the `ge.so` file in your PHP installation's extension directory. If a valid directory was found during the CMake configuration phase, you can run `make installext` to automatically copy the newly built library into the appropriate extension directory.
 
