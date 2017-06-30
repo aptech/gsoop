@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
 project (ge)
 
-set(gauss_MAJOR_VERSION 0)
-set(gauss_MINOR_VERSION 3)
-set(gauss_PATCH_VERSION 0)
-set(gauss_VERSION
-  ${gauss_MAJOR_VERSION}.${gauss_MINOR_VERSION}.${gauss_PATCH_VERSION})
+set(ge_MAJOR_VERSION 0)
+set(ge_MINOR_VERSION 3)
+set(ge_PATCH_VERSION 0)
+set(ge_VERSION
+  ${ge_MAJOR_VERSION}.${ge_MINOR_VERSION}.${ge_PATCH_VERSION})
 
 #set(CMAKE_BUILD_TYPE Release CACHE STRING "Default to Release")
 
@@ -17,6 +17,29 @@ get_filename_component(MTENGHOME "${MTENGHOME}" ABSOLUTE)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+option(STATIC "Build static library instead of shared" OFF)
+option(CPPONLY "Build C++ shared library only" OFF)
+
+if(STATIC)
+    set(GE_LIBRARY_TYPE STATIC)
+else()
+    set(GE_LIBRARY_TYPE SHARED)
+endif()
+
+find_library(MTENG_LIB mteng PATHS ${MTENGHOME} NO_DEFAULT_PATH)
+set(GE_SRCS
+    src/gauss.cpp src/gematrix.cpp src/gearray.cpp src/gestringarray.cpp 
+    src/geworkspace.cpp src/workspacemanager.cpp src/gesymbol.cpp
+)
+
+if(CPPONLY)
+    add_library(ge ${GE_LIBRARY_TYPE} ${GE_SRCS})
+    target_include_directories(ge PUBLIC include src)
+    target_link_libraries(ge PUBLIC ${MTENG_LIB})
+    return()
+endif()
+
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 unset(PHP_EXTENSION_DIR)
@@ -156,13 +179,7 @@ else()
     configure_file("${SWIG_GE_PHP_OUT}" "${CMAKE_CURRENT_BINARY_DIR}" COPYONLY)
 endif()
 
-find_library(MTENG_LIB mteng PATHS ${MTENGHOME} NO_DEFAULT_PATH)
-add_library(ge SHARED 
-    "${SWIG_CPP_WRAP_OUT}"
-    src/gauss.cpp src/gematrix.cpp src/gearray.cpp 
-    src/gestringarray.cpp src/geworkspace.cpp src/workspacemanager.cpp
-    src/gesymbol.cpp
-)
+add_library(ge ${GE_LIBRARY_TYPE} "${SWIG_CPP_WRAP_OUT}" ${GE_SRCS})
 
 target_include_directories(ge PUBLIC include src "${CMAKE_CURRENT_BINARY_DIR}")
 
