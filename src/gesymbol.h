@@ -32,7 +32,7 @@ public:
     double* data() { return data_; }
     int size() { return elements_; }
 
-    int reset() { data_ = nullptr; elements_ = 0; }
+    void reset() { data_ = nullptr; elements_ = 0; }
 
 #ifdef SWIGPHP
     int position_;
