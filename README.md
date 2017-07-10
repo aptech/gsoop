@@ -73,20 +73,20 @@ Please ensure your Python installation contains the `setuptools` package, which 
 
 Instructions and files can be found at: https://pypi.python.org/pypi/setuptools#windows
 
-    $ easy_install ge-0.3-py2.7-win-amd64.egg
+    $ easy_install ge-0.3-py3.6-win-amd64.egg
 
 #### Linux ####
 
-    $ easy_install ge-0.3-py2.7-linux-x86_64.egg
+    $ easy_install ge-0.3-py3.6-linux-x86_64.egg
 
 ### Source ###
 
 If using Windows, please ensure the following are correctly in your `PATH`
 environment variable
 
-    C:\Python27\;C:\Python27\Scripts\
+    C:\Python36\;C:\Python36\Scripts\
 
-Note: Tested with Python 2.7.4
+Note: Tested with Python 3.6 (MSVC 2015)
 
 Just like the traditional `make && make install`, compiling a Python extension requires 2 steps:
 
