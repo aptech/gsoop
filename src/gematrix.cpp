@@ -72,7 +72,7 @@ GEMatrix::GEMatrix(double n) : GESymbol(GESymType::MATRIX) {
 * Internal use only for use with GetMatrixAndClear.
 */
 GEMatrix::GEMatrix(Matrix_t* mat) : GESymbol(GESymType::MATRIX) {
-	if (mat == NULL)
+    if (mat == nullptr)
 		return;
 
 	this->setRows(mat->rows);
@@ -93,7 +93,7 @@ GEMatrix::GEMatrix(Matrix_t* mat) : GESymbol(GESymType::MATRIX) {
   * Internal use only.
   */
 GEMatrix::GEMatrix(GAUSS_MatrixInfo_t* mat) : GESymbol(GESymType::MATRIX) {
-    if (mat == NULL)
+    if (mat == nullptr)
         return;
 
 	this->setRows(mat->rows);
@@ -235,7 +235,7 @@ GEMatrix::GEMatrix(VECTOR_DATA(double) real_data, VECTOR_DATA(double) imag_data,
 }
 
 GEMatrix::GEMatrix(const double *data, int rows, int cols, bool complex) : GESymbol(GESymType::MATRIX) {
-    const double *imag_data = complex ? data + rows * cols : NULL;
+    const double *imag_data = complex ? data + rows * cols : nullptr;
     Init(data, imag_data, rows, cols, complex);
 }
 
@@ -249,7 +249,7 @@ void GEMatrix::Init(VECTOR_DATA(double) data, int rows, int cols, bool complex) 
     else if (complex && (rows * cols * 2 != VECTOR_VAR(data) size()))
         return;
 
-    const double *imag_data = complex ? &VECTOR_VAR(data) front() + rows * cols : NULL;
+    const double *imag_data = complex ? &VECTOR_VAR(data) front() + rows * cols : nullptr;
     Init(&VECTOR_VAR(data) front(), imag_data, rows, cols, complex);
 
     VECTOR_VAR_DELETE_CHECK(data);
@@ -560,3 +560,37 @@ string GEMatrix::toString() const {
 
     return s.str();
 }
+
+Matrix_t* GEMatrix::toInternal() {
+    Matrix_t *newMat = new Matrix_t;
+    // THIS CANNOT BE USED FOR A "MOVE" OPERATION
+    // THIS IS THE ACTUAL POINTER REFERENCE TO THE DATA.
+    newMat->mdata = data_.data();
+    newMat->rows = getRows();
+    newMat->cols = getCols();
+    newMat->complex = isComplex();
+    newMat->freeable = FALSE;
+    return newMat;
+}
+
+//Matrix_t* GEMatrix::toInternal(bool copy) {
+//    Matrix_t *newMat = nullptr;
+
+//    if (copy) {
+//        newMat = new Matrix_t;
+//        // THIS CANNOT BE USED FOR A "MOVE" OPERATION
+//        // THIS IS THE ACTUAL POINTER REFERENCE TO THE DATA.
+//        newMat->mdata = data_.data();
+//        newMat->freeable = 0;
+//    } else {
+//        newMat = GAUSS_MallocMatrix_t();
+//        newMat->mdata = GAUSS_Malloc(size() * sizeof(double));
+//        memcpy(newMat->mdata, data_.data(), size() * sizeof(double));
+//        newMat->freeable = 1;
+//    }
+
+//    newMat->rows = getRows();
+//    newMat->cols = getCols();
+//    newMat->complex = isComplex();
+//    return newMat;
+//}

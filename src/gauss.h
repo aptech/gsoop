@@ -37,6 +37,7 @@ class IGEProgramInputChar;
 class IGEProgramInputCheck;
 class GAUSSPrivate;
 
+#define getsize(R,C,S) ((R)*(C)*(S)/(size_t)8 + ( ((R)*(C)*(S))%(size_t)8 != (size_t)0 ) )
 #define UNUSED_VAR(x) (void*)x;
 
 /**

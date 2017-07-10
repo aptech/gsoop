@@ -94,7 +94,7 @@ bool WorkspaceManager::destroy(GEWorkspace *wh) {
 
 GEWorkspace* WorkspaceManager::create(const string &name) {
     if (name.empty())
-        return NULL;
+        return nullptr;
 
     GEWorkspace *ews = this->getWorkspace(name);
 
@@ -104,7 +104,7 @@ GEWorkspace* WorkspaceManager::create(const string &name) {
     WorkspaceHandle_t *wh = GAUSS_CreateWorkspace(const_cast<char*>(name.c_str()));
 
     if (!wh)
-        return NULL;
+        return nullptr;
 
     GEWorkspace *workspace = new GEWorkspace(name, wh);
 

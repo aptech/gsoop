@@ -281,7 +281,7 @@ bool GEStringArray::setElement(const string &str, int index) {
 }
 
 bool GEStringArray::fromStringArray(StringArray_t *sa) {
-    if (sa == NULL)
+    if (sa == nullptr)
         return false;
 
     int rows = sa->rows;
@@ -326,12 +326,81 @@ string GEStringArray::toString() const {
 
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            s << getElement(i, j) << '\t';
+            s << getElement(i, j);
+
+            if (j < cols - 1)
+                s << '\t';
         }
 
         if (i < rows - 1)
-            s << endl;
+            s << '\n';
     }
 
     return s.str();
+}
+
+StringArray_t* GEStringArray::toInternal() {
+    if (!size() == 0)
+        return nullptr;
+
+    StringArray_t *sa;
+    StringElement_t *stable;
+    StringElement_t *sep;
+    StringElement_t *pdata;
+    size_t elem;
+    size_t strsize, sasize;
+
+    sa = (StringArray_t *)malloc(sizeof(StringArray_t));
+
+    if (sa == nullptr)
+        return nullptr;
+
+    elem = size();
+    sa->baseoffset = (size_t)(elem*sizeof(StringElement_t));
+
+    stable = (StringElement_t *)malloc(sa->baseoffset);
+
+    if (stable == nullptr)
+    {
+        free(sa);
+        return nullptr;
+    }
+
+    sep = stable;
+    strsize = 0;
+
+    for (int i = 0; i < elem; ++i) {
+        const char *src = data_.at(i).c_str();
+        sep->offset = strsize;
+        sep->length = strlen(src) + 1;
+        strsize += sep->length;
+        ++sep;
+    }
+
+    sasize = getsize(strsize + sa->baseoffset, 1, 1);
+    pdata = (StringElement_t*)realloc(stable, sasize * sizeof(double));
+
+    if (pdata == nullptr)
+    {
+        free(sa);
+        free(stable);
+        return nullptr;
+    }
+
+    stable = (StringElement_t *)pdata;
+    sep = stable;
+
+    for (int i = 0; i < elem; ++i) {
+        const char *src = data_.at(i).c_str();
+        memcpy((char *)stable + sa->baseoffset + sep->offset, src, sep->length);
+        ++sep;
+    }
+
+    sa->size = sasize;
+    sa->rows = getRows();
+    sa->cols = getCols();
+    sa->table = stable;
+    sa->freeable = TRUE;
+
+    return sa;
 }

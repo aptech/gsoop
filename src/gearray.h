@@ -31,6 +31,8 @@ public:
     virtual std::string toString() const;
     virtual void clear();
 
+    Array_t* toInternal();
+
 private:
     GEArray(Array_t*);
     bool Init(Array_t *);

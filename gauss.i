@@ -570,10 +570,13 @@ ARRAYHELPER(string, GEStringArray, "")
 
 %ignore GEStringArray::GEStringArray(StringArray_t*);
 %ignore GEStringArray::Init(StringArray_t*);
+%ignore GEStringArray::toInternal();
 %ignore GEArray::GEArray(Array_t*);
 %ignore GEArray::Init(Array_t*);
+%ignore GEArray::toInternal();
 %ignore GEMatrix::GEMatrix(Matrix_t*);
 %ignore GEMatrix::GEMatrix(GAUSS_MatrixInfo_t*);
+%ignore GEMatrix::toInternal();
 
 /* Parse the header file to generate wrappers */
 %include "src/gauss.h"

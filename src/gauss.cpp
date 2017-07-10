@@ -191,7 +191,7 @@ bool GAUSS::initialize() {
 
     GEWorkspace *wh = createWorkspace("main");
 
-    if (wh->workspace() == NULL) {
+    if (wh->workspace() == nullptr) {
         std::string errorString = getLastErrorText();
 
         cerr << "Could not create workspace (Error: " << errorString << ")" << endl;
@@ -713,7 +713,7 @@ Hello World!
  */
 ProgramHandle_t* GAUSS::compileString(std::string command, GEWorkspace *wh) {
     if (!this->d->manager_->isValidWorkspace(wh))
-        return NULL;
+        return nullptr;
 
     return GAUSS_CompileString(wh->workspace(), removeConst(&command), 0, 0);
 }
@@ -777,7 +777,7 @@ $ge->executeProgram(ph);
  */
 ProgramHandle_t* GAUSS::compileFile(std::string fname, GEWorkspace *wh) {
     if (!this->d->manager_->isValidWorkspace(wh))
-        return NULL;
+        return nullptr;
 
     return GAUSS_CompileFile(wh->workspace(), removeConst(&fname), 0, 0);
 }
@@ -810,7 +810,7 @@ ProgramHandle_t* GAUSS::loadCompiledFile(std::string fn) {
  */
 ProgramHandle_t* GAUSS::loadCompiledFile(std::string fn, GEWorkspace *wh) {
     if (!this->d->manager_->isValidWorkspace(wh))
-        return NULL;
+        return nullptr;
 
     return GAUSS_LoadCompiledFile(wh->workspace(), removeConst(&fn));
 }
@@ -882,7 +882,7 @@ GEWorkspace* GAUSS::loadWorkspace(std::string gcgfile) {
     WorkspaceHandle_t *wh = GAUSS_LoadWorkspace(removeConst(&gcgfile));
 
     if (!wh)
-        return NULL;
+        return nullptr;
 
     GEWorkspace *newWh = new GEWorkspace(wh);
 
@@ -1390,14 +1390,14 @@ x = 5
  */
 GEMatrix* GAUSS::getMatrix(std::string name, GEWorkspace *wh) const {
     if (!this->d->manager_->isValidWorkspace(wh))
-        return NULL;
+        return nullptr;
 
 	GAUSS_MatrixInfo_t *info = new GAUSS_MatrixInfo_t;
 	int ret = GAUSS_GetMatrixInfo(wh->workspace(), info, removeConst(&name));
 
 	if (ret) {
 		delete info;
-		return NULL;
+        return nullptr;
 	}
 
     return new GEMatrix(info);
@@ -1493,12 +1493,12 @@ x =        0.0000000
  */
 GEMatrix* GAUSS::getMatrixAndClear(std::string name, GEWorkspace *wh) const {
     if (!this->d->manager_->isValidWorkspace(wh))
-        return NULL;
+        return nullptr;
 
     Matrix_t *gsMat = GAUSS_GetMatrixAndClear(wh->workspace(), removeConst(&name));
 
-    if (gsMat == NULL)
-        return NULL;
+    if (gsMat == nullptr)
+        return nullptr;
 
     return new GEMatrix(gsMat);
 }
@@ -1593,13 +1593,13 @@ x =        0.0000000
 */
 doubleArray* GAUSS::getMatrixDirect(std::string name, GEWorkspace* wh) {
     if (name.empty() || !this->d->manager_->isValidWorkspace(wh))
-		return NULL;
+        return nullptr;
 
 	GAUSS_MatrixInfo_t info;
 	int ret = GAUSS_GetMatrixInfo(wh->workspace(), &info, removeConst(&name));
 
     if (ret)
-		return NULL;
+        return nullptr;
 
     return new doubleArray(info.maddr, info.rows * info.cols);
 }
@@ -1649,12 +1649,12 @@ GEArray* GAUSS::getArray(std::string name) const {
  */
 GEArray* GAUSS::getArray(std::string name, GEWorkspace *wh) const {
     if (!this->d->manager_->isValidWorkspace(wh))
-        return NULL;
+        return nullptr;
 
     Array_t *gsArray = GAUSS_GetArray(wh->workspace(), removeConst(&name));
 
-    if (gsArray == NULL)
-        return NULL;
+    if (gsArray == nullptr)
+        return nullptr;
 
     return new GEArray(gsArray);
 }
@@ -1697,12 +1697,12 @@ GEArray* GAUSS::getArrayAndClear(std::string name) const {
  */
 GEArray* GAUSS::getArrayAndClear(std::string name, GEWorkspace *wh) const {
     if (!this->d->manager_->isValidWorkspace(wh))
-        return NULL;
+        return nullptr;
 
     Array_t *gsArray = GAUSS_GetArrayAndClear(wh->workspace(), removeConst(&name));
 
-    if (gsArray == NULL)
-        return NULL;
+    if (gsArray == nullptr)
+        return nullptr;
 
     return new GEArray(gsArray);
 }
@@ -1737,12 +1737,12 @@ GEStringArray* GAUSS::getStringArray(std::string name) const {
  */
 GEStringArray* GAUSS::getStringArray(std::string name, GEWorkspace *wh) const {
     if (!this->d->manager_->isValidWorkspace(wh))
-        return NULL;
+        return nullptr;
 
     StringArray_t *gsStringArray = GAUSS_GetStringArray(wh->workspace(), removeConst(&name));
 
-    if (gsStringArray == NULL)
-        return NULL;
+    if (gsStringArray == nullptr)
+        return nullptr;
 
     return new GEStringArray(gsStringArray);
 }
@@ -1782,7 +1782,7 @@ std::string GAUSS::getString(std::string name, GEWorkspace *wh) const {
 
     String_t *gsString = GAUSS_GetString(wh->workspace(), removeConst(&name));
 
-    if (gsString == NULL || gsString->stdata == NULL)
+    if (gsString == nullptr || gsString->stdata == nullptr)
         return ret;
 
     ret = std::string(gsString->stdata);
@@ -1875,8 +1875,7 @@ bool GAUSS::setSymbol(GEMatrix *matrix, std::string name, GEWorkspace *wh) {
     if (!matrix->isComplex() && (matrix->getRows() == 1) && (matrix->getCols() == 1)) {
         ret = GAUSS_PutDouble(wh->workspace(), matrix->getElement(), removeConst(&name));
     } else {
-        Matrix_t* newMat = this->d->createTempMatrix(matrix);
-
+        Matrix_t* newMat = matrix->toInternal();
         ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat, removeConst(&name));
         delete newMat;
     }
@@ -1971,7 +1970,7 @@ bool GAUSS::setSymbol(GEArray *array, std::string name, GEWorkspace *wh) {
     if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    Array_t *newArray = this->d->createTempArray(array);
+    Array_t *newArray = array->toInternal();
 
     if (!newArray)
         return false;
@@ -2123,7 +2122,7 @@ bool GAUSS::setSymbol(GEStringArray *sa, std::string name, GEWorkspace *wh) {
     if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    StringArray_t *newSa = this->d->createPermStringArray(sa);
+    StringArray_t *newSa = sa->toInternal();
 
     if (!newSa)
         return false;
@@ -2221,8 +2220,7 @@ bool GAUSS::moveSymbol(GEMatrix *matrix, std::string name, GEWorkspace *wh) {
 		ret = GAUSS_PutDouble(wh->workspace(), matrix->getElement(), removeConst(&name));
 	}
 	else {
-		Matrix_t* newMat = this->d->createTempMatrix(matrix);
-
+        Matrix_t* newMat = matrix->toInternal();
 		ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat, removeConst(&name));
 		delete newMat;
 	}
@@ -2319,7 +2317,7 @@ bool GAUSS::moveSymbol(GEArray *array, std::string name, GEWorkspace *wh) {
 	if (!this->d->manager_->isValidWorkspace(wh))
 		return false;
 
-	Array_t *newArray = this->d->createTempArray(array);
+    Array_t *newArray = array->toInternal();
 
 	if (!newArray)
 		return false;
@@ -2397,7 +2395,7 @@ bool GAUSS::moveSymbol(GEStringArray *sa, std::string name, GEWorkspace *wh) {
 	if (!this->d->manager_->isValidWorkspace(wh))
 		return false;
 
-	StringArray_t *newSa = this->d->createPermStringArray(sa);
+    StringArray_t *newSa = sa->toInternal();
 
 	if (!newSa)
 		return false;
@@ -3329,132 +3327,14 @@ GAUSSPrivate::~GAUSSPrivate() {
     delete this->manager_;
 }
 
-Matrix_t* GAUSSPrivate::createTempMatrix(GEMatrix *mat) {
-    Matrix_t *newMat = new Matrix_t;
-    // THIS CANNOT BE USED FOR A "MOVE" OPERATION
-    // THIS IS THE ACTUAL POINTER REFERENCE TO THE DATA.
-    newMat->mdata = mat->data_.data();
-    newMat->rows = mat->getRows();
-    newMat->cols = mat->getCols();
-    newMat->complex = mat->isComplex();
-    newMat->freeable = 0;
-
-    return newMat;
-}
-
-String_t* GAUSSPrivate::createPermString(std::string data) {
+String_t* GAUSSPrivate::createPermString(const std::string &data) {
     String_t *newStr = GAUSS_MallocString_t();
 
-    newStr->stdata = (char*)GAUSS_Malloc(data.size() + 1);
-    strncpy(newStr->stdata, data.c_str(), data.size() + 1);
-    newStr->length = data.size() + 1;
-    newStr->freeable = 1;
+    size_t len = data.size() + 1;
+    newStr->stdata = (char*)GAUSS_Malloc(len);
+    strncpy(newStr->stdata, data.c_str(), len);
+    newStr->length = len;
+    newStr->freeable = TRUE;
 
     return newStr;
-}
-
-#define getsize(R,C,S) ((R)*(C)*(S)/(size_t)8 + ( ((R)*(C)*(S))%(size_t)8 != (size_t)0 ) )
-
-StringArray_t* GAUSSPrivate::createPermStringArray(GEStringArray *gesa) {
-    if (!gesa || gesa->size() == 0)
-        return NULL;
-
-    std::vector<std::string> *strings = &(gesa->data_);
-
-    StringArray_t *sa;
-    StringElement_t *stable;
-    StringElement_t *sep;
-    StringElement_t *pdata;
-    size_t elem;
-    size_t strsize, sasize;
-
-    sa = (StringArray_t *)malloc(sizeof(StringArray_t));
-
-    if (sa == NULL)
-        return NULL;
-
-    elem = gesa->size();
-    sa->baseoffset = (size_t)(elem*sizeof(StringElement_t));
-
-    stable = (StringElement_t *)malloc(sa->baseoffset);
-
-    if (stable == NULL)
-    {
-        free(sa);
-        return NULL;
-    }
-
-    sep = stable;
-    strsize = 0;
-
-    for (int i = 0; i < elem; ++i) {
-        const char *src = strings->at(i).c_str();
-        sep->offset = strsize;
-        sep->length = strlen(src) + 1;
-        strsize += sep->length;
-        ++sep;
-    }
-
-    sasize = getsize(strsize + sa->baseoffset, 1, 1);
-    pdata = (StringElement_t*)realloc(stable, sasize * sizeof(double));
-
-    if (pdata == NULL)
-    {
-        free(sa);
-        free(stable);
-        return NULL;
-    }
-
-    stable = (StringElement_t *)pdata;
-    sep = stable;
-
-    for (int i = 0; i < elem; ++i) {
-        const char *src = strings->at(i).c_str();
-        memcpy((char *)stable + sa->baseoffset + sep->offset, src, sep->length);
-        ++sep;
-    }
-
-    sa->size = sasize;
-    sa->rows = gesa->getRows();
-    sa->cols = gesa->getCols();
-    sa->table = stable;
-    sa->freeable = TRUE;
-
-    return sa;
-}
-
-Array_t* GAUSSPrivate::createTempArray(GEArray *array) {
-    const int dims = array->getDimensions();
-    const int size = array->size();
-
-    if (!array || !dims || !size)
-        return NULL;
-
-	/*
-    const double *array_data = array->data_.data();
-
-    double *data = (double*)GAUSS_Malloc((size + dims) * sizeof(double));
-
-    if (!data)
-        return NULL;
-
-    // copy orders
-    memcpy(data, array_data, dims * sizeof(double));
-
-    // copy remaining data (start + orders len)
-    memcpy(data + dims, array_data + dims, size * sizeof(double));
-	*/
-    Array_t *newArray = (Array_t*)GAUSS_Malloc(sizeof(Array_t));
-
-    if (!newArray) {
-        return NULL;
-    }
-
-    newArray->dims = dims;
-    newArray->nelems = size;
-    newArray->complex = static_cast<int>(array->isComplex());
-    newArray->adata = array->data_.data();
-    newArray->freeable = TRUE;
-
-    return newArray;
 }

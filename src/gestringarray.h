@@ -30,6 +30,8 @@ public:
     virtual int size() const { return data_.size(); }
 	virtual void clear() { data_.clear(); data_.resize(1); setRows(1); setCols(1); }
 
+    StringArray_t* toInternal();
+
 #ifdef SWIGPHP
     int position_;
 #endif

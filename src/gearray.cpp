@@ -287,7 +287,7 @@ GEMatrix* GEArray::getPlane(vector<int> indices, bool imag) const {
         if (index != 0) {
             // check for out of range
             if (index < 1 || index > this->data_[i])
-                return NULL;
+                return nullptr;
 
             jumpoff += (index - 1) * product;
         } else {
@@ -307,7 +307,7 @@ GEMatrix* GEArray::getPlane(vector<int> indices, bool imag) const {
 
     // 2 dimensions of interest were not specified
     if (zero_count != 2)
-        return NULL;
+        return nullptr;
 
     int rows = odoi[HIGH];
     int cols = odoi[LOW];
@@ -327,7 +327,7 @@ GEMatrix* GEArray::getPlane(vector<int> indices, bool imag) const {
                 // index out of range
                 if (index > num_elements_) {
                     VECTOR_VAR_DELETE_CHECK(plane);
-                    return NULL;
+                    return nullptr;
                 }
 
                 VECTOR_VAR(plane) at(i * cols + j) = base[index];
@@ -799,4 +799,26 @@ void GEArray::clear() {
 	this->num_elements_ = 1;
 
 	GESymbol::clear();
+}
+
+Array_t* GEArray::toInternal() {
+    const int dims = getDimensions();
+    const int sz = size();
+
+    if (!dims || !sz)
+        return nullptr;
+
+    Array_t *newArray = GAUSS_MallocArray_t();
+
+    if (!newArray) {
+        return nullptr;
+    }
+
+    newArray->dims = dims;
+    newArray->nelems = sz;
+    newArray->complex = static_cast<int>(isComplex());
+    newArray->adata = data_.data();
+    newArray->freeable = FALSE;
+
+    return newArray;
 }

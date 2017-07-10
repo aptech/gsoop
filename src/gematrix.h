@@ -36,12 +36,14 @@ public:
     virtual void clear();
     virtual std::string toString() const;
 
+    Matrix_t* toInternal();
+
 #ifdef SWIGPHP
     int position_;
 #endif
 
 private:
-	GEMatrix(Matrix_t*);
+    GEMatrix(Matrix_t*);
     GEMatrix(GAUSS_MatrixInfo_t*);
 
     void Init(VECTOR_DATA(double) data, int rows, int cols, bool complex = false);
