@@ -340,7 +340,7 @@ string GEStringArray::toString() const {
 }
 
 StringArray_t* GEStringArray::toInternal() {
-    if (!size() == 0)
+    if (!size())
         return nullptr;
 
     StringArray_t *sa;

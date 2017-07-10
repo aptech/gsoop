@@ -306,9 +306,10 @@ class TestGAUSSEngine(unittest.TestCase):
         gesa2 = GEStringArray(sa2, 2, 2)
 
         # Add it to the symbol table
-        self.ge.setSymbol(gesa2, "sa2")
+        self.assertTrue(self.ge.setSymbol(gesa2, "sa2"))
 
         sa = self.ge.getStringArray("sa2")
+        self.assertNotEquals(None, sa)
         self.assertEquals(4, sa.size())
         self.assertEquals(sa2, list(sa.getData()))
 
