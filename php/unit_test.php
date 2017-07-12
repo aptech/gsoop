@@ -181,6 +181,12 @@ final class TestGAUSSEngine extends TestCase
         $this->assertNotEquals(NULL, $x);
         $this->assertEquals(16, count($x->getData(true)));
 
+        self::$ge["x"] = 10.0;
+        $this->assertEquals(10.0, self::$ge["x"][0]);
+
+        self::$ge["x"] = 11;
+        $this->assertEquals(11, self::$ge["x"][0]);
+
         $this->assertEquals(array(1, 2, 3, 4, 5, 6, 7, 8), $x->getData());
         $this->assertEquals(array(9, 10, 11, 12, 13, 14, 15, 16), $x->getImagData());
 
@@ -289,10 +295,11 @@ final class TestGAUSSEngine extends TestCase
         $s = self::$ge["s"][0];
         $this->assertEquals("H", $s[0]);
 
-        //$this->assertEquals("e", $s[0][1]);
-
         $s = self::$ge->getString("s", $wh);
         $this->assertEquals("Hello World", $s);
+
+        self::$ge["r"] = "testing";
+        $this->assertEquals("testing", self::$ge["r"][0]);
 
         // create a temp workspace
         $tempWh = self::$ge->createWorkspace("temp");

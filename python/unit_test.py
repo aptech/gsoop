@@ -219,6 +219,12 @@ class TestGAUSSEngine(unittest.TestCase):
 
         self.ge.executeString("print x")
 
+        self.ge["x"] = 10
+        self.assertEquals(10, self.ge["x"][0])
+
+        self.ge["x"] = 11.0
+        self.assertEquals(11.0, self.ge["x"][0])
+
     def testArrays(self):
         self.ge.executeString("ai = seqa(1,1,24); aj = seqa(25,1,24);")
 
@@ -263,6 +269,9 @@ class TestGAUSSEngine(unittest.TestCase):
 
         s = self.ge.getString("s")
         self.assertEquals("Hello World", s)
+
+        self.ge["r"] = "testing"
+        self.assertEquals("testing", self.ge["r"][0])
 
         # create a temp workspace
         tempWh = self.ge.createWorkspace("temp")

@@ -146,11 +146,20 @@ ARRAYHELPER(string, GEStringArray)
 %extend GAUSS {
     GESymbol* __getitem__(char *name)
     {return $self->getSymbol(std::string(name));}
+
     void __setitem__(char *name,GESymbol* v)
     {$self->_setSymbol(v, std::string(name));}
+
     void __setitem__(char *name,doubleArray* v)
     {$self->_setSymbol(v, std::string(name));}
+
+    void __setitem__(char *name,char *v)
+    {$self->setSymbol(std::string(v), std::string(name));}
+
+    void __setitem__(char *name,double v)
+    {GEMatrix t(v);$self->setSymbol(&t, std::string(name));}
 }
+
 
 %exception __getitem__ {
    try {
@@ -199,6 +208,15 @@ CB_THISOWN(IGEProgramInputCheck, 0)
 
     void offsetSet(char *name,doubleArray* v)
     {$self->_setSymbol(v, std::string(name));}
+
+    void offsetSet(char *name,char *v)
+    {$self->setSymbol(std::string(v), std::string(name));}
+
+    void offsetSet(char *name,double v)
+    {GEMatrix t(v);$self->setSymbol(&t, std::string(name));}
+
+    void offsetSet(char *name,int v)
+    {GEMatrix t((double)v);$self->setSymbol(&t, std::string(name));}
 
     bool offsetExists(char *name) {
         int t = $self->getSymbolType(std::string(name));

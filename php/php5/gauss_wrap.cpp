@@ -1512,6 +1512,9 @@ SWIGINTERN void std_vector_Sl_std_vector_Sl_std_string_Sg__Sg__set(std::vector< 
 SWIGINTERN GESymbol *GAUSS_offsetGet(GAUSS *self,char *name){return self->getSymbol(std::string(name));}
 SWIGINTERN void GAUSS_offsetSet__SWIG_0(GAUSS *self,char *name,GESymbol *v){self->_setSymbol(v, std::string(name));}
 SWIGINTERN void GAUSS_offsetSet__SWIG_1(GAUSS *self,char *name,doubleArray *v){self->_setSymbol(v, std::string(name));}
+SWIGINTERN void GAUSS_offsetSet__SWIG_2(GAUSS *self,char *name,char *v){self->setSymbol(std::string(v), std::string(name));}
+SWIGINTERN void GAUSS_offsetSet__SWIG_3(GAUSS *self,char *name,double v){GEMatrix t(v);self->setSymbol(&t, std::string(name));}
+SWIGINTERN void GAUSS_offsetSet__SWIG_4(GAUSS *self,char *name,int v){GEMatrix t((double)v);self->setSymbol(&t, std::string(name));}
 SWIGINTERN bool GAUSS_offsetExists(GAUSS *self,char *name){
         int t = self->getSymbolType(std::string(name));
 
@@ -9245,6 +9248,136 @@ fail:
 }
 
 
+ZEND_NAMED_FUNCTION(_wrap_GAUSS_offsetSet__SWIG_2) {
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  zval **args[3];
+  
+  SWIG_ResetError(TSRMLS_C);
+  if(ZEND_NUM_ARGS() != 3 || zend_get_parameters_array_ex(3, args) != SUCCESS) {
+    WRONG_PARAM_COUNT;
+  }
+  
+  {
+    if(SWIG_ConvertPtr(*args[0], (void **) &arg1, SWIGTYPE_p_GAUSS, 0) < 0) {
+      SWIG_PHP_Error(E_ERROR, "Type error in argument 1 of GAUSS_offsetSet. Expected SWIGTYPE_p_GAUSS");
+    }
+  }
+  if(!arg1) SWIG_PHP_Error(E_ERROR, "this pointer is NULL");
+  
+  /*@SWIG:/usr/local/share/swig/3.0.12/php5/utils.i,62,CONVERT_STRING_IN@*/
+  if ((*args[1])->type==IS_NULL) {
+    arg2 = (char *) 0;
+  } else {
+    convert_to_string_ex(args[1]);
+    arg2 = (char *) Z_STRVAL_PP(args[1]);
+  }
+  /*@SWIG@*/;
+  
+  
+  /*@SWIG:/usr/local/share/swig/3.0.12/php5/utils.i,62,CONVERT_STRING_IN@*/
+  if ((*args[2])->type==IS_NULL) {
+    arg3 = (char *) 0;
+  } else {
+    convert_to_string_ex(args[2]);
+    arg3 = (char *) Z_STRVAL_PP(args[2]);
+  }
+  /*@SWIG@*/;
+  
+  GAUSS_offsetSet__SWIG_2(arg1,arg2,arg3);
+  
+thrown:
+  return;
+fail:
+  SWIG_FAIL(TSRMLS_C);
+}
+
+
+ZEND_NAMED_FUNCTION(_wrap_GAUSS_offsetSet__SWIG_3) {
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  char *arg2 = (char *) 0 ;
+  double arg3 ;
+  zval **args[3];
+  
+  SWIG_ResetError(TSRMLS_C);
+  if(ZEND_NUM_ARGS() != 3 || zend_get_parameters_array_ex(3, args) != SUCCESS) {
+    WRONG_PARAM_COUNT;
+  }
+  
+  {
+    if(SWIG_ConvertPtr(*args[0], (void **) &arg1, SWIGTYPE_p_GAUSS, 0) < 0) {
+      SWIG_PHP_Error(E_ERROR, "Type error in argument 1 of GAUSS_offsetSet. Expected SWIGTYPE_p_GAUSS");
+    }
+  }
+  if(!arg1) SWIG_PHP_Error(E_ERROR, "this pointer is NULL");
+  
+  /*@SWIG:/usr/local/share/swig/3.0.12/php5/utils.i,62,CONVERT_STRING_IN@*/
+  if ((*args[1])->type==IS_NULL) {
+    arg2 = (char *) 0;
+  } else {
+    convert_to_string_ex(args[1]);
+    arg2 = (char *) Z_STRVAL_PP(args[1]);
+  }
+  /*@SWIG@*/;
+  
+  
+  /*@SWIG:/usr/local/share/swig/3.0.12/php5/utils.i,52,CONVERT_FLOAT_IN@*/
+  convert_to_double_ex(args[2]);
+  arg3 = (double) Z_DVAL_PP(args[2]);
+  /*@SWIG@*/;
+  
+  GAUSS_offsetSet__SWIG_3(arg1,arg2,arg3);
+  
+thrown:
+  return;
+fail:
+  SWIG_FAIL(TSRMLS_C);
+}
+
+
+ZEND_NAMED_FUNCTION(_wrap_GAUSS_offsetSet__SWIG_4) {
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int arg3 ;
+  zval **args[3];
+  
+  SWIG_ResetError(TSRMLS_C);
+  if(ZEND_NUM_ARGS() != 3 || zend_get_parameters_array_ex(3, args) != SUCCESS) {
+    WRONG_PARAM_COUNT;
+  }
+  
+  {
+    if(SWIG_ConvertPtr(*args[0], (void **) &arg1, SWIGTYPE_p_GAUSS, 0) < 0) {
+      SWIG_PHP_Error(E_ERROR, "Type error in argument 1 of GAUSS_offsetSet. Expected SWIGTYPE_p_GAUSS");
+    }
+  }
+  if(!arg1) SWIG_PHP_Error(E_ERROR, "this pointer is NULL");
+  
+  /*@SWIG:/usr/local/share/swig/3.0.12/php5/utils.i,62,CONVERT_STRING_IN@*/
+  if ((*args[1])->type==IS_NULL) {
+    arg2 = (char *) 0;
+  } else {
+    convert_to_string_ex(args[1]);
+    arg2 = (char *) Z_STRVAL_PP(args[1]);
+  }
+  /*@SWIG@*/;
+  
+  
+  /*@SWIG:/usr/local/share/swig/3.0.12/php5/utils.i,7,CONVERT_INT_IN@*/
+  convert_to_long_ex(args[2]);
+  arg3 = (int) Z_LVAL_PP(args[2]);
+  /*@SWIG@*/;
+  
+  GAUSS_offsetSet__SWIG_4(arg1,arg2,arg3);
+  
+thrown:
+  return;
+fail:
+  SWIG_FAIL(TSRMLS_C);
+}
+
+
 ZEND_NAMED_FUNCTION(_wrap_GAUSS_offsetSet) {
   int argc;
   zval **argv[3];
@@ -9285,6 +9418,54 @@ ZEND_NAMED_FUNCTION(_wrap_GAUSS_offsetSet) {
         }
         if (_v) {
           _wrap_GAUSS_offsetSet__SWIG_1(INTERNAL_FUNCTION_PARAM_PASSTHRU); return;
+        }
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      void *tmp;
+      _v = (SWIG_ConvertPtr(*argv[0], (void**)&tmp, SWIGTYPE_p_GAUSS, 0) >= 0);
+    }
+    if (_v) {
+      _v = (Z_TYPE_PP(argv[1]) == IS_STRING); 
+      if (_v) {
+        _v = (Z_TYPE_PP(argv[2]) == IS_LONG); 
+        if (_v) {
+          _wrap_GAUSS_offsetSet__SWIG_4(INTERNAL_FUNCTION_PARAM_PASSTHRU); return;
+        }
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      void *tmp;
+      _v = (SWIG_ConvertPtr(*argv[0], (void**)&tmp, SWIGTYPE_p_GAUSS, 0) >= 0);
+    }
+    if (_v) {
+      _v = (Z_TYPE_PP(argv[1]) == IS_STRING); 
+      if (_v) {
+        _v = (Z_TYPE_PP(argv[2]) == IS_DOUBLE); 
+        if (_v) {
+          _wrap_GAUSS_offsetSet__SWIG_3(INTERNAL_FUNCTION_PARAM_PASSTHRU); return;
+        }
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      void *tmp;
+      _v = (SWIG_ConvertPtr(*argv[0], (void**)&tmp, SWIGTYPE_p_GAUSS, 0) >= 0);
+    }
+    if (_v) {
+      _v = (Z_TYPE_PP(argv[1]) == IS_STRING); 
+      if (_v) {
+        _v = (Z_TYPE_PP(argv[2]) == IS_STRING); 
+        if (_v) {
+          _wrap_GAUSS_offsetSet__SWIG_2(INTERNAL_FUNCTION_PARAM_PASSTHRU); return;
         }
       }
     }
@@ -9591,7 +9772,6 @@ fail:
 ZEND_NAMED_FUNCTION(_wrap_doubleArray_reset) {
   doubleArray *arg1 = (doubleArray *) 0 ;
   zval **args[1];
-  int result;
   
   SWIG_ResetError(TSRMLS_C);
   if(ZEND_NUM_ARGS() != 1 || zend_get_parameters_array_ex(1, args) != SUCCESS) {
@@ -9604,10 +9784,8 @@ ZEND_NAMED_FUNCTION(_wrap_doubleArray_reset) {
     }
   }
   if(!arg1) SWIG_PHP_Error(E_ERROR, "this pointer is NULL");
-  result = (int)(arg1)->reset();
-  {
-    ZVAL_LONG(return_value,result);
-  }
+  (arg1)->reset();
+  
 thrown:
   return;
 fail:

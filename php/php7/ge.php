@@ -943,7 +943,7 @@ class doubleArray implements ArrayAccess, Countable, Iterator {
 	}
 
 	function reset() {
-		return doubleArray_reset($this->_cPtr);
+		doubleArray_reset($this->_cPtr);
 	}
 
 	function offsetExists($offset) {
