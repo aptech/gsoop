@@ -1,5 +1,6 @@
 #include "geworkspace.h"
 #include "mteng.h"
+#include <memory.h>
 
 GEWorkspace::GEWorkspace(WorkspaceHandle_t *wh)
 {
@@ -17,6 +18,7 @@ GEWorkspace::~GEWorkspace() {
 
 void GEWorkspace::setName(const std::string &name) {
     this->name_ = name;
+    GAUSS_SetWorkspaceName(this->workspace_, const_cast<char*>(name.data()));
 }
 
 std::string GEWorkspace::name() {
@@ -24,7 +26,12 @@ std::string GEWorkspace::name() {
 }
 
 void GEWorkspace::setWorkspace(WorkspaceHandle_t *wh) {
+    clear();
+    char name[1024];
+    memset(&name, 0, sizeof(name));
+    GAUSS_GetWorkspaceName(wh, name);
     this->workspace_ = wh;
+    this->name_ = std::string(name);
 }
 
 WorkspaceHandle_t* GEWorkspace::workspace() {

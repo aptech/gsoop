@@ -2556,10 +2556,10 @@ std::string GAUSS::getOutput() {
         return std::string();
 
     std::lock_guard<std::mutex> guard(kOutputMutex);
-    int tid = getThreadId();
 
-    std::string ret = kOutputStore[tid];
-    kOutputStore[tid] = std::string();
+    int tid = getThreadId();
+    std::string ret;
+    ret.swap(kOutputStore[tid]);
 
 	return ret;
 }
@@ -2571,9 +2571,8 @@ std::string GAUSS::getErrorOutput() {
     std::lock_guard<std::mutex> guard(kErrorMutex);
 
     int tid = getThreadId();
-
-    std::string ret = kErrorStore[tid];
-    kErrorStore[tid] = std::string();
+    std::string ret;
+    ret.swap(kErrorStore[tid]);
 
     return ret;
 }
