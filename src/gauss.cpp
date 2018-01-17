@@ -854,9 +854,8 @@ bool GAUSS::executeProgram(ProgramHandle_t *ph) {
     // Setup output hook
     resetHooks();
 
-	if (GAUSS_Execute(ph) > 0) {
+    if (GAUSS_Execute(ph) != 0)
         return false;
-	}
 
     return true;
 }
