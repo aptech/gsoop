@@ -12,10 +12,6 @@ GEArray::GEArray() : GESymbol(GESymType::ARRAY_GAUSS)
 	clear();
 }
 
-GEArray::~GEArray() {
-
-}
-
 GEArray::GEArray(Array_t *array) : GESymbol(GESymType::ARRAY_GAUSS) {
     Init(array);
 }
@@ -808,11 +804,10 @@ Array_t* GEArray::toInternal() {
     if (!dims || !sz)
         return nullptr;
 
-    Array_t *newArray = GAUSS_MallocArray_t();
+    Array_t *newArray = new Array_t;
 
-    if (!newArray) {
+    if (!newArray)
         return nullptr;
-    }
 
     newArray->dims = dims;
     newArray->nelems = sz;

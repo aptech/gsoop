@@ -1,7 +1,5 @@
 from __future__ import print_function
-import random
 import unittest
-import sys
 from ge import *
 
 # Unit Test to Check functionality
@@ -138,7 +136,7 @@ class TestGAUSSEngine(unittest.TestCase):
 
         wh2.setName("wh222")
         self.ge.updateWorkspaceName(wh2)
-        self.assertEquals("wh2", wh2.name())
+        self.assertEquals("wh222", wh2.name())
 
         count = 1000
 

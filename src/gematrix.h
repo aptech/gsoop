@@ -14,7 +14,6 @@ class GAUSS_EXPORT GEMatrix : public GESymbol
 {
 public:
     GEMatrix();
-    virtual ~GEMatrix();
     GEMatrix(double);
     GEMatrix(VECTOR_DATA(double) data);
     GEMatrix(VECTOR_DATA(double) data, int rows, int cols, bool complex = false);
@@ -44,7 +43,7 @@ public:
 
 private:
     GEMatrix(Matrix_t*);
-    GEMatrix(GAUSS_MatrixInfo_t*);
+    GEMatrix(const GAUSS_MatrixInfo_t &info);
 
     void Init(VECTOR_DATA(double) data, int rows, int cols, bool complex = false);
     void Init(VECTOR_DATA(double) real_data, VECTOR_DATA(double) imag_data, int rows, int cols, bool complex = false);

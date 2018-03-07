@@ -9,10 +9,6 @@ WorkspaceManager::WorkspaceManager()
 
 }
 
-WorkspaceManager::~WorkspaceManager() {
-
-}
-
 GEWorkspace* WorkspaceManager::getCurrent() const {
     std::lock_guard<std::mutex> guard(mutex_);
     return current_;

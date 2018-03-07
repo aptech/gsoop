@@ -32,10 +32,6 @@ GEMatrix::GEMatrix() : GESymbol(GESymType::MATRIX)
     GEMatrix(0.0);
 }
 
-GEMatrix::~GEMatrix() {
-    
-}
-
 /**
  * Initialize matrix to scalar with specified value.
  *
@@ -92,20 +88,15 @@ GEMatrix::GEMatrix(Matrix_t* mat) : GESymbol(GESymType::MATRIX) {
 /**
   * Internal use only.
   */
-GEMatrix::GEMatrix(GAUSS_MatrixInfo_t* mat) : GESymbol(GESymType::MATRIX) {
-    if (mat == nullptr)
-        return;
-
-	this->setRows(mat->rows);
-    this->setCols(mat->cols);
-    this->setComplex(static_cast<bool>(mat->complex));
+GEMatrix::GEMatrix(const GAUSS_MatrixInfo_t &info) : GESymbol(GESymType::MATRIX) {
+    this->setRows(info.rows);
+    this->setCols(info.cols);
+    this->setComplex(static_cast<bool>(info.complex));
 
 	int elements = size() * (isComplex() ? 2 : 1);
 
 	this->data_.resize(elements);
-	memcpy(this->data_.data(), mat->maddr, elements * sizeof(double));
-
-	delete mat;
+    memcpy(this->data_.data(), info.maddr, elements * sizeof(double));
 }
 
 /**

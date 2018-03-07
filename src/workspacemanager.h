@@ -13,7 +13,6 @@ class GAUSS_EXPORT WorkspaceManager
 {
 public:
     WorkspaceManager();
-    ~WorkspaceManager();
 
     GEWorkspace* getCurrent() const;
     bool setCurrent(GEWorkspace *wh);

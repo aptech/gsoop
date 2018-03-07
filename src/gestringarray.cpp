@@ -297,20 +297,11 @@ bool GEStringArray::fromStringArray(StringArray_t *sa) {
 
     this->data_.resize(element_count);
 
-    StringElement_t *current_ptr = 0;
-    StringElement_t *base_ptr = sa->table;
-    size_t base_offset = sa->baseoffset;
+    StringElement_t *sep = sa->table;
+    const char *buffer_start = (const char*)(sa->table + element_count);
 
-    char *ch_ptr;
-
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            current_ptr = base_ptr + (i * cols + j);
-            ch_ptr = (char*)((char*)base_ptr + base_offset + current_ptr->offset);
-
-            this->data_[i * cols + j] = string(ch_ptr);
-        }
-    }
+    for (int i = 0; i < element_count; ++i, ++sep)
+        this->data_[i] = string(buffer_start + sep->offset);
 
     GAUSS_Free(sa->table);
     GAUSS_Free(sa);
@@ -346,7 +337,6 @@ StringArray_t* GEStringArray::toInternal() {
     StringArray_t *sa;
     StringElement_t *stable;
     StringElement_t *sep;
-    StringElement_t *pdata;
     size_t elem;
     size_t strsize, sasize;
 
@@ -369,32 +359,26 @@ StringArray_t* GEStringArray::toInternal() {
     sep = stable;
     strsize = 0;
 
-    for (int i = 0; i < elem; ++i) {
-        const char *src = data_.at(i).c_str();
+    for (int i = 0; i < elem; ++i, ++sep) {
         sep->offset = strsize;
-        sep->length = strlen(src) + 1;
+        sep->length = data_.at(i).length() + 1;
         strsize += sep->length;
-        ++sep;
     }
 
     sasize = getsize(strsize + sa->baseoffset, 1, 1);
-    pdata = (StringElement_t*)realloc(stable, sasize * sizeof(double));
+    stable = (StringElement_t*)realloc(stable, sasize * sizeof(double));
 
-    if (pdata == nullptr)
+    if (stable == nullptr)
     {
         free(sa);
         free(stable);
         return nullptr;
     }
 
-    stable = (StringElement_t *)pdata;
     sep = stable;
 
-    for (int i = 0; i < elem; ++i) {
-        const char *src = data_.at(i).c_str();
-        memcpy((char *)stable + sa->baseoffset + sep->offset, src, sep->length);
-        ++sep;
-    }
+    for (int i = 0; i < elem; ++i, ++sep)
+        memcpy((char *)stable + sa->baseoffset + sep->offset, data_.at(i).c_str(), sep->length);
 
     sa->size = sasize;
     sa->rows = getRows();

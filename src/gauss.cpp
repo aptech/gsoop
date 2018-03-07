@@ -2,6 +2,7 @@
 #include <cctype>    // for isalnum()
 #include <algorithm> // for back_inserter
 #include <iostream>
+#include <memory>
 
 #include "gearray.h"
 #include "gematrix.h"
@@ -65,8 +66,8 @@ static int getThreadId() {
     tid = (int)syscall(SYS_gettid);
 #endif
 
-//    printf("thread id is %d\n", tid);
-//    fflush(stdout);
+    //    printf("thread id is %d\n", tid);
+    //    fflush(stdout);
 
     return tid;
 }
@@ -154,8 +155,8 @@ void GAUSS::Init(std::string homePath) {
 
     if (homePath.empty()) {
         cerr << "Unable to find GAUSS Home directory. Aborting." << endl;
-		cerr.flush();
-		return;
+        cerr.flush();
+        return;
     }
 }
 
@@ -177,7 +178,7 @@ bool GAUSS::initialize() {
         std::string errorString = getLastErrorText();
 
         cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << endl;
-		cerr.flush();
+        cerr.flush();
         return false;
     }
 
@@ -185,7 +186,7 @@ bool GAUSS::initialize() {
         std::string errorString = getLastErrorText();
 
         cerr << "Could initialize GAUSS (Error: " << errorString << ")" << endl;
-		cerr.flush();
+        cerr.flush();
         return false;
     }
 
@@ -195,7 +196,7 @@ bool GAUSS::initialize() {
         std::string errorString = getLastErrorText();
 
         cerr << "Could not create workspace (Error: " << errorString << ")" << endl;
-		cerr.flush();
+        cerr.flush();
         return false;
     }
     
@@ -1391,13 +1392,11 @@ GEMatrix* GAUSS::getMatrix(std::string name, GEWorkspace *wh) const {
     if (!this->d->manager_->isValidWorkspace(wh))
         return nullptr;
 
-	GAUSS_MatrixInfo_t *info = new GAUSS_MatrixInfo_t;
-	int ret = GAUSS_GetMatrixInfo(wh->workspace(), info, removeConst(&name));
+    GAUSS_MatrixInfo_t info;
+    int ret = GAUSS_GetMatrixInfo(wh->workspace(), &info, removeConst(&name));
 
-	if (ret) {
-		delete info;
+    if (ret)
         return nullptr;
-	}
 
     return new GEMatrix(info);
 }
@@ -1543,7 +1542,7 @@ x =        0.0000000
 * @see getScalar(std::string, GEWorkspace*)
 */
 doubleArray* GAUSS::getMatrixDirect(std::string name) {
-	return getMatrixDirect(name, getActiveWorkspace());
+    return getMatrixDirect(name, getActiveWorkspace());
 }
 
 /**
@@ -1594,8 +1593,8 @@ doubleArray* GAUSS::getMatrixDirect(std::string name, GEWorkspace* wh) {
     if (name.empty() || !this->d->manager_->isValidWorkspace(wh))
         return nullptr;
 
-	GAUSS_MatrixInfo_t info;
-	int ret = GAUSS_GetMatrixInfo(wh->workspace(), &info, removeConst(&name));
+    GAUSS_MatrixInfo_t info;
+    int ret = GAUSS_GetMatrixInfo(wh->workspace(), &info, removeConst(&name));
 
     if (ret)
         return nullptr;
@@ -1874,9 +1873,8 @@ bool GAUSS::setSymbol(GEMatrix *matrix, std::string name, GEWorkspace *wh) {
     if (!matrix->isComplex() && (matrix->getRows() == 1) && (matrix->getCols() == 1)) {
         ret = GAUSS_PutDouble(wh->workspace(), matrix->getElement(), removeConst(&name));
     } else {
-        Matrix_t* newMat = matrix->toInternal();
-        ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat, removeConst(&name));
-        delete newMat;
+        std::unique_ptr<Matrix_t> newMat(matrix->toInternal());
+        ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat.get(), removeConst(&name));
     }
 
     return (ret == GAUSS_SUCCESS);
@@ -1969,12 +1967,12 @@ bool GAUSS::setSymbol(GEArray *array, std::string name, GEWorkspace *wh) {
     if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    Array_t *newArray = array->toInternal();
+    std::unique_ptr<Array_t> newArray(array->toInternal());
 
-    if (!newArray)
+    if (!newArray.get())
         return false;
 
-    return (GAUSS_CopyArrayToGlobal(wh->workspace(), newArray, removeConst(&name)) == GAUSS_SUCCESS);
+    return (GAUSS_CopyArrayToGlobal(wh->workspace(), newArray.get(), removeConst(&name)) == GAUSS_SUCCESS);
 }
 
 /**
@@ -2128,9 +2126,6 @@ bool GAUSS::setSymbol(GEStringArray *sa, std::string name, GEWorkspace *wh) {
 
     bool ret = (GAUSS_MoveStringArrayToGlobal(wh->workspace(), newSa, removeConst(&name)) == GAUSS_SUCCESS);
 
-    //GAUSS_Free(newSa->table);
-    //GAUSS_Free(newSa);
-
     return ret;
 }
 
@@ -2168,7 +2163,7 @@ ge.moveSymbol(x, "x");
 * @see getScalar(std::string)
 */
 bool GAUSS::moveSymbol(GEMatrix *matrix, std::string name) {
-	return moveSymbol(matrix, name, getActiveWorkspace());
+    return moveSymbol(matrix, name, getActiveWorkspace());
 }
 
 /**
@@ -2207,26 +2202,12 @@ ge.moveSymbol(x, "x", myWorkspace);
 * @see getScalar(std::string)
 */
 bool GAUSS::moveSymbol(GEMatrix *matrix, std::string name, GEWorkspace *wh) {
-	if (!matrix || name.empty())
-		return false;
+    bool ret = setSymbol(matrix, name, wh);
 
-	if (!this->d->manager_->isValidWorkspace(wh))
-		return false;
+    if (ret)
+        matrix->clear();
 
-	int ret = 0;
-
-	if (!matrix->isComplex() && (matrix->getRows() == 1) && (matrix->getCols() == 1)) {
-		ret = GAUSS_PutDouble(wh->workspace(), matrix->getElement(), removeConst(&name));
-	}
-	else {
-        Matrix_t* newMat = matrix->toInternal();
-		ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat, removeConst(&name));
-		delete newMat;
-	}
-
-	matrix->clear();
-
-	return (ret == GAUSS_SUCCESS);
+    return ret;
 }
 
 /**
@@ -2267,7 +2248,7 @@ ge.moveSymbol(a, "a");
 * @see getArrayAndClear(std::string)
 */
 bool GAUSS::moveSymbol(GEArray *array, std::string name) {
-	return moveSymbol(array, name, getActiveWorkspace());
+    return moveSymbol(array, name, getActiveWorkspace());
 }
 
 /**
@@ -2310,23 +2291,12 @@ ge.moveSymbol(a, "a", myWorkspace);
 * @see getArrayAndClear(std::string)
 */
 bool GAUSS::moveSymbol(GEArray *array, std::string name, GEWorkspace *wh) {
-	if (!array || name.empty())
-		return false;
+    bool ret = setSymbol(array, name, wh);
 
-	if (!this->d->manager_->isValidWorkspace(wh))
-		return false;
+    if (ret)
+        array->clear();
 
-    Array_t *newArray = array->toInternal();
-
-	if (!newArray)
-		return false;
-
-	bool ret = (GAUSS_CopyArrayToGlobal(wh->workspace(), newArray, removeConst(&name)) == GAUSS_SUCCESS);
-
-	if (ret)
-		array->clear();
-
-	return ret;
+    return ret;
 }
 
 /**
@@ -2356,7 +2326,7 @@ $ge->moveSymbol($sa, "sa");
 * @see getStringArray(std::string)
 */
 bool GAUSS::moveSymbol(GEStringArray *sa, std::string name) {
-	return moveSymbol(sa, name, getActiveWorkspace());
+    return moveSymbol(sa, name, getActiveWorkspace());
 }
 
 /**
@@ -2388,22 +2358,12 @@ $ge->moveSymbol($sa, "sa", $myWorkspace);
 * @see getStringArray(std::string)
 */
 bool GAUSS::moveSymbol(GEStringArray *sa, std::string name, GEWorkspace *wh) {
-	if (!sa || name.empty())
-		return false;
+    bool ret = setSymbol(sa, name, wh);
 
-	if (!this->d->manager_->isValidWorkspace(wh))
-		return false;
+    if (ret)
+        sa->clear();
 
-    StringArray_t *newSa = sa->toInternal();
-
-	if (!newSa)
-		return false;
-
-	bool ret = (GAUSS_MoveStringArrayToGlobal(wh->workspace(), newSa, removeConst(&name)) == GAUSS_SUCCESS);
-
-	sa->clear();
-
-	return ret;
+    return ret;
 }
 
 /**
@@ -2502,13 +2462,13 @@ ge.moveMatrix(x.cast(), 2, 1, false, "x", myWorkspace);
 */
 bool GAUSS::moveMatrix(doubleArray *data, int rows, int cols, bool complex, std::string name, GEWorkspace *wh) {
     if (!data || name.empty() || !this->d->manager_->isValidWorkspace(wh))
-		return false;
+        return false;
 
     int ret = GAUSS_AssignFreeableMatrix(wh->workspace(), rows, cols, complex, data->data(), removeConst(&name));
 
     data->reset();
 
-	return (ret == GAUSS_SUCCESS);
+    return (ret == GAUSS_SUCCESS);
 }
 
 /**
@@ -2560,7 +2520,7 @@ std::string GAUSS::getOutput() {
     std::string ret;
     ret.swap(kOutputStore[tid]);
 
-	return ret;
+    return ret;
 }
 
 std::string GAUSS::getErrorOutput() {
@@ -2595,7 +2555,7 @@ void GAUSS::internalHookOutput(char *output) {
     } else if (GAUSS::outputFunc_) {
         GAUSS::outputFunc_->invoke(std::string(output));
     } else {
-        fprintf(stdout, output);
+        fputs(output, stdout);
     }
 }
 
@@ -2608,7 +2568,7 @@ void GAUSS::internalHookError(char *output) {
     } else if (GAUSS::errorFunc_) {
         GAUSS::errorFunc_->invoke(std::string(output));
     } else {
-        fprintf(stderr, output);
+        fputs(output, stderr);
     }
 }
 
@@ -3271,47 +3231,47 @@ void GAUSS::setHookProgramInputCheck(int (*get_string_function)(void)) {
 //}
 
 GAUSS::~GAUSS() {
-//    if (GAUSS::outputFunc_) {
-//        // Prevent double-delete for user doing setProgramOutputAll
-//        if (GAUSS::outputFunc_ == GAUSS::errorFunc_)
-//            GAUSS::errorFunc_ = 0;
+    //    if (GAUSS::outputFunc_) {
+    //        // Prevent double-delete for user doing setProgramOutputAll
+    //        if (GAUSS::outputFunc_ == GAUSS::errorFunc_)
+    //            GAUSS::errorFunc_ = 0;
 
-//        delete GAUSS::outputFunc_;
-//        GAUSS::outputFunc_ = 0;
-//    }
+    //        delete GAUSS::outputFunc_;
+    //        GAUSS::outputFunc_ = 0;
+    //    }
 
-//    if (GAUSS::errorFunc_) {
-//        delete GAUSS::errorFunc_;
-//        GAUSS::errorFunc_ = 0;
-//    }
+    //    if (GAUSS::errorFunc_) {
+    //        delete GAUSS::errorFunc_;
+    //        GAUSS::errorFunc_ = 0;
+    //    }
 
-//    if (GAUSS::flushFunc_) {
-//        delete GAUSS::flushFunc_;
-//        GAUSS::flushFunc_ = 0;
-//    }
+    //    if (GAUSS::flushFunc_) {
+    //        delete GAUSS::flushFunc_;
+    //        GAUSS::flushFunc_ = 0;
+    //    }
 
-//    if (GAUSS::inputStringFunc_) {
-//        delete GAUSS::inputStringFunc_;
-//        GAUSS::inputStringFunc_ = 0;
-//    }
+    //    if (GAUSS::inputStringFunc_) {
+    //        delete GAUSS::inputStringFunc_;
+    //        GAUSS::inputStringFunc_ = 0;
+    //    }
 
-//    if (GAUSS::inputCharFunc_) {
-//        if (GAUSS::inputCharFunc_ == GAUSS::inputBlockingCharFunc_)
-//            GAUSS::inputBlockingCharFunc_ = 0;
+    //    if (GAUSS::inputCharFunc_) {
+    //        if (GAUSS::inputCharFunc_ == GAUSS::inputBlockingCharFunc_)
+    //            GAUSS::inputBlockingCharFunc_ = 0;
 
-//        delete GAUSS::inputCharFunc_;
-//        GAUSS::inputCharFunc_ = 0;
-//    }
+    //        delete GAUSS::inputCharFunc_;
+    //        GAUSS::inputCharFunc_ = 0;
+    //    }
 
-//    if (GAUSS::inputBlockingCharFunc_) {
-//        delete GAUSS::inputBlockingCharFunc_;
-//        GAUSS::inputBlockingCharFunc_ = 0;
-//    }
+    //    if (GAUSS::inputBlockingCharFunc_) {
+    //        delete GAUSS::inputBlockingCharFunc_;
+    //        GAUSS::inputBlockingCharFunc_ = 0;
+    //    }
 
-//    if (GAUSS::inputCheckFunc_) {
-//        delete GAUSS::inputCheckFunc_;
-//        GAUSS::inputCheckFunc_ = 0;
-//    }
+    //    if (GAUSS::inputCheckFunc_) {
+    //        delete GAUSS::inputCheckFunc_;
+    //        GAUSS::inputCheckFunc_ = 0;
+    //    }
 }
 
 bool GAUSSPrivate::managedOutput_ = true;

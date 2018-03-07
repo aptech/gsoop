@@ -13,7 +13,6 @@ public:
     GEArray();
     GEArray(vector<int> orders, VECTOR_DATA(double) data, bool complex = false);
     GEArray(const int *orders, int orders_len, const double *data, int data_len, bool complex = false);
-	virtual ~GEArray();
 
     GEMatrix* getPlane(vector<int> orders, bool imag = false) const;
     vector<double> getVector(vector<int> orders, bool imag = false) const;
