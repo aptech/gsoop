@@ -1,4 +1,3 @@
-%module(directors="1") ge
 %feature("director") IGEProgramOutput;
 %feature("director") IGEProgramFlushOutput;
 %feature("director") IGEProgramInputString;

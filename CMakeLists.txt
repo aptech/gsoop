@@ -3,7 +3,7 @@ project (ge)
 
 set(ge_MAJOR_VERSION 0)
 set(ge_MINOR_VERSION 3)
-set(ge_PATCH_VERSION 0)
+set(ge_PATCH_VERSION 1)
 set(ge_VERSION
   ${ge_MAJOR_VERSION}.${ge_MINOR_VERSION}.${ge_PATCH_VERSION})
 
@@ -105,7 +105,7 @@ option(SWIGOFFICIAL "Create official prebuilt SWIG wrappers" OFF)
 
 add_definitions(-DGAUSS_LIBRARY -DSWIGPHP)
 
-#swig -c++ -php7 -outdir php -o src/gauss_wrap.cpp gauss.i
+#swig -c++ -php7 -outdir php -o src/gauss_wrap.cpp ge.i
 if (PHP5)
     set(SWIG_PHP_FLAG php5)
     add_definitions(-DSWIGPHP5)
@@ -140,8 +140,8 @@ if(SWIG)
 
     add_custom_command(
         OUTPUT "${SWIG_CPP_WRAP_OUT}" "${SWIG_H_WRAP_OUT}" "${SWIG_PHP_H_WRAP_OUT}" "${SWIG_GE_PHP_OUT}"
-        COMMAND "${SWIG_BINARY}" -c++ -${SWIG_PHP_FLAG} -outdir "${CMAKE_CURRENT_BINARY_DIR}" -o "${SWIG_CPP_WRAP_OUT}" -oh "${SWIG_H_WRAP_OUT}" gauss.i
-        MAIN_DEPENDENCY "${CMAKE_CURRENT_SOURCE_DIR}/gauss.i"
+        COMMAND "${SWIG_BINARY}" -c++ -${SWIG_PHP_FLAG} -outdir "${CMAKE_CURRENT_BINARY_DIR}" -o "${SWIG_CPP_WRAP_OUT}" -oh "${SWIG_H_WRAP_OUT}" ge.i
+        MAIN_DEPENDENCY "${CMAKE_CURRENT_SOURCE_DIR}/ge.i"
         DEPENDS 
         "${CMAKE_CURRENT_SOURCE_DIR}/src/gauss.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/gesymbol.h"
