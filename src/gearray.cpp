@@ -7,26 +7,12 @@ using namespace std;
 /**
  * Initialize a one dimensional array with a single element set to zero.
  */
-GEArray::GEArray()
+GEArray::GEArray() : GESymbol(GESymType::ARRAY_GAUSS)
 {
-    this->data_ = new double[1];
-    this->data_[0] = 0;
-
-    this->orders_ = new int[1];
-    this->orders_[0] = 1;
-
-    this->dims_ = 1;
-    this->num_elements_ = 1;
-
-    this->setRows(1);
-    this->setCols(1);
-    this->setComplex(false);
+	clear();
 }
 
-GEArray::GEArray(Array_t *array) {
-    this->data_ = NULL;
-    this->orders_ = NULL;
-
+GEArray::GEArray(Array_t *array) : GESymbol(GESymType::ARRAY_GAUSS) {
     Init(array);
 }
 
@@ -70,41 +56,39 @@ $a = new GEArray($orders, $data, true); // Indicate data is complex
  * @param data                Data in one dimensional format
  * @param complex        True if array is complex, false otherwise.
  */
-GEArray::GEArray(vector<int> orders, vector<double> data, bool complex) {
-    this->data_ = NULL;
-    this->orders_ = NULL;
+GEArray::GEArray(vector<int> orders, VECTOR_DATA(double) data, bool complex) : GESymbol(GESymType::ARRAY_GAUSS) {
+    Init(&orders.front(), orders.size(), &VECTOR_VAR(data) front(), VECTOR_VAR(data) size(), complex);
 
-    Init(orders, data, complex);
+    VECTOR_VAR_DELETE_CHECK(data);
 }
 
-void GEArray::Init(vector<int> orders, vector<double> data, bool complex) {
-    this->clear();
+GEArray::GEArray(const int *orders, int orders_len, const double *data, int data_len, bool complex) : GESymbol(GESymType::ARRAY_GAUSS) {
+    Init(orders, orders_len, data, data_len, complex);
+}
 
-    dims_ = orders.size();
+void GEArray::Init(const int *orders, int orders_len, const double *data, int data_len, bool complex) {
+    this->dims_ = orders_len;
     this->setComplex(complex);
-    num_elements_  = 1;
+    this->num_elements_ = 1;
 
     for (int i = 0; i < dims_; ++i)
-        num_elements_ *= orders[i];
+        this->num_elements_ *= orders[i];
 
     int realElements = num_elements_;
 
     if (complex)
         realElements *= 2;
 
-    this->orders_ = new int[dims_];
+	this->data_.resize(realElements + orders_len);
 
-    for (int i = 0; i < dims_; ++i)
-        this->orders_[i] = orders[i];
+	for (int i = 0; i < orders_len; ++i)
+		this->data_[i] = (double)orders[i];
 
-    this->data_ = new double[realElements];
-
-    for (int i = 0; i < realElements; ++i)
-        this->data_[i] = static_cast<double>(data.at(i));
+	memcpy(this->data_.data() + orders_len, data, realElements * sizeof(double));
 
     if (this->dims_ > 1) {
-        this->setRows(this->orders_[this->dims_ - 2]);
-        this->setCols(this->orders_[this->dims_ - 1]);
+        this->setRows(this->data_[this->dims_ - 2]);
+        this->setCols(this->data_[this->dims_ - 1]);
     }
 }
 
@@ -113,21 +97,21 @@ bool GEArray::Init(Array_t *array) {
     if (!array)
         return false;
 
-    this->clear();
-
     this->setComplex(static_cast<bool>(array->complex));
     this->dims_ = array->dims;
-    this->num_elements_ = array->nelems;
+	this->num_elements_ = 1; // Fix for getArrayAndClear not setting nelems.
+
+	for (int i = 0; i < this->dims_; ++i)
+		this->num_elements_ *= (size_t)array->adata[i];
 
     int realElements = totalElements();
 
-    this->orders_ = new int[this->dims_];
-    this->data_ = new double[realElements];
+	this->data_.resize(realElements + this->dims_);
 
     for (int i = 0; i < this->dims_; ++i) {
         int order = array->adata[i];
 
-        this->orders_[i] = order;
+        this->data_[i] = (double)order;
 
         if (i == this->dims_ - 2)
             this->setRows(order);
@@ -135,9 +119,7 @@ bool GEArray::Init(Array_t *array) {
             this->setCols(order);
     }
 
-    for (int i = this->dims_; i < this->dims_ + realElements; ++i) {
-        data_[i - this->dims_] = array->adata[i];
-    }
+	memcpy(this->data_.data() + this->dims_, array->adata + this->dims_, realElements * sizeof(double));
 
     GAUSS_Free(array->adata);
     GAUSS_Free(array);
@@ -145,7 +127,7 @@ bool GEArray::Init(Array_t *array) {
     return true;
 }
 
-string GEArray::toString() {
+string GEArray::toString() const {
     stringstream ss;
 
     bool complex = isComplex();
@@ -155,13 +137,12 @@ string GEArray::toString() {
     int total_elements = num_elements_;
     int plane_count = total_elements / elements_per_plane;
 
-    double *base = this->data_;
+	const double *base = this->data_.data() + this->dims_;
 
     int index = 0;
 
     int dimslength = dims_ - 2;
-    int *dims = new int[dimslength];
-    bool adding;
+	vector<int> dims(dimslength);
 
     // init array
     for (int i = 0; i < dimslength; ++i)
@@ -169,15 +150,13 @@ string GEArray::toString() {
 
     for (int i = 0; i < plane_count; ++i) {
 
-        adding = false;
-
         ss << "Plane [";
 
         for (int d = 0; d < dimslength; ++d)
             ss << dims[d] << ",";
 
         for (int d = dimslength - 1; d >= 0; --d) {
-            if (dims[d] < orders_[d]) {
+            if (dims[d] < data_[d]) {
                 dims[d]++;
 
                 for (int e = d + 1; e < dimslength; ++e)
@@ -189,7 +168,7 @@ string GEArray::toString() {
 
         ss << ".,.]" << endl << endl;
 
-        base = data_ + (i * elements_per_plane);
+        base = this->data_.data() + this->dims_ + (i * elements_per_plane);
 
         for (int j = 0; j < rows; ++j) {
             for (int k = 0; k < cols; ++k) {
@@ -210,8 +189,6 @@ string GEArray::toString() {
         if (i < plane_count - 1)
             ss << endl;
     }
-
-    delete dims;
 
     return ss.str();
 }
@@ -284,7 +261,8 @@ Plane [2,.,.]
  * @param imag        Whether to return imaginary data instead of real data.
  * @return        2 dimensional array slice.
  */
-GEMatrix* GEArray::getPlane(vector<int> indices, bool imag) {
+
+GEMatrix* GEArray::getPlane(vector<int> indices, bool imag) const {
     bool complex = isComplex();
     int offset = (imag && complex ? this->num_elements_ : 0);
 
@@ -304,48 +282,51 @@ GEMatrix* GEArray::getPlane(vector<int> indices, bool imag) {
 
         if (index != 0) {
             // check for out of range
-            if (index < 1 || index > this->orders_[i])
-                return NULL;
+            if (index < 1 || index > this->data_[i])
+                return nullptr;
 
             jumpoff += (index - 1) * product;
         } else {
             zero_count++;
 
             if (zero_count == 1) {
-                odoi[LOW] = this->orders_[i];
+                odoi[LOW] = this->data_[i];
                 jdoi[LOW] = product;
             } else {
-                odoi[HIGH] = this->orders_[i];
+                odoi[HIGH] = this->data_[i];
                 jdoi[HIGH] = product;
             }
         }
 
-        product *= this->orders_[i];
+        product *= this->data_[i];
     }
 
     // 2 dimensions of interest were not specified
     if (zero_count != 2)
-        return NULL;
+        return nullptr;
 
     int rows = odoi[HIGH];
     int cols = odoi[LOW];
 
-    vector<double> plane(rows * cols);
-    //double* plane = new double[rows * cols];
+	const double *base = this->data_.data() + this->dims_;
+
+    VECTOR_DATA_INIT(plane, double, rows * cols);
 
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             // If it's not complex but they want imaginary data, returns 0's.
             if (!complex && imag)
-                plane[i * cols + j] = 0;
+                VECTOR_VAR(plane) at(i * cols + j) = 0;
             else {
                 int index = jumpoff + (jdoi[HIGH] * i) + (jdoi[LOW] * j) + offset;
 
                 // index out of range
-                if (index > num_elements_)
-                    return NULL;
+                if (index > num_elements_) {
+                    VECTOR_VAR_DELETE_CHECK(plane);
+                    return nullptr;
+                }
 
-                plane[i * cols + j] = this->data_[index];
+                VECTOR_VAR(plane) at(i * cols + j) = base[index];
             }
         }
     }
@@ -404,8 +385,13 @@ Plane [2,.,.]
  * @param imag        Whether to return imaginary data instead of real data.
  * @return        Vector of data
  */
-vector<double> GEArray::getVector(vector<int> indices, bool imag) {
-    int offset = (imag && isComplex() ? this->num_elements_ / 2 : 0);
+vector<double> GEArray::getVector(vector<int> indices, bool imag) const {
+	bool complex = isComplex();
+
+	if (indices.empty() || (imag && !complex))
+		return vector<double>();
+
+    int offset = imag ? this->num_elements_ / 2 : 0;
     int elements = totalElements();
 
     int zero_count = 0;
@@ -421,7 +407,7 @@ vector<double> GEArray::getVector(vector<int> indices, bool imag) {
 
         if (index != 0) {
             // check for out of range
-            if (index < 1 || index > this->orders_[i])
+            if (index < 1 || index > this->data_[i])
                 return vector<double>();
 
             jumpoff += (index - 1) * product;
@@ -429,32 +415,29 @@ vector<double> GEArray::getVector(vector<int> indices, bool imag) {
             zero_count++;
 
             if (zero_count == 1) {
-                odoi = this->orders_[i];
+                odoi = this->data_[i];
                 jdoi = product;
             }
         }
 
-        product *= this->orders_[i];
+        product *= this->data_[i];
     }
 
     // 1 dimension of interest were not specified
     if (zero_count != 1)
         return vector<double>();
 
+	const double *base = this->data_.data() + this->dims_;
     vector<double> result(odoi);
 
     for (int i = 0; i < odoi; ++i) {
-        if (!this->isComplex() && imag)
-            result[i] = 0;
-        else {
-            int index = jumpoff + (jdoi * i) + offset;
+        int index = jumpoff + (jdoi * i) + offset;
 
-            // index out of range
-            if (index > elements)
-                return vector<double>();
+        // index out of range
+        if (index > elements)
+            return vector<double>();
 
-            result[i] = this->data_[index];
-        }
+        result[i] = base[index];
     }
 
     return result;
@@ -511,9 +494,11 @@ Plane [2,.,.]
  * @param imag        Whether to return imaginary data instead of real data.
  * @return        double precision element
  */
-double GEArray::getElement(vector<int> indices, bool imag) {
-    bool complex = isComplex();
-    int offset = (imag && complex ? this->num_elements_ / 2 : 0);
+double GEArray::getElement(vector<int> indices, bool imag) const {
+    if (indices.empty() || (imag && !isComplex()))
+        return 0.0;
+
+    int offset = imag ? this->num_elements_ / 2 : 0;
 
     int product = 1;
     int jumpoff = 0;
@@ -521,12 +506,12 @@ double GEArray::getElement(vector<int> indices, bool imag) {
     for (int i = dims_ - 1; i >= 0; --i) {
         int index = indices[i];
 
-        if (index < 1 || index > this->orders_[i])
-            return NULL;
+        if (index < 1 || index > this->data_[i])
+            return 0;
 
         jumpoff += (index - 1) * product;
 
-        product *= this->orders_[i];
+        product *= this->data_[i];
     }
 
     int index = jumpoff + offset;
@@ -534,7 +519,7 @@ double GEArray::getElement(vector<int> indices, bool imag) {
     if (index > totalElements())
         return 0.0;
 
-    return !(!complex && imag) ? this->data_[index] : 0;
+    return this->data_[index + this->dims_];
 }
 
 /**
@@ -601,7 +586,10 @@ Plane [2,.,.]
  * @param imag                Whether to set imaginary data instead of real data.
  */
 bool GEArray::setElement(double value, vector<int> indices, bool imag) {
-    int offset = (imag && isComplex() ? this->num_elements_ : 0);
+	if (indices.empty() || (imag && !isComplex()))
+		return false;
+
+    int offset = imag ? this->num_elements_ : 0;
 
     int product = 1;
     int jumpoff = 0;
@@ -609,12 +597,12 @@ bool GEArray::setElement(double value, vector<int> indices, bool imag) {
     for (int i = dims_ - 1; i >= 0; --i) {
         int index = indices[i];
 
-        if (index < 1 || index > this->orders_[i])
+        if (index < 1 || index > this->data_[i])
             return false;
 
         jumpoff += (index - 1) * product;
 
-        product *= this->orders_[i];
+        product *= this->data_[i];
     }
 
     int index = jumpoff + offset;
@@ -622,7 +610,7 @@ bool GEArray::setElement(double value, vector<int> indices, bool imag) {
     if (index > totalElements())
         return false;
 
-    this->data_[index] = value;
+    this->data_[index + this->dims_] = value;
 
     return true;
 }
@@ -659,15 +647,17 @@ echo implode(", ", $a->getData()) . PHP_EOL;
  * @param imag  Whether to append imaginary data to end of real data
  * @return Array data as a one-dimensional vector
  */
-vector<double> GEArray::getData(bool imag) {
-    int elements = imag && isComplex() ? totalElements() : this->num_elements_;
+vector<double> GEArray::getData(bool imag) const {
+	if (imag && !isComplex())
+		return vector<double>();
+
+    int elements = imag ? totalElements() : this->num_elements_;
 
     vector<double> ret(elements);
 
-    for (int i = 0; i < elements; ++i)
-        ret[i] = *(this->data_ + i);
+	memcpy(ret.data(), this->data_.data() + this->dims_, elements * sizeof(double));
 
-    return ret;
+	return ret;
 }
 
 /**
@@ -701,14 +691,13 @@ echo implode(", ", $c->getImagData()) . PHP_EOL;
  *
  * @return Array data as a one-dimensional vector
  */
-vector<double> GEArray::getImagData() {
-    vector<double> ret(this->num_elements_);
-
+vector<double> GEArray::getImagData() const {
     if (!isComplex())
-        return vector<double>(0);
+        return vector<double>();
 
-    for (int i = 0; i < this->num_elements_; ++i)
-        ret[i] = *(this->data_ + this->num_elements_ + i);
+	vector<double> ret(this->num_elements_);
+
+	memcpy(ret.data(), this->data_.data() + this->num_elements_ + this->dims_, this->num_elements_ * sizeof(double));
 
     return ret;
 }
@@ -740,11 +729,14 @@ a orders = 2x3x4
  *
  * @return        Vector of array orders
  */
-vector<int> GEArray::getOrders() {
+vector<int> GEArray::getOrders() const {
+	if (this->dims_ < 1)
+		return vector<int>();
+
     vector<int> ret(this->dims_);
 
-    for (int i = 0; i < this->dims_; ++i)
-        ret[i] = *(this->orders_ + i);
+	for (int i = 0; i < this->dims_; ++i)
+		ret[i] = (int)this->data_[i];
 
     return ret;
 }
@@ -779,7 +771,7 @@ a order count = 3
  *
  * @return        Array dimension count
  */
-int GEArray::getDimensions() {
+int GEArray::getDimensions() const {
     return this->dims_;
 }
 
@@ -789,17 +781,39 @@ int GEArray::getDimensions() {
  *
  * @return        Total element count
  */
-int GEArray::size() {
+int GEArray::size() const {
     return this->num_elements_;
 }
 
 void GEArray::clear() {
-    if (this->orders_)
-        delete[] this->orders_;
+	this->data_.resize(3);
+	this->data_[0] = 1;
+	this->data_[1] = 1;
+	this->data_[2] = 0;
 
-    if (this->data_)
-        delete[] this->data_;
+	this->dims_ = 2;
+	this->num_elements_ = 1;
 
-    this->orders_ = NULL;
-    this->data_ = NULL;
+	GESymbol::clear();
+}
+
+Array_t* GEArray::toInternal() {
+    const int dims = getDimensions();
+    const int sz = size();
+
+    if (!dims || !sz)
+        return nullptr;
+
+    Array_t *newArray = new Array_t;
+
+    if (!newArray)
+        return nullptr;
+
+    newArray->dims = dims;
+    newArray->nelems = sz;
+    newArray->complex = static_cast<int>(isComplex());
+    newArray->adata = data_.data();
+    newArray->freeable = FALSE;
+
+    return newArray;
 }

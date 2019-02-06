@@ -10,13 +10,14 @@
   * Wrapper for a WorkspaceHandle_t* object.
   *
   */
-class GEWorkspace
+class GAUSS_EXPORT GEWorkspace
 {
 public:
     GEWorkspace(WorkspaceHandle_t*);
-    GEWorkspace(std::string, WorkspaceHandle_t*);
+    GEWorkspace(const std::string &, WorkspaceHandle_t*);
+    ~GEWorkspace();
 
-    void setName(std::string);
+    void setName(const std::string &);
     std::string name();
 
     void setWorkspace(WorkspaceHandle_t*);

@@ -1,16 +1,17 @@
 #include "gestringarray.h"
 #include <iostream>
 #include <cstring>
+#include <cmath>
 #include <sstream>
 using namespace std;
 
-GEStringArray::GEStringArray()
+GEStringArray::GEStringArray() : GESymbol(GESymType::STRING_ARRAY)
 {
     this->setRows(1);
     this->setCols(1);
 }
 
-GEStringArray::GEStringArray(StringArray_t *sa) {
+GEStringArray::GEStringArray(StringArray_t *sa) : GESymbol(GESymType::STRING_ARRAY) {
     fromStringArray(sa);
 }
 
@@ -38,8 +39,8 @@ Open    High    Low
  *
  * @param data
  */
-GEStringArray::GEStringArray(vector<string> data) {
-    setData(data, 1, data.size());
+GEStringArray::GEStringArray(VECTOR_DATA(string) data) : GESymbol(GESymType::STRING_ARRAY) {
+    setData(data, 1, VECTOR_VAR(data) size());
 }
 
 /**
@@ -68,7 +69,7 @@ Low     Close
  * @param rows        Row count
  * @param cols        Column count
  */
-GEStringArray::GEStringArray(vector<string> data, int rows, int cols) {
+GEStringArray::GEStringArray(VECTOR_DATA(string) data, int rows, int cols) : GESymbol(GESymType::STRING_ARRAY) {
     setData(data, rows, cols);
 }
 
@@ -97,13 +98,47 @@ bar
  * @param col        Column index
  * @return        Value at specified index
  */
-string GEStringArray::getElement(int row, int col) {
+string GEStringArray::getElement(int row, int col) const {
     unsigned int index = row * this->getCols() + col;
 
-    if (index >= data_.size() || row >= this->getRows() || col >= this->getCols())
+    if (index >= this->data_.size() || row >= this->getRows() || col >= this->getCols())
         return string();
 
-    return string(this->data_[index]);
+    return this->data_[index];
+}
+
+/**
+ * Return the string value at the absolute position _index_.
+ *
+ * Example:
+ *
+ * #### Python ####
+ * ~~~{.py}
+sa = GEStringArray(["foo", "bar", "baz"])
+print sa[-2]
+ * ~~~
+ *
+ * #### PHP ####
+ * ~~~{.php}
+$sa = new GEStringArray(array("foo", "bar", "baz"));
+echo $sa->getElement(0, 1);
+ * ~~~
+ * results in the output:
+ * ~~~
+bar
+ * ~~~
+ *
+ * @param index        Index
+ * @return        Value at specified index
+ */
+string GEStringArray::getElement(int index) const {
+    if (index < 0)
+        index += this->data_.size();
+
+    if (index >= this->data_.size())
+        return string();
+
+    return this->data_[index];
 }
 
 /**
@@ -144,8 +179,8 @@ ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT
  *
  * @return        string vector
  */
-vector<string> GEStringArray::getData() {
-    return vector<string>(data_);
+vector<string> GEStringArray::getData() const {
+    return this->data_;
 }
 
 /**
@@ -155,13 +190,18 @@ vector<string> GEStringArray::getData() {
   * @param rows     Rows
   * @param cols     Cols
   */
-void GEStringArray::setData(vector<string> data, int rows, int cols) {
-    if (rows * cols > data.size()) {
-        rows = data.size();
+void GEStringArray::setData(VECTOR_DATA(string) data, int rows, int cols) {
+#ifdef SWIGPHP
+    data->swap(this->data_);
+    delete data;
+#else
+    this->data_ = data;
+#endif
+    if (rows * cols > this->data_.size()) {
+        rows = this->data_.size();
         cols = 1;
     }
 
-    this->data_ = data;
     this->setRows(rows);
     this->setCols(cols);
 }
@@ -192,7 +232,7 @@ foo        foo        baz
  * @param row      Row
  * @param col      Col
  */
-bool GEStringArray::setElement(string str, int row, int col) {
+bool GEStringArray::setElement(const string &str, int row, int col) {
     unsigned int index = row * this->getCols() + col;
 
     if (index >= data_.size())
@@ -203,8 +243,45 @@ bool GEStringArray::setElement(string str, int row, int col) {
     return true;
 }
 
+/**
+ * Set string value to _str_ at absolute position _index_.
+ *
+ * Example:
+ *
+ * #### Python ####
+ * ~~~{.py}
+sa = GEStringArray(["foo", "bar", "baz"])
+sa[1] = "foo"
+print sa
+ * ~~~
+ *
+ * #### PHP ####
+ * ~~~{.php}
+$sa = new GEStringArray(array("foo", "bar", "baz"));
+$sa->setElement("foo", 0, 1);
+echo $sa->toString();
+ * ~~~
+ * results in the output:
+ * ~~~
+foo        foo        baz
+ * ~~~
+ *
+ * @param index      Index
+ */
+bool GEStringArray::setElement(const string &str, int index) {
+    if (fabs(index) >= data_.size())
+        return false;
+
+    if (index < 0)
+        index += this->data_.size();
+
+    this->data_[index] = str;
+
+    return true;
+}
+
 bool GEStringArray::fromStringArray(StringArray_t *sa) {
-    if (sa == NULL)
+    if (sa == nullptr)
         return false;
 
     int rows = sa->rows;
@@ -218,24 +295,13 @@ bool GEStringArray::fromStringArray(StringArray_t *sa) {
 
     int element_count = rows * cols;
 
-    this->data_.clear();
     this->data_.resize(element_count);
 
-    StringElement_t *current_ptr = 0;
-    StringElement_t *base_ptr = sa->table;
-    size_t base_offset = sa->baseoffset;
+    StringElement_t *sep = sa->table;
+    const char *buffer_start = (const char*)(sa->table + element_count);
 
-    char *ch_ptr;
-
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            current_ptr = base_ptr + (i * cols + j);
-            ch_ptr = (char*)((char*)base_ptr + base_offset + current_ptr->offset);
-
-            string val = string(ch_ptr);
-            this->data_[i * cols + j] = val;
-        }
-    }
+    for (int i = 0; i < element_count; ++i, ++sep)
+        this->data_[i] = string(buffer_start + sep->offset);
 
     GAUSS_Free(sa->table);
     GAUSS_Free(sa);
@@ -243,7 +309,7 @@ bool GEStringArray::fromStringArray(StringArray_t *sa) {
     return true;
 }
 
-string GEStringArray::toString() {
+string GEStringArray::toString() const {
     stringstream s;
 
     int rows = getRows();
@@ -251,12 +317,74 @@ string GEStringArray::toString() {
 
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            s << getElement(i, j) << '\t';
+            s << getElement(i, j);
+
+            if (j < cols - 1)
+                s << '\t';
         }
 
         if (i < rows - 1)
-            s << endl;
+            s << '\n';
     }
 
     return s.str();
+}
+
+StringArray_t* GEStringArray::toInternal() {
+    if (!size())
+        return nullptr;
+
+    StringArray_t *sa;
+    StringElement_t *stable;
+    StringElement_t *sep;
+    size_t elem;
+    size_t strsize, sasize;
+
+    sa = (StringArray_t *)malloc(sizeof(StringArray_t));
+
+    if (sa == nullptr)
+        return nullptr;
+
+    elem = size();
+    sa->baseoffset = (size_t)(elem*sizeof(StringElement_t));
+
+    stable = (StringElement_t *)malloc(sa->baseoffset);
+
+    if (stable == nullptr)
+    {
+        free(sa);
+        return nullptr;
+    }
+
+    sep = stable;
+    strsize = 0;
+
+    for (int i = 0; i < elem; ++i, ++sep) {
+        sep->offset = strsize;
+        sep->length = data_.at(i).length() + 1;
+        strsize += sep->length;
+    }
+
+    sasize = getsize(strsize + sa->baseoffset, 1, 1);
+    stable = (StringElement_t*)realloc(stable, sasize * sizeof(double));
+
+    if (stable == nullptr)
+    {
+        free(sa);
+        free(stable);
+        return nullptr;
+    }
+
+    sep = stable;
+
+    for (int i = 0; i < elem; ++i, ++sep)
+        memcpy((char *)stable + sa->baseoffset + sep->offset, data_.at(i).c_str(), sep->length);
+
+    sa->size = sasize;
+    sa->rows = getRows();
+    sa->cols = getCols();
+    sa->table = stable;
+    sa->freeable = TRUE;
+
+    return sa;
 }

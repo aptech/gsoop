@@ -1,24 +1,32 @@
 #ifndef GAUSS_H
 #define GAUSS_H
 
-//#ifdef GAUSS_LIBRARY
-//    #define DLL __attribute__((visibility("default"))) //__attribute__((dllexport)) // export
-//#else
-//    #define DLL __attribute__((dllimport)) // import
-//#endif
+#ifdef SWIG
+#define GAUSS_EXPORT 
+#endif
 
-#include <iostream>
+#ifndef GAUSS_EXPORT
+#ifdef _WIN32
+#ifdef GAUSS_LIBRARY
+#    define GAUSS_EXPORT _declspec(dllexport)
+#else
+#    define GAUSS_EXPORT _declspec(dllimport)
+#endif
+#else
+#    define GAUSS_EXPORT __attribute__((visibility("default")))
+#endif
+#endif
+
+#include <stdio.h>
 #include <cstdlib>
-#include <vector>
-#include <map>
 #include <utility>
-#include "mteng.h"
-#include "gesymtype.h"
-using namespace std;
+#include <mteng.h>
+#include <string>
 
+class doubleArray;
+class GESymbol;
 class GEArray;
 class GEMatrix;
-class GEString;
 class GEStringArray;
 class GEWorkspace;
 class WorkspaceManager;
@@ -27,7 +35,9 @@ class IGEProgramFlushOutput;
 class IGEProgramInputString;
 class IGEProgramInputChar;
 class IGEProgramInputCheck;
+class GAUSSPrivate;
 
+#define getsize(R,C,S) ((R)*(C)*(S)/(size_t)8 + ( ((R)*(C)*(S))%(size_t)8 != (size_t)0 ) )
 #define UNUSED_VAR(x) (void*)x;
 
 /**
@@ -37,106 +47,126 @@ class IGEProgramInputCheck;
  *
  * #### Python ####
  * ~~~{.py}
-ge = GAUSS() # Use MTENGHOME14 environment variable value as GAUSS home location
+ge = GAUSS() # Use MTENGHOME environment variable value as GAUSS home location
 ge = GAUSS("MYHOMEVAR") # Use specified environment variable for GAUSS home location
 ge = GAUSS("/home/user/mteng", False) # Use specified paths for GAUSS home location
  * ~~~
  *
  * #### PHP ####
  * ~~~{.php}
-$ge = new GAUSS(); // Use MTENGHOME14 environment variable value as GAUSS home location
+$ge = new GAUSS(); // Use MTENGHOME environment variable value as GAUSS home location
 $ge = new GAUSS("MYHOMEVAR"); // Use specified environment variable for GAUSS home location
 $ge = new GAUSS("/home/user/mteng", false); // Use specified paths for GAUSS home location
  * ~~~
  *
  */
-class GAUSS {
+class GAUSS_EXPORT GAUSS {
 public:
-    GAUSS(void);
-    GAUSS(string, bool isEnvVar = true);
-    ~GAUSS();
+    GAUSS();
+    GAUSS(std::string, bool isEnvVar = true);
+    virtual ~GAUSS();
 
     // init
     bool initialize();
     void shutdown();
 
     // home
-    bool setHome(string);
-    bool setHomeVar(string);
-    string getHome();
-    string getHomeVar();
-    string getLogFile();
-    bool setLogFile(string, string);
+    bool setHome(std::string path);
+    bool setHomeVar(std::string environment);
+    std::string getHome() const;
+    std::string getHomeVar() const;
+    std::string getLogFile() const;
+    bool setLogFile(std::string filename, std::string mode);
 
     // errors
-    string getLastErrorText();
-    string getErrorText(int);
-    int getError();
+    std::string getLastErrorText() const;
+    std::string getErrorText(int) const;
+    int getError() const;
     void setError(int);
 
     // workspaces
-    GEWorkspace* createWorkspace(string);
-    bool destroyWorkspace(GEWorkspace*);
+    GEWorkspace* createWorkspace(std::string name);
+    bool destroyWorkspace(GEWorkspace *workspace);
     void destroyAllWorkspaces();
-    GEWorkspace* getWorkspace(string);
-    GEWorkspace* getActiveWorkspace();
-    bool setActiveWorkspace(GEWorkspace*);
-    GEWorkspace* loadWorkspace(string);
-    string getWorkspaceName(GEWorkspace*);
-    void updateWorkspaceName(GEWorkspace*);
+    GEWorkspace* getWorkspace(std::string name) const;
+    GEWorkspace* getActiveWorkspace() const;
+    bool setActiveWorkspace(GEWorkspace *workspace);
+    GEWorkspace* loadWorkspace(std::string filename);
+    std::string getWorkspaceName(GEWorkspace *workspace) const;
+    void updateWorkspaceName(GEWorkspace *workspace);
 
-    bool saveWorkspace(GEWorkspace*, string);
-    bool saveProgram(ProgramHandle_t*, string);
-    string translateDataloopFile(string srcfile);
+    bool saveWorkspace(GEWorkspace *workspace, std::string filename);
+    bool saveProgram(ProgramHandle_t *programHandle, std::string filename);
+    std::string translateDataloopFile(std::string filename);
 
     // program execution
-    bool executeString(string);
-    bool executeString(string, GEWorkspace*);
-    bool executeFile(string);
-    bool executeFile(string, GEWorkspace*);
-    bool executeCompiledFile(string);
-    bool executeCompiledFile(string, GEWorkspace*);
-    ProgramHandle_t* compileString(string);
-    ProgramHandle_t* compileString(string, GEWorkspace*);
-    ProgramHandle_t* compileFile(string);
-    ProgramHandle_t* compileFile(string, GEWorkspace*);
-    ProgramHandle_t* loadCompiledFile(string);
-    ProgramHandle_t* loadCompiledFile(string, GEWorkspace*);
-    bool executeProgram(ProgramHandle_t*);
-    void freeProgram(ProgramHandle_t*);
+    bool executeString(std::string code);
+    bool executeString(std::string code, GEWorkspace *workspace);
+    bool executeFile(std::string filename);
+    bool executeFile(std::string filename, GEWorkspace *workspace);
+    bool executeCompiledFile(std::string filename);
+    bool executeCompiledFile(std::string filename, GEWorkspace *workspace);
+    ProgramHandle_t* compileString(std::string code);
+    ProgramHandle_t* compileString(std::string code, GEWorkspace *workspace);
+    ProgramHandle_t* compileFile(std::string filename);
+    ProgramHandle_t* compileFile(std::string filename, GEWorkspace *workspace);
+    ProgramHandle_t* loadCompiledFile(std::string filename);
+    ProgramHandle_t* loadCompiledFile(std::string filename, GEWorkspace *workspace);
+    bool executeProgram(ProgramHandle_t *programHandle);
+    void freeProgram(ProgramHandle_t *programHandle);
 
-    string makePathAbsolute(string);
-    string programInputString();
-    int getSymbolType(string);
-    int getSymbolType(string, GEWorkspace*);
+    std::string makePathAbsolute(std::string path);
+    std::string programInputString();
+    int getSymbolType(std::string name) const;
+    int getSymbolType(std::string name, GEWorkspace *workspace) const;
 
-    double getScalar(string);
-    double getScalar(string, GEWorkspace*);
-    GEMatrix* getMatrix(string);
-    GEMatrix* getMatrix(string, GEWorkspace*);
-    GEMatrix* getMatrixAndClear(string);
-    GEMatrix* getMatrixAndClear(string, GEWorkspace*);
-    GEArray* getArray(string);
-    GEArray* getArray(string, GEWorkspace*);
-    GEArray* getArrayAndClear(string);
-    GEArray* getArrayAndClear(string, GEWorkspace*);
-    GEString* getString(string);
-    GEString* getString(string, GEWorkspace*);
-    GEStringArray* getStringArray(string);
-    GEStringArray* getStringArray(string, GEWorkspace*);
+    double getScalar(std::string name) const;
+    double getScalar(std::string name, GEWorkspace *workspace) const;
+    GEMatrix* getMatrix(std::string name) const;
+    GEMatrix* getMatrix(std::string name, GEWorkspace *workspace) const;
+    GEMatrix* getMatrixAndClear(std::string name) const;
+    GEMatrix* getMatrixAndClear(std::string name, GEWorkspace *workspace) const;
+    GEArray* getArray(std::string name) const;
+    GEArray* getArray(std::string name, GEWorkspace *workspace) const;
+    GEArray* getArrayAndClear(std::string name) const;
+    GEArray* getArrayAndClear(std::string name, GEWorkspace *workspace) const;
+    std::string getString(std::string name) const;
+    std::string getString(std::string name, GEWorkspace *workspace) const;
+    GEStringArray* getStringArray(std::string name) const;
+    GEStringArray* getStringArray(std::string name, GEWorkspace *workspace) const;
 
-    bool setSymbol(GEMatrix*, string);
-    bool setSymbol(GEMatrix*, string, GEWorkspace*);
-    bool setSymbol(GEArray*, string);
-    bool setSymbol(GEArray*, string, GEWorkspace*);
-    bool setSymbol(GEString*, string);
-    bool setSymbol(GEString*, string, GEWorkspace*);
-    bool setSymbol(GEStringArray*, string);
-    bool setSymbol(GEStringArray*, string, GEWorkspace*);
+    bool setSymbol(GEMatrix*, std::string name);
+    bool setSymbol(GEMatrix*, std::string name, GEWorkspace *workspace);
+    bool setSymbol(GEArray*, std::string name);
+    bool setSymbol(GEArray*, std::string name, GEWorkspace *workspace);
+    bool setSymbol(std::string, std::string name);
+    bool setSymbol(std::string, std::string name, GEWorkspace *workspace);
+    bool setSymbol(GEStringArray*, std::string name);
+    bool setSymbol(GEStringArray*, std::string name, GEWorkspace *workspace);
 
-    bool isMissingValue(double);
+	bool moveSymbol(GEMatrix*, std::string name);
+	bool moveSymbol(GEMatrix*, std::string name, GEWorkspace *workspace);
+	bool moveSymbol(GEArray*, std::string name);
+	bool moveSymbol(GEArray*, std::string name, GEWorkspace *workspace);
+	bool moveSymbol(GEStringArray *symbol, std::string name);
+	bool moveSymbol(GEStringArray *symbol, std::string name, GEWorkspace *workspace);
 
-    static double kMissingValue;
+    bool moveMatrix(doubleArray *data, int rows, int cols, bool complex, std::string name);
+    bool moveMatrix(doubleArray *data, int rows, int cols, bool complex, std::string name, GEWorkspace* workspace);
+
+    doubleArray* getMatrixDirect(std::string name);
+    doubleArray* getMatrixDirect(std::string name, GEWorkspace* workspace);
+
+    bool _setSymbol(doubleArray *data, std::string name);
+    bool _setSymbol(doubleArray *data, std::string name, GEWorkspace *workspace);
+
+    bool _setSymbol(GESymbol *symbol, std::string name);
+    bool _setSymbol(GESymbol *symbol, std::string name, GEWorkspace *workspace);
+
+    GESymbol* getSymbol(std::string name) const;
+    GESymbol* getSymbol(std::string name, GEWorkspace *workspace) const;
+
+    static bool isMissingValue(double);
 
     static void internalHookOutput(char *output);
     static void internalHookError(char *output);
@@ -146,32 +176,26 @@ public:
     static int internalHookInputBlockingChar();
     static int internalHookInputCheck();
 
-	string getOutput();
+    std::string getOutput();
     void clearOutput();
-	string getErrorOutput();
+    std::string getErrorOutput();
     void clearErrorOutput();
 
-    void setProgramOutputAll(IGEProgramOutput *func);
-    void setProgramOutput(IGEProgramOutput *func);
-    void setProgramErrorOutput(IGEProgramOutput *func);
-    void setProgramFlushOutput(IGEProgramFlushOutput *func);
-    void setProgramInputString(IGEProgramInputString *func);
-    void setProgramInputChar(IGEProgramInputChar *func);
-    void setProgramInputCharBlocking(IGEProgramInputChar *func);
-    void setProgramInputCheck(IGEProgramInputCheck *func);
+    static void setOutputModeManaged(bool managed);
+    static bool outputModeManaged();
 
-    static IGEProgramOutput *outputFunc_;
-    static IGEProgramOutput *errorFunc_;
-    static IGEProgramFlushOutput *flushFunc_;
-    static IGEProgramInputString *inputStringFunc_;
-    static IGEProgramInputChar *inputCharFunc_;
-    static IGEProgramInputChar *inputBlockingCharFunc_;
-    static IGEProgramInputCheck *inputCheckFunc_;
+    static void setProgramOutputAll(IGEProgramOutput *func);
+    static void setProgramOutput(IGEProgramOutput *func);
+    static void setProgramErrorOutput(IGEProgramOutput *func);
+    static void setProgramFlushOutput(IGEProgramFlushOutput *func);
+    static void setProgramInputString(IGEProgramInputString *func);
+    static void setProgramInputChar(IGEProgramInputChar *func);
+    static void setProgramInputCharBlocking(IGEProgramInputChar *func);
+    static void setProgramInputCheck(IGEProgramInputCheck *func);
 
-private:
-    void Init(string);
-
+protected:
     // Keep these private, since we have accessors in place for these.
+    void resetHooks();
     void setHookOutput(void (*display_string_function)(char *str));
     void setHookProgramErrorOutput(void (*display_error_string_function)(char *));
     void setHookProgramOutput(void (*display_string_function)(char *str));
@@ -182,21 +206,18 @@ private:
     void setHookProgramInputString(int (*get_string_function)(char *, int));
     void setHookProgramInputCheck(int (*get_string_function)(void));
 
-    string gauss_home_;
-    WorkspaceManager *manager_;
+private:
+    void Init(std::string homePath);
 
-    char* removeConst(string*);
+    GAUSSPrivate *d;
 
-    Matrix_t* createTempMatrix(GEMatrix*);
-    StringArray_t* createTempStringArray(GEStringArray*);
-    String_t* createPermString(GEString*);
-    Array_t* createPermArray(GEArray*);
-
-    static string kHomeVar;
-    static pthread_mutex_t kOutputMutex;
-    static std::map<int, string> kOutputStore;
-    static pthread_mutex_t kErrorMutex;
-    static std::map<int, string> kErrorStore;
+    static IGEProgramOutput *outputFunc_;
+    static IGEProgramOutput *errorFunc_;
+    static IGEProgramFlushOutput *flushFunc_;
+    static IGEProgramInputString *inputStringFunc_;
+    static IGEProgramInputChar *inputCharFunc_;
+    static IGEProgramInputChar *inputBlockingCharFunc_;
+    static IGEProgramInputCheck *inputCheckFunc_;
 };
 
 

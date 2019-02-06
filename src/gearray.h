@@ -3,49 +3,50 @@
 
 #include "gesymbol.h"
 
-class GEMatrix;
-
 /**
  * GAUSS Array symbol type. This represents An N-dimensional array of double precision numbers.
  *
  */
-class GEArray : public GESymbol
+class GAUSS_EXPORT GEArray : public GESymbol
 {
 public:
     GEArray();
-    GEArray(vector<int>, vector<double>, bool complex = false);
+    GEArray(vector<int> orders, VECTOR_DATA(double) data, bool complex = false);
+    GEArray(const int *orders, int orders_len, const double *data, int data_len, bool complex = false);
 
-    GEMatrix* getPlane(vector<int>, bool imag = false);
-    vector<double> getVector(vector<int>, bool imag = false);
+    GEMatrix* getPlane(vector<int> orders, bool imag = false) const;
+    vector<double> getVector(vector<int> orders, bool imag = false) const;
 
-    double getElement(vector<int>, bool imag = false);
-    bool setElement(double, vector<int>, bool imag = false);
+    double getElement(vector<int> orders, bool imag = false) const;
+    bool setElement(double, vector<int> orders, bool imag = false);
 
-    vector<double> getData(bool imag = false);
-    vector<double> getImagData();
-    vector<int> getOrders();
+    vector<double> getData(bool imag = false) const;
+    vector<double> getImagData() const;
+    vector<int> getOrders() const;
 
-    int getDimensions();
-    virtual int size();
+    int getDimensions() const;
+    virtual int size() const;
 
-    virtual std::string toString();
+    virtual std::string toString() const;
     virtual void clear();
+
+    Array_t* toInternal();
 
 private:
     GEArray(Array_t*);
     bool Init(Array_t *);
-    void Init(vector<int>, vector<double>, bool complex = false);
-    int totalElements() { return num_elements_ * (isComplex() ? 2: 1); }
+    void Init(const int *orders, int orders_len, const double *data, int data_len, bool complex);
+    size_t totalElements() const { return this->num_elements_ * (isComplex() ? 2: 1); }
 
     // Holds array data
-    double *data_;
+	vector<double> data_;
 
     // Orders of array
-    int *orders_;
     int dims_;
-    int num_elements_;
+    size_t num_elements_;
 
     friend class GAUSS;
+    friend class GAUSSPrivate;
 };
 
 #endif // GEARRAY_H

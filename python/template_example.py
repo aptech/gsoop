@@ -1,5 +1,5 @@
 import sys
-from gauss import *
+from ge import *
 
 # Sample template file that imports all functionality
 # from the GAUSS library. Multiple callbacks are
@@ -10,11 +10,11 @@ from gauss import *
 
 class Output(IGEProgramOutput):
     def invoke(self, output):
-        print output,
+        print(output, end='', flush=True)
 
 class FlushOutput(IGEProgramFlushOutput):
     def invoke(self):
-        print "A flush was requested."
+        print("A flush was requested.")
 
 class StringInput(IGEProgramInputString):
     # length is the maximum accepted string length
@@ -28,10 +28,10 @@ class CharInput(IGEProgramInputChar):
 class InputCheck(IGEProgramInputCheck):
     def invoke(self):
         # We pretend we have character input available.
-        print "Input check requested"
+        print("Input check requested")
         return 1
 
-print "[*] Instantiating GAUSS Engine"
+print("[*] Instantiating GAUSS Engine")
 
 ge = GAUSS()
 
@@ -61,14 +61,14 @@ inputCheckCallback = InputCheck()
 inputCheckCallback.thisown = 0
 ge.setProgramInputCheck(inputCheckCallback)
 
-print "[*] GAUSS Engine callbacks successfully created and assigned"
+print("[*] GAUSS Engine callbacks successfully created and assigned")
 
 # Initialize the engine
 if not ge.initialize():
-    print "[-] GAUSS Engine failed to initialize"
+    print("[-] GAUSS Engine failed to initialize")
     sys.exit(1)
 
-print "[*] GAUSS Engine initialized successfully"
+print("[*] GAUSS Engine initialized successfully")
 
 ###############################
 #     Code Snippet Template   #
@@ -82,12 +82,14 @@ ge.executeString("a = areshape(seqa(1, 1, 24), 2|3|4)")
 ge.executeString("b = areshape(seqa(25, 1, 24), 2|3|4)")
 ge.executeString("c = complex(a, b)")
 c = ge.getArray("c")
-print ", ".join(str(n) for n in c.getData())
+print(", ".join(str(n) for n in c.getData()))
 
 ###############################
 
-print "[*] Trying to shut down GAUSS Engine"
+#print("[*] Trying to shut down GAUSS Engine")
+#ge.shutdown()
 
-ge.shutdown()
+ge.executeString("x = seqa(1,1,20)")
+x = ge.getMatrix("x")
 
-print "[*] GAUSS Engine has been shutdown"
+print("[*] GAUSS Engine has been shutdown")

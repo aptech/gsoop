@@ -12,22 +12,29 @@ using namespace std;
  * internally as a vector.
  *
  */
-class GEStringArray : public GESymbol
+class GAUSS_EXPORT GEStringArray : public GESymbol
 {
 public:
     GEStringArray();
-    GEStringArray(vector<string>);
-    GEStringArray(vector<string>, int, int);
+    GEStringArray(VECTOR_DATA(string) data);
+    GEStringArray(VECTOR_DATA(string) data, int rows, int cols);
+    void setData(VECTOR_DATA(string) data, int, int);
+    bool setElement(const string &value, int index);
+    bool setElement(const string &value, int row, int col);
 
-    string getElement(int, int);
-    vector<string> getData();
+    string getElement(int index) const;
+    string getElement(int row, int col) const;
+    vector<string> getData() const;
 
-    void setData(vector<string>, int, int);
-    bool setElement(string, int, int);
+    virtual string toString() const;
+    virtual int size() const { return data_.size(); }
+	virtual void clear() { data_.clear(); data_.resize(1); setRows(1); setCols(1); }
 
-    virtual string toString();
-    virtual int size() { return data_.size(); }
-    virtual void clear() { data_.clear(); setRows(1); setCols(1); }
+    StringArray_t* toInternal();
+
+#ifdef SWIGPHP
+    int position_;
+#endif
 
 private:
     GEStringArray(StringArray_t*);
@@ -36,6 +43,7 @@ private:
     vector<string> data_;
 
     friend class GAUSS;
+    friend class GAUSSPrivate;
 };
 
 #endif // GESTRINGARRAY_H

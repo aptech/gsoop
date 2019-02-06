@@ -1,6 +1,6 @@
 <?php
 
-include("gauss.php");
+require_once("ge.php");
 
 // Sample template file that imports all functionality
 // from the GAUSS library. Multiple callbacks are
@@ -42,32 +42,32 @@ class InputCheck extends IGEProgramInputCheck {
 
 echo "[*] Instantiating GAUSS Engine" . PHP_EOL;
 
-$ge = new GAUSS();
+$ge = new GAUSS("/home/matt/mteng17", false);
 
 # Set output callback;
 $out = new Output();
-$out->thisown = 0;
+//$out->thisown = 0;
 $ge->setProgramOutputAll($out);
 
 # Set output flush callback;
 $flush = new FlushOutput();
-$flush->thisown = 0;
+//$flush->thisown = 0;
 $ge->setProgramFlushOutput($flush);
 
 // Set string input callback
 $inString = new StringInput();
-$inString->thisown = 0;
+//$inString->thisown = 0;
 $ge->setProgramInputString($inString);
 
 // Set character input callback
 $inChar = new CharInput();
-$inChar->thisown = 0;
+//$inChar->thisown = 0;
 $ge->setProgramInputCharBlocking($inChar);
 $ge->setProgramInputChar($inChar);
 
 // Set character input check callback
 $inputCheckCallback = new InputCheck();
-$inputCheckCallback->thisown = 0;
+//$inputCheckCallback->thisown = 0;
 $ge->setProgramInputCheck($inputCheckCallback);
 
 echo "[*] GAUSS Engine callbacks successfully created and assigned" . PHP_EOL;
@@ -92,6 +92,7 @@ $ge->executeString("a = areshape(seqa(1, 1, 24), 2|3|4)");
 $ge->executeString("b = areshape(seqa(25, 1, 24), 2|3|4)");
 $ge->executeString("c = complex(a, b)");
 $c = $ge->getArray("c");
+echo "c getData = " . var_dump($c->getData()) . PHP_EOL;
 echo implode(", ", $c->getData()) . PHP_EOL;
 
 echo "[*] Trying to shut down GAUSS Engine" . PHP_EOL;

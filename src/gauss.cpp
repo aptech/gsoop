@@ -1,15 +1,18 @@
-#include "gauss.h"
 #include <cstring>
 #include <cctype>    // for isalnum()
 #include <algorithm> // for back_inserter
+#include <iostream>
+#include <memory>
+
 #include "gearray.h"
 #include "gematrix.h"
-#include "gestring.h"
 #include "gestringarray.h"
 #include "geworkspace.h"
 #include "workspacemanager.h"
 #include "gefuncwrapper.h"
-#include "pthread.h"
+#include "gauss_p.h"
+#include "gauss.h"
+
 #ifdef _WIN32
 #include "windows.h"
 #else
@@ -20,6 +23,7 @@
 #endif
 
 #include <stdio.h>
+#include <mutex>
 using namespace std;
 
 #ifdef _WIN32
@@ -33,12 +37,13 @@ using namespace std;
 /**
  * Bit pattern of a double missing value (NaN)
  */
-double GAUSS::kMissingValue;
+static double kMissingValue = GAUSS_MissingValue();
+static std::string kHomeVar = "MTENGHOME";
 
-map<int, string> GAUSS::kOutputStore;
-pthread_mutex_t GAUSS::kOutputMutex;
-map<int, string> GAUSS::kErrorStore;
-pthread_mutex_t GAUSS::kErrorMutex;
+static unordered_map<int, std::string> kOutputStore;
+static std::mutex kOutputMutex;
+static unordered_map<int, std::string> kErrorStore;
+static std::mutex kErrorMutex;
 
 IGEProgramOutput* GAUSS::outputFunc_ = 0;
 IGEProgramOutput* GAUSS::errorFunc_ = 0;
@@ -48,9 +53,11 @@ IGEProgramInputChar* GAUSS::inputCharFunc_ = 0;
 IGEProgramInputChar* GAUSS::inputBlockingCharFunc_ = 0;
 IGEProgramInputCheck* GAUSS::inputCheckFunc_ = 0;
 
-string GAUSS::kHomeVar = "MTENGHOME";
+static char* removeConst(std::string *str) {
+    return const_cast<char*>(str->c_str());
+}
 
-int getThreadId() {
+static int getThreadId() {
     int tid = -1;
 
 #ifdef _WIN32
@@ -59,8 +66,8 @@ int getThreadId() {
     tid = (int)syscall(SYS_gettid);
 #endif
 
-//    printf("thread id is %d\n", tid);
-//    fflush(stdout);
+    //    printf("thread id is %d\n", tid);
+    //    fflush(stdout);
 
     return tid;
 }
@@ -69,16 +76,16 @@ int getThreadId() {
  * Initialize the library using the environment variable value of `MTENGHOME` as the
  * path for the GAUSS Home path.
  *
- * @see GAUSS(string, bool)
+ * @see GAUSS(std::string, bool)
  */
-GAUSS::GAUSS(void)
+GAUSS::GAUSS()
 {
-    char *envVal = getenv(GAUSS::kHomeVar.c_str());
+    char *envVal = getenv(kHomeVar.c_str());
 
-    string homeVal;
+    std::string homeVal;
 
     if (envVal)
-        homeVal = string(envVal);
+        homeVal = std::string(envVal);
 
     Init(homeVal);
 }
@@ -120,24 +127,23 @@ GAUSS ge = new GAUSS("MY_CUSTOM_VAR");
  *
  * @see        GAUSS()
  */
-GAUSS::GAUSS(string inp, bool isEnvVar) {
-    string homeVal = inp;
+GAUSS::GAUSS(std::string inp, bool isEnvVar) {
+    std::string homeVal = inp;
 
     if (isEnvVar) {
         char *envVal = getenv(inp.c_str());
 
         if (envVal)
-            homeVal = string(envVal);
+            homeVal = std::string(envVal);
     }
 
     Init(homeVal);
 }
 
-void GAUSS::Init(string homePath) {
-    this->gauss_home_ = homePath;
-    this->manager_ = new WorkspaceManager;
+void GAUSS::Init(std::string homePath) {
+    this->d = new GAUSSPrivate(homePath);
 
-    GAUSS::kMissingValue = GAUSS_MissingValue();
+    resetHooks();
 
     GAUSS::outputFunc_ = 0;
     GAUSS::errorFunc_ = 0;
@@ -149,8 +155,8 @@ void GAUSS::Init(string homePath) {
 
     if (homePath.empty()) {
         cerr << "Unable to find GAUSS Home directory. Aborting." << endl;
-		cerr.flush();
-		return;
+        cerr.flush();
+        return;
     }
 }
 
@@ -168,41 +174,33 @@ void GAUSS::Init(string homePath) {
  * @see shutdown()
  */
 bool GAUSS::initialize() {
-    if (!setHome(this->gauss_home_)) {
-        string errorString = getLastErrorText();
+    if (!setHome(this->d->gauss_home_)) {
+        std::string errorString = getLastErrorText();
 
         cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << endl;
-		cerr.flush();
+        cerr.flush();
         return false;
     }
 
     if (GAUSS_Initialize() >  0) {
-        string errorString = getLastErrorText();
+        std::string errorString = getLastErrorText();
 
         cerr << "Could initialize GAUSS (Error: " << errorString << ")" << endl;
-		cerr.flush();
+        cerr.flush();
         return false;
     }
 
     GEWorkspace *wh = createWorkspace("main");
 
-    if (wh->workspace() == NULL) {
-        string errorString = getLastErrorText();
+    if (wh->workspace() == nullptr) {
+        std::string errorString = getLastErrorText();
 
         cerr << "Could not create workspace (Error: " << errorString << ")" << endl;
-		cerr.flush();
+        cerr.flush();
         return false;
     }
     
     setActiveWorkspace(wh);
-
-    setHookProgramOutput(GAUSS::internalHookOutput);
-    setHookProgramErrorOutput(GAUSS::internalHookError);
-    setHookFlushProgramOutput(GAUSS::internalHookFlush);
-    setHookProgramInputString(GAUSS::internalHookInputString);
-    setHookProgramInputChar(GAUSS::internalHookInputChar);
-    setHookProgramInputBlockingChar(GAUSS::internalHookInputBlockingChar);
-    setHookProgramInputCheck(GAUSS::internalHookInputCheck);
 
     return true;
 }
@@ -230,8 +228,8 @@ void GAUSS::shutdown() {
  * @see setActiveWorkspace(GEWorkspace*)
  * @see destroyWorkspace(GEWorkspace*)
  */
-GEWorkspace* GAUSS::createWorkspace(string name) {
-    return this->manager_->create(name);
+GEWorkspace* GAUSS::createWorkspace(std::string name) {
+    return this->d->manager_->create(name);
 }
 
 /**
@@ -242,22 +240,22 @@ GEWorkspace* GAUSS::createWorkspace(string name) {
  * @param wh Workspace handle
  * @return Whether workspace was successfully removed
  *
- * @see createWorkspace(string)
+ * @see createWorkspace(std::string)
  * @see destroyAllWorkspaces()
  */
 bool GAUSS::destroyWorkspace(GEWorkspace *wh) {
-    return this->manager_->destroy(wh);
+    return this->d->manager_->destroy(wh);
 }
 
 /**
  * Clears all workspaces. Note that you will not be able to manipulate symbols
  * without an active workspace.
  *
- * @see createWorkspace(string)
+ * @see createWorkspace(std::string)
  * @see destroyWorkspace(GEWorkspace*)
  */
 void GAUSS::destroyAllWorkspaces() {
-    this->manager_->destroyAll();
+    this->d->manager_->destroyAll();
 }
 
 /**
@@ -269,8 +267,8 @@ void GAUSS::destroyAllWorkspaces() {
  * @see setActiveWorkspace(GEWorkspace*)
  * @see getActiveWorkspace()
  */
-GEWorkspace* GAUSS::getWorkspace(string name) {
-    return this->manager_->getWorkspace(name);
+GEWorkspace* GAUSS::getWorkspace(std::string name) const {
+    return this->d->manager_->getWorkspace(name);
 }
 
 /**
@@ -280,21 +278,21 @@ GEWorkspace* GAUSS::getWorkspace(string name) {
  *
  * @see setActiveWorkspace(GEWorkspace*)
  */
-GEWorkspace* GAUSS::getActiveWorkspace() {
-    return this->manager_->getCurrent();
+GEWorkspace* GAUSS::getActiveWorkspace() const {
+    return this->d->manager_->getCurrent();
 }
 
 /**
  * Saves workspace information contained in a workspace handle into a file.
- * The file will have the name given by _fn_. Load the workspace information with loadWorkspace(string).
+ * The file will have the name given by _fn_. Load the workspace information with loadWorkspace(std::string).
  *
  * @param wh        Workspace object
  * @param fn        Filename to save workspace as
  *
- * @see loadWorkspace(string)
+ * @see loadWorkspace(std::string)
  */
-bool GAUSS::saveWorkspace(GEWorkspace *wh, string fn) {
-    if (!manager_->isValidWorkspace(wh))
+bool GAUSS::saveWorkspace(GEWorkspace *wh, std::string fn) {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
     return (GAUSS_SaveWorkspace(wh->workspace(), removeConst(&fn)) == GAUSS_SUCCESS);
@@ -303,15 +301,15 @@ bool GAUSS::saveWorkspace(GEWorkspace *wh, string fn) {
 /**
  * Saves a compiled program given by a program handle into a file. It saves all of the
  * workspace information, which is contained in the program handle. The file will have
- * the name given by _fn_. Load the program with loadCompiledFile(string).
+ * the name given by _fn_. Load the program with loadCompiledFile(std::string).
  *
  * @param ph        Program handle
  * @param fn        Filename to save program to
  * @return        True on success, false on failure
  *
- * @see loadCompiledFile(string)
+ * @see loadCompiledFile(std::string)
  */
-bool GAUSS::saveProgram(ProgramHandle_t *ph, string fn) {
+bool GAUSS::saveProgram(ProgramHandle_t *ph, std::string fn) {
     return (GAUSS_SaveProgram(ph, removeConst(&fn)) == GAUSS_SUCCESS);
 }
 
@@ -323,7 +321,7 @@ bool GAUSS::saveProgram(ProgramHandle_t *ph, string fn) {
  * @see getActiveWorkspace()
  */
 bool GAUSS::setActiveWorkspace(GEWorkspace *wh) {
-    return this->manager_->setCurrent(wh);
+    return this->d->manager_->setCurrent(wh);
 }
 
 /**
@@ -331,14 +329,14 @@ bool GAUSS::setActiveWorkspace(GEWorkspace *wh) {
  *
  * @return        Path to user GAUSS home directory.
  *
- * @see setHome(string)
+ * @see setHome(std::string)
  */
-string GAUSS::getHome() {
+std::string GAUSS::getHome() const {
     char buf[1024];
 
     GAUSS_GetHome(buf);
 
-    return string(buf);
+    return std::string(buf);
 }
 
 /**
@@ -346,14 +344,14 @@ string GAUSS::getHome() {
  *
  * @return        Environment variable name
  *
- * @see setHomeVar(string)
+ * @see setHomeVar(std::string)
  */
-string GAUSS::getHomeVar() {
+std::string GAUSS::getHomeVar() const {
     char buf[1024];
 
     GAUSS_GetHomeVar(buf);
 
-    return string(buf);
+    return std::string(buf);
 }
 
 /**
@@ -361,14 +359,14 @@ string GAUSS::getHomeVar() {
  *
  * @return        Path to log file
  *
- * @see setLogFile(string, string)
+ * @see setLogFile(std::string, std::string)
  */
-string GAUSS::getLogFile() {
+std::string GAUSS::getLogFile() const {
     char buf[1024];
 
     GAUSS_GetLogFile(buf);
 
-    return string(buf);
+    return std::string(buf);
 }
 
 /**
@@ -377,7 +375,7 @@ string GAUSS::getLogFile() {
  * @param path     Path to be analyzed
  * @return      Absolute representation of _path_ argument
  */
-string GAUSS::makePathAbsolute(string path) {
+std::string GAUSS::makePathAbsolute(std::string path) {
     char buf[4096];
 
     memset(buf, 0, sizeof(buf));
@@ -386,31 +384,31 @@ string GAUSS::makePathAbsolute(string path) {
 
     GAUSS_MakePathAbsolute(buf);
 
-    return string(buf);
+    return std::string(buf);
 }
 
 /**
- * Calls the program input string function hooked
+ * Calls the program input std::string function hooked
  * with setProgramInputString(IGEProgramInputString*).
  *
  * The callbacks are thread specific. programInputString will call the
- * input string function that was hooked in that particular thread.
+ * input std::string function that was hooked in that particular thread.
  *
  * @return        user input from hooked function
  *
  * @see setProgramInputString(IGEProgramInputString*)
  */
-string GAUSS::programInputString() {
+std::string GAUSS::programInputString() {
     char buf[4096];
 
     GAUSS_ProgramInputString(buf, 4096);
 
-    return string(buf);
+    return std::string(buf);
 }
 
 /**
  * Executes a command within the GAUSS Engine on the currently active workspace. If you wish to
- * run this command repeatedly, you can compile it first using compileString(string) and
+ * run this command repeatedly, you can compile it first using compileString(std::string) and
  * then execute it as many times as you wish with executeProgram(ProgramHandle_t*).
  *
  * Example:
@@ -436,15 +434,15 @@ ge.executeString("print x");
  * @param command Expression to execute.
  * @return true on success; false on failure
  *
- * @see compileString(string)
+ * @see compileString(std::string)
  */
-bool GAUSS::executeString(string command) {
+bool GAUSS::executeString(std::string command) {
     return executeString(command, getActiveWorkspace());
 }
 
 /**
  * Executes a command within the GAUSS Engine on a specific workspace. If you wish to
- * run this command repeatedly, you can compile it first using compileString(string) and
+ * run this command repeatedly, you can compile it first using compileString(std::string) and
  * then execute it as many times as you wish with executeProgram(ProgramHandle_t*).
  *
  * Example (Where `myWorkspace` is a GEWorkspace object):
@@ -470,10 +468,10 @@ ge.executeString("print x", myWorkspace);
  * @param command Expression to execute.
  * @return true on success; false on failure
  *
- * @see compileString(string)
+ * @see compileString(std::string)
  */
-bool GAUSS::executeString(string command, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+bool GAUSS::executeString(std::string command, GEWorkspace *wh) {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
     ProgramHandle_t *ph = GAUSS_CompileString(wh->workspace(), removeConst(&command), 0, 0);
@@ -490,7 +488,7 @@ bool GAUSS::executeString(string command, GEWorkspace *wh) {
 
 /**
  * Executes a named file within the GAUSS Engine on the currently active workspace. If you wish to
- * run this file repeatedly, you can compile it first using compileFile(string) and
+ * run this file repeatedly, you can compile it first using compileFile(std::string) and
  * then execute it as many times as you wish with executeProgram(ProgramHandle_t*).
  *
  * Example:
@@ -508,15 +506,15 @@ $success = $ge->executeFile("ols.e");
  * @param filename        Filename to execute.
  * @return true on success; false on failure
  *
- * @see compileFile(string)
+ * @see compileFile(std::string)
  */
-bool GAUSS::executeFile(string fname) {
+bool GAUSS::executeFile(std::string fname) {
     return executeFile(fname, getActiveWorkspace());
 }
 
 /**
  * Executes a named file within the GAUSS Engine on the a specific workspace. If you wish to
- * run this file repeatedly, you can compile it first using compileFile(string) and
+ * run this file repeatedly, you can compile it first using compileFile(std::string) and
  * then execute it as many times as you wish with executeProgram(ProgramHandle_t*).
  *
  * Example:
@@ -536,10 +534,10 @@ $success = $ge->executeFile("ols.e", $myWorkspace);
  * @param filename        Filename to execute.
  * @return true on success; false on failure
  *
- * @see compileFile(string)
+ * @see compileFile(std::string)
  */
-bool GAUSS::executeFile(string fname, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+bool GAUSS::executeFile(std::string fname, GEWorkspace *wh) {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
     ProgramHandle_t *ph = GAUSS_CompileFile(wh->workspace(), removeConst(&fname), 0, 0);
@@ -557,7 +555,7 @@ bool GAUSS::executeFile(string fname, GEWorkspace *wh) {
 /**
  * Executes a compiled gcg file within the GAUSS Engine on the active workspace. As soon as
  * the file is finished executing it sets the current workspace to what it was before this function
- * was called. If you wish to run this file repeatedly, you can load it first using loadCompiledFile(string)
+ * was called. If you wish to run this file repeatedly, you can load it first using loadCompiledFile(std::string)
  * and then execute it as many times as you wish with executeProgram(ProgramHandle_t*).
  *
  * Example:
@@ -580,17 +578,17 @@ bool success = ge.executeCompiledFile("example.gcg");
  * @param filename        gcg file to execute.
  * @return true on success; false on failure
  *
- * @see loadWorkspace(string)
- * @see loadCompiledFile(string)
+ * @see loadWorkspace(std::string)
+ * @see loadCompiledFile(std::string)
  */
-bool GAUSS::executeCompiledFile(string fname) {
+bool GAUSS::executeCompiledFile(std::string fname) {
     return executeCompiledFile(fname, getActiveWorkspace());
 }
 
 /**
  * Executes a compiled gcg file within the GAUSS Engine on a specific workspace. As soon as
  * the file is finished executing it sets the current workspace to what it was before this function
- * was called. If you wish to run this file repeatedly, you can load it first using loadCompiledFile(string)
+ * was called. If you wish to run this file repeatedly, you can load it first using loadCompiledFile(std::string)
  * and then execute it as many times as you wish with executeProgram(ProgramHandle_t*).
  *
  * Example (Where `myWorkspace` is a GEWorkspace object):
@@ -613,11 +611,11 @@ bool success = ge.executeCompiledFile("example.gcg", myWorkspace);
  * @param filename        gcg file to execute.
  * @return true on success; false on failure
  *
- * @see loadWorkspace(string)
- * @see loadCompiledFile(string)
+ * @see loadWorkspace(std::string)
+ * @see loadCompiledFile(std::string)
  */
-bool GAUSS::executeCompiledFile(string fname, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+bool GAUSS::executeCompiledFile(std::string fname, GEWorkspace *wh) {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
     ProgramHandle_t *ph = GAUSS_LoadCompiledFile(wh->workspace(), removeConst(&fname));
@@ -633,9 +631,9 @@ bool GAUSS::executeCompiledFile(string fname, GEWorkspace *wh) {
 }
 
 /**
- * Compiles a string and returns a program handle in the active workspace. This can then be followed with a call
+ * Compiles a std::string and returns a program handle in the active workspace. This can then be followed with a call
  * to executeProgram(ProgramHandle_t*). Note that if you do not care about keeping the program handle,
- * a convenience method executeString(string) is available.
+ * a convenience method executeString(std::string) is available.
  *
  * Example:
  *
@@ -667,17 +665,17 @@ Hello World!
  * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
- * @see executeString(string)
+ * @see executeString(std::string)
  * @see freeProgram
  */
-ProgramHandle_t* GAUSS::compileString(string command) {
+ProgramHandle_t* GAUSS::compileString(std::string command) {
     return compileString(command, getActiveWorkspace());
 }
 
 /**
- * Compiles a string and returns a program handle in the specified workspace. This can then be followed with a call
+ * Compiles a std::string and returns a program handle in the specified workspace. This can then be followed with a call
  * to executeProgram(ProgramHandle_t*). Note that if you do not care about keeping the program handle,
- * a convenience method executeString(string) is available.
+ * a convenience method executeString(std::string) is available.
  *
  * Example:
  *
@@ -711,12 +709,12 @@ Hello World!
  * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
- * @see executeString(string)
+ * @see executeString(std::string)
  * @see freeProgram
  */
-ProgramHandle_t* GAUSS::compileString(string command, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
-        return NULL;
+ProgramHandle_t* GAUSS::compileString(std::string command, GEWorkspace *wh) {
+    if (!this->d->manager_->isValidWorkspace(wh))
+        return nullptr;
 
     return GAUSS_CompileString(wh->workspace(), removeConst(&command), 0, 0);
 }
@@ -724,7 +722,7 @@ ProgramHandle_t* GAUSS::compileString(string command, GEWorkspace *wh) {
 /**
  * Compiles a file and returns a program handle in the active workspace. This can then be followed with a call
  * to executeProgram(ProgramHandle_t*). Note that if you do not care about keeping the program handle,
- * a convenience method executeFile(string) is available.
+ * a convenience method executeFile(std::string) is available.
  *
  * Example:
  *
@@ -744,17 +742,17 @@ $ge->executeProgram(ph);
  * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
- * @see executeFile(string)
+ * @see executeFile(std::string)
  * @see freeProgram
  */
-ProgramHandle_t* GAUSS::compileFile(string fname) {
+ProgramHandle_t* GAUSS::compileFile(std::string fname) {
     return compileFile(fname, getActiveWorkspace());
 }
 
 /**
  * Compiles a file and returns a program handle in a specific workspace. This can then be followed with a call
  * to executeProgram(ProgramHandle_t*). Note that if you do not care about keeping the program handle,
- * a convenience method executeFile(string) is available.
+ * a convenience method executeFile(std::string) is available.
  *
  * Example:
  *
@@ -776,11 +774,11 @@ $ge->executeProgram(ph);
  * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
- * @see executeFile(string)
+ * @see executeFile(std::string)
  */
-ProgramHandle_t* GAUSS::compileFile(string fname, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
-        return NULL;
+ProgramHandle_t* GAUSS::compileFile(std::string fname, GEWorkspace *wh) {
+    if (!this->d->manager_->isValidWorkspace(wh))
+        return nullptr;
 
     return GAUSS_CompileFile(wh->workspace(), removeConst(&fname), 0, 0);
 }
@@ -788,39 +786,39 @@ ProgramHandle_t* GAUSS::compileFile(string fname, GEWorkspace *wh) {
 /**
  * Loads an already compiled file into the active workspace and returns a program handle. This can then
  * be followed with a call to executeProgram(ProgramHandle_t*). Note that if you do not care about
- * keeping the program handle, a convenience method executeCompiledFile(string) is available.
+ * keeping the program handle, a convenience method executeCompiledFile(std::string) is available.
  *
  * @param fn        Filename to load
  * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
- * @see executeCompiledFile(string)
+ * @see executeCompiledFile(std::string)
  */
-ProgramHandle_t* GAUSS::loadCompiledFile(string fn) {
+ProgramHandle_t* GAUSS::loadCompiledFile(std::string fn) {
     return loadCompiledFile(fn, getActiveWorkspace());
 }
 
 /**
  * Loads an already compiled file into a specific workspace and returns a program handle. This can then
  * be followed with a call executeProgram(ProgramHandle_t*). Note that if you do not care about
- * keeping the program handle, a convenience method executeCompiledFile(string) is available.
+ * keeping the program handle, a convenience method executeCompiledFile(std::string) is available.
  *
  * @param fn        Filename to load
  * @return        Program handle
  *
  * @see executeProgram(ProgramHandle_t*)
- * @see executeCompiledFile(string)
+ * @see executeCompiledFile(std::string)
  */
-ProgramHandle_t* GAUSS::loadCompiledFile(string fn, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
-        return NULL;
+ProgramHandle_t* GAUSS::loadCompiledFile(std::string fn, GEWorkspace *wh) {
+    if (!this->d->manager_->isValidWorkspace(wh))
+        return nullptr;
 
     return GAUSS_LoadCompiledFile(wh->workspace(), removeConst(&fn));
 }
 
 /**
- * Executes a given program handle that was created with either compileString(string), compileFile(string),
- * or loadCompiledFile(string).
+ * Executes a given program handle that was created with either compileString(std::string), compileFile(std::string),
+ * or loadCompiledFile(std::string).
  *
  * Example:
  *
@@ -845,9 +843,9 @@ ge.executeProgram(ph);
  * @param ph Program handle
  * @return        True on success. False on failure
  *
- * @see compileString(string)
- * @see compileFile(string)
- * @see loadCompiledFile(string)
+ * @see compileString(std::string)
+ * @see compileFile(std::string)
+ * @see loadCompiledFile(std::string)
  * @see freeProgram(ProgramHandle_t*)
  */
 bool GAUSS::executeProgram(ProgramHandle_t *ph) {
@@ -855,12 +853,10 @@ bool GAUSS::executeProgram(ProgramHandle_t *ph) {
         return false;
 
     // Setup output hook
-    setHookProgramOutput(GAUSS::internalHookOutput);
-    setHookProgramErrorOutput(GAUSS::internalHookError);
+    resetHooks();
 
-	if (GAUSS_Execute(ph) > 0) {
+    if (GAUSS_Execute(ph) != 0)
         return false;
-	}
 
     return true;
 }
@@ -882,11 +878,11 @@ bool GAUSS::executeProgram(ProgramHandle_t *ph) {
  * @param gcgfile        name of file workspace is stored in
  * @return        pointer to a workspace handle.
  */
-GEWorkspace* GAUSS::loadWorkspace(string gcgfile) {
+GEWorkspace* GAUSS::loadWorkspace(std::string gcgfile) {
     WorkspaceHandle_t *wh = GAUSS_LoadWorkspace(removeConst(&gcgfile));
 
     if (!wh)
-        return NULL;
+        return nullptr;
 
     GEWorkspace *newWh = new GEWorkspace(wh);
 
@@ -906,16 +902,16 @@ GEWorkspace* GAUSS::loadWorkspace(string gcgfile) {
  *
  * @see getActiveWorkspace()
  */
-string GAUSS::getWorkspaceName(GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
-        return string();
+std::string GAUSS::getWorkspaceName(GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
+        return std::string();
 
     char name[1024];
     memset(&name, 0, sizeof(name));
 
     GAUSS_GetWorkspaceName(wh->workspace(), name);
 
-    return string(name);
+    return std::string(name);
 }
 
 /**
@@ -927,20 +923,20 @@ string GAUSS::getWorkspaceName(GEWorkspace *wh) {
  * @see getWorkspaceName(GEWorkspace*)
  */
 void GAUSS::updateWorkspaceName(GEWorkspace *wh) {
-    string wkspName = getWorkspaceName(wh);
+    std::string wkspName = getWorkspaceName(wh);
 
     wh->setName(wkspName);
 }
 
 /**
- * Free a program handle created by compileString(string),
- * compileFile(string), and loadCompiledFile(string)
+ * Free a program handle created by compileString(std::string),
+ * compileFile(std::string), and loadCompiledFile(std::string)
  *
  * @param ph        Program handle
  *
- * @see compileString(string)
- * @see compileFile(string)
- * @see loadCompiledFile(string)
+ * @see compileString(std::string)
+ * @see compileFile(std::string)
+ * @see loadCompiledFile(std::string)
  * @see executeProgram(ProgramHandle_t*)
  */
 void GAUSS::freeProgram(ProgramHandle_t *ph) {
@@ -954,7 +950,7 @@ void GAUSS::freeProgram(ProgramHandle_t *ph) {
  * Example:
  *
  * #### Python ####
- * ~~~{.php}
+ * ~~~{.py}
 if ge.getSymbolType("x") == GESymType.MATRIX:
     doSomething()
  * ~~~
@@ -981,7 +977,7 @@ if (ge.getSymbolType("x") == GESymType.MATRIX)
  * @see GESymType.STRING
  * @see GESymType.STRING_ARRAY
  */
-int GAUSS::getSymbolType(string name) {
+int GAUSS::getSymbolType(std::string name) const {
     return getSymbolType(name, getActiveWorkspace());
 }
 
@@ -1019,8 +1015,8 @@ if (ge.getSymbolType("x", myWorkspace) == GESymType.MATRIX)
  * @see GESymType.STRING
  * @see GESymType.STRING_ARRAY
  */
-int GAUSS::getSymbolType(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+int GAUSS::getSymbolType(std::string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return -1;
 
     return GAUSS_GetSymbolType(wh->workspace(), removeConst(&name));
@@ -1040,17 +1036,13 @@ void GAUSS::setError(int errorNum) {
     GAUSS_SetError(errorNum);
 }
 
-char* GAUSS::removeConst(string *str) {
-    return const_cast<char*>(str->c_str());
-}
-
 /**
  * Allows you to set the file that the errors will be logged in.
  * The Engine logs certain system level errors in 2 places: a
  * file and an open file pointer. The default file is `/tmp/mteng.###.log` where
  * `###` is the process ID number. The default file pointer is stderr.
  *
- * You can turn off the error logging to file by inputting an empty string for _logfn_.
+ * You can turn off the error logging to file by inputting an empty std::string for _logfn_.
  *
  * @param logfn        name of log file.
  * @param mode        **w** to overwrite the contents of the file.\n **a** to append to the contents of the file.
@@ -1058,7 +1050,7 @@ char* GAUSS::removeConst(string *str) {
  *
  * @see getLogFile()
  */
-bool GAUSS::setLogFile(string logfn, string mode) {
+bool GAUSS::setLogFile(std::string logfn, std::string mode) {
     char *logfn_ptr = removeConst(&logfn);
 
     if (logfn.empty())
@@ -1076,30 +1068,30 @@ bool GAUSS::setLogFile(string logfn, string mode) {
  * @return        True on success, false on failure
  *
  * @see getHome()
- * @see setHomeVar(string)
+ * @see setHomeVar(std::string)
  */
-bool GAUSS::setHome(string path) {
+bool GAUSS::setHome(std::string path) {
     return GAUSS_SetHome(removeConst(&path)) == GAUSS_SUCCESS;
 }
 
 /**
  * The default value is `MTENGHOME`.
  *
- * It is better to use setHome(string) which sets the home directory, overriding
+ * It is better to use setHome(std::string) which sets the home directory, overriding
  * the environment variable.
  *
  * @param envVar        Name of environment variable
  * @return        True on success, false on failure
  *
  * @see getHomeVar()
- * @see setHome(string)
+ * @see setHome(std::string)
  */
-bool GAUSS::setHomeVar(string envVar) {
+bool GAUSS::setHomeVar(std::string envVar) {
     return GAUSS_SetHomeVar(removeConst(&envVar)) == GAUSS_SUCCESS;
 }
 
 /**
- * Return the string error description of the last error code.
+ * Return the std::string error description of the last error code.
  *
  * Example:
  *
@@ -1128,7 +1120,7 @@ if (!ge.initialize()) {
  * @see getError()
  * @see getErrorText(int)
  */
-string GAUSS::getLastErrorText() {
+std::string GAUSS::getLastErrorText() const {
     int errNum = getError();
 
     return getErrorText(errNum);
@@ -1144,7 +1136,7 @@ string GAUSS::getLastErrorText() {
  * @see getErrorText(int)
  * @see getLastErrorText()
  */
-int GAUSS::getError() {
+int GAUSS::getError() const {
     return GAUSS_GetError();
 }
 
@@ -1159,12 +1151,12 @@ int GAUSS::getError() {
  * @see getError()
  * @see getLastErrorText()
  */
-string GAUSS::getErrorText(int errorNum) {
+std::string GAUSS::getErrorText(int errorNum) const {
     char buf[1024];
 
     GAUSS_ErrorText(buf, errorNum);
 
-    return string(buf);
+    return std::string(buf);
 }
 
 /**
@@ -1177,6 +1169,58 @@ string GAUSS::getErrorText(int errorNum) {
  */
 bool GAUSS::isMissingValue(double d) {
     return (GAUSS_IsMissingValue(d) > 0);
+}
+
+bool GAUSS::_setSymbol(GESymbol *symbol, std::string name) {
+    return _setSymbol(symbol, name, getActiveWorkspace());
+}
+
+bool GAUSS::_setSymbol(GESymbol *symbol, std::string name, GEWorkspace *wh) {
+    if (!symbol || name.empty() || !this->d->manager_->isValidWorkspace(wh))
+        return false;
+
+    switch(symbol->type()) {
+    case GESymType::SCALAR:
+    case GESymType::MATRIX:
+        return setSymbol(static_cast<GEMatrix*>(symbol), name, wh);
+        break;
+    case GESymType::ARRAY_GAUSS:
+        return setSymbol(static_cast<GEArray*>(symbol), name, wh);
+        break;
+    case GESymType::STRING:
+    case GESymType::STRING_ARRAY:
+        return setSymbol(static_cast<GEStringArray*>(symbol), name, wh);
+        break;
+    default:
+        return false;
+    }
+}
+
+GESymbol* GAUSS::getSymbol(std::string name) const {
+    return getSymbol(name, getActiveWorkspace());
+}
+
+GESymbol* GAUSS::getSymbol(std::string name, GEWorkspace *wh) const {
+    if (name.empty() || !this->d->manager_->isValidWorkspace(wh))
+        return 0;
+
+    int type = getSymbolType(name, wh);
+
+    switch (type) {
+    case GESymType::SCALAR:
+    case GESymType::MATRIX:
+        return getMatrix(name, wh);
+        break;
+    case GESymType::ARRAY_GAUSS:
+        return getArray(name, wh);
+        break;
+    case GESymType::STRING:
+    case GESymType::STRING_ARRAY:
+        return getStringArray(name, wh);
+        break;
+    default:
+        return nullptr;
+    }
 }
 
 /**
@@ -1206,13 +1250,13 @@ $x = 5
  * @param name        Name of symbol
  * @return        Scalar object representing GAUSS symbol
  *
- * @see getScalar(string, GEWorkspace*)
- * @see setSymbol(GEMatrix*, string)
- * @see setSymbol(GEMatrix*, string, GEWorkspace*)
- * @see getMatrixAndClear(string)
- * @see getMatrixAndClear(string, GEWorkspace*)
+ * @see getScalar(std::string, GEWorkspace*)
+ * @see setSymbol(GEMatrix*, std::string)
+ * @see setSymbol(GEMatrix*, std::string, GEWorkspace*)
+ * @see getMatrixAndClear(std::string)
+ * @see getMatrixAndClear(std::string, GEWorkspace*)
  */
-double GAUSS::getScalar(string name) {
+double GAUSS::getScalar(std::string name) const {
     return getScalar(name, getActiveWorkspace());
 }
 
@@ -1245,14 +1289,14 @@ $x = 5
  * @param name        Name of symbol
  * @return        Scalar object representing GAUSS symbol
  *
- * @see getScalar(string)
- * @see setSymbol(GEMatrix*, string)
- * @see setSymbol(GEMatrix*, string, GEWorkspace*)
- * @see getMatrixAndClear(string)
- * @see getMatrixAndClear(string, GEWorkspace*)
+ * @see getScalar(std::string)
+ * @see setSymbol(GEMatrix*, std::string)
+ * @see setSymbol(GEMatrix*, std::string, GEWorkspace*)
+ * @see getMatrixAndClear(std::string)
+ * @see getMatrixAndClear(std::string, GEWorkspace*)
  */
-double GAUSS::getScalar(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
+double GAUSS::getScalar(std::string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
         return 0;
 
     double d;
@@ -1269,7 +1313,7 @@ double GAUSS::getScalar(string name, GEWorkspace *wh) {
 /**
  * Retrieve a matrix from the GAUSS symbol name in the active workspace. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without
- * first calling setSymbol(GEMatrix*, string).
+ * first calling setSymbol(GEMatrix*, std::string).
  *
  * Example:
  *
@@ -1294,22 +1338,22 @@ x = 5
  * @param name        Name of GAUSS symbol
  * @return        Matrix object
  *
- * @see getMatrix(string, GEWorkspace*)
- * @see setSymbol(GEMatrix*, string)
- * @see setSymbol(GEMatrix*, string, GEWorkspace*)
- * @see getMatrixAndClear(string)
- * @see getMatrixAndClear(string, GEWorkspace*)
- * @see getScalar(string)
- * @see getScalar(string, GEWorkspace*)
+ * @see getMatrix(std::string, GEWorkspace*)
+ * @see setSymbol(GEMatrix*, std::string)
+ * @see setSymbol(GEMatrix*, std::string, GEWorkspace*)
+ * @see getMatrixAndClear(std::string)
+ * @see getMatrixAndClear(std::string, GEWorkspace*)
+ * @see getScalar(std::string)
+ * @see getScalar(std::string, GEWorkspace*)
  */
-GEMatrix* GAUSS::getMatrix(string name) {
+GEMatrix* GAUSS::getMatrix(std::string name) const {
     return getMatrix(name, getActiveWorkspace());
 }
 
 /**
  * Retrieve a matrix from the GAUSS symbol name in workspace _wh_. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without
- * first calling setSymbol(GEMatrix*, string).
+ * first calling setSymbol(GEMatrix*, std::string).
  *
  * Example:
  *
@@ -1336,31 +1380,31 @@ x = 5
  * @param name        Name of GAUSS symbol
  * @return        Matrix object
  *
- * @see getMatrix(string)
- * @see setSymbol(GEMatrix*, string)
- * @see setSymbol(GEMatrix*, string, GEWorkspace*)
- * @see getMatrixAndClear(string)
- * @see getMatrixAndClear(string, GEWorkspace*)
- * @see getScalar(string)
- * @see getScalar(string, GEWorkspace*)
+ * @see getMatrix(std::string)
+ * @see setSymbol(GEMatrix*, std::string)
+ * @see setSymbol(GEMatrix*, std::string, GEWorkspace*)
+ * @see getMatrixAndClear(std::string)
+ * @see getMatrixAndClear(std::string, GEWorkspace*)
+ * @see getScalar(std::string)
+ * @see getScalar(std::string, GEWorkspace*)
  */
-GEMatrix* GAUSS::getMatrix(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
-        return NULL;
+GEMatrix* GAUSS::getMatrix(std::string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
+        return nullptr;
 
-    Matrix_t *gsMat = GAUSS_GetMatrix(wh->workspace(), removeConst(&name));
+    GAUSS_MatrixInfo_t info;
+    int ret = GAUSS_GetMatrixInfo(wh->workspace(), &info, removeConst(&name));
 
-    if (gsMat == NULL) {
-        return NULL;
-    }
+    if (ret)
+        return nullptr;
 
-    return new GEMatrix(gsMat);
+    return new GEMatrix(info);
 }
 
 /**
  * Retrieve a matrix from the GAUSS symbol name in the active workspace. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without
- * first calling setSymbol(GEMatrix*, string).
+ * first calling setSymbol(GEMatrix*, std::string).
  *
  * In addition, this function will clear the symbol from the GAUSS symbol table.
  *
@@ -1390,22 +1434,22 @@ x =        0.0000000
  * @param name        Name of GAUSS symbol
  * @return        Matrix object
  *
- * @see getMatrixAndClear(string, GEWorkspace*)
- * @see setSymbol(GEMatrix*, string)
- * @see setSymbol(GEMatrix*, string, GEWorkspace*)
- * @see getMatrix(string)
- * @see getMatrix(string, GEWorkspace*)
- * @see getScalar(string)
- * @see getScalar(string, GEWorkspace*)
+ * @see getMatrixAndClear(std::string, GEWorkspace*)
+ * @see setSymbol(GEMatrix*, std::string)
+ * @see setSymbol(GEMatrix*, std::string, GEWorkspace*)
+ * @see getMatrix(std::string)
+ * @see getMatrix(std::string, GEWorkspace*)
+ * @see getScalar(std::string)
+ * @see getScalar(std::string, GEWorkspace*)
  */
-GEMatrix* GAUSS::getMatrixAndClear(string name) {
+GEMatrix* GAUSS::getMatrixAndClear(std::string name) const {
     return getMatrixAndClear(name, getActiveWorkspace());
 }
 
 /**
  * Retrieve a matrix from the GAUSS symbol name in workspace _wh_. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without
- * first calling setSymbol(GEMatrix*, string).
+ * first calling setSymbol(GEMatrix*, std::string).
  *
  * In addition, this function will clear the symbol from the GAUSS symbol table.
  *
@@ -1417,7 +1461,7 @@ GEMatrix* GAUSS::getMatrixAndClear(string name) {
  * ~~~{.py}
 ge.executeString("x = 5", myWorkspace)
 x = ge.getMatrixAndClear("x", myWorkspace)
-print "\$x = " + str(x.getElement())
+print("x = {}".format(str(x.getElement())))
 ge.executeString("print \"x = \" x", myWorkspace);
  * ~~~
  *
@@ -1437,66 +1481,178 @@ x =        0.0000000
  * @param name        Name of GAUSS symbol
  * @return        Matrix object
  *
- * @see getMatrixAndClear(string)
- * @see setSymbol(GEMatrix*, string)
- * @see setSymbol(GEMatrix*, string, GEWorkspace*)
- * @see getMatrix(string)
- * @see getMatrix(string, GEWorkspace*)
- * @see getScalar(string)
- * @see getScalar(string, GEWorkspace*)
+ * @see getMatrixAndClear(std::string)
+ * @see setSymbol(GEMatrix*, std::string)
+ * @see setSymbol(GEMatrix*, std::string, GEWorkspace*)
+ * @see getMatrix(std::string)
+ * @see getMatrix(std::string, GEWorkspace*)
+ * @see getScalar(std::string)
+ * @see getScalar(std::string, GEWorkspace*)
  */
-GEMatrix* GAUSS::getMatrixAndClear(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
-        return NULL;
+GEMatrix* GAUSS::getMatrixAndClear(std::string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
+        return nullptr;
 
     Matrix_t *gsMat = GAUSS_GetMatrixAndClear(wh->workspace(), removeConst(&name));
 
-    if (gsMat == NULL)
-        return NULL;
+    if (gsMat == nullptr)
+        return nullptr;
 
     return new GEMatrix(gsMat);
 }
 
 /**
+*
+* NOTICE: This function is intended for advanced usage only. It provides a direct pointer to the data
+*     inside the GAUSS symbol table. There are no guarantees or bounds checking performed when accessing
+*     memory provided by this function. Do so at your own risk.
+*
+* Retrieve pointer to a matrix from the GAUSS symbol name in the active workspace. This will be the ORIGINAL symbol in the symbol table.
+*
+* #### Python ####
+* ~~~{.py}
+ge.executeString("x = 5")
+x = ge.getMatrixDirect("x")
+print "$x = " + str(x.getitem(0))
+ge.executeString("print \"x = \" x");
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$ge->executeString("x = 5");
+$x = $ge->getMatrixDirect("x");
+echo "\$x = " . $x->getitem(0) . PHP_EOL;
+$ge->executeString("print \"x = \" x");
+* ~~~
+* will result in the output:
+* ~~~
+$x = 5
+x =        0.0000000
+* ~~~
+*
+* @param name        Name of GAUSS symbol
+* @return        Matrix object
+*
+* @see getMatrixDirect(std::string, GEWorkspace*)
+* @see setSymbol(GEMatrix*, std::string)
+* @see setSymbol(GEMatrix*, std::string, GEWorkspace*)
+* @see getMatrix(std::string)
+* @see getMatrix(std::string, GEWorkspace*)
+* @see getScalar(std::string)
+* @see getScalar(std::string, GEWorkspace*)
+*/
+doubleArray* GAUSS::getMatrixDirect(std::string name) {
+    return getMatrixDirect(name, getActiveWorkspace());
+}
+
+/**
+*
+* NOTICE: This function is intended for advanced usage only. It provides a direct pointer to the data
+*     inside the GAUSS symbol table. There are no guarantees or bounds checking performed when accessing
+*     memory provided by this function. Do so at your own risk.
+*
+* Retrieve pointer to a matrix from the GAUSS symbol name in workspace _wh_. This will be the ORIGINAL symbol in the symbol table.
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### Python ####
+* ~~~{.py}
+ge.executeString("x = 5", myWorkspace)
+x = ge.getMatrixDirect("x", myWorkspace)
+print("x = {}".format(str(x.getitem(0))))
+ge.executeString("print \"x = \" x", myWorkspace);
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$ge->executeString("x = 5", $myWorkspace);
+$x = $ge->getMatrixDirect("x", $myWorkspace);
+echo "\$x = " . $x->getitem(0) . PHP_EOL;
+$ge->executeString("print \"x = \" x", $myWorkspace);
+* ~~~
+* will result in the output:
+* ~~~
+$x = 5
+x =        0.0000000
+* ~~~
+*
+* @param name        Name of GAUSS symbol
+* @return        Matrix object
+*
+* @see getMatrixDirect(std::string)
+* @see setSymbol(GEMatrix*, std::string)
+* @see setSymbol(GEMatrix*, std::string, GEWorkspace*)
+* @see getMatrix(std::string)
+* @see getMatrix(std::string, GEWorkspace*)
+* @see getScalar(std::string)
+* @see getScalar(std::string, GEWorkspace*)
+*/
+doubleArray* GAUSS::getMatrixDirect(std::string name, GEWorkspace* wh) {
+    if (name.empty() || !this->d->manager_->isValidWorkspace(wh))
+        return nullptr;
+
+    GAUSS_MatrixInfo_t info;
+    int ret = GAUSS_GetMatrixInfo(wh->workspace(), &info, removeConst(&name));
+
+    if (ret)
+        return nullptr;
+
+    return new doubleArray(info.maddr, info.rows * info.cols);
+}
+
+bool GAUSS::_setSymbol(doubleArray *data, std::string name) {
+    return _setSymbol(data, name, getActiveWorkspace());
+}
+
+bool GAUSS::_setSymbol(doubleArray *data, std::string name, GEWorkspace *wh) {
+    if (!data || name.empty() || !this->d->manager_->isValidWorkspace(wh))
+        return false;
+
+    return moveMatrix(data, 1, data->size(), false, name, wh);
+}
+
+/**
  * Retrieve an array from the GAUSS symbol table in the active workspace. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without first
- * calling setSymbol(GEArray*, string).
+ * calling setSymbol(GEArray*, std::string).
  *
  * @param name        Name of GAUSS symbol
  * @return        Array object
  *
- * @see getArray(string, GEWorkspace*)
- * @see setSymbol(GEArray*, string)
- * @see setSymbol(GEArray*, string, GEWorkspace*)
- * @see getArrayAndClear(string)
- * @see getArrayAndClear(string, GEWorkspace*)
+ * @see getArray(std::string, GEWorkspace*)
+ * @see setSymbol(GEArray*, std::string)
+ * @see setSymbol(GEArray*, std::string, GEWorkspace*)
+ * @see getArrayAndClear(std::string)
+ * @see getArrayAndClear(std::string, GEWorkspace*)
  */
-GEArray* GAUSS::getArray(string name) {
+GEArray* GAUSS::getArray(std::string name) const {
     return getArray(name, getActiveWorkspace());
 }
 
 /**
  * Retrieve an array from the GAUSS symbol table in workspace _wh_. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without first
- * calling setSymbol(GEArray*, string).
+ * calling setSymbol(GEArray*, std::string).
  *
  * @param name        Name of GAUSS symbol
  * @return        Array object
  *
- * @see getArray(string)
- * @see setSymbol(GEArray*, string)
- * @see setSymbol(GEArray*, string, GEWorkspace*)
- * @see getArrayAndClear(string)
- * @see getArrayAndClear(string, GEWorkspace*)
+ * @see getArray(std::string)
+ * @see setSymbol(GEArray*, std::string)
+ * @see setSymbol(GEArray*, std::string, GEWorkspace*)
+ * @see getArrayAndClear(std::string)
+ * @see getArrayAndClear(std::string, GEWorkspace*)
  */
-GEArray* GAUSS::getArray(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
-        return NULL;
+GEArray* GAUSS::getArray(std::string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
+        return nullptr;
 
     Array_t *gsArray = GAUSS_GetArray(wh->workspace(), removeConst(&name));
 
-    if (gsArray == NULL)
-        return NULL;
+    if (gsArray == nullptr)
+        return nullptr;
 
     return new GEArray(gsArray);
 }
@@ -1504,47 +1660,47 @@ GEArray* GAUSS::getArray(string name, GEWorkspace *wh) {
 /**
  * Retrieve an array from the GAUSS symbol table in the active workspace. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without first
- * calling setSymbol(GEArray*, string).
+ * calling setSymbol(GEArray*, std::string).
  *
  * In addition, this function will clear the symbol from the GAUSS symbol table.
  *
  * @param name        Name of GAUSS symbol
  * @return        Array object
  *
- * @see getArrayAndClear(string, GEWorkspace*)
- * @see setSymbol(GEArray*, string)
- * @see setSymbol(GEArray*, string, GEWorkspace*)
- * @see getArray(string)
- * @see getArray(string, GEWorkspace*)
+ * @see getArrayAndClear(std::string, GEWorkspace*)
+ * @see setSymbol(GEArray*, std::string)
+ * @see setSymbol(GEArray*, std::string, GEWorkspace*)
+ * @see getArray(std::string)
+ * @see getArray(std::string, GEWorkspace*)
  */
-GEArray* GAUSS::getArrayAndClear(string name) {
+GEArray* GAUSS::getArrayAndClear(std::string name) const {
     return getArrayAndClear(name, getActiveWorkspace());
 }
 
 /**
  * Retrieve an array from the GAUSS symbol table in workspace _wh_. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without first
- * calling setSymbol(GEArray*, string).
+ * calling setSymbol(GEArray*, std::string).
  *
  * In addition, this function will clear the symbol from the GAUSS symbol table.
  *
  * @param name        Name of GAUSS symbol
  * @return        Array object
  *
- * @see getArrayAndClear(string)
- * @see setSymbol(GEArray*, string)
- * @see setSymbol(GEArray*, string, GEWorkspace*)
- * @see getArray(string)
- * @see getArray(string, GEWorkspace*)
+ * @see getArrayAndClear(std::string)
+ * @see setSymbol(GEArray*, std::string)
+ * @see setSymbol(GEArray*, std::string, GEWorkspace*)
+ * @see getArray(std::string)
+ * @see getArray(std::string, GEWorkspace*)
  */
-GEArray* GAUSS::getArrayAndClear(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
-        return NULL;
+GEArray* GAUSS::getArrayAndClear(std::string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
+        return nullptr;
 
     Array_t *gsArray = GAUSS_GetArrayAndClear(wh->workspace(), removeConst(&name));
 
-    if (gsArray == NULL)
-        return NULL;
+    if (gsArray == nullptr)
+        return nullptr;
 
     return new GEArray(gsArray);
 }
@@ -1552,81 +1708,87 @@ GEArray* GAUSS::getArrayAndClear(string name, GEWorkspace *wh) {
 /**
  * Retrieve a string array from the GAUSS symbol table in the active workspace. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without first
- * calling setSymbol(GEStringArray*, string).
+ * calling setSymbol(GEStringArray*, std::string).
  *
  * @param name        Name of GAUSS symbol
  * @return        string array object
  *
- * @see getStringArray(string, GEWorkspace*)
- * @see setSymbol(GEStringArray*, string)
- * @see setSymbol(GEStringArray*, string, GEWorkspace*)
+ * @see getStringArray(std::string, GEWorkspace*)
+ * @see setSymbol(GEStringArray*, std::string)
+ * @see setSymbol(GEStringArray*, std::string, GEWorkspace*)
  */
-GEStringArray* GAUSS::getStringArray(string name) {
+GEStringArray* GAUSS::getStringArray(std::string name) const {
     return getStringArray(name, getActiveWorkspace());
 }
 
 /**
  * Retrieve a string array from the GAUSS symbol table in workspace _wh_. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without first
- * calling setSymbol(GEStringArray*, string).
+ * calling setSymbol(GEStringArray*, std::string).
  *
  * @param name        Name of GAUSS symbol
  * @return        string array object
  *
- * @see getStringArray(string, GEWorkspace*)
- * @see setSymbol(GEStringArray*, string)
- * @see setSymbol(GEStringArray*, string, GEWorkspace*)
+ * @see getStringArray(std::string)
+ * @see setSymbol(GEStringArray*, std::string)
+ * @see setSymbol(GEStringArray*, std::string, GEWorkspace*)
  */
-GEStringArray* GAUSS::getStringArray(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
-        return NULL;
+GEStringArray* GAUSS::getStringArray(std::string name, GEWorkspace *wh) const {
+    if (!this->d->manager_->isValidWorkspace(wh))
+        return nullptr;
 
     StringArray_t *gsStringArray = GAUSS_GetStringArray(wh->workspace(), removeConst(&name));
 
-    if (gsStringArray == NULL)
-        return NULL;
+    if (gsStringArray == nullptr)
+        return nullptr;
 
     return new GEStringArray(gsStringArray);
 }
 
 /**
- * Retrieve a string from the GAUSS symbol table in the active workspace. This will be a copy of the symbol
+ * Retrieve a std::string from the GAUSS symbol table in the active workspace. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without
- * first calling setSymbol(GEString*, string).
+ * first calling setSymbol(std::string, name).
  *
- * @param name        Name of GAUSS symbol
- * @return        string object
+ * @param name    Name of GAUSS symbol
+ * @return        std::string object
  *
- * @see getString(string, GEWorkspace*)
- * @see setSymbol(GEString*, string)
- * @see setSymbol(GEString*, string, GEWorkspace*)
+ * @see getString(std::string, GEWorkspace*)
+ * @see setSymbol(std::string, std::string)
+ * @see setSymbol(std::string, std::string, GEWorkspace*)
  */
-GEString* GAUSS::getString(string name) {
+std::string GAUSS::getString(std::string name) const {
     return getString(name, getActiveWorkspace());
 }
 
 /**
- * Retrieve a string from the GAUSS symbol table in workspace _wh_. This will be a copy of the symbol
+ * Retrieve a std::string from the GAUSS symbol table in workspace _wh_. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without
- * first calling setSymbol(GEString*, string).
+ * first calling setSymbol(std::string, std::string).
  *
- * @param name        Name of GAUSS symbol
- * @return        string object
+ * @param name    Name of GAUSS symbol
+ * @return        std::string object
  *
- * @see getString(string)
- * @see setSymbol(GEString*, string)
- * @see setSymbol(GEString*, string, GEWorkspace*)
+ * @see getString(std::string)
+ * @see setSymbol(std::string, std::string)
+ * @see setSymbol(std::string, std::string, GEWorkspace*)
  */
-GEString* GAUSS::getString(string name, GEWorkspace *wh) {
-    if (!manager_->isValidWorkspace(wh))
-        return NULL;
+std::string GAUSS::getString(std::string name, GEWorkspace *wh) const {
+    std::string ret;
+    if (!this->d->manager_->isValidWorkspace(wh))
+        return ret;
 
     String_t *gsString = GAUSS_GetString(wh->workspace(), removeConst(&name));
 
-    if (gsString == NULL)
-        return NULL;
+    if (gsString == nullptr || gsString->stdata == nullptr)
+        return ret;
 
-    return new GEString(gsString);
+    ret = std::string(gsString->stdata);
+    GAUSS_Free(gsString->stdata);
+    GAUSS_Free(gsString);
+
+
+    return ret;
 }
 
 /**
@@ -1656,12 +1818,12 @@ ge.setSymbol(x, "x");
  * @param name      Name to give newly added symbol
  * @return          True on success, false on failure
  *
- * @see setSymbol(GEMatrix*, string, GEWorkspace*)
- * @see getMatrix(string)
- * @see getMatrixAndClear(string)
- * @see getScalar(string)
+ * @see setSymbol(GEMatrix*, std::string, GEWorkspace*)
+ * @see getMatrix(std::string)
+ * @see getMatrixAndClear(std::string)
+ * @see getScalar(std::string)
  */
-bool GAUSS::setSymbol(GEMatrix *matrix, string name) {
+bool GAUSS::setSymbol(GEMatrix *matrix, std::string name) {
     return setSymbol(matrix, name, getActiveWorkspace());
 }
 
@@ -1694,16 +1856,16 @@ ge.setSymbol(x, "x", myWorkspace);
  * @param name      Name to give newly added symbol
  * @return          True on success, false on failure
  *
- * @see setSymbol(GEMatrix*, string)
- * @see getMatrix(string)
- * @see getMatrixAndClear(string)
- * @see getScalar(string)
+ * @see setSymbol(GEMatrix*, std::string)
+ * @see getMatrix(std::string)
+ * @see getMatrixAndClear(std::string)
+ * @see getScalar(std::string)
  */
-bool GAUSS::setSymbol(GEMatrix *matrix, string name, GEWorkspace *wh) {
+bool GAUSS::setSymbol(GEMatrix *matrix, std::string name, GEWorkspace *wh) {
     if (!matrix || name.empty())
         return false;
 
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
     int ret = 0;
@@ -1711,9 +1873,8 @@ bool GAUSS::setSymbol(GEMatrix *matrix, string name, GEWorkspace *wh) {
     if (!matrix->isComplex() && (matrix->getRows() == 1) && (matrix->getCols() == 1)) {
         ret = GAUSS_PutDouble(wh->workspace(), matrix->getElement(), removeConst(&name));
     } else {
-        Matrix_t* newMat = this->createTempMatrix(matrix);
-        ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat, removeConst(&name));
-        delete newMat;
+        std::unique_ptr<Matrix_t> newMat(matrix->toInternal());
+        ret = GAUSS_CopyMatrixToGlobal(wh->workspace(), newMat.get(), removeConst(&name));
     }
 
     return (ret == GAUSS_SUCCESS);
@@ -1752,11 +1913,11 @@ ge.setSymbol(a, "a");
  * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
- * @see setSymbol(GEArray*, string, GEWorkspace*)
- * @see getArray(string)
- * @see getArrayAndClear(string)
+ * @see setSymbol(GEArray*, std::string, GEWorkspace*)
+ * @see getArray(std::string)
+ * @see getArrayAndClear(std::string)
  */
-bool GAUSS::setSymbol(GEArray *array, string name) {
+bool GAUSS::setSymbol(GEArray *array, std::string name) {
     return setSymbol(array, name, getActiveWorkspace());
 }
 
@@ -1795,61 +1956,61 @@ ge.setSymbol(a, "a", myWorkspace);
  * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
- * @see setSymbol(GEArray*, string)
- * @see getArray(string)
- * @see getArrayAndClear(string)
+ * @see setSymbol(GEArray*, std::string)
+ * @see getArray(std::string)
+ * @see getArrayAndClear(std::string)
  */
-bool GAUSS::setSymbol(GEArray *array, string name, GEWorkspace *wh) {
+bool GAUSS::setSymbol(GEArray *array, std::string name, GEWorkspace *wh) {
     if (!array || name.empty())
         return false;
 
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    Array_t *newArray = createPermArray(array);
+    std::unique_ptr<Array_t> newArray(array->toInternal());
 
-    if (!newArray)
+    if (!newArray.get())
         return false;
 
-    return (GAUSS_MoveArrayToGlobal(wh->workspace(), newArray, removeConst(&name)) == GAUSS_SUCCESS);
+    return (GAUSS_CopyArrayToGlobal(wh->workspace(), newArray.get(), removeConst(&name)) == GAUSS_SUCCESS);
 }
 
 /**
- * Add a string to the active workspace with the specified symbol name.
+ * Add a std::string to the active workspace with the specified symbol name.
  *
  * Example:
  *
  * #### Python ####
  * ~~~{.py}
-s = GEString("Hello World")
+s = "Hello World"
 ge.setSymbol(s, "s")
  * ~~~
  *
  * #### PHP ####
  * ~~~{.php}
-$s = new GEString("Hello World");
+$s = "Hello World";
 $ge->setSymbol($s, "s");
  * ~~~
  *
  * <!--#### Java ####
  * ~~~{.java}
-GEString s = new GEString("Hello World");
+s = "Hello World";
 ge.setSymbol(s, "s");
  * ~~~-->
  *
- * @param str        string to add to GAUSS symbol table
+ * @param str        std::string to add to GAUSS symbol table
  * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
- * @see setSymbol(GEString*, string, GEWorkspace*)
- * @see getString(string)
+ * @see setSymbol(std::string, std::string, GEWorkspace*)
+ * @see getString(std::string)
  */
-bool GAUSS::setSymbol(GEString *str, string name) {
+bool GAUSS::setSymbol(std::string str, std::string name) {
     return setSymbol(str, name, getActiveWorkspace());
 }
 
 /**
- * Add a string to a specific workspace with the specified symbol name.
+ * Add a std::string to a specific workspace with the specified symbol name.
  *
  * Example:
  *
@@ -1857,37 +2018,37 @@ bool GAUSS::setSymbol(GEString *str, string name) {
  *
  * #### Python ####
  * ~~~{.py}
-s = GEString("Hello World")
+s = "Hello World"
 ge.setSymbol(s, "s", myWorkspace)
  * ~~~
  *
  * #### PHP ####
  * ~~~{.php}
-$s = new GEString("Hello World");
+$s = "Hello World";
 $ge->setSymbol($s, "s", $myWorkspace);
  * ~~~
  *
  * <!--#### Java ####
  * ~~~{.java}
-GEString s = new GEString("Hello World");
+s = "Hello World";
 ge.setSymbol(s, "s", myWorkspace);
  * ~~~-->
  *
- * @param str        string to add to GAUSS symbol table
+ * @param str        std::string to add to GAUSS symbol table
  * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
- * @see setSymbol(GEString*, string)
- * @see getString(string)
+ * @see setSymbol(std::string, std::string)
+ * @see getString(std::string)
  */
-bool GAUSS::setSymbol(GEString *str, string name, GEWorkspace *wh) {
-    if (!str || name.empty())
+bool GAUSS::setSymbol(std::string str, std::string name, GEWorkspace *wh) {
+    if (name.empty())
         return false;
 
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    String_t* newStr = createPermString(str);
+    String_t* newStr = this->d->createPermString(str);
 
     if (!newStr)
         return false;
@@ -1918,9 +2079,9 @@ $ge->setSymbol($sa, "sa");
  * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
- * @see getStringArray(string)
+ * @see getStringArray(std::string)
  */
-bool GAUSS::setSymbol(GEStringArray *sa, string name) {
+bool GAUSS::setSymbol(GEStringArray *sa, std::string name) {
     return setSymbol(sa, name, getActiveWorkspace());
 }
 
@@ -1949,31 +2110,370 @@ $ge->setSymbol($sa, "sa", $myWorkspace);
  * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
- * @see getStringArray(string)
+ * @see getStringArray(std::string)
  */
-bool GAUSS::setSymbol(GEStringArray *sa, string name, GEWorkspace *wh) {
+bool GAUSS::setSymbol(GEStringArray *sa, std::string name, GEWorkspace *wh) {
     if (!sa || name.empty())
         return false;
 
-    if (!manager_->isValidWorkspace(wh))
+    if (!this->d->manager_->isValidWorkspace(wh))
         return false;
 
-    StringArray_t *newSa = createTempStringArray(sa);
+    StringArray_t *newSa = sa->toInternal();
 
     if (!newSa)
         return false;
 
-    bool ret = (GAUSS_CopyStringArrayToGlobal(wh->workspace(), newSa, removeConst(&name)) == GAUSS_SUCCESS);
-
-    GAUSS_Free(newSa->table);
-    GAUSS_Free(newSa);
+    bool ret = (GAUSS_MoveStringArrayToGlobal(wh->workspace(), newSa, removeConst(&name)) == GAUSS_SUCCESS);
 
     return ret;
 }
 
 /**
+* Add a matrix to the active workspace with the specified symbol name.
+* This implementation clears the local data after the move is completed.
+*
+* Example:
+*
+* #### Python ####
+* ~~~{.py}
+x = GEMatrix(5.0)
+ge.moveSymbol(x, "x")
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$x = new GEMatrix(5);
+$ge->moveSymbol($x, "x");
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+GEMatrix x = new GEMatrix(5);
+ge.moveSymbol(x, "x");
+* ~~~->
+*
+* @param matrix    Matrix object to store in GAUSS symbol table
+* @param name      Name to give newly added symbol
+* @return          True on success, false on failure
+*
+* @see moveSymbol(GEMatrix*, std::string, GEWorkspace*)
+* @see getMatrix(std::string)
+* @see getMatrixAndClear(std::string)
+* @see getScalar(std::string)
+*/
+bool GAUSS::moveSymbol(GEMatrix *matrix, std::string name) {
+    return moveSymbol(matrix, name, getActiveWorkspace());
+}
+
+/**
+* Add a matrix to a specific workspace with the specified symbol name.
+* This implementation clears the local data after the move is completed.
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### Python ####
+* ~~~{.py}
+x = GEMatrix(5.0)
+ge.moveSymbol(x, "x", myWorkspace)
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$x = new GEMatrix(5);
+$ge->moveSymbol($x, "x", $myWorkspace);
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+GEMatrix x = new GEMatrix(5);
+ge.moveSymbol(x, "x", myWorkspace);
+* ~~~-->
+*
+* @param matrix    Matrix object to store in GAUSS symbol table
+* @param name      Name to give newly added symbol
+* @return          True on success, false on failure
+*
+* @see moveSymbol(GEMatrix*, std::string)
+* @see getMatrix(std::string)
+* @see getMatrixAndClear(std::string)
+* @see getScalar(std::string)
+*/
+bool GAUSS::moveSymbol(GEMatrix *matrix, std::string name, GEWorkspace *wh) {
+    bool ret = setSymbol(matrix, name, wh);
+
+    if (ret)
+        matrix->clear();
+
+    return ret;
+}
+
+/**
+* Add an array to the active workspace with the specified symbol name.
+*
+* Example:
+*
+* #### Python ####
+* ~~~{.py}
+orders = [2, 2, 2]
+data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+a = GEArray(orders, data)
+ge.moveSymbol(a, "a")
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$orders = array(2, 2, 2);
+$data = array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+$a = new GEArray($orders, $data);
+$ge->moveSymbol($a, "a");
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+int[] orders = new int[] { 2, 2, 2 };
+double[] data = new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 };
+GEArray a = new GEArray(orders, data);
+ge.moveSymbol(a, "a");
+* ~~~-->
+*
+* @param array        Array object to store in GAUSS symbol table
+* @param name        Name to give newly added symbol
+* @return True on success, false on failure
+*
+* @see moveSymbol(GEArray*, std::string, GEWorkspace*)
+* @see getArray(std::string)
+* @see getArrayAndClear(std::string)
+*/
+bool GAUSS::moveSymbol(GEArray *array, std::string name) {
+    return moveSymbol(array, name, getActiveWorkspace());
+}
+
+/**
+* Add an array to a specific workspace with the specified symbol name.
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### Python ####
+* ~~~{.py}
+orders = [2, 2, 2]
+data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+a = GEArray(orders, data)
+ge.moveSymbol(a, "a", myWorkspace)
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$orders = array(2, 2, 2);
+$data = array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+$a = new GEArray($orders, $data);
+$ge->moveSymbol($a, "a", $myWorkspace);
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+int[] orders = new int[] { 2, 2, 2 };
+double[] data = new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 };
+GEArray a = new GEArray(orders, data);
+ge.moveSymbol(a, "a", myWorkspace);
+* ~~~-->
+*
+* @param array        Array object to store in GAUSS symbol table
+* @param name        Name to give newly added symbol
+* @return True on success, false on failure
+*
+* @see moveSymbol(GEArray*, std::string)
+* @see getArray(std::string)
+* @see getArrayAndClear(std::string)
+*/
+bool GAUSS::moveSymbol(GEArray *array, std::string name, GEWorkspace *wh) {
+    bool ret = setSymbol(array, name, wh);
+
+    if (ret)
+        array->clear();
+
+    return ret;
+}
+
+/**
+* Add a string array to the active workspace with the specified symbol name.
+* This implementation clears the local data after the move is completed.
+*
+* Example:
+*
+* #### Python ####
+* ~~~{.py}
+saData = ["one", "two", "three", "four"]
+sa = GEStringArray(saData, 2, 2)
+ge.moveSymbol(sa, "sa")
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$saData = array("one", "two", "three", "four");
+$sa = new GEStringArray(saData, 2, 2);
+$ge->moveSymbol($sa, "sa");
+* ~~~
+*
+* @param sa        string array to add to GAUSS symbol table
+* @param name        Name to give newly added symbol
+* @return True on success, false on failure
+*
+* @see getStringArray(std::string)
+*/
+bool GAUSS::moveSymbol(GEStringArray *sa, std::string name) {
+    return moveSymbol(sa, name, getActiveWorkspace());
+}
+
+/**
+* Add a string array to a specific workspace with the specified symbol name.
+* This implementation clears the local data after the move is completed.
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### Python ####
+* ~~~{.py}
+saData = ["one", "two", "three", "four"]
+sa = GEStringArray(saData, 2, 2)
+ge.moveSymbol(sa, "sa", myWorkspace)
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$saData = array("one", "two", "three", "four");
+$sa = new GEStringArray(saData, 2, 2);
+$ge->moveSymbol($sa, "sa", $myWorkspace);
+* ~~~
+*
+* @param sa        string array to add to GAUSS symbol table
+* @param name        Name to give newly added symbol
+* @return True on success, false on failure
+*
+* @see getStringArray(std::string)
+*/
+bool GAUSS::moveSymbol(GEStringArray *sa, std::string name, GEWorkspace *wh) {
+    bool ret = setSymbol(sa, name, wh);
+
+    if (ret)
+        sa->clear();
+
+    return ret;
+}
+
+/**
+* Add a matrix and give ownership to the active workspace with the specified symbol name.
+* 
+* WARNING: This is a low-level function. Once this function has been called it
+* is potentially unsafe to access the object passed in  if GAUSS has 
+* performed any operation that is not "in-place" (ie the memory has moved).
+*
+*
+* Example:
+*
+* #### Python ####
+* ~~~{.py}
+x = doubleArray(1)
+x.setitem(0, 5.0);
+ge.moveMatrix(x.cast(), 1, 1, False, "x")
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$x = new doubleArray(1);
+$x->setitem(0, 5.0);
+$ge->moveMatrix($x->cast(), 1, 1, false, "x");
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+doubleArray x = new doubleArray(1);
+x.setitem(0, 5.0);
+ge.moveMatrix(x.cast(), 1, 1, false, "x");
+* ~~~->
+*
+* @param data      doubleArray wrapper containing data to assign to symbol table
+* @param rows      Row count
+* @param cols      Column count
+* @param complex   True if data contains complex data, False otherwise
+* @param name      Name to give newly added symbol
+* @return          True on success, false on failure
+*
+* @see moveSymbol(GEMatrix*, std::string, GEWorkspace*)
+* @see getMatrix(std::string)
+* @see getMatrixAndClear(std::string)
+* @see getScalar(std::string)
+*/
+bool GAUSS::moveMatrix(doubleArray *data, int rows, int cols, bool complex, std::string name) {
+    return moveMatrix(data, rows, cols, complex, name, getActiveWorkspace());
+}
+
+/**
+* Add a matrix and give ownership to a specific workspace with the specified symbol name.
+*
+* WARNING: This is a low-level function. Once this function has been called it
+* is potentially unsafe to access the object passed in if GAUSS has
+* performed any operation that is not "in-place" (ie the memory has moved).
+*
+* Example:
+*
+* Given _myWorkspace_ is a GEWorkspace object
+*
+* #### Python ####
+* ~~~{.py}
+x = doubleArray(2)
+x.setitem(0, 5.0);
+x.setitem(1, 10.0);
+ge.moveMatrix(x.cast(), 2, 1, False, "x", myWorkspace)
+* ~~~
+*
+* #### PHP ####
+* ~~~{.php}
+$x = new doubleArray(2);
+$x->setitem(0, 5.0);
+$x->setitem(1, 10.0);
+$ge->moveMatrix($x->cast(), 2, 1, false, "x", $myWorkspace);
+* ~~~
+*
+* <!--#### Java ####
+* ~~~{.java}
+doubleArray x = new doubleArray(2);
+x.setitem(0, 5.0);
+x.setitem(1, 10.0);
+ge.moveMatrix(x.cast(), 2, 1, false, "x", myWorkspace);
+* ~~~->
+*
+* @param data      doubleArray wrapper containing data to assign to symbol table
+* @param rows      Row count
+* @param cols      Column count
+* @param complex   True if data contains complex data, False otherwise
+* @param name      Name to give newly added symbol
+* @param wh        Workspace to assign symbol to
+* @return          True on success, false on failure
+*
+* @see moveMatrix(double*,int,int,bool,std::string)
+* @see getMatrix(std::string)
+* @see getMatrixAndClear(std::string)
+*/
+bool GAUSS::moveMatrix(doubleArray *data, int rows, int cols, bool complex, std::string name, GEWorkspace *wh) {
+    if (!data || name.empty() || !this->d->manager_->isValidWorkspace(wh))
+        return false;
+
+    int ret = GAUSS_AssignFreeableMatrix(wh->workspace(), rows, cols, complex, data->data(), removeConst(&name));
+
+    data->reset();
+
+    return (ret == GAUSS_SUCCESS);
+}
+
+/**
  * Translates a file that contains a dataloop, so it can be read by the compiler.
- * After translating a file, you can compile it with compileFile(string) and then
+ * After translating a file, you can compile it with compileFile(std::string) and then
  * run it with executeProgram(ProgramHandle_t*).
  *
  * If you want to see any errors that translateDataloopFile encounters,
@@ -1983,184 +2483,113 @@ bool GAUSS::setSymbol(GEStringArray *sa, string name, GEWorkspace *wh) {
  * @param srcfile        Name of source file.
  * @return        Name of translated file. Empty if failure.
  *
- * @see compileFile(string)
+ * @see compileFile(std::string)
  * @see setProgramErrorOutput(IGEProgramOutput*)
  *
  */
-string GAUSS::translateDataloopFile(string srcfile) {
+std::string GAUSS::translateDataloopFile(std::string srcfile) {
     char transbuf[1024];
 
     int ret = GAUSS_TranslateDataloopFile(transbuf, removeConst(&srcfile));
 
     if (ret != GAUSS_SUCCESS)
-        return string();
+        return std::string();
 
-    return string(transbuf);
-}
-
-Matrix_t* GAUSS::createTempMatrix(GEMatrix *mat) {
-    Matrix_t *newMat = new Matrix_t;
-
-    // THIS CANNOT BE USED FOR A "MOVE" OPERATION
-    // THIS IS THE ACTUAL POINTER REFERENCE TO THE DATA.
-    newMat->mdata = mat->data_;
-    newMat->rows = mat->getRows();
-    newMat->cols = mat->getCols();
-    newMat->complex = mat->isComplex();
-    newMat->freeable = 0;
-
-    return newMat;
-}
-
-String_t* GAUSS::createPermString(GEString *str) {
-    String_t *newStr = GAUSS_MallocString_t();
-
-    string data = str->getData();
-    newStr->stdata = (char*)GAUSS_Malloc(data.size() + 1);
-    strncpy(newStr->stdata, data.c_str(), data.size() + 1);
-    newStr->length = data.size() + 1;
-    newStr->freeable = 1;
-
-    return newStr;
-}
-
-StringArray_t* GAUSS::createTempStringArray(GEStringArray *sa) {
-    vector<string> *strings = &(sa->data_);
-
-    char **saList = new char*[sa->size()];
-
-    for (int i = 0; i < sa->size(); ++i) {
-        string str = strings->at(i);
-
-        char *str_ptr = new char[str.length() + 1];
-        strncpy(str_ptr, str.c_str(), str.length() + 1);
-        saList[i] = str_ptr;
-    }
-
-    StringArray_t *newSa = GAUSS_StringArray(sa->getRows(), sa->getCols(), saList);
-
-    for (int i = 0; i < sa->size(); ++i) {
-        delete[] saList[i];
-    }
-
-    delete[] saList;
-
-    return newSa;
-}
-
-Array_t* GAUSS::createPermArray(GEArray *array) {
-    vector<double> vals = array->getData();
-    vector<int> orders = array->getOrders();
-
-    const int dims = array->getDimensions();
-    const int size = array->size();
-
-    double *data = (double*)GAUSS_Malloc((size + dims) * sizeof(double));
-
-    for (int i = 0; i < dims; ++i)
-        data[i] = orders[i];
-
-    for (int i = dims; i < size + dims; ++i)
-        data[i] = vals[i - dims];
-
-    Array_t *newArray = (Array_t*)GAUSS_Malloc(sizeof(Array_t));
-    newArray->dims = dims;
-    newArray->nelems = size;
-    newArray->complex = static_cast<int>(array->isComplex());
-    newArray->adata = data;
-    newArray->freeable = 1;
-
-    return newArray;
+    return std::string(transbuf);
 }
 
 void GAUSS::clearOutput() {
-    pthread_mutex_lock(&GAUSS::kOutputMutex);
+    std::lock_guard<std::mutex> guard(kOutputMutex);
     int tid = getThreadId();
-    GAUSS::kOutputStore[tid] = string();
-    pthread_mutex_unlock(&GAUSS::kOutputMutex);
+    kOutputStore[tid] = std::string();
 }
 
 void GAUSS::clearErrorOutput() {
-    pthread_mutex_lock(&GAUSS::kErrorMutex);
+    std::lock_guard<std::mutex> guard(kErrorMutex);
     int tid = getThreadId();
-    GAUSS::kErrorStore[tid] = string();
-    pthread_mutex_unlock(&GAUSS::kErrorMutex);
+    kErrorStore[tid] = std::string();
 }
 
-string GAUSS::getOutput() {
-    pthread_mutex_lock(&GAUSS::kOutputMutex);
+std::string GAUSS::getOutput() {
+    if (!GAUSS::outputModeManaged())
+        return std::string();
+
+    std::lock_guard<std::mutex> guard(kOutputMutex);
 
     int tid = getThreadId();
-
-    string ret = GAUSS::kOutputStore[tid];
-
-    GAUSS::kOutputStore[tid] = string();
-
-    pthread_mutex_unlock(&GAUSS::kOutputMutex);
-
-	return ret;
-}
-
-string GAUSS::getErrorOutput() {
-    pthread_mutex_lock(&GAUSS::kErrorMutex);
-
-    int tid = getThreadId();
-
-    string ret = GAUSS::kErrorStore[tid];
-
-    GAUSS::kErrorStore[tid] = string();
-
-    pthread_mutex_unlock(&GAUSS::kErrorMutex);
+    std::string ret;
+    ret.swap(kOutputStore[tid]);
 
     return ret;
 }
 
-void GAUSS::internalHookOutput(char *output) {
-    pthread_mutex_lock(&GAUSS::kOutputMutex);
+std::string GAUSS::getErrorOutput() {
+    if (!GAUSS::outputModeManaged())
+        return std::string();
+
+    std::lock_guard<std::mutex> guard(kErrorMutex);
 
     int tid = getThreadId();
+    std::string ret;
+    ret.swap(kErrorStore[tid]);
 
-    string store = GAUSS::kOutputStore[getThreadId()];
+    return ret;
+}
 
-    store.append(output);
+void GAUSS::resetHooks() {
+    setHookProgramOutput(GAUSS::internalHookOutput);
+    setHookProgramErrorOutput(GAUSS::internalHookError);
+    setHookFlushProgramOutput(GAUSS::internalHookFlush);
+    setHookProgramInputString(GAUSS::internalHookInputString);
+    setHookProgramInputChar(GAUSS::internalHookInputChar);
+    setHookProgramInputBlockingChar(GAUSS::internalHookInputBlockingChar);
+    setHookProgramInputCheck(GAUSS::internalHookInputCheck);
+}
 
-    GAUSS::kOutputStore[tid] = store;
-
-    pthread_mutex_unlock(&GAUSS::kOutputMutex);
+void GAUSS::internalHookOutput(char *output) {
+    if (GAUSS::outputModeManaged()) {
+        std::lock_guard<std::mutex> guard(kOutputMutex);
+        int tid = getThreadId();
+        std::string &store = kOutputStore[tid];
+        store.append(output);
+    } else if (GAUSS::outputFunc_) {
+        GAUSS::outputFunc_->invoke(std::string(output));
+    } else {
+        fputs(output, stdout);
+    }
 }
 
 void GAUSS::internalHookError(char *output) {
-    pthread_mutex_lock(&GAUSS::kErrorMutex);
-
-    int tid = getThreadId();
-
-    string store = GAUSS::kErrorStore[getThreadId()];
-
-    store.append(output);
-
-    GAUSS::kErrorStore[tid] = store;
-
-    pthread_mutex_unlock(&GAUSS::kErrorMutex);
+    if (GAUSS::outputModeManaged()) {
+        std::lock_guard<std::mutex> guard(kErrorMutex);
+        int tid = getThreadId();
+        std::string &store = kErrorStore[tid];
+        store.append(output);
+    } else if (GAUSS::errorFunc_) {
+        GAUSS::errorFunc_->invoke(std::string(output));
+    } else {
+        fputs(output, stderr);
+    }
 }
 
 void GAUSS::internalHookFlush() {
     if (GAUSS::flushFunc_) {
         GAUSS::flushFunc_->invoke();
     } else {
-        cout.flush();
-        cerr.flush();
+        fflush(stdout);
+        fflush(stderr);
     }
 }
 
 int GAUSS::internalHookInputString(char *buf, int len) {
     memset(buf, 0, len);
 
-    // Check for user input string function.
+    // Check for user input std::string function.
     if (GAUSS::inputStringFunc_) {
         GAUSS::inputStringFunc_->clear();
         GAUSS::inputStringFunc_->invoke(len);
 
-        string ret = GAUSS::inputStringFunc_->value();
+        std::string ret = GAUSS::inputStringFunc_->value();
 
         // write ret data to buf;
         strncpy(buf, ret.c_str(), len);
@@ -2192,6 +2621,14 @@ int GAUSS::internalHookInputCheck() {
     }
 
     return 0;
+}
+
+void GAUSS::setOutputModeManaged(bool managed) {
+    GAUSSPrivate::managedOutput_ = managed;
+}
+
+bool GAUSS::outputModeManaged() {
+    return GAUSSPrivate::managedOutput_;
 }
 
 /**
@@ -2465,8 +2902,8 @@ void GAUSS::setProgramFlushOutput(IGEProgramFlushOutput *func) {
 }
 
 /**
- * Set the callback function that GAUSS will call for blocking string input. This function should block
- * until a user-supplied string of input is available.
+ * Set the callback function that GAUSS will call for blocking std::string input. This function should block
+ * until a user-supplied std::string of input is available.
  *
  * #### GAUSS commands which activate this callback ####
  * - `cons`
@@ -2485,7 +2922,7 @@ ge.setProgramInputString(strCallback)
 ge.executeString("s = cons")
 
 s = ge.getString("s")
-print "s = " + s.getData()
+print "s = " + s
  * ~~~
  *
  * #### PHP ####
@@ -2504,7 +2941,7 @@ $ge->setProgramInputString($strCallback);
 $ge->executeString("s = cons");
 
 $s = $ge->getString("s");
-echo "s = " . $s->getData() . PHP_EOL;
+echo "s = " . $s . PHP_EOL;
  * ~~~
  *
  * <!--#### Java <NOT IMPLEMENTED> ####
@@ -2522,8 +2959,8 @@ GEProgramInputString consFn = new GEProgramInputString() {
 
 ge.setProgramInputString(consFn);
 ge.executeString("s = cons");
-GEString s = ge.getString("s");
-System.out.println("s = " + s.getData());
+String s = ge.getString("s");
+System.out.println("s = " + s);
  * ~~~-->
  *
  * will result in the output:
@@ -2794,48 +3231,68 @@ void GAUSS::setHookProgramInputCheck(int (*get_string_function)(void)) {
 //}
 
 GAUSS::~GAUSS() {
-    if (this->manager_)
-        delete this->manager_;
+    //    if (GAUSS::outputFunc_) {
+    //        // Prevent double-delete for user doing setProgramOutputAll
+    //        if (GAUSS::outputFunc_ == GAUSS::errorFunc_)
+    //            GAUSS::errorFunc_ = 0;
 
-    if (GAUSS::outputFunc_) {
-        // Prevent double-delete for user doing setProgramOutputAll
-        if (GAUSS::outputFunc_ == GAUSS::errorFunc_)
-            GAUSS::errorFunc_ = 0;
+    //        delete GAUSS::outputFunc_;
+    //        GAUSS::outputFunc_ = 0;
+    //    }
 
-        delete GAUSS::outputFunc_;
-        GAUSS::outputFunc_ = 0;
-    }
+    //    if (GAUSS::errorFunc_) {
+    //        delete GAUSS::errorFunc_;
+    //        GAUSS::errorFunc_ = 0;
+    //    }
 
-    if (GAUSS::errorFunc_) {
-        delete GAUSS::errorFunc_;
-        GAUSS::errorFunc_ = 0;
-    }
+    //    if (GAUSS::flushFunc_) {
+    //        delete GAUSS::flushFunc_;
+    //        GAUSS::flushFunc_ = 0;
+    //    }
 
-    if (GAUSS::flushFunc_) {
-        delete GAUSS::flushFunc_;
-        GAUSS::flushFunc_ = 0;
-    }
+    //    if (GAUSS::inputStringFunc_) {
+    //        delete GAUSS::inputStringFunc_;
+    //        GAUSS::inputStringFunc_ = 0;
+    //    }
 
-    if (GAUSS::inputStringFunc_) {
-        delete GAUSS::inputStringFunc_;
-        GAUSS::inputStringFunc_ = 0;
-    }
+    //    if (GAUSS::inputCharFunc_) {
+    //        if (GAUSS::inputCharFunc_ == GAUSS::inputBlockingCharFunc_)
+    //            GAUSS::inputBlockingCharFunc_ = 0;
 
-    if (GAUSS::inputCharFunc_) {
-        if (GAUSS::inputCharFunc_ == GAUSS::inputBlockingCharFunc_)
-            GAUSS::inputBlockingCharFunc_ = 0;
+    //        delete GAUSS::inputCharFunc_;
+    //        GAUSS::inputCharFunc_ = 0;
+    //    }
 
-        delete GAUSS::inputCharFunc_;
-        GAUSS::inputCharFunc_ = 0;
-    }
+    //    if (GAUSS::inputBlockingCharFunc_) {
+    //        delete GAUSS::inputBlockingCharFunc_;
+    //        GAUSS::inputBlockingCharFunc_ = 0;
+    //    }
 
-    if (GAUSS::inputBlockingCharFunc_) {
-        delete GAUSS::inputBlockingCharFunc_;
-        GAUSS::inputBlockingCharFunc_ = 0;
-    }
+    //    if (GAUSS::inputCheckFunc_) {
+    //        delete GAUSS::inputCheckFunc_;
+    //        GAUSS::inputCheckFunc_ = 0;
+    //    }
+}
 
-    if (GAUSS::inputCheckFunc_) {
-        delete GAUSS::inputCheckFunc_;
-        GAUSS::inputCheckFunc_ = 0;
-    }
+bool GAUSSPrivate::managedOutput_ = true;
+
+GAUSSPrivate::GAUSSPrivate(const std::string &homePath) {
+    this->gauss_home_ = homePath;
+    this->manager_ = new WorkspaceManager;
+}
+
+GAUSSPrivate::~GAUSSPrivate() {
+    delete this->manager_;
+}
+
+String_t* GAUSSPrivate::createPermString(const std::string &data) {
+    String_t *newStr = GAUSS_MallocString_t();
+
+    size_t len = data.size() + 1;
+    newStr->stdata = (char*)GAUSS_Malloc(len);
+    strncpy(newStr->stdata, data.c_str(), len);
+    newStr->length = len;
+    newStr->freeable = TRUE;
+
+    return newStr;
 }

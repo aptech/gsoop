@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="gauss_logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">GAUSS Engine
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.3</span>
    </div>
    <div id="projectbrief">Language bindings for the GAUSS Engine</div>
   </td>
@@ -86,7 +86,7 @@ $(document).ready(function(){initNavTree('index.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -102,10 +102,11 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="contents">
 <div class="textblock"><p>A light-weight OOP wrapper for various target languages that allows developers to interface with the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine.</p>
 <p>We use the <a href="http://www.swig.org">SWIG</a> library to generate language-specific extensions from C++ for us.</p>
-<p>Two languages are supported with more planned:</p>
+<p>The following languages are supported with more planned:</p>
 <ul>
 <li>Python</li>
 <li>PHP</li>
+<li>C#</li>
 </ul>
 <p>While building from source allows complete control over the compile process, we have elected to also release binaries for popular platforms.</p>
 <p>You can:</p>
@@ -116,7 +117,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li>Set up callbacks for integration with <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>'s input/output routines</li>
 </ul>
 <h2>Configuration</h2>
-<p>The API will look for the <code>MTENGHOME</code> environment variable. This will be the location the engine was extracted to (i.e. <code>C:\mteng</code> on Windows, <code>/home/user/mteng</code> on Linux)</p>
+<p>The API will look for the <code>MTENGHOME</code> environment variable. This will be the location the engine was extracted to (i.e. <code>C:\mteng</code> on Windows, <code>$HOME/mteng</code> on Linux)</p>
 <table class="doxtable">
 <tr>
 <th align="left">Variable </th><th align="left">Value</th></tr>
@@ -133,21 +134,19 @@ $(document).ready(function(){initNavTree('index.html','');});
 </table>
 <p>The presence of this value allows the engine DLL to be found and loaded properly.</p>
 <p>Ensure you do not <b>replace</b> <code>PATH</code> with the directory.</p>
-<h3>Linux and Unix</h3>
+<h3>Linux</h3>
 <table class="doxtable">
 <tr>
 <th align="left">Variable </th><th align="left">Value</th></tr>
 <tr>
-<td align="left"><code>LD_LIBRARY_PATH</code> </td><td align="left">Append <code>/home/user/mteng</code> </td></tr>
-<tr>
-<td align="left"><code>LD_PRELOAD</code> </td><td align="left">Append <code>/lib/x86_64-linux-gnu/libpthread.so.0:/home/user/mteng/bin/libiomp5.so</code> </td></tr>
+<td align="left"><code>LD_LIBRARY_PATH</code> </td><td align="left">Append <code>$HOME/mteng</code> </td></tr>
 </table>
-<p>Note: Please adjust the paths accordingly to your specific installation. In this case, the <code>libpthread.so.0</code> reference is for Ubuntu 64-bit.</p>
+<p>Note: Please adjust the paths accordingly to your specific installation.</p>
 <h3>SWIG</h3>
 <p>If you are building from source, you will need to have the SWIG library available:</p>
 <p><a href="http://www.swig.org/download.html">http://www.swig.org/download.html</a></p>
 <p>Once installed, please ensure <code>swig</code> is available in your terminal by placing its installation directory in your <code>PATH</code> environment variable, as building requires it.</p>
-<p><b>EXCEPTION</b>: If you are not <em>modifying</em> any source files, the auto generated files have been included in the respective <code>python</code> and <code>php</code> sub-directories.</p>
+<p><b>EXCEPTION</b>: If you are not <em>modifying</em> any source files, the auto generated files have been included in the respective <code>python</code> and <code>php</code> sub-directories. Please refer to php5/php7 based on the version of PHP being used.</p>
 <p>You can place these in <code>src</code> and skip the steps involving SWIG.</p>
 <h2>Installation</h2>
 <p>Please refer to the vendor documentation for language-level installation.</p>
@@ -158,9 +157,9 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>Select the correct <code>egg</code> file according to your architecture.</p>
 <p>Please ensure your Python installation contains the <code>setuptools</code> package, which provides the <code>easy_install</code> application.</p>
 <p>Instructions and files can be found at: <a href="https://pypi.python.org/pypi/setuptools#windows">https://pypi.python.org/pypi/setuptools#windows</a> </p>
-<pre class="fragment">$ easy_install gauss-0.2-py2.7-win-amd64.egg
+<pre class="fragment">$ easy_install ge-0.3-py2.7-win-amd64.egg
 </pre><h4>Linux</h4>
-<pre class="fragment">$ easy_install gauss-0.2-py2.7-linux-x86_64.egg
+<pre class="fragment">$ easy_install ge-0.3-py2.7-linux-x86_64.egg
 </pre><h3>Source</h3>
 <p>If using Windows, please ensure the following are correctly in your <code>PATH</code> environment variable </p>
 <pre class="fragment">C:\Python27\;C:\Python27\Scripts\
@@ -171,105 +170,61 @@ $(document).ready(function(){initNavTree('index.html','');});
 </div><!-- fragment --><h4>Linux or Cygwin</h4>
 <div class="fragment"><div class="line"><span class="preprocessor"># The setup.py utilizes the &#39;MTENGHOME&#39; environment variable.</span></div>
 <div class="line"><span class="preprocessor"></span><span class="preprocessor"># Please ensure this is set appropriately to your GAUSS Engine installation directory.</span></div>
-<div class="line"><span class="preprocessor"></span>tar -xvf gauss-0.2.tar.gz</div>
-<div class="line">cd gauss-0.2</div>
-<div class="line">python setup.py build_ext -i      # First build the extension and create the gauss.py file</div>
+<div class="line"><span class="preprocessor"></span>tar -xvf ge-0.3.tar.gz</div>
+<div class="line">cd ge-0.3</div>
+<div class="line">python setup.py build_ext -i      # First build the extension and create the ge.py file</div>
 <div class="line">python setup.py install           # Everything compiled, now install</div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor"># ROOT ONLY</span></div>
 <div class="line"><span class="preprocessor"></span><span class="preprocessor"># If installation must be done as root, force set the environment variable</span></div>
-<div class="line"><span class="preprocessor"></span>tar -xvf gauss-0.2.tar.gz</div>
-<div class="line">cd gauss-0.2</div>
-<div class="line">sudo MTENGHOME=/home/user/mteng python setup.py build_ext -i # First build the extension and create the gauss.py file</div>
-<div class="line">sudo MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install</div>
+<div class="line"><span class="preprocessor"></span>tar -xvf ge-0.3.tar.gz</div>
+<div class="line">cd ge-0.3</div>
+<div class="line">MTENGHOME=/home/user/mteng python setup.py build_ext -i # First build the extension and create the ge.py file</div>
+<div class="line">MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install</div>
 </div><!-- fragment --><h4>Windows</h4>
-<p>Due to <code>mteng.dll</code> being compiled with VS 2008, it is necessary at this time to use MSVC to compile the Python extension.</p>
+<p>Due to <code>mteng.dll</code> being compiled with Visual Studio 2015, it is necessary at this time to use MSVC to compile the Python extension.</p>
 <p>All commands are run through the appropriate Visual Studio command prompt.</p>
-<p>32-bit: <code>Start -&gt; Microsoft Visual Studio 2008 -&gt; Visual Studio Tools -&gt; Visual Studio 2008 Command Prompt</code></p>
-<p>64-bit: <code>Start -&gt; Microsoft Visual Studio 2008 -&gt; Visual Studio Tools -&gt; Visual Studio 2008 x64 Win64 Command Prompt</code></p>
+<p>32-bit: <code>Start -&gt; Microsoft Visual Studio 2015 -&gt; Visual Studio Tools -&gt; Visual Studio 2015 Command Prompt</code></p>
+<p>64-bit: <code>Start -&gt; Microsoft Visual Studio 2015 -&gt; Visual Studio Tools -&gt; Visual Studio 2015 x64 Win64 Command Prompt</code></p>
 <p>If your user lacks permissions to access the Python installation directory, you may have to run <code>cmd</code> as Administrator</p>
 <p>Execute the following via a <code>cmd</code> terminal:</p>
 <div class="fragment"><div class="line"><span class="preprocessor"># The setup.py utilizes the &#39;MTENGHOME&#39; environment variable.</span></div>
 <div class="line"><span class="preprocessor"></span><span class="preprocessor"># Please ensure this is set appropriately to your GAUSS Engine installation directory.</span></div>
-<div class="line"><span class="preprocessor"></span><span class="preprocessor"># unzip gauss-01.zip to a directory of your choice</span></div>
-<div class="line"><span class="preprocessor"></span>cd gauss-0.2</div>
-<div class="line">python setup.py build_ext -i      # First build the extension and create the gauss.py file</div>
+<div class="line"><span class="preprocessor"></span><span class="preprocessor"># unzip ge-0.3.zip to a directory of your choice</span></div>
+<div class="line"><span class="preprocessor"></span>cd ge-0.3</div>
+<div class="line">python setup.py build_ext -i      # First build the extension and create the ge.py file</div>
 <div class="line">python setup.py install           # Everything compiled, now install</div>
-</div><!-- fragment --><p>If you omit the <code>build_ext -i</code> step, the <code>gauss.py</code> generated file will <b>NOT</b> be placed in Python package directory.</p>
-<p>The result of this behavior is the following when attempting to <code>import gauss</code>: </p>
-<pre class="fragment">&gt;&gt;&gt; import gauss
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-ImportError: No module named gauss
-</pre><h3>PHP</h3>
+</div><!-- fragment --><p>If you omit the <code>build_ext -i</code> step, the <code>ge.py</code> generated file will <b>NOT</b> be placed in Python package directory.</p>
+<p>The result of this behavior is the following when attempting to <code>import gauss</code>:</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;&gt;&gt;&gt; <span class="keyword">import</span> ge</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;Traceback (most recent call last):</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;  File <span class="stringliteral">&quot;&lt;stdin&gt;&quot;</span>, line 1, <span class="keywordflow">in</span> &lt;module&gt;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;ImportError: No module named ge</div>
+</div><!-- fragment --><h3>PHP (Linux Only)</h3>
 <h4>Source</h4>
-<p><a href="http://www.cmake.org">CMake</a> is our build tool of choice. Get it.</p>
-<p>There are a couple steps common between both platforms that should be done ahead of time.</p>
-<ol type="1">
-<li><p class="startli">Set PHP specific environment variables.</p>
-<p class="startli">Our CMake file uses the <code>PHP_INCLUDE</code> environment variable to locate PHP headers. It expects a semi-colon delimited list of paths.</p>
-<p class="startli">For convenience, the Linux implementation does a string replace of '<code>-I</code>' with a semi-colon, so the following will work fine. </p>
-<pre class="fragment"># Linux
-$ export PHP_INCLUDE=`php-config --includes`
-
-# Windows you have to create it yourself. Newlines have been removed to clearly show the paths
-# The actual command should have them all appended to each other separated by a semi-colon
-set PHP_INCLUDE=C:\development\php5.4ts\dev;
-                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src;
-                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\main;
-                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\Zend;
-                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\TSRM;
-                C:\development\php-sdk\php54dev\vc9\x86\php-5.4.14-src\ext
-</pre><p class="startli"><b>Note</b> on Windows, the environment variable contains <code>php5.4ts\dev</code> as part of the include path.</p>
-<p class="startli">This ensures <code>php5ts.lib</code> will be located properly at link-time.</p>
-</li>
-<li><p class="startli">Execute SWIG manually (If you are using pre-generated files from the appropriate language's directory, you can skip this step)</p>
-<p class="startli">Unlike our Python installation script, CMake does not automatically execute SWIG on the source files.</p>
-<p class="startli">Run one directory up from <code>src</code>: </p>
-<pre class="fragment">swig -c++ -php -outdir src -o src/gauss_wrap.cpp gauss.i
-</pre></li>
-</ol>
-<p>After executing <code>swig</code>, you will find a newly created <code>gauss.php</code> in the <code>src</code> directory.</p>
-<p>This will need to be used with any project that makes use of the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine, as the first line of any program will be </p>
-<pre class="fragment">include("gauss.php");
-</pre><h4>Linux</h4>
-<p>The following commands are executed from the root of the source path </p>
+<p><a href="http://www.cmake.org">CMake</a> is our build tool of choice for building the PHP extension.</p>
+<p>Currently, only Linux is supported/tested. The CMake file uses information from the <code>php-config</code> binary to configure itself appropriately.</p>
+<p>The following commands are executed from the root of the source path: </p>
 <pre class="fragment">$ mkdir build
 $ cd build
 # You could also use cmake-gui to create the Makefile
-$ cmake -DMTENGHOME=/home/user/mteng ..
-$ make
-</pre><p>You should now have a <code>gauss.so</code> file in your current directory.</p>
-<p>Refer to the <a href="#php_install_binary">PHP Binary</a> section for instructions on installation.</p>
-<h4>Windows</h4>
-<p>Currently, only compilation against PHP 5.4.14 (x86) <em>Thread Safe</em> version has been verified to work. Tested with Windows 7 Enterprise with Visual Studio 2008 SP1</p>
-<p><b>Compile bug work-around:</b></p>
-<p>Per a bug report at, <a href="https://bugs.php.net/bug.php?id=63130,">https://bugs.php.net/bug.php?id=63130,</a> and until a better solution is presented, you should make the following changes to <code>malloc.h</code>:</p>
-<p>This is a possible path where you might find it: </p>
-<pre class="fragment">C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\include\malloc.h
-</pre><p>open it up as Administrator and change</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#define _STATIC_ASSERT(expr) typedef char __static_assert_t[ (expr) ]</span></div>
-</div><!-- fragment --><p> to </p>
-<div class="fragment"><div class="line"><span class="preprocessor">#ifdef PHP_WIN32</span></div>
-<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define _STATIC_ASSERT(expr) typedef char __static_assert_t[ 1 ]</span></div>
-<div class="line"><span class="preprocessor"></span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define _STATIC_ASSERT(expr) typedef char __static_assert_t[ (expr) ]</span></div>
-<div class="line"><span class="preprocessor">#endif</span></div>
-</div><!-- fragment --><p>Run the <code>cmake-gui</code> utility to configure and generate the VS Solution or NMake Makefile.</p>
-<p>I chose to specify <code>build</code> as the directory for output.</p>
-<p>If all went well, building the solution should now provide a <code>php_gauss.dll</code> file in the <code>build\Release</code> directory.</p>
+</pre><p>To use the pre-generated wrappers, configure as follows: $ cmake -DMTENGHOME=/home/user/mteng -G"Unix Makefiles" ..</p>
+<p>If you have modified source files and need to regenerate the wrappers: $ cmake -DMTENGHOME=/home/user/mteng -G"Unix Makefiles" -DSWIG=ON ..</p>
+<p>Now build the extension $ make</p>
+<p>You should now have a <code>ge.so</code> file, as well as <code>ge.php</code>, in your current directory.</p>
+<p>This will need to be used with any project that makes use of the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine, as the first line of any program will be </p>
+<pre class="fragment">include("ge.php");
+</pre><p>Refer to the <a href="#php_install_binary">PHP Binary</a> section for instructions on installation.</p>
 <h3>Binary</h3>
-<h4>Windows / Linux</h4>
-<p>Place the <code>php_gauss.dll</code> (Windows) or <code>gauss.so</code> (Linux) in your PHP installation's <code>ext</code> directory.</p>
-<p>This value can be found by either:</p>
+<p>Place the <code>ge.so</code> file in your PHP installation's extension directory. If a valid directory was found during the CMake configuration phase, you can run <code>make installext</code> to automatically copy the newly built library into the appropriate extension directory.</p>
+<p>If you prefer to do this manually, the location can be found by either:</p>
 <ol type="1">
-<li><code>echo `php-config --extension-dir`</code> on Linux</li>
+<li><code>php-config --extension-dir</code></li>
 <li>Looking for the <code>extension_dir</code> value in your <code>php.ini</code> file.</li>
 </ol>
-<p>There is also the opportunity to load the extension directly by PHP, requiring the addition of the following to your <code>php.ini</code>: </p>
+<p>For use with a web server, the extension must be loaded directly by PHP, requiring the following change to your <code>php.ini</code>: </p>
 <pre class="fragment">; load gauss engine extension
-; specify gauss.so if Linux
-extension=php_gauss.dll
+extension=ge.so
 </pre><p>If running PHP from the command line, changes should be instantaneous.</p>
 <p>Please refresh services that utilize PHP to pick up on the new extension.</p>
 <h2>Development</h2>
@@ -279,7 +234,7 @@ extension=php_gauss.dll
 <p>This assumes the library has been made available to the target language properly.</p>
 <p>The following snippet will be described step-by-step in detail:</p>
 <h4>Python</h4>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">from</span> gauss <span class="keyword">import</span> GAUSS, IGEProgramOutput</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">from</span> ge <span class="keyword">import</span> GAUSS, IGEProgramOutput</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">class </span>Output(<a class="code" href="class_i_g_e_program_output.html" title="This is the callback function that GAUSS will call to do normal program output.">IGEProgramOutput</a>):</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    <span class="keyword">def </span>invoke(self, message):</div>
@@ -288,17 +243,16 @@ extension=php_gauss.dll
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;ge = <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>()</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;out = Output()</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;out.thisown = 0</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;ge.setProgramOutputAll(out)</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> ge.initialize():</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;Initialization failed.&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    sys.exit(1)     <span class="comment"># import sys for usage</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;ge.executeString(<span class="stringliteral">&quot;print \&quot;Hello World!\&quot;&quot;</span>)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;ge.shutdown()</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;ge.setProgramOutputAll(out)</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> ge.initialize():</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;Initialization failed.&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    sys.exit(1)     <span class="comment"># import sys for usage</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;ge.executeString(<span class="stringliteral">&quot;print \&quot;Hello World!\&quot;&quot;</span>)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;ge.shutdown()</div>
 </div><!-- fragment --><h4>PHP</h4>
-<div class="fragment"><div class="line">include(<span class="stringliteral">&quot;gauss.php&quot;</span>);</div>
+<div class="fragment"><div class="line">include(<span class="stringliteral">&quot;ge.php&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">class </span>Output <span class="keyword">extends</span> <a class="code" href="class_i_g_e_program_output.html" title="This is the callback function that GAUSS will call to do normal program output.">IGEProgramOutput</a> {</div>
 <div class="line">    <span class="keyword">function</span> invoke($message) {</div>
@@ -309,7 +263,6 @@ extension=php_gauss.dll
 <div class="line">$ge = <span class="keyword">new</span> <a class="code" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a>();</div>
 <div class="line"></div>
 <div class="line">$out = <span class="keyword">new</span> Output();</div>
-<div class="line">$out-&gt;thisown = 0;</div>
 <div class="line"></div>
 <div class="line">$ge-&gt;setProgramOutputAll($out);</div>
 <div class="line"></div>
@@ -323,10 +276,10 @@ extension=php_gauss.dll
 </div><!-- fragment --><h3>Step 1: Import the required library</h3>
 <p>Before we can make use of the functionality, we have to make the engine library available to us. This is quite simple and straight-forward.</p>
 <h4>Python</h4>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">from</span> gauss <span class="keyword">import</span> GAUSS, IGEProgramOutput</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">from</span> ge <span class="keyword">import</span> GAUSS, IGEProgramOutput</div>
 </div><!-- fragment --><h4>PHP</h4>
-<div class="fragment"><div class="line">include(<span class="stringliteral">&quot;gauss.php&quot;</span>);</div>
-</div><!-- fragment --><p>If you compiled from source and you're not sure where <code>gauss.php</code> is, recall that SWIG auto-generated it for us and it should be in the <code>src</code> directory.</p>
+<div class="fragment"><div class="line">include(<span class="stringliteral">&quot;ge.php&quot;</span>);</div>
+</div><!-- fragment --><p>If you compiled from source and you're not sure where <code>ge.php</code> is, it will be in the <code>build</code> directory.</p>
 <h3>Step 2: Instantiate the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine object</h3>
 <p>After importing the correct library, we need to instantiate our engine object. There are multiple constructors available that suit a variety of scenarios.</p>
 <p>In this example, we will be using the default constructor. This method relies on an existing environment variable in an effort to locate the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> home directory.</p>
@@ -342,29 +295,27 @@ extension=php_gauss.dll
 <p>The following 3 steps are core to setting up a callback:</p>
 <ol type="1">
 <li>Define the callback by deriving one of the available callback classes</li>
-<li>Set the <code>thisown</code> property to <b>0</b> (release ownership)</li>
+<li>Set the <code>thisown</code> property to <b>0</b> (release ownership) if the object would go out of scope before the <code><a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a></code> object</li>
 <li>Assign the callback</li>
 </ol>
 <p>Pretty straight-forward!</p>
 <p>We first define a callback class, inheriting the appropriate base class; in this case <a class="el" href="class_i_g_e_program_output.html" title="This is the callback function that GAUSS will call to do normal program output.">IGEProgramOutput</a>.</p>
 <p>Simply override the callback method <code>invoke</code> and print out the <code>message</code> argument.</p>
 <p><b>Important Note:</b></p>
-<p>We must set the <code>thisown</code> property of the newly instantiated object to <code>0</code></p>
+<p>We must set the <code>thisown</code> property of the newly instantiated object to <code>0</code> if it will go out of scope before the <code><a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a></code> object</p>
 <p>This is necessary because ownership of this object will be transferred to the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> object.</p>
-<p>Without setting this, if the <code>out</code> var was to go out of scope, it could be deleted. When the engine attempts to clean up after itself, that object will no longer exist.</p>
+<p>Without setting this, if the <code>out</code> var was to go out of scope, it could be deleted and <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> will now attempt to reference a non-existent callback.</p>
 <h4>Python</h4>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># Step 1</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">class </span>Output(<a class="code" href="class_i_g_e_program_output.html" title="This is the callback function that GAUSS will call to do normal program output.">IGEProgramOutput</a>):</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    <span class="keyword">def </span>invoke(self, message):</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;        <span class="keywordflow">print</span> message,</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;out = Output()</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"># Step 2</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;out.thisown = 0 <span class="comment"># Prevent garbage collection</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"># Step 3</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;ge.setProgramOutputAll(out)</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># Step 2</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;out = Output().__disown__() <span class="comment"># Prevent garbage collection</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"># Step 3</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;ge.setProgramOutputAll(out)</div>
 </div><!-- fragment --> <h4>PHP</h4>
 <div class="fragment"><div class="line"><span class="comment">// Step 1</span></div>
 <div class="line"><span class="keyword">class </span>Output <span class="keyword">extends</span> <a class="code" href="class_i_g_e_program_output.html" title="This is the callback function that GAUSS will call to do normal program output.">IGEProgramOutput</a> {</div>
@@ -421,12 +372,16 @@ extension=php_gauss.dll
 <tr>
 <td align="left">PHP </td><td align="left"><code>php/template_example.php</code> </td></tr>
 </table>
-</div></div><!-- contents -->
+<h3>Unit Tests</h3>
+<p>Some simple unit tests have also been provided. The PHP unit test example uses <a href="https://phpunit.de">PHP Unit</a> and can ran accordingly: </p>
+<pre class="fragment">php -f phpunit.phar unit_test.php
+</pre><p>The CMake configure stage will also attempt to locate a PHPUnit binary, and if found, will offer a 'unittest' make target that can be used: </p>
+<pre class="fragment">make unittest</pre> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Jul 27 2015 16:54:10 for GAUSS Engine by
+    <li class="footer">Generated on Thu Jun 22 2017 17:45:07 for GAUSS Engine by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1-20130324 </li>
   </ul>

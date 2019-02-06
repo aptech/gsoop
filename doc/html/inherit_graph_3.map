@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_g_e_workspace.html" title="Wrapper for a WorkspaceHandle_t* object." alt="" coords="5,5,112,35"/>
+<area shape="rect" id="node1" href="$class_g_e_symbol.html" title="Abstract parent class for all symbol types." alt="" coords="5,59,91,88"/>
+<area shape="rect" id="node3" href="$class_g_e_array.html" title="GAUSS Array symbol type." alt="" coords="156,5,228,35"/>
+<area shape="rect" id="node5" href="$class_g_e_matrix.html" title="GAUSS Matrix symbol type." alt="" coords="153,59,231,88"/>
+<area shape="rect" id="node7" href="$class_g_e_string_array.html" title="GAUSS String Array Symbol type." alt="" coords="139,112,245,141"/>
 </map>

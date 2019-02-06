@@ -3,51 +3,56 @@
 
 #include "gesymbol.h"
 #include <stdio.h>
+#include <memory>
 
 /**
  * GAUSS Matrix symbol type. Represents two dimensional array of double precision numbers. Matrices can
  * also be complex, storing both real and imaginary data.
  *
  */
-class GEMatrix : public GESymbol
+class GAUSS_EXPORT GEMatrix : public GESymbol
 {
 public:
     GEMatrix();
     GEMatrix(double);
-    GEMatrix(vector<double>);
-    GEMatrix(vector<double>, int rows, int cols, bool complex = false);
-    GEMatrix(vector<double>, vector<double>, int rows, int cols);
+    GEMatrix(VECTOR_DATA(double) data);
+    GEMatrix(VECTOR_DATA(double) data, int rows, int cols, bool complex = false);
+    GEMatrix(VECTOR_DATA(double) data, VECTOR_DATA(double) imag_data, int rows, int cols);
+    GEMatrix(const double *data, int rows, int cols, bool complex = false);
+    GEMatrix(const double *data, const double *imag_data, int rows, int cols);
 
-    bool setElement(double, bool imag = false);
-    bool setElement(double, int row, int col, bool imag = false);
+    bool setElement(double value, bool imag = false);
+    bool setElement(double value, int idx, bool imag = false);
+    bool setElement(double value, int row, int col, bool imag = false);
 
-    double getElement(bool imag = false);
-    double getElement(int row, int col, bool imag = false);
+    double getElement(bool imag = false) const;
+    double getElement(int idx, bool imag = false) const;
+    double getElement(int row, int col, bool imag = false) const;
 
-    vector<double> getData(bool imag = false);
-    vector<double> getImagData();
+    vector<double> getData(bool imag = false) const;
+    vector<double> getImagData() const;
 
     virtual void clear();
-    virtual std::string toString();
+    virtual std::string toString() const;
 
-//    using GESymbol::getRows;
-//    using GESymbol::getCols;
-//    using GESymbol::isComplex;
+    Matrix_t* toInternal();
 
-//    using GESymbol::setRows;
-//    using GESymbol::setCols;
-//    using GESymbol::setComplex;
+#ifdef SWIGPHP
+    int position_;
+#endif
 
 private:
     GEMatrix(Matrix_t*);
+    GEMatrix(const GAUSS_MatrixInfo_t &info);
 
-    void Init(vector<double> data, int rows, int cols, bool complex = false);
-    void Init(vector<double> real_data, vector<double> imag_data, int rows, int cols, bool complex = false);
+    void Init(VECTOR_DATA(double) data, int rows, int cols, bool complex = false);
+    void Init(VECTOR_DATA(double) real_data, VECTOR_DATA(double) imag_data, int rows, int cols, bool complex = false);
+    void Init(const double *data, const double *imag_data, int rows, int cols, bool complex = false); 
 
-    double *data_;
-    double *data_imag_;
+	std::vector<double> data_;
 
     friend class GAUSS;
+    friend class GAUSSPrivate;
 };
 
 #endif // GEMATRIX_H
