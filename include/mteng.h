@@ -43,10 +43,11 @@ extern "C" {
 #define RRWLock_unlock(A) thread_rrw_unlock(&(A))
 #define RRWLock_destroy(A) thread_rrwlock_destroy(&(A))
 
-///#if OS_VER == MSWIN32 && GDT_SIZE_SIZE_T == 4
-#if OS_VER == MSWIN32
+#ifdef _WIN32
 extern pthread_t gauss_null_tid;
 extern void *gauss_thread_id(void);
+#include <basetsd.h>
+typedef SSIZE_T ssize_t;
 #endif
 
 /*
