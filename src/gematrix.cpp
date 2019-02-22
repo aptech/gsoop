@@ -9,23 +9,23 @@ using namespace std;
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 x = GEMatrix()
 ge.setSymbol(x, "x")
 ge.executeString("print x")
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 $x = new GEMatrix();
 $ge->setSymbol($x, "x");
 $ge->executeString("print x;");
- * ~~~
+```
  * results in output:
- * ~~~
+```
        0.0000000
- * ~~~
+```
  */
 GEMatrix::GEMatrix() : GESymbol(GESymType::MATRIX)
 {
@@ -37,28 +37,28 @@ GEMatrix::GEMatrix() : GESymbol(GESymType::MATRIX)
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 x = GEMatrix(1.0)
 ge.setSymbol(x, "x")
 ge.executeString("print x")
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 $x = new GEMatrix(1.0);
 $ge->setSymbol($x, "x");
 $ge->executeString("print x;");
- * ~~~
+```
  * results in output:
- * ~~~
+```
        1.0000000
- * ~~~
+```
  *
  * @param d Scalar value
  */
 GEMatrix::GEMatrix(double n) : GESymbol(GESymType::MATRIX) {
-	this->data_.push_back(n);
+    this->data_.push_back(n);
     this->setRows(1);
     this->setCols(1);
     this->setComplex(false);
@@ -69,19 +69,19 @@ GEMatrix::GEMatrix(double n) : GESymbol(GESymType::MATRIX) {
 */
 GEMatrix::GEMatrix(Matrix_t* mat) : GESymbol(GESymType::MATRIX) {
     if (mat == nullptr)
-		return;
+        return;
 
-	this->setRows(mat->rows);
-	this->setCols(mat->cols);
-	this->setComplex(static_cast<bool>(mat->complex));
+    this->setRows(mat->rows);
+    this->setCols(mat->cols);
+    this->setComplex(static_cast<bool>(mat->complex));
 
-	int elements = size() * (isComplex() ? 2 : 1);
+    int elements = size() * (isComplex() ? 2 : 1);
 
-	this->data_.resize(elements);
-	memcpy(this->data_.data(), mat->mdata, elements * sizeof(double));
+    this->data_.resize(elements);
+    memcpy(this->data_.data(), mat->mdata, elements * sizeof(double));
 
-	GAUSS_Free(mat->mdata); // We have ownership of original from symbol table
-	GAUSS_Free(mat);
+    GAUSS_Free(mat->mdata); // We have ownership of original from symbol table
+    GAUSS_Free(mat);
 }
 
 
@@ -93,9 +93,9 @@ GEMatrix::GEMatrix(const GAUSS_MatrixInfo_t &info) : GESymbol(GESymType::MATRIX)
     this->setCols(info.cols);
     this->setComplex(static_cast<bool>(info.complex));
 
-	int elements = size() * (isComplex() ? 2 : 1);
+    int elements = size() * (isComplex() ? 2 : 1);
 
-	this->data_.resize(elements);
+    this->data_.resize(elements);
     memcpy(this->data_.data(), info.maddr, elements * sizeof(double));
 }
 
@@ -104,23 +104,23 @@ GEMatrix::GEMatrix(const GAUSS_MatrixInfo_t &info) : GESymbol(GESymType::MATRIX)
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 x = GEMatrix([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0])
 ge.setSymbol(x, "x")
 ge.executeString("print x")
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 $x = new GEMatrix(array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0));
 $ge->setSymbol($x, "x");
 $ge->executeString("print x;");
- * ~~~
+```
  * results in output:
- * ~~~
+```
        1.0000000        2.0000000        3.0000000        4.0000000        5.0000000        6.0000000        7.0000000        8.0000000
- * ~~~
+```
  *
  * @param   data    Data vector
  *
@@ -139,8 +139,8 @@ GEMatrix::GEMatrix(VECTOR_DATA(double) data) : GESymbol(GESymType::MATRIX) {
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 # Create a matrix
 x = GEMatrix([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0], 4, 2)
 ge.setSymbol(x, "x")
@@ -150,10 +150,10 @@ ge.executeString("print x")
 xc = GEMatrix([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0], 2, 2, True)
 ge.setSymbol(xc, "xc")
 ge.executeString("print xc")
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 // Create a matrix
 $x = new GEMatrix(array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0), 4, 2);
 $ge->setSymbol($x, "x");
@@ -163,9 +163,9 @@ $ge->executeString("print x;");
 $xc = new GEMatrix(array(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0), 2, 2, true);
 $ge->setSymbol($xc, "xc");
 $ge->executeString("print xc;");
- * ~~~
+```
  * results in output:
- * ~~~
+```
        1.0000000        2.0000000
        3.0000000        4.0000000
        5.0000000        6.0000000
@@ -173,7 +173,7 @@ $ge->executeString("print xc;");
 
        1.0000000 +        5.0000000i        2.0000000 +        6.0000000i
        3.0000000 +        7.0000000i        4.0000000 +        8.0000000i
- * ~~~
+```
  *
  * @param data      Vector of double precision values
  * @param rows      Number of rows
@@ -192,26 +192,26 @@ GEMatrix::GEMatrix(VECTOR_DATA(double) data, int rows, int cols, bool complex) :
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 # Create a matrix with imaginary data
 xc = GEMatrix([1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 7.0, 8.0], 2, 2)
 ge.setSymbol(xc, "xc")
 ge.executeString("print xc")
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 // Create a matrix with imaginary data
 $xc = new GEMatrix(array(1.0, 2.0, 3.0, 4.0), array(5.0, 6.0, 7.0, 8.0), 2, 2);
 $ge->setSymbol($xc, "xc");
 $ge->executeString("print xc;");
- * ~~~
+```
  * results in output:
- * ~~~
+```
        1.0000000 +        5.0000000i        2.0000000 +        6.0000000i
        3.0000000 +        7.0000000i        4.0000000 +        8.0000000i
- * ~~~
+```
  *
  * @param real_data      Vector of real double precision values
  * @param imag_data      Vector of imaginary double precision values
@@ -271,7 +271,7 @@ void GEMatrix::Init(const double *p_real_data, const double *p_imag_data, int ro
 
     int elements = rows * cols;
 
-	this->data_.resize(elements * (complex ? 2 : 1));
+    this->data_.resize(elements * (complex ? 2 : 1));
 
     memcpy(this->data_.data(), p_real_data, elements * sizeof(double));
 
@@ -280,9 +280,9 @@ void GEMatrix::Init(const double *p_real_data, const double *p_imag_data, int ro
 }
 
 void GEMatrix::clear() {
-	this->data_.resize(1);
-	this->data_[0] = 0.0;
-	GESymbol::clear();
+    this->data_.resize(1);
+    this->data_[0] = 0.0;
+    GESymbol::clear();
 }
 
 /**
@@ -298,9 +298,9 @@ bool GEMatrix::setElement(double value, bool imag) {
     if (this->data_.empty() || (!isComplex() && imag))
         return false;
 
-	int index = imag ? this->size() : 0;
+    int index = imag ? this->size() : 0;
 
-	this->data_[index] = value;
+    this->data_[index] = value;
 
     return true;
 }
@@ -365,12 +365,12 @@ double GEMatrix::getElement(int index, bool imag) const {
 double GEMatrix::getElement(int row, int col, bool imag) const {
     if (this->data_.empty() || (!isComplex() && imag))
         return 0;
-	else if (row >= this->getRows() || col >= this->getCols())
+    else if (row >= this->getRows() || col >= this->getCols())
         return 0;
-	
-	int index = row * getCols() + col + (imag ? size() : 0);
 
-	return this->data_.at(index);
+    int index = row * getCols() + col + (imag ? size() : 0);
+
+    return this->data_.at(index);
 }
 
 /**
@@ -411,16 +411,16 @@ bool GEMatrix::setElement(double value, int index, bool imag) {
  * @see setElement(double, bool)
  */
 bool GEMatrix::setElement(double value, int row, int col, bool imag) {
-	if (this->data_.empty() || (!isComplex() && imag))
-		return false;
-	else if (row >= this->getRows() || col >= this->getCols())
-		return false;
+    if (this->data_.empty() || (!isComplex() && imag))
+        return false;
+    else if (row >= this->getRows() || col >= this->getCols())
+        return false;
 
-	int index = row * getCols() + col + (imag ? size() : 0);
+    int index = row * getCols() + col + (imag ? size() : 0);
 
-	this->data_[index] = value;
+    this->data_[index] = value;
 
-	return true;
+    return true;
 }
 
 /**
@@ -432,31 +432,31 @@ bool GEMatrix::setElement(double value, int row, int col, bool imag) {
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 # Create a 4x2 matrix of integers 1 - 8.
 ge.executeString("x = reshape(seqa(1, 1, 8), 4, 2)")
 ge.executeString("print x")
 x = ge.getMatrix("x")
 print ", ".join(str(n) for n in x.getData())
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 // Create a 4x2 matrix of integers 1 - 8.
 $ge->executeString("x = reshape(seqa(1, 1, 8), 4, 2);");
 $ge->executeString("print x;");
 $x = $ge->getMatrix("x");
 echo implode(", ", $x->getData());
- * ~~~
+```
  * results in output:
- * ~~~
+```
        1.0000000        2.0000000
        3.0000000        4.0000000
        5.0000000        6.0000000
        7.0000000        8.0000000
 1, 2, 3, 4, 5, 6, 7, 8
- * ~~~
+```
  *
  * @param imag  Whether to return imaginary data as well.
  *
@@ -465,18 +465,18 @@ echo implode(", ", $x->getData());
  * @see getImagData()
  */
 vector<double> GEMatrix::getData(bool imag) const {
-	if (imag && !isComplex()) {
-		return vector<double>();
-	} else if (imag == isComplex()) {
-		return this->data_;
-	}
+    if (imag && !isComplex()) {
+        return vector<double>();
+    } else if (imag == isComplex()) {
+        return this->data_;
+    }
 
-	int elements = this->size();
-	vector<double> ret(elements);
+    int elements = this->size();
+    vector<double> ret(elements);
 
-	memcpy(ret.data(), this->data_.data(), elements * sizeof(double));
+    memcpy(ret.data(), this->data_.data(), elements * sizeof(double));
 
-	return ret;
+    return ret;
 }
 
 /**
@@ -484,47 +484,47 @@ vector<double> GEMatrix::getData(bool imag) const {
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 # Create two 2x2 matrices and combine to form a complex matrix.
 ge.executeString("x_real = reshape(seqa(1, 1, 4), 2, 2)")
 ge.executeString("x_imag = reshape(seqa(5, 1, 4), 2, 2)")
 ge.executeString("x = complex(x_real, x_imag)")
 x = ge.getMatrix("x")
 print ", ".join(str(n) for n in x.getImagData())
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 // Create two 2x2 matrices and combine to form a complex matrix.
 $ge->executeString("x_real = reshape(seqa(1, 1, 4), 2, 2);");
 $ge->executeString("x_imag = reshape(seqa(5, 1, 4), 2, 2);");
 $ge->executeString("x = complex(x_real, x_imag);");
 $x = $ge->getMatrix("x");
 echo implode(", ", $x->getImagData());
- * ~~~
+```
  * results in output:
- * ~~~
+```
 5, 6, 7, 8
- * ~~~
+```
  *
  * @return        Double precision vector of data
  *
  * @see getData()
  */
 vector<double> GEMatrix::getImagData() const {
-	vector<double> ret;
+    vector<double> ret;
 
-	if (!isComplex())
-		return ret;
+    if (!isComplex())
+        return ret;
 
-	int elements = this->size();
+    int elements = this->size();
 
-	ret.resize(elements);
+    ret.resize(elements);
 
-	memcpy(ret.data(), this->data_.data() + elements, elements * sizeof(double));
+    memcpy(ret.data(), this->data_.data() + elements, elements * sizeof(double));
 
-	return ret;
+    return ret;
 }
 
 string GEMatrix::toString() const {

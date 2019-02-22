@@ -1,4 +1,4 @@
-gsoop 0.3.1
+gsoop 0.3.2
 =====
 
 A light-weight OOP wrapper for various target languages that allows developers to interface with the GAUSS Engine.
@@ -20,7 +20,9 @@ You can:
 + Manipulate data in the symbol table
 + Set up callbacks for integration with GAUSS's input/output routines
 
-## Configuration ##
+[TOC]
+
+## Configuration
 
 The API will look for the `MTENGHOME` environment variable.
 This will be the location the engine was extracted to (i.e. `C:\mteng` on Windows, `$HOME/mteng` on Linux)
@@ -31,7 +33,7 @@ Variable          | Value
 
 The following environment variables must **contain** the specified values
 
-### Windows ###
+### Windows
 Variable   | Value
 :----------|:-----------
 `PATH`     | Append `C:\mteng`
@@ -40,7 +42,7 @@ The presence of this value allows the engine DLL to be found and loaded properly
 
 Ensure you do not __replace__ `PATH` with the directory.
 
-### Linux ###
+### Linux
 
 Variable          | Value
 :-----------------|:-----------
@@ -48,7 +50,7 @@ Variable          | Value
 
 Note: Please adjust the paths accordingly to your specific installation.
 
-### SWIG ###
+### SWIG
 If you are building from source, you will need to have the SWIG library available:
 
 http://www.swig.org/download.html
@@ -57,15 +59,15 @@ Once installed, please ensure `swig` is available in your terminal by placing it
 
 __EXCEPTION__: If you are not *modifying* any source files, the auto generated files have been included in the respective `python` and `php` sub-directories. Please refer to php5/php7 based on the version of PHP being used.
 
-## Installation ##
+## Installation
 Please refer to the vendor documentation for language-level installation.
 
-### Python ###
+### Python
 The Python installation uses the `distribute` package.
 
-### Binary ###
+### Binary
 
-#### Windows ####
+#### Windows
 
 Select the correct `egg` file according to your architecture.
 
@@ -73,13 +75,13 @@ Please ensure your Python installation contains the `setuptools` package, which 
 
 Instructions and files can be found at: https://pypi.python.org/pypi/setuptools#windows
 
-    $ easy_install ge-0.3.1-py3.6-win-amd64.egg
+    $ easy_install ge-0.3.2-py3.6-win-amd64.egg
 
-#### Linux ####
+#### Linux 
 
-    $ easy_install ge-0.3.1-py3.6-linux-x86_64.egg
+    $ easy_install ge-0.3.2-py3.6-linux-x86_64.egg
 
-### Source ###
+### Source
 
 If using Windows, please ensure the following are correctly in your `PATH`
 environment variable
@@ -90,32 +92,32 @@ Note: Tested with Python 3.6 (MSVC 2015)
 
 Just like the traditional `make && make install`, compiling a Python extension requires 2 steps:
 
-~~~
+```bash
 python setup.py build_ext -i
 python setup.py install
-~~~
+```
 
-#### Linux or Cygwin ####
+#### Linux or Cygwin
 
-~~~{.bash}
+```bash
 # The setup.py utilizes the 'MTENGHOME' environment variable.
 # Please ensure this is set appropriately to your GAUSS Engine installation directory.
-tar -xvf ge-0.3.1.tar.gz
-cd ge-0.3.1
+tar -xvf ge-0.3.2.tar.gz
+cd ge-0.3.2
 python setup.py build_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install
-
+  
 # ROOT ONLY
 # If installation must be done as root, force set the environment variable
-tar -xvf ge-0.3.1.tar.gz
-cd ge-0.3.1
+tar -xvf ge-0.3.2.tar.gz
+cd ge-0.3.2
 export MTENGHOME=/home/user/mteng
 # If you need customized wrapper~
 python setup.py build_ext -i # First build the extension and create the ge.py file
 python setup.py install      # Everything compiled, now install
-~~~
+```
 
-#### Windows ####
+#### Windows
 
 Due to `mteng.dll` being compiled with Visual Studio 2015, it is necessary at this time to use MSVC to compile the Python extension.
 
@@ -130,30 +132,30 @@ installation directory, you may have to run `cmd` as Administrator
 
 Execute the following via a `cmd` terminal:
 
-~~~{.bash}
+```bash
 # The setup.py utilizes the 'MTENGHOME' environment variable.
 # Please ensure this is set appropriately to your GAUSS Engine installation directory or set it on the command line.
-# unzip ge-0.3.1.zip to a directory of your choice
-cd ge-0.3.1
+# unzip ge-0.3.2.zip to a directory of your choice
+cd ge-0.3.2
 set MTENGHOME=C:\mteng
 python setup.py build_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install
-~~~
+```
 
 If you omit the `build_ext -i` step, the `ge.py` generated file will __NOT__ be placed in Python package directory.
 
 The result of this behavior is the following when attempting to `import ge`:
 
-~~~{.py}
+```py
     >>> import ge
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
     ImportError: No module named ge
-~~~
+```
 
-### PHP (Linux Only) ###
+### PHP (Linux Only)
 
-#### Source ####
+#### Source
 
 [CMake](http://www.cmake.org) is our build tool of choice for building the PHP extension.
 
@@ -183,7 +185,7 @@ This will need to be used with any project that makes use of the GAUSS Engine, a
 
     include("ge.php");
 
-#### Binary ####
+#### Binary
 
 Place the `ge.so` file in your PHP installation's extension directory. If a valid directory was found during the CMake configuration phase, you can run `make installext` to automatically copy the newly built library into the appropriate extension directory.
 
@@ -201,11 +203,11 @@ If running PHP from the command line, changes should be instantaneous.
 
 Please refresh services that utilize PHP to pick up on the new extension.
 
-## Development ##
+## Development
 
 This section introduces an implementation of the GAUSS Engine.
 
-### Hello World! ###
+### Hello World!
 
 Getting started with the GAUSS Engine is extremely simple.
 
@@ -213,8 +215,9 @@ This assumes the library has been made available to the target language properly
 
 The following snippet will be described step-by-step in detail:
 
-#### Python ####
-~~~{.py}
+#### Python
+
+```py
 from ge import GAUSS, IGEProgramOutput
 
 class Output(IGEProgramOutput):
@@ -232,10 +235,11 @@ if not ge.initialize():
 
 ge.executeString("print \"Hello World!\"")
 ge.shutdown()
-~~~
+```
 
-#### PHP ####
-~~~{.php}
+#### PHP
+
+```php
 include("ge.php");
 
 class Output extends IGEProgramOutput {
@@ -257,24 +261,27 @@ if (!$ge->initialize()) {
 
 $ge->executeString("print \"Hello World!\"");
 $ge->shutdown();
-~~~
+```
 
-### Step 1: Import the required library ###
+### Step 1: Import the required library
 Before we can make use of the functionality, we have to make the engine library available to us. This is quite simple and straight-forward.
 
-#### Python ####
-~~~{.py}
-from ge import GAUSS, IGEProgramOutput
-~~~
+#### Python
 
-#### PHP ####
-~~~{.php}
+```py
+from ge import GAUSS, IGEProgramOutput
+```
+
+#### PHP
+
+```php
 include("ge.php");
-~~~
+```
 
 If you compiled from source and you're not sure where `ge.php` is, it will be in the `build` directory.
 
-### Step 2: Instantiate the GAUSS Engine object ###
+### Step 2: Instantiate the GAUSS Engine object
+
 After importing the correct library, we need to instantiate our engine object.
 There are multiple constructors available that suit a variety of scenarios.
 
@@ -283,18 +290,21 @@ This method relies on an existing environment variable in an effort to locate th
 
 By default, this environment variable is `MTENGHOME`.
 
-#### Python ####
-~~~{.py}
+#### Python
+
+```py
 ge = GAUSS()  # Look up value for MTENGHOME
-~~~
-#### PHP ####
-~~~{.php}
+```
+
+#### PHP
+
+```php
 $ge = new GAUSS();  // Look up value for MTENGHOME
-~~~
+```
 
 __Hint:__ Check out the `GAUSS(string)` constructor, as it allows you to pass in a custom environment variable to use.
 
-### Step 3: Set up callbacks ###
+### Step 3: Set up callbacks
 
 Technically, this step _can_ be skipped, but creating appropriate callbacks allows you control over specific aspects of program functionality.
 
@@ -320,8 +330,9 @@ This is necessary because ownership of this object will be transferred to the GA
 
 Without setting this, if the `out` var was to go out of scope, it could be deleted and GAUSS will now attempt to reference a non-existent callback.
 
-#### Python ####
-~~~{.py}
+#### Python
+
+```py
 # Step 1
 class Output(IGEProgramOutput):
     def invoke(self, message):
@@ -332,9 +343,11 @@ out = Output().__disown__() # Prevent garbage collection
 
 # Step 3
 ge.setProgramOutputAll(out)
-~~~
-#### PHP ####
-~~~{.php}
+```
+
+#### PHP
+
+```php
 // Step 1
 class Output extends IGEProgramOutput {
     function invoke($message) {
@@ -349,65 +362,77 @@ $out->thisown = 0; // Prevent garbage collection
 
 // Step 3
 $ge->setProgramOutputAll($out);
-~~~
+```
 
 _Note:_ We used the GAUSS.setProgramOutputAll method, which is used to set _both_ the program and error output.
 
 If you wish to separate the callbacks for different functionality, you can use the GAUSS.setProgramOutput
 and GAUSS.setProgramErrorOutput methods.
 
-### Step 4: Initialize the GAUSS Engine ###
+### Step 4: Initialize the GAUSS Engine
+
 Now that you've made it to this step, if all has been configured correctly, initializing the Engine is quite easy.
 
-#### Python ####
-~~~{.py}
+#### Python
+
+```py
 if not ge.initialize():
     print "Initialization failed."
     sys.exit(1)
-~~~
-#### PHP ####
-~~~{.php}
+```
+
+#### PHP
+
+```php
 if (!$ge->initialize()) {
     echo "Initialization failed.";
     return;
 }
-~~~
+```
 
 The `initialize` method returns a true/false value depending on whether it was successful or not.
 
-### Step 5: Home Free ###
+### Step 5: Home Free
 With everything set up, we are free to run whatever code we choose!
 
 For this small example, we just want the engine to tell us "Hello World!" through the callback we've assigned.
 
-#### Python ####
-~~~{.py}
-ge.executeString("print \"Hello World!\"")
-~~~
-#### PHP ####
-~~~{.php}
-$ge->executeString("print \"Hello World!\"");
-~~~
-will result in the output:
-~~~
-Hello World!
-~~~
+#### Python
 
-### Step 6: Shutdown the GAUSS Engine ###
+```py
+ge.executeString("print \"Hello World!\"")
+```
+
+#### PHP
+
+```php
+$ge->executeString("print \"Hello World!\"");
+```
+
+will result in the output:
+
+```
+Hello World!
+```
+
+### Step 6: Shutdown the GAUSS Engine
 Shutting down the GAUSS Engine is as easy as telling it to do so:
 
-#### Python ####
-~~~{.py}
+#### Python
+
+```py
 ge.shutdown()
-~~~
-#### PHP ####
-~~~{.php}
+```
+
+#### PHP
+
+```php
 $ge->shutdown();
-~~~
+```
 
 This will destroy any active workspaces and perform any cleanup that might be necessary.
 
-## Conclusion ##
+## Conclusion
 This wraps up the basics of using the GAUSS Engine API. The documentation is full of code snippets that should help you
 easily interface with the Engine for your chosen task.
 
@@ -420,7 +445,7 @@ Language | Filename
 Python   | `python/template_example.py`
 PHP      | `php/template_example.php`
 
-### Unit Tests ###
+### Unit Tests
 Some simple unit tests have also been provided. The PHP unit test example uses [PHP Unit](https://phpunit.de) and can ran accordingly:
 
     php -f phpunit.phar unit_test.php

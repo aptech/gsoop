@@ -7,8 +7,8 @@
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 def checkType(x):
     return {
         GESymType.SCALAR:
@@ -43,9 +43,9 @@ aType = ge.getSymbolType("a")
 print checkType(xType)
 print checkType(sType)
 print checkType(aType)
- * ~~~
- * #### PHP ####
- * ~~~{.php}
+```
+__PHP__
+```php
 function checkType($type) {
     switch ($type) {
         case GESymType::SCALAR:
@@ -91,13 +91,13 @@ $aType = $ge->getSymbolType("a");
 echo checkType($xType) . PHP_EOL;
 echo checkType($sType) . PHP_EOL;
 echo checkType($aType) . PHP_EOL;
- * ~~~
+```
  * results in output:
- * ~~~
+```
 Symbol is a matrix.
 Symbol is a string.
 Symbol is an array.
- * ~~~
+```
  *
  */
 typedef struct GESymType_s
@@ -120,7 +120,7 @@ public:
 //    /**
 //      * Enumeration of all symbol types known to GAUSS
 //      */
-//    
+//
 //    enum {
 //        SCALAR = 16,        /**< Scalar (i.e. 1, 1.5); */
 //        SPARSE = 38,            /**< Sparse Matrix */
