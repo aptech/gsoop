@@ -7,7 +7,10 @@
 %include "std_vector.i"
 %include "std_pair.i"
 %include "typemaps.i"
+
+#ifndef SWIGJAVASCRIPT
 %include "factory.i"
+#endif
 
 #ifdef SWIGPYTHON
 %include "pyabc.i"
@@ -31,6 +34,13 @@ namespace std {
 %apply double INPUT[] {const double *data}
 %apply double INPUT[] {const double *imag_data}
 %apply int INPUT[] {int *orders}
+#endif
+
+#ifdef SWIGJAVASCRIPT
+%include "arrays_javascript.i"
+%apply double[] {const double *data}
+%apply double[] {const double *imag_data}
+%apply int[] {int *orders}
 #endif
 
 /*%rename(GESymType) GESymTypeNS;*/
