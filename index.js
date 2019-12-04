@@ -1,3 +1,4 @@
+
 var ge = require('./');
 
 var obj = new ge.GAUSS();
