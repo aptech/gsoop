@@ -4,8 +4,7 @@
   "main": "bindings.js",
   "description": "GEhttpd node.js bindings",
   "scripts": {
-    "build": "(cd .. && swig -c++ -javascript -node -o node/gauss_wrap.cpp ge.i && cd node) && node-gyp build",
-    "install": "node-gyp rebuild",
+    "install": "(cd .. && swig -c++ -javascript -node -o node/gauss_wrap.cpp ge.i && cd node) && node-gyp rebuild",
     "start": "LD_LIBRARY_PATH=$MTENGHOME:$LD_LIBRARY_PATH QT_PLUGIN_PATH=$MTENGHOME/plugins QT_QPA_PLATFORM=offscreen node ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
