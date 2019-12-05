@@ -41,6 +41,48 @@ namespace std {
 %apply double[] {const double *data}
 %apply double[] {const double *imag_data}
 %apply int[] {int *orders}
+
+%typemap(out) std::vector<string> %{
+{
+  int length = $1.size();
+  v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+
+  for (int i = 0; i < length; i++)
+  {
+    array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_STRING_NEW($1.at(i).c_str()));
+  }
+
+  $result = array;
+}
+%}
+
+%typemap(out) std::vector<double> %{
+{
+  int length = $1.size();
+  v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+
+  for (int i = 0; i < length; i++)
+  {
+    array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW($1.at(i)));
+  }
+
+  $result = array;
+}
+%}
+
+%typemap(out) std::vector<int> %{
+{
+  int length = $1.size();
+  v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+
+  for (int i = 0; i < length; i++)
+  {
+    array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_INTEGER_NEW($1.at(i)));
+  }
+
+  $result = array;
+}
+%}
 #endif
 
 /*%rename(GESymType) GESymTypeNS;*/

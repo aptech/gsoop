@@ -11395,7 +11395,19 @@ static SwigV8ReturnValue _wrap_GEArray_getVector__SWIG_0(const SwigV8Arguments &
   } 
   arg3 = static_cast< bool >(val3);
   result = ((GEArray const *)arg1)->getVector(arg2,arg3);
-  jsresult = SWIG_NewPointerObj((new std::vector< double >(static_cast< const std::vector< double >& >(result))), SWIGTYPE_p_std__vectorT_double_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   
@@ -11437,7 +11449,19 @@ static SwigV8ReturnValue _wrap_GEArray_getVector__SWIG_1(const SwigV8Arguments &
     }
   }
   result = ((GEArray const *)arg1)->getVector(arg2);
-  jsresult = SWIG_NewPointerObj((new std::vector< double >(static_cast< const std::vector< double >& >(result))), SWIGTYPE_p_std__vectorT_double_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   SWIGV8_RETURN(jsresult);
@@ -11813,7 +11837,19 @@ static SwigV8ReturnValue _wrap_GEArray_getData__SWIG_0(const SwigV8Arguments &ar
   } 
   arg2 = static_cast< bool >(val2);
   result = ((GEArray const *)arg1)->getData(arg2);
-  jsresult = SWIG_NewPointerObj((new std::vector< double >(static_cast< const std::vector< double >& >(result))), SWIGTYPE_p_std__vectorT_double_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   
@@ -11841,7 +11877,19 @@ static SwigV8ReturnValue _wrap_GEArray_getData__SWIG_1(const SwigV8Arguments &ar
   }
   arg1 = reinterpret_cast< GEArray * >(argp1);
   result = ((GEArray const *)arg1)->getData();
-  jsresult = SWIG_NewPointerObj((new std::vector< double >(static_cast< const std::vector< double >& >(result))), SWIGTYPE_p_std__vectorT_double_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   SWIGV8_RETURN(jsresult);
@@ -11916,7 +11964,19 @@ static SwigV8ReturnValue _wrap_GEArray_getImagData(const SwigV8Arguments &args) 
   }
   arg1 = reinterpret_cast< GEArray * >(argp1);
   result = ((GEArray const *)arg1)->getImagData();
-  jsresult = SWIG_NewPointerObj((new std::vector< double >(static_cast< const std::vector< double >& >(result))), SWIGTYPE_p_std__vectorT_double_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   SWIGV8_RETURN(jsresult);
@@ -11944,7 +12004,19 @@ static SwigV8ReturnValue _wrap_GEArray_getOrders(const SwigV8Arguments &args) {
   }
   arg1 = reinterpret_cast< GEArray * >(argp1);
   result = ((GEArray const *)arg1)->getOrders();
-  jsresult = SWIG_NewPointerObj((new std::vector< int >(static_cast< const std::vector< int >& >(result))), SWIGTYPE_p_std__vectorT_int_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_INTEGER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   SWIGV8_RETURN(jsresult);
@@ -13559,7 +13631,19 @@ static SwigV8ReturnValue _wrap_GEMatrix_getData__SWIG_0(const SwigV8Arguments &a
   } 
   arg2 = static_cast< bool >(val2);
   result = ((GEMatrix const *)arg1)->getData(arg2);
-  jsresult = SWIG_NewPointerObj((new std::vector< double >(static_cast< const std::vector< double >& >(result))), SWIGTYPE_p_std__vectorT_double_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   
@@ -13587,7 +13671,19 @@ static SwigV8ReturnValue _wrap_GEMatrix_getData__SWIG_1(const SwigV8Arguments &a
   }
   arg1 = reinterpret_cast< GEMatrix * >(argp1);
   result = ((GEMatrix const *)arg1)->getData();
-  jsresult = SWIG_NewPointerObj((new std::vector< double >(static_cast< const std::vector< double >& >(result))), SWIGTYPE_p_std__vectorT_double_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   SWIGV8_RETURN(jsresult);
@@ -13662,7 +13758,19 @@ static SwigV8ReturnValue _wrap_GEMatrix_getImagData(const SwigV8Arguments &args)
   }
   arg1 = reinterpret_cast< GEMatrix * >(argp1);
   result = ((GEMatrix const *)arg1)->getImagData();
-  jsresult = SWIG_NewPointerObj((new std::vector< double >(static_cast< const std::vector< double >& >(result))), SWIGTYPE_p_std__vectorT_double_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   SWIGV8_RETURN(jsresult);
@@ -14284,7 +14392,19 @@ static SwigV8ReturnValue _wrap_GEStringArray_getData(const SwigV8Arguments &args
   }
   arg1 = reinterpret_cast< GEStringArray * >(argp1);
   result = ((GEStringArray const *)arg1)->getData();
-  jsresult = SWIG_NewPointerObj((new std::vector< std::string >(static_cast< const std::vector< std::string >& >(result))), SWIGTYPE_p_std__vectorT_std__string_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_STRING_NEW((&result)->at(i).c_str()));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   SWIGV8_RETURN(jsresult);
@@ -14978,7 +15098,19 @@ static SwigV8ReturnValue _wrap_WorkspaceManager_workspaceNames(const SwigV8Argum
   }
   arg1 = reinterpret_cast< WorkspaceManager * >(argp1);
   result = ((WorkspaceManager const *)arg1)->workspaceNames();
-  jsresult = SWIG_NewPointerObj((new std::vector< std::string >(static_cast< const std::vector< std::string >& >(result))), SWIGTYPE_p_std__vectorT_std__string_t, SWIG_POINTER_OWN |  0 );
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_STRING_NEW((&result)->at(i).c_str()));
+    }
+    
+    jsresult = array;
+  }
+  
   
   
   SWIGV8_RETURN(jsresult);
