@@ -235,9 +235,7 @@ GEMatrix::GEMatrix(const double *data, const double *imag_data, int rows, int co
 }
 
 void GEMatrix::Init(VECTOR_DATA(double) data, int rows, int cols, bool complex) {
-    if (VECTOR_VAR(data) empty() || (rows * cols != VECTOR_VAR(data) size()))
-        return;
-    else if (complex && (rows * cols * 2 != VECTOR_VAR(data) size()))
+    if (VECTOR_VAR(data) empty() || (rows * cols * (complex ? 2 : 1) != (int)VECTOR_VAR(data) size()))
         return;
 
     const double *imag_data = complex ? &VECTOR_VAR(data) front() + rows * cols : nullptr;
@@ -248,9 +246,9 @@ void GEMatrix::Init(VECTOR_DATA(double) data, int rows, int cols, bool complex) 
 
 void GEMatrix::Init(VECTOR_DATA(double) real_data, VECTOR_DATA(double) imag_data, int rows, int cols, bool complex) {
     // Validate input
-    if (VECTOR_VAR(real_data) empty() || (rows * cols != VECTOR_VAR(real_data) size()))
+    if (VECTOR_VAR(real_data) empty() || (rows * cols != (int)VECTOR_VAR(real_data) size()))
         return;
-    else if (complex && (VECTOR_VAR(imag_data) empty() || (rows * cols != VECTOR_VAR(imag_data) size())))
+    else if (complex && (VECTOR_VAR(imag_data) empty() || (rows * cols != (int)VECTOR_VAR(imag_data) size())))
         return;
 
     Init(&VECTOR_VAR(real_data) front(), &VECTOR_VAR(imag_data) front(), rows, cols, complex);

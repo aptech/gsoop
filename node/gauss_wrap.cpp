@@ -10800,33 +10800,78 @@ static SwigV8ReturnValue _wrap_new_GEArray__SWIG_1(const SwigV8Arguments &args, 
   std::vector< int > arg1 ;
   std::vector< double > *arg2 = 0 ;
   bool arg3 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
   bool val3 ;
   int ecode3 = 0 ;
   GEArray *result;
   if(args.Length() != 3) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_GEArray__SWIG_1.");
   {
-    res1 = SWIG_ConvertPtr(args[0], &argp1, SWIGTYPE_p_std__vectorT_int_t,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GEArray" "', argument " "1"" of type '" "std::vector< int >""'"); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEArray" "', argument " "1"" of type '" "std::vector< int >""'");
-    } else {
-      arg1 = *(reinterpret_cast< std::vector< int > * >(argp1));
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      (&arg1)->resize(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        int temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_int(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to int");
+        }
+        arg1[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
     }
   }
-  res2 = SWIG_ConvertPtr(args[1], &argp2, SWIGTYPE_p_std__vectorT_double_t,  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_GEArray" "', argument " "2"" of type '" "std::vector< double > const &""'"); 
+  {
+    if (args[1]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[1]);
+      
+      int length = array->Length();
+      
+      arg2 = new std::vector<double>(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        double temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_double(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[1] to double");
+        }
+        (*arg2)[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[1] is not an array");
+    }
   }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEArray" "', argument " "2"" of type '" "std::vector< double > const &""'"); 
-  }
-  arg2 = reinterpret_cast< std::vector< double > * >(argp2);
   ecode3 = SWIG_AsVal_bool(args[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_GEArray" "', argument " "3"" of type '" "bool""'");
@@ -10834,7 +10879,9 @@ static SwigV8ReturnValue _wrap_new_GEArray__SWIG_1(const SwigV8Arguments &args, 
   arg3 = static_cast< bool >(val3);
   result = (GEArray *)new GEArray(arg1,(std::vector< double > const &)*arg2,arg3);
   
-  
+  {
+    delete arg2;
+  }
   
   
   
@@ -10853,34 +10900,81 @@ static SwigV8ReturnValue _wrap_new_GEArray__SWIG_2(const SwigV8Arguments &args, 
   v8::Local<v8::Object> self = args.Holder();
   std::vector< int > arg1 ;
   std::vector< double > *arg2 = 0 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
   GEArray *result;
   if(args.Length() != 2) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_GEArray__SWIG_2.");
   {
-    res1 = SWIG_ConvertPtr(args[0], &argp1, SWIGTYPE_p_std__vectorT_int_t,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GEArray" "', argument " "1"" of type '" "std::vector< int >""'"); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEArray" "', argument " "1"" of type '" "std::vector< int >""'");
-    } else {
-      arg1 = *(reinterpret_cast< std::vector< int > * >(argp1));
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      (&arg1)->resize(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        int temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_int(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to int");
+        }
+        arg1[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
     }
   }
-  res2 = SWIG_ConvertPtr(args[1], &argp2, SWIGTYPE_p_std__vectorT_double_t,  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_GEArray" "', argument " "2"" of type '" "std::vector< double > const &""'"); 
+  {
+    if (args[1]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[1]);
+      
+      int length = array->Length();
+      
+      arg2 = new std::vector<double>(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        double temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_double(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[1] to double");
+        }
+        (*arg2)[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[1] is not an array");
+    }
   }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEArray" "', argument " "2"" of type '" "std::vector< double > const &""'"); 
-  }
-  arg2 = reinterpret_cast< std::vector< double > * >(argp2);
   result = (GEArray *)new GEArray(arg1,(std::vector< double > const &)*arg2);
   
-  
+  {
+    delete arg2;
+  }
   
   
   SWIGV8_SetPrivateData(self, result, SWIGTYPE_p_GEArray, SWIG_POINTER_OWN);
@@ -11229,8 +11323,6 @@ static SwigV8ReturnValue _wrap_GEArray_getPlane__SWIG_0(const SwigV8Arguments &a
   bool arg3 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
   bool val3 ;
   int ecode3 = 0 ;
   GEMatrix *result = 0 ;
@@ -11241,14 +11333,37 @@ static SwigV8ReturnValue _wrap_GEArray_getPlane__SWIG_0(const SwigV8Arguments &a
   }
   arg1 = reinterpret_cast< GEArray * >(argp1);
   {
-    res2 = SWIG_ConvertPtr(args[0], &argp2, SWIGTYPE_p_std__vectorT_int_t,  0 );
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEArray_getPlane" "', argument " "2"" of type '" "std::vector< int >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GEArray_getPlane" "', argument " "2"" of type '" "std::vector< int >""'");
-    } else {
-      arg2 = *(reinterpret_cast< std::vector< int > * >(argp2));
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      (&arg2)->resize(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        int temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_int(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to int");
+        }
+        arg2[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
     }
   }
   ecode3 = SWIG_AsVal_bool(args[1], &val3);
@@ -11278,8 +11393,6 @@ static SwigV8ReturnValue _wrap_GEArray_getPlane__SWIG_1(const SwigV8Arguments &a
   std::vector< int > arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
   GEMatrix *result = 0 ;
   
   res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GEArray, 0 |  0 );
@@ -11288,14 +11401,37 @@ static SwigV8ReturnValue _wrap_GEArray_getPlane__SWIG_1(const SwigV8Arguments &a
   }
   arg1 = reinterpret_cast< GEArray * >(argp1);
   {
-    res2 = SWIG_ConvertPtr(args[0], &argp2, SWIGTYPE_p_std__vectorT_int_t,  0 );
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEArray_getPlane" "', argument " "2"" of type '" "std::vector< int >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GEArray_getPlane" "', argument " "2"" of type '" "std::vector< int >""'");
-    } else {
-      arg2 = *(reinterpret_cast< std::vector< int > * >(argp2));
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      (&arg2)->resize(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        int temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_int(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to int");
+        }
+        arg2[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
     }
   }
   result = (GEMatrix *)((GEArray const *)arg1)->getPlane(arg2);
@@ -11367,8 +11503,6 @@ static SwigV8ReturnValue _wrap_GEArray_getVector__SWIG_0(const SwigV8Arguments &
   bool arg3 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
   bool val3 ;
   int ecode3 = 0 ;
   std::vector< double > result;
@@ -11379,14 +11513,37 @@ static SwigV8ReturnValue _wrap_GEArray_getVector__SWIG_0(const SwigV8Arguments &
   }
   arg1 = reinterpret_cast< GEArray * >(argp1);
   {
-    res2 = SWIG_ConvertPtr(args[0], &argp2, SWIGTYPE_p_std__vectorT_int_t,  0 );
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEArray_getVector" "', argument " "2"" of type '" "std::vector< int >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GEArray_getVector" "', argument " "2"" of type '" "std::vector< int >""'");
-    } else {
-      arg2 = *(reinterpret_cast< std::vector< int > * >(argp2));
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      (&arg2)->resize(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        int temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_int(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to int");
+        }
+        arg2[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
     }
   }
   ecode3 = SWIG_AsVal_bool(args[1], &val3);
@@ -11398,11 +11555,12 @@ static SwigV8ReturnValue _wrap_GEArray_getVector__SWIG_0(const SwigV8Arguments &
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
     }
     
     jsresult = array;
@@ -11428,8 +11586,6 @@ static SwigV8ReturnValue _wrap_GEArray_getVector__SWIG_1(const SwigV8Arguments &
   std::vector< int > arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
   std::vector< double > result;
   
   res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GEArray, 0 |  0 );
@@ -11438,25 +11594,49 @@ static SwigV8ReturnValue _wrap_GEArray_getVector__SWIG_1(const SwigV8Arguments &
   }
   arg1 = reinterpret_cast< GEArray * >(argp1);
   {
-    res2 = SWIG_ConvertPtr(args[0], &argp2, SWIGTYPE_p_std__vectorT_int_t,  0 );
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEArray_getVector" "', argument " "2"" of type '" "std::vector< int >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GEArray_getVector" "', argument " "2"" of type '" "std::vector< int >""'");
-    } else {
-      arg2 = *(reinterpret_cast< std::vector< int > * >(argp2));
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      (&arg2)->resize(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        int temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_int(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to int");
+        }
+        arg2[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
     }
   }
   result = ((GEArray const *)arg1)->getVector(arg2);
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
     }
     
     jsresult = array;
@@ -11529,8 +11709,6 @@ static SwigV8ReturnValue _wrap_GEArray_getElement__SWIG_0(const SwigV8Arguments 
   bool arg3 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
   bool val3 ;
   int ecode3 = 0 ;
   double result;
@@ -11541,14 +11719,37 @@ static SwigV8ReturnValue _wrap_GEArray_getElement__SWIG_0(const SwigV8Arguments 
   }
   arg1 = reinterpret_cast< GEArray * >(argp1);
   {
-    res2 = SWIG_ConvertPtr(args[0], &argp2, SWIGTYPE_p_std__vectorT_int_t,  0 );
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEArray_getElement" "', argument " "2"" of type '" "std::vector< int >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GEArray_getElement" "', argument " "2"" of type '" "std::vector< int >""'");
-    } else {
-      arg2 = *(reinterpret_cast< std::vector< int > * >(argp2));
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      (&arg2)->resize(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        int temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_int(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to int");
+        }
+        arg2[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
     }
   }
   ecode3 = SWIG_AsVal_bool(args[1], &val3);
@@ -11578,8 +11779,6 @@ static SwigV8ReturnValue _wrap_GEArray_getElement__SWIG_1(const SwigV8Arguments 
   std::vector< int > arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
   double result;
   
   res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GEArray, 0 |  0 );
@@ -11588,14 +11787,37 @@ static SwigV8ReturnValue _wrap_GEArray_getElement__SWIG_1(const SwigV8Arguments 
   }
   arg1 = reinterpret_cast< GEArray * >(argp1);
   {
-    res2 = SWIG_ConvertPtr(args[0], &argp2, SWIGTYPE_p_std__vectorT_int_t,  0 );
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEArray_getElement" "', argument " "2"" of type '" "std::vector< int >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GEArray_getElement" "', argument " "2"" of type '" "std::vector< int >""'");
-    } else {
-      arg2 = *(reinterpret_cast< std::vector< int > * >(argp2));
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      (&arg2)->resize(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        int temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_int(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to int");
+        }
+        arg2[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
     }
   }
   result = (double)((GEArray const *)arg1)->getElement(arg2);
@@ -11670,8 +11892,6 @@ static SwigV8ReturnValue _wrap_GEArray_setElement__SWIG_0(const SwigV8Arguments 
   int res1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
-  void *argp3 ;
-  int res3 = 0 ;
   bool val4 ;
   int ecode4 = 0 ;
   bool result;
@@ -11687,14 +11907,37 @@ static SwigV8ReturnValue _wrap_GEArray_setElement__SWIG_0(const SwigV8Arguments 
   } 
   arg2 = static_cast< double >(val2);
   {
-    res3 = SWIG_ConvertPtr(args[1], &argp3, SWIGTYPE_p_std__vectorT_int_t,  0 );
-    if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GEArray_setElement" "', argument " "3"" of type '" "std::vector< int >""'"); 
-    }  
-    if (!argp3) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GEArray_setElement" "', argument " "3"" of type '" "std::vector< int >""'");
-    } else {
-      arg3 = *(reinterpret_cast< std::vector< int > * >(argp3));
+    if (args[1]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[1]);
+      
+      int length = array->Length();
+      
+      (&arg3)->resize(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        int temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_int(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[1] to int");
+        }
+        arg3[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[1] is not an array");
     }
   }
   ecode4 = SWIG_AsVal_bool(args[2], &val4);
@@ -11728,8 +11971,6 @@ static SwigV8ReturnValue _wrap_GEArray_setElement__SWIG_1(const SwigV8Arguments 
   int res1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
-  void *argp3 ;
-  int res3 = 0 ;
   bool result;
   
   res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GEArray, 0 |  0 );
@@ -11743,14 +11984,37 @@ static SwigV8ReturnValue _wrap_GEArray_setElement__SWIG_1(const SwigV8Arguments 
   } 
   arg2 = static_cast< double >(val2);
   {
-    res3 = SWIG_ConvertPtr(args[1], &argp3, SWIGTYPE_p_std__vectorT_int_t,  0 );
-    if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GEArray_setElement" "', argument " "3"" of type '" "std::vector< int >""'"); 
-    }  
-    if (!argp3) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GEArray_setElement" "', argument " "3"" of type '" "std::vector< int >""'");
-    } else {
-      arg3 = *(reinterpret_cast< std::vector< int > * >(argp3));
+    if (args[1]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[1]);
+      
+      int length = array->Length();
+      
+      (&arg3)->resize(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        int temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_int(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[1] to int");
+        }
+        arg3[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[1] is not an array");
     }
   }
   result = (bool)(arg1)->setElement(arg2,arg3);
@@ -11840,11 +12104,12 @@ static SwigV8ReturnValue _wrap_GEArray_getData__SWIG_0(const SwigV8Arguments &ar
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
     }
     
     jsresult = array;
@@ -11880,11 +12145,12 @@ static SwigV8ReturnValue _wrap_GEArray_getData__SWIG_1(const SwigV8Arguments &ar
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
     }
     
     jsresult = array;
@@ -11967,11 +12233,12 @@ static SwigV8ReturnValue _wrap_GEArray_getImagData(const SwigV8Arguments &args) 
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
     }
     
     jsresult = array;
@@ -12007,11 +12274,12 @@ static SwigV8ReturnValue _wrap_GEArray_getOrders(const SwigV8Arguments &args) {
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_INTEGER_NEW((&result)->at(i)));
+      array->Set(context, i, SWIGV8_INTEGER_NEW((&result)->at(i)));
     }
     
     jsresult = array;
@@ -12227,21 +12495,47 @@ static SwigV8ReturnValue _wrap_new_GEMatrix__SWIG_2(const SwigV8Arguments &args,
   
   v8::Local<v8::Object> self = args.Holder();
   std::vector< double > *arg1 = 0 ;
-  void *argp1 ;
-  int res1 = 0 ;
   GEMatrix *result;
   if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_GEMatrix__SWIG_2.");
-  res1 = SWIG_ConvertPtr(args[0], &argp1, SWIGTYPE_p_std__vectorT_double_t,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GEMatrix" "', argument " "1"" of type '" "std::vector< double > const &""'"); 
+  {
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      arg1 = new std::vector<double>(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        double temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_double(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to double");
+        }
+        (*arg1)[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
+    }
   }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEMatrix" "', argument " "1"" of type '" "std::vector< double > const &""'"); 
-  }
-  arg1 = reinterpret_cast< std::vector< double > * >(argp1);
   result = (GEMatrix *)new GEMatrix((std::vector< double > const &)*arg1);
   
-  
+  {
+    delete arg1;
+  }
   
   
   SWIGV8_SetPrivateData(self, result, SWIGTYPE_p_GEMatrix, SWIG_POINTER_OWN);
@@ -12261,8 +12555,6 @@ static SwigV8ReturnValue _wrap_new_GEMatrix__SWIG_3(const SwigV8Arguments &args,
   int arg2 ;
   int arg3 ;
   bool arg4 ;
-  void *argp1 ;
-  int res1 = 0 ;
   int val2 ;
   int ecode2 = 0 ;
   int val3 ;
@@ -12271,14 +12563,40 @@ static SwigV8ReturnValue _wrap_new_GEMatrix__SWIG_3(const SwigV8Arguments &args,
   int ecode4 = 0 ;
   GEMatrix *result;
   if(args.Length() != 4) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_GEMatrix__SWIG_3.");
-  res1 = SWIG_ConvertPtr(args[0], &argp1, SWIGTYPE_p_std__vectorT_double_t,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GEMatrix" "', argument " "1"" of type '" "std::vector< double > const &""'"); 
+  {
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      arg1 = new std::vector<double>(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        double temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_double(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to double");
+        }
+        (*arg1)[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
+    }
   }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEMatrix" "', argument " "1"" of type '" "std::vector< double > const &""'"); 
-  }
-  arg1 = reinterpret_cast< std::vector< double > * >(argp1);
   ecode2 = SWIG_AsVal_int(args[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_GEMatrix" "', argument " "2"" of type '" "int""'");
@@ -12296,7 +12614,9 @@ static SwigV8ReturnValue _wrap_new_GEMatrix__SWIG_3(const SwigV8Arguments &args,
   arg4 = static_cast< bool >(val4);
   result = (GEMatrix *)new GEMatrix((std::vector< double > const &)*arg1,arg2,arg3,arg4);
   
-  
+  {
+    delete arg1;
+  }
   
   
   
@@ -12318,22 +12638,46 @@ static SwigV8ReturnValue _wrap_new_GEMatrix__SWIG_4(const SwigV8Arguments &args,
   std::vector< double > *arg1 = 0 ;
   int arg2 ;
   int arg3 ;
-  void *argp1 ;
-  int res1 = 0 ;
   int val2 ;
   int ecode2 = 0 ;
   int val3 ;
   int ecode3 = 0 ;
   GEMatrix *result;
   if(args.Length() != 3) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_GEMatrix__SWIG_4.");
-  res1 = SWIG_ConvertPtr(args[0], &argp1, SWIGTYPE_p_std__vectorT_double_t,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GEMatrix" "', argument " "1"" of type '" "std::vector< double > const &""'"); 
+  {
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      arg1 = new std::vector<double>(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        double temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_double(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to double");
+        }
+        (*arg1)[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
+    }
   }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEMatrix" "', argument " "1"" of type '" "std::vector< double > const &""'"); 
-  }
-  arg1 = reinterpret_cast< std::vector< double > * >(argp1);
   ecode2 = SWIG_AsVal_int(args[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_GEMatrix" "', argument " "2"" of type '" "int""'");
@@ -12346,7 +12690,9 @@ static SwigV8ReturnValue _wrap_new_GEMatrix__SWIG_4(const SwigV8Arguments &args,
   arg3 = static_cast< int >(val3);
   result = (GEMatrix *)new GEMatrix((std::vector< double > const &)*arg1,arg2,arg3);
   
-  
+  {
+    delete arg1;
+  }
   
   
   
@@ -12368,32 +12714,80 @@ static SwigV8ReturnValue _wrap_new_GEMatrix__SWIG_5(const SwigV8Arguments &args,
   std::vector< double > *arg2 = 0 ;
   int arg3 ;
   int arg4 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
   int val3 ;
   int ecode3 = 0 ;
   int val4 ;
   int ecode4 = 0 ;
   GEMatrix *result;
   if(args.Length() != 4) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_GEMatrix__SWIG_5.");
-  res1 = SWIG_ConvertPtr(args[0], &argp1, SWIGTYPE_p_std__vectorT_double_t,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GEMatrix" "', argument " "1"" of type '" "std::vector< double > const &""'"); 
+  {
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      arg1 = new std::vector<double>(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        double temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_double(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[0] to double");
+        }
+        (*arg1)[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
+    }
   }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEMatrix" "', argument " "1"" of type '" "std::vector< double > const &""'"); 
+  {
+    if (args[1]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[1]);
+      
+      int length = array->Length();
+      
+      arg2 = new std::vector<double>(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        double temp;
+        
+        // Get primitive value from JSObject
+        int res = SWIG_AsVal_double(jsvalue, &temp);
+        if (!SWIG_IsOK(res))
+        {
+          SWIG_exception_fail(SWIG_ERROR, "Failed to convert args[1] to double");
+        }
+        (*arg2)[i] = temp;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[1] is not an array");
+    }
   }
-  arg1 = reinterpret_cast< std::vector< double > * >(argp1);
-  res2 = SWIG_ConvertPtr(args[1], &argp2, SWIGTYPE_p_std__vectorT_double_t,  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_GEMatrix" "', argument " "2"" of type '" "std::vector< double > const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEMatrix" "', argument " "2"" of type '" "std::vector< double > const &""'"); 
-  }
-  arg2 = reinterpret_cast< std::vector< double > * >(argp2);
   ecode3 = SWIG_AsVal_int(args[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_GEMatrix" "', argument " "3"" of type '" "int""'");
@@ -12406,8 +12800,12 @@ static SwigV8ReturnValue _wrap_new_GEMatrix__SWIG_5(const SwigV8Arguments &args,
   arg4 = static_cast< int >(val4);
   result = (GEMatrix *)new GEMatrix((std::vector< double > const &)*arg1,(std::vector< double > const &)*arg2,arg3,arg4);
   
-  
-  
+  {
+    delete arg1;
+  }
+  {
+    delete arg2;
+  }
   
   
   
@@ -13634,11 +14032,12 @@ static SwigV8ReturnValue _wrap_GEMatrix_getData__SWIG_0(const SwigV8Arguments &a
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
     }
     
     jsresult = array;
@@ -13674,11 +14073,12 @@ static SwigV8ReturnValue _wrap_GEMatrix_getData__SWIG_1(const SwigV8Arguments &a
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
     }
     
     jsresult = array;
@@ -13761,11 +14161,12 @@ static SwigV8ReturnValue _wrap_GEMatrix_getImagData(const SwigV8Arguments &args)
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
     }
     
     jsresult = array;
@@ -13897,21 +14298,45 @@ static SwigV8ReturnValue _wrap_new_GEStringArray__SWIG_1(const SwigV8Arguments &
   
   v8::Local<v8::Object> self = args.Holder();
   std::vector< std::string > *arg1 = 0 ;
-  void *argp1 ;
-  int res1 = 0 ;
   GEStringArray *result;
   if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_GEStringArray__SWIG_1.");
-  res1 = SWIG_ConvertPtr(args[0], &argp1, SWIGTYPE_p_std__vectorT_std__string_t,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GEStringArray" "', argument " "1"" of type '" "std::vector< std::string > const &""'"); 
+  {
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      arg1 = new std::vector<std::string>(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        std::string *ptr = (std::string *)0;
+        int res = SWIG_AsPtr_std_string(jsvalue, &ptr);
+        if (!SWIG_IsOK(res) || !ptr) {
+          SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "Failed to convert args[0] to std::string"); 
+        }
+        (*arg1)[i] = *ptr;
+        if (SWIG_IsNewObj(res)) delete ptr;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
+    }
   }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEStringArray" "', argument " "1"" of type '" "std::vector< std::string > const &""'"); 
-  }
-  arg1 = reinterpret_cast< std::vector< std::string > * >(argp1);
   result = (GEStringArray *)new GEStringArray((std::vector< std::string > const &)*arg1);
   
-  
+  {
+    delete arg1;
+  }
   
   
   SWIGV8_SetPrivateData(self, result, SWIGTYPE_p_GEStringArray, SWIG_POINTER_OWN);
@@ -13930,22 +14355,44 @@ static SwigV8ReturnValue _wrap_new_GEStringArray__SWIG_2(const SwigV8Arguments &
   std::vector< std::string > *arg1 = 0 ;
   int arg2 ;
   int arg3 ;
-  void *argp1 ;
-  int res1 = 0 ;
   int val2 ;
   int ecode2 = 0 ;
   int val3 ;
   int ecode3 = 0 ;
   GEStringArray *result;
   if(args.Length() != 3) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_GEStringArray__SWIG_2.");
-  res1 = SWIG_ConvertPtr(args[0], &argp1, SWIGTYPE_p_std__vectorT_std__string_t,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GEStringArray" "', argument " "1"" of type '" "std::vector< std::string > const &""'"); 
+  {
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      arg1 = new std::vector<std::string>(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        std::string *ptr = (std::string *)0;
+        int res = SWIG_AsPtr_std_string(jsvalue, &ptr);
+        if (!SWIG_IsOK(res) || !ptr) {
+          SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "Failed to convert args[0] to std::string"); 
+        }
+        (*arg1)[i] = *ptr;
+        if (SWIG_IsNewObj(res)) delete ptr;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
+    }
   }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GEStringArray" "', argument " "1"" of type '" "std::vector< std::string > const &""'"); 
-  }
-  arg1 = reinterpret_cast< std::vector< std::string > * >(argp1);
   ecode2 = SWIG_AsVal_int(args[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_GEStringArray" "', argument " "2"" of type '" "int""'");
@@ -13958,7 +14405,9 @@ static SwigV8ReturnValue _wrap_new_GEStringArray__SWIG_2(const SwigV8Arguments &
   arg3 = static_cast< int >(val3);
   result = (GEStringArray *)new GEStringArray((std::vector< std::string > const &)*arg1,arg2,arg3);
   
-  
+  {
+    delete arg1;
+  }
   
   
   
@@ -14044,8 +14493,6 @@ static SwigV8ReturnValue _wrap_GEStringArray_setData(const SwigV8Arguments &args
   int arg4 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
   int val3 ;
   int ecode3 = 0 ;
   int val4 ;
@@ -14058,14 +14505,38 @@ static SwigV8ReturnValue _wrap_GEStringArray_setData(const SwigV8Arguments &args
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEStringArray_setData" "', argument " "1"" of type '" "GEStringArray *""'"); 
   }
   arg1 = reinterpret_cast< GEStringArray * >(argp1);
-  res2 = SWIG_ConvertPtr(args[0], &argp2, SWIGTYPE_p_std__vectorT_std__string_t,  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEStringArray_setData" "', argument " "2"" of type '" "std::vector< std::string > const &""'"); 
+  {
+    if (args[0]->IsArray())
+    {
+      v8::Isolate* isolate = args.GetIsolate();
+      v8::Local<v8::Context> context = isolate->GetCurrentContext();
+      
+      // Convert into Array
+      v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast(args[0]);
+      
+      int length = array->Length();
+      
+      arg2 = new std::vector<std::string>(length);
+      
+      // Get each element from array
+      for (int i = 0; i < length; i++)
+      {
+        v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+        
+        std::string *ptr = (std::string *)0;
+        int res = SWIG_AsPtr_std_string(jsvalue, &ptr);
+        if (!SWIG_IsOK(res) || !ptr) {
+          SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "Failed to convert args[0] to std::string"); 
+        }
+        (*arg2)[i] = *ptr;
+        if (SWIG_IsNewObj(res)) delete ptr;
+      }
+    }
+    else
+    {
+      SWIG_exception_fail(SWIG_ERROR, "args[0] is not an array");
+    }
   }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GEStringArray_setData" "', argument " "2"" of type '" "std::vector< std::string > const &""'"); 
-  }
-  arg2 = reinterpret_cast< std::vector< std::string > * >(argp2);
   ecode3 = SWIG_AsVal_int(args[1], &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GEStringArray_setData" "', argument " "3"" of type '" "int""'");
@@ -14079,7 +14550,9 @@ static SwigV8ReturnValue _wrap_GEStringArray_setData(const SwigV8Arguments &args
   (arg1)->setData((std::vector< std::string > const &)*arg2,arg3,arg4);
   jsresult = SWIGV8_UNDEFINED();
   
-  
+  {
+    delete arg2;
+  }
   
   
   
@@ -14395,11 +14868,12 @@ static SwigV8ReturnValue _wrap_GEStringArray_getData(const SwigV8Arguments &args
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_STRING_NEW((&result)->at(i).c_str()));
+      array->Set(context, i, SWIGV8_STRING_NEW((&result)->at(i).c_str()));
     }
     
     jsresult = array;
@@ -15101,11 +15575,12 @@ static SwigV8ReturnValue _wrap_WorkspaceManager_workspaceNames(const SwigV8Argum
   
   {
     int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
     v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
     
     for (int i = 0; i < length; i++)
     {
-      array->Set(SWIGV8_CURRENT_CONTEXT(), i, SWIGV8_STRING_NEW((&result)->at(i).c_str()));
+      array->Set(context, i, SWIGV8_STRING_NEW((&result)->at(i).c_str()));
     }
     
     jsresult = array;
