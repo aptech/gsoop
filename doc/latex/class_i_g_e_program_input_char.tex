@@ -1,31 +1,30 @@
-\hypertarget{class_i_g_e_program_input_char}{\section{I\-G\-E\-Program\-Input\-Char Class Reference}
-\label{class_i_g_e_program_input_char}\index{I\-G\-E\-Program\-Input\-Char@{I\-G\-E\-Program\-Input\-Char}}
-}
+\hypertarget{class_i_g_e_program_input_char}{}\section{I\+G\+E\+Program\+Input\+Char Class Reference}
+\label{class_i_g_e_program_input_char}\index{I\+G\+E\+Program\+Input\+Char@{I\+G\+E\+Program\+Input\+Char}}
 
 
-Character input callback function for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.  
+Character input callback function for the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine.  
 
 
 
 
-{\ttfamily \#include $<$gefuncwrapper.\-h$>$}
+{\ttfamily \#include $<$gefuncwrapper.\+h$>$}
 
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_i_g_e_program_input_char_a598db017e0c0456b09e8a32f9f635d08}{virtual int {\bfseries invoke} ()=0}\label{class_i_g_e_program_input_char_a598db017e0c0456b09e8a32f9f635d08}
-
+\mbox{\Hypertarget{class_i_g_e_program_input_char_a598db017e0c0456b09e8a32f9f635d08}\label{class_i_g_e_program_input_char_a598db017e0c0456b09e8a32f9f635d08}} 
+virtual int {\bfseries invoke} ()=0
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Character input callback function for the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine. 
+Character input callback function for the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine. 
 
-This is called when \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} requires character input.
+This is called when \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} requires character input.
 
-{\bfseries Note\-:} With all callbacks, the {\ttfamily thisown} flag must be set to {\ttfamily 0} on instantiation. This informs the target language that this object will be owned and properly deleted by the Engine.
+{\bfseries Note\+:} With all callbacks, the {\ttfamily thisown} flag must be set to {\ttfamily 0} on instantiation. This informs the target language that this object will be owned and properly deleted by the Engine.
 
-\subparagraph*{\hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} commands which activate this callback}
+\subparagraph*{\hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} commands which activate this callback}
 
 
 \begin{DoxyItemize}
@@ -33,31 +32,27 @@ This is called when \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} requires characte
 \item {\ttfamily key}
 \end{DoxyItemize}
 
-\subparagraph*{Python}
-
-
+{\bfseries Python} 
 \begin{DoxyCode}
-1 \textcolor{keyword}{class }CharInput(\hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar}):
-2     \textcolor{keyword}{def }invoke(self):
-3         \textcolor{comment}{# Return buffered input}
-4         \textcolor{keywordflow}{return} ord(\textcolor{stringliteral}{"c"}) \textcolor{comment}{# Return the integer value of 'c'}
-5 
-6 charCallback = CharInput()
-7 charCallback.thisown = 0
-8 
-9 ge.setProgramInputCharBlocking(charCallback)
-10 ge.setProgramInputBlocking(charCallback)
-11 
-12 ge.executeString(\textcolor{stringliteral}{"k = key"})
-13 
-14 k = ge.getScalar(\textcolor{stringliteral}{"k"})
-15 \textcolor{keywordflow}{print} \textcolor{stringliteral}{"k = "} + str(k)
+\textcolor{keyword}{class }CharInput(\hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar}):
+    \textcolor{keyword}{def }invoke(self):
+        \textcolor{comment}{# Return buffered input}
+        \textcolor{keywordflow}{return} ord(\textcolor{stringliteral}{"c"}) \textcolor{comment}{# Return the integer value of 'c'}
+
+charCallback = CharInput()
+charCallback.thisown = 0
+
+ge.setProgramInputCharBlocking(charCallback)
+ge.setProgramInputBlocking(charCallback)
+
+ge.executeString(\textcolor{stringliteral}{"k = key"})
+
+k = ge.getScalar(\textcolor{stringliteral}{"k"})
+\textcolor{keywordflow}{print} \textcolor{stringliteral}{"k = "} + str(k)
 \end{DoxyCode}
 
 
-\subparagraph*{P\-H\-P}
-
-
+{\bfseries P\+HP} 
 \begin{DoxyCode}
 \textcolor{keyword}{class }CharInput \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar} \{
     \textcolor{keyword}{function} invoke() \{
@@ -75,19 +70,19 @@ $ge->executeString(\textcolor{stringliteral}{"k = key;"});
 $k = $ge->getScalar(\textcolor{stringliteral}{"k"});
 echo \textcolor{stringliteral}{"k = "} . $k . PHP\_EOL;
 \end{DoxyCode}
- will result in the output\-: 
+ will result in the output\+: 
 \begin{DoxyCode}
 k = 99
 \end{DoxyCode}
 
 
-\begin{DoxySeeAlso}{See Also}
-\hyperlink{class_g_a_u_s_s_a71a60afb143ae00b18d6fe3fd99f316d}{G\-A\-U\-S\-S\-::set\-Program\-Input\-Char(\-I\-G\-E\-Program\-Input\-Char$\ast$)} 
+\begin{DoxySeeAlso}{See also}
+\hyperlink{class_g_a_u_s_s_a71a60afb143ae00b18d6fe3fd99f316d}{G\+A\+U\+S\+S\+::set\+Program\+Input\+Char(\+I\+G\+E\+Program\+Input\+Char$\ast$)} 
 
-\hyperlink{class_g_a_u_s_s_a300d6e33dbfd2a45f56ff2769f585435}{G\-A\-U\-S\-S\-::set\-Program\-Input\-Char\-Blocking(\-I\-G\-E\-Program\-Input\-Char$\ast$)} 
+\hyperlink{class_g_a_u_s_s_a300d6e33dbfd2a45f56ff2769f585435}{G\+A\+U\+S\+S\+::set\+Program\+Input\+Char\+Blocking(\+I\+G\+E\+Program\+Input\+Char$\ast$)} 
 \end{DoxySeeAlso}
 
 
-The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-src/gefuncwrapper.\-h\end{DoxyCompactItemize}
+src/gefuncwrapper.\+h\end{DoxyCompactItemize}

@@ -1,7 +1,0 @@
-var searchData=
-[
-  ['makepathabsolute',['makePathAbsolute',['../class_g_a_u_s_s.html#a428f307c0d147730f80b0c3779ddbd32',1,'GAUSS']]],
-  ['matrix',['MATRIX',['../struct_g_e_sym_type__s.html#a3874c4c2df1ed454c13722031e582f66',1,'GESymType_s']]],
-  ['movematrix',['moveMatrix',['../class_g_a_u_s_s.html#ac675e89a00ca8f569f9d47abb0726d98',1,'GAUSS::moveMatrix(doubleArray *data, int rows, int cols, bool complex, std::string name)'],['../class_g_a_u_s_s.html#a087e5cf6cda8e93eb5cb5263457edeb6',1,'GAUSS::moveMatrix(doubleArray *data, int rows, int cols, bool complex, std::string name, GEWorkspace *workspace)']]],
-  ['movesymbol',['moveSymbol',['../class_g_a_u_s_s.html#a6301062a26bd78f37893318e5618f6cb',1,'GAUSS::moveSymbol(GEMatrix *, std::string name)'],['../class_g_a_u_s_s.html#ad2061e878f99b3536b1b832f421e2327',1,'GAUSS::moveSymbol(GEMatrix *, std::string name, GEWorkspace *workspace)'],['../class_g_a_u_s_s.html#a0bf86a27d74366a93876243eafb1e0df',1,'GAUSS::moveSymbol(GEArray *, std::string name)'],['../class_g_a_u_s_s.html#a8bcab9539db9c3c65cc76391f075ecf0',1,'GAUSS::moveSymbol(GEArray *, std::string name, GEWorkspace *workspace)'],['../class_g_a_u_s_s.html#a6f90d1a3b4fe9a4eaadc29e4df78ee6d',1,'GAUSS::moveSymbol(GEStringArray *symbol, std::string name)'],['../class_g_a_u_s_s.html#aaa4c58f16202914263f59de1dcaeeb7c',1,'GAUSS::moveSymbol(GEStringArray *symbol, std::string name, GEWorkspace *workspace)']]]
-];

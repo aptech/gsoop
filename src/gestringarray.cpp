@@ -21,21 +21,21 @@ GEStringArray::GEStringArray(StringArray_t *sa) : GESymbol(GESymType::STRING_ARR
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 sa = GEStringArray(["Open", "High", "Low"])
 print sa
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 $sa = new GEStringArray(array("Open", "High", "Low"))
 echo $sa;
- * ~~~
+```
  * results in output:
- * ~~~
+```
 Open    High    Low
- * ~~~
+```
  *
  * @param data
  */
@@ -48,22 +48,22 @@ GEStringArray::GEStringArray(VECTOR_DATA(string) data) : GESymbol(GESymType::STR
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 sa = GEStringArray(["Open", "High", "Low", "Close"], 2, 2)
 print sa
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 $sa = new GEStringArray(array("Open", "High", "Low", "Close"), 2, 2);
 echo $sa;
- * ~~~
+```
  * results in output:
- * ~~~
+```
 Open    High
 Low     Close
- * ~~~
+```
  *
  * @param data        One-dimensional string data
  * @param rows        Row count
@@ -78,21 +78,21 @@ GEStringArray::GEStringArray(VECTOR_DATA(string) data, int rows, int cols) : GES
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 sa = GEStringArray(["foo", "bar", "baz"])
 print str(sa.getElement(0, 1))
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 $sa = new GEStringArray(array("foo", "bar", "baz"));
 echo $sa->getElement(0, 1);
- * ~~~
+```
  * results in the output:
- * ~~~
+```
 bar
- * ~~~
+```
  *
  * @param row        Row index
  * @param col        Column index
@@ -112,21 +112,21 @@ string GEStringArray::getElement(int row, int col) const {
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 sa = GEStringArray(["foo", "bar", "baz"])
 print sa[-2]
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 $sa = new GEStringArray(array("foo", "bar", "baz"));
 echo $sa->getElement(0, 1);
- * ~~~
+```
  * results in the output:
- * ~~~
+```
 bar
- * ~~~
+```
  *
  * @param index        Index
  * @return        Value at specified index
@@ -146,8 +146,8 @@ string GEStringArray::getElement(int index) const {
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 # Create a string array using GAUSS
 ge.executeString("string sa = { one two three four, five six seven eight }")
 
@@ -156,10 +156,10 @@ sa = ge.getStringArray("sa")
 
 print sa
 print " ".join(sa.getData())
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 // Create a string array using GAUSS
 $ge->executeString("string sa = { one two three four, five six seven eight };");
 
@@ -168,14 +168,14 @@ $sa = $ge->getStringArray("sa");
 
 echo $sa . PHP_EOL;
 echo implode(" ", $sa->getData()) . PHP_EOL;
- * ~~~
+```
  * resulting in the output:
- * ~~~
+```
 ONE     TWO     THREE   FOUR
 FIVE    SIX     SEVEN   EIGHT
 
 ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT
- * ~~~
+```
  *
  * @return        string vector
  */
@@ -211,23 +211,23 @@ void GEStringArray::setData(VECTOR_DATA(string) data, int rows, int cols) {
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 sa = GEStringArray(["foo", "bar", "baz"])
 sa.setElement("foo", 0, 1)
 print sa
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 $sa = new GEStringArray(array("foo", "bar", "baz"));
 $sa->setElement("foo", 0, 1);
 echo $sa->toString();
- * ~~~
+```
  * results in the output:
- * ~~~
+```
 foo        foo        baz
- * ~~~
+```
  *
  * @param row      Row
  * @param col      Col
@@ -248,23 +248,23 @@ bool GEStringArray::setElement(const string &str, int row, int col) {
  *
  * Example:
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 sa = GEStringArray(["foo", "bar", "baz"])
 sa[1] = "foo"
 print sa
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 $sa = new GEStringArray(array("foo", "bar", "baz"));
 $sa->setElement("foo", 0, 1);
 echo $sa->toString();
- * ~~~
+```
  * results in the output:
- * ~~~
+```
 foo        foo        baz
- * ~~~
+```
  *
  * @param index      Index
  */

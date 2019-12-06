@@ -14,8 +14,8 @@ using namespace std;
  * __Note:__ With all callbacks, the `thisown` flag must be set to `0` on instantiation.
  * This informs the target language that this object will be owned and properly deleted by the Engine.
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 class Output(IGEProgramOutput):
     def invoke(self, message):
         print message,
@@ -26,10 +26,10 @@ ge.setProgramOutputAll(out)
 ge.executeString("rndseed 12345")
 ge.executeString("rndu(3, 3)")  # Will produce valid output
 ge.executeString("y")           # Will produce error: y does not exist
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 class Output extends IGEProgramOutput {
     function invoke($message) {
         echo $message;
@@ -42,10 +42,10 @@ $out->thisown = 0;
 $ge->setProgramOutput($out);
 $ge->executeString("rndseed 12345;");
 $ge->executeString("rndu(3, 3);");
- * ~~~
+```
  *
- * <!--#### Java ####
- * ~~~{.java}
+ * <!--#### Java
+```{.java}
 // The object that implements a callback function MUST stay in scope and not be garbage-collected
 // for the entire time that you want to use that particular callback function. If it is prematurely
 // garbage-collected, it could cause the JVM to crash.
@@ -58,13 +58,13 @@ GEProgramOutput outputFn = new GEProgramOutput() {
 ge.setProgramOutput(outputFn);
 ge.executeString("rndseed 12345;");
 ge.executeString("rndu(3, 3);");
- * ~~~-->
+```-->
  * will result in the output:
- * ~~~
+```
       0.90518333       0.49163121       0.23850529
       0.70280651       0.70745944       0.13417575
       0.85034673       0.35349333       0.91067766
- * ~~~
+```
  *
  * @see GAUSS#setProgramOutputAll(IGEProgramOutput*)
  * @see GAUSS#setProgramOutput(IGEProgramOutput*)
@@ -85,8 +85,8 @@ public:
  * __Note:__ With all callbacks, the `thisown` flag must be set to `0` on instantiation.
  * This informs the target language that this object will be owned and properly deleted by the Engine.
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 class FlushOutput(IGEProgramFlushOutput):
     def invoke(self):
         print "A flush was requested."
@@ -96,10 +96,10 @@ flush.thisown = 0
 
 ge.setProgramFlushOutput(flush)
 ge.executeString("print /flush \"Hello World!\"")
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 class FlushOutput extends IGEProgramFlushOutput {
     function invoke() {
         echo "A flush was requested.";
@@ -111,10 +111,10 @@ $flush->thisown = 0;
 
 $ge->setProgramFlushOutput($flush);
 $ge->executeString("print /flush \"Hello World!\";");
- * ~~~
+```
  *
- * <!--#### Java ####
- * ~~~{.java}
+ * <!--#### Java
+```{.java}
 // The object that implements a callback function MUST stay in scope and not be garbage-collected
 // for the entire time that you want to use that particular callback function. If it is prematurely
 // garbage-collected, it could cause the JVM to crash.
@@ -126,13 +126,13 @@ IGEProgramFlushOutput flushFn = new IGEProgramFlushOutput() {
 
 ge.setProgramFlushOutput(flushFn);
 ge.executeString("print /flush \"Hello World!\";");
- * ~~~-->
+```-->
  *
  * will result in the output:
- * ~~~
+```
 Hello World!
 A flush was requested.
- * ~~~
+```
  *
  * @see GAUSS#setProgramFlushOutput(IGEProgramFlushOutput*)
  */
@@ -150,11 +150,11 @@ public:
  * __Note:__ With all callbacks, the `thisown` flag must be set to `0` on instantiation.
  * This informs the target language that this object will be owned and properly deleted by the Engine.
  *
- * #### GAUSS commands which activate this callback ####
+ * #### GAUSS commands which activate this callback
  * - `cons`
  *
- ** #### Python ####
- * ~~~{.py}
+ ** #### Python
+```{.py}
 class StringInput(IGEProgramInputString):
     # The callback does not return a string directly, rather through a method call.
     def invoke(self, length):
@@ -168,10 +168,10 @@ ge.executeString("s = cons")
 
 s = ge.getString("s")
 print "s = " + s
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 class StringInput extends IGEProgramInputString {
     // The callback does not return a string directly, rather through a method call.
     function invoke($length) {
@@ -188,10 +188,10 @@ $ge->executeString("s = cons;");
 
 $s = $ge->getString("s");
 echo "s = " . $s . PHP_EOL;
- * ~~~
+```
  *
- * <!--#### Java `<NOT IMPLEMENTED>` ####
- * ~~~{.java}
+ * <!--#### Java `<NOT IMPLEMENTED>`
+```{.java}
 // The object that implements a callback function MUST stay in scope and not be garbage-collected
 // for the entire time that you want to use that particular callback function. If it is prematurely
 // garbage-collected, it could cause the JVM to crash.
@@ -211,11 +211,11 @@ ge.setProgramInputString(consFn);
 ge.executeString("s = cons;");
 String s = ge.getString("s");
 System.out.println("s = " + s);
- * ~~~-->
+```-->
  * will result in the output:
- * ~~~
+```
  * s = Hello World!
- * ~~~
+```
  *
  * @see GAUSS::setProgramInputString(IGEProgramInputString*)
  */
@@ -253,12 +253,12 @@ private:
  * __Note:__ With all callbacks, the `thisown` flag must be set to `0` on instantiation.
  * This informs the target language that this object will be owned and properly deleted by the Engine.
  *
- * #### GAUSS commands which activate this callback ####
+ * #### GAUSS commands which activate this callback
  * - `keyw`
  * - `key`
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 class CharInput(IGEProgramInputChar):
     def invoke(self):
         # Return buffered input
@@ -274,10 +274,10 @@ ge.executeString("k = key")
 
 k = ge.getScalar("k")
 print "k = " + str(k)
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 class CharInput extends IGEProgramInputChar {
     function invoke() {
         // Return character input
@@ -293,11 +293,11 @@ $ge->executeString("k = key;");
 
 $k = $ge->getScalar("k");
 echo "k = " . $k . PHP_EOL;
- * ~~~
+```
  * will result in the output:
- * ~~~
+```
 k = 99
- * ~~~
+```
  *
  * @see GAUSS#setProgramInputChar(IGEProgramInputChar*)
  * @see GAUSS#setProgramInputCharBlocking(IGEProgramInputChar*)
@@ -316,11 +316,11 @@ public:
  * __Note:__ With all callbacks, the `thisown` flag must be set to `0` on instantiation.
  * This informs the target language that this object will be owned and properly deleted by the Engine.
  *
- * #### GAUSS commands which activate this callback ####
+ * #### GAUSS commands which activate this callback
  * - `keyav`
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 class InputCheck(IGEProgramInputCheck):
     def invoke(self):
         # We pretend we have character input available.
@@ -333,10 +333,10 @@ inputCheckCallback.thisown = 0
 ge.setProgramInputCheck(inputCheckCallback)
 ge.executeString("av = keyav")
 ge.executeString("if (av); print \"Key available\"; endif")
- * ~~~
+```
  *
- * #### PHP ####
- * ~~~{.php}
+__PHP__
+```php
 class InputCheck extends IGEProgramInputCheck {
     function invoke() {
         // We pretend we have character input available.
@@ -351,12 +351,12 @@ $inputCheckCallback->thisown = 0;
 $ge->setProgramInputCheck($inputCheckCallback);
 $ge->executeString("av = keyav;");
 $ge->executeString("if (av); print \"Key available\"; endif;");
- * ~~~
+```
  * results in output:
- * ~~~
+```
 Input check requested
 Key available
- * ~~~
+```
  *
  * @see GAUSS#setProgramInputCheck(IGEProgramInputCheck*)
  */

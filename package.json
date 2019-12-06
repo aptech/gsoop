@@ -1,0 +1,25 @@
+{
+  "name": "ge",
+  "version": "0.3.2",
+  "main": "bindings.js",
+  "description": "GEhttpd node.js bindings",
+  "scripts": {
+    "build": "swig -c++ -javascript -node -o node/gauss_wrap.cpp ge.i",
+    "install": "node-gyp rebuild",
+    "start": "LD_LIBRARY_PATH=$MTENGHOME:$LD_LIBRARY_PATH QT_PLUGIN_PATH=$MTENGHOME/plugins QT_QPA_PLATFORM=offscreen node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "*.js",
+    "node",
+    "*.i",
+    "binding.gyp",
+    "src",
+    "include"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aptech/gsoop.git"
+  },
+  "author": "Aptech Systems"
+}

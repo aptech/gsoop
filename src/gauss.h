@@ -45,19 +45,18 @@ class GAUSSPrivate;
  * While not enforced, only __one__ instance of this class should be present. If threading is an issue,
  * consider the use of multiple workspaces, as each can be accessed in parallel safely.
  *
- * #### Python ####
- * ~~~{.py}
+__Python__
+```py
 ge = GAUSS() # Use MTENGHOME environment variable value as GAUSS home location
 ge = GAUSS("MYHOMEVAR") # Use specified environment variable for GAUSS home location
 ge = GAUSS("/home/user/mteng", False) # Use specified paths for GAUSS home location
- * ~~~
- *
- * #### PHP ####
- * ~~~{.php}
+```
+__PHP__
+```php
 $ge = new GAUSS(); // Use MTENGHOME environment variable value as GAUSS home location
 $ge = new GAUSS("MYHOMEVAR"); // Use specified environment variable for GAUSS home location
 $ge = new GAUSS("/home/user/mteng", false); // Use specified paths for GAUSS home location
- * ~~~
+```
  *
  */
 class GAUSS_EXPORT GAUSS {
@@ -151,8 +150,8 @@ public:
 	bool moveSymbol(GEStringArray *symbol, std::string name);
 	bool moveSymbol(GEStringArray *symbol, std::string name, GEWorkspace *workspace);
 
-    bool moveMatrix(doubleArray *data, int rows, int cols, bool complex, std::string name);
-    bool moveMatrix(doubleArray *data, int rows, int cols, bool complex, std::string name, GEWorkspace* workspace);
+    bool moveMatrix(doubleArray *data, int rows, int cols, bool is_complex, std::string name);
+    bool moveMatrix(doubleArray *data, int rows, int cols, bool is_complex, std::string name, GEWorkspace* workspace);
 
     doubleArray* getMatrixDirect(std::string name);
     doubleArray* getMatrixDirect(std::string name, GEWorkspace* workspace);

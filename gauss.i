@@ -7,7 +7,10 @@
 %include "std_vector.i"
 %include "std_pair.i"
 %include "typemaps.i"
+
+#ifndef SWIGJAVASCRIPT
 %include "factory.i"
+#endif
 
 #ifdef SWIGPYTHON
 %include "pyabc.i"
@@ -31,6 +34,162 @@ namespace std {
 %apply double INPUT[] {const double *data}
 %apply double INPUT[] {const double *imag_data}
 %apply int INPUT[] {int *orders}
+#endif
+
+#ifdef SWIGJAVASCRIPT
+%include "arrays_javascript.i"
+%apply double[] {const double *data}
+%apply double[] {const double *imag_data}
+%apply int[] {int *orders}
+
+%typemap(in) const std::vector<double> & {
+  if ($input->IsArray())
+  {
+    v8::Isolate* isolate = args.GetIsolate();
+    v8::Local<v8::Context> context = isolate->GetCurrentContext();
+
+    // Convert into Array
+    v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast($input);
+
+    int length = array->Length();
+
+    $1 = new std::vector<double>(length);
+
+    // Get each element from array
+    for (int i = 0; i < length; i++)
+    {
+      v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+
+      double temp;
+
+      // Get primitive value from JSObject
+      int res = SWIG_AsVal_double(jsvalue, &temp);
+      if (!SWIG_IsOK(res))
+      {
+        SWIG_exception_fail(SWIG_ERROR, "Failed to convert $input to double");
+      }
+      (*arg$argnum)[i] = temp;
+    }
+  }
+  else
+  {
+    SWIG_exception_fail(SWIG_ERROR, "$input is not an array");
+  }
+}
+
+%typemap(freearg) const std::vector<double> & {
+    delete $1;
+}
+
+%typemap(in) std::vector<int> {
+  if ($input->IsArray())
+  {
+    v8::Isolate* isolate = args.GetIsolate();
+    v8::Local<v8::Context> context = isolate->GetCurrentContext();
+
+    // Convert into Array
+    v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast($input);
+
+    int length = array->Length();
+
+    $1.resize(length);
+
+    // Get each element from array
+    for (int i = 0; i < length; i++)
+    {
+      v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+
+      int temp;
+
+      // Get primitive value from JSObject
+      int res = SWIG_AsVal_int(jsvalue, &temp);
+      if (!SWIG_IsOK(res))
+      {
+        SWIG_exception_fail(SWIG_ERROR, "Failed to convert $input to int");
+      }
+      arg$argnum[i] = temp;
+    }
+  }
+  else
+  {
+    SWIG_exception_fail(SWIG_ERROR, "$input is not an array");
+  }
+}
+
+%typemap(in) const std::vector<std::string> & {
+  if ($input->IsArray())
+  {
+    v8::Isolate* isolate = args.GetIsolate();
+    v8::Local<v8::Context> context = isolate->GetCurrentContext();
+
+    // Convert into Array
+    v8::Local<v8::Array> array = v8::Local<v8::Array>::Cast($input);
+
+    int length = array->Length();
+
+    $1 = new std::vector<std::string>(length);
+
+    // Get each element from array
+    for (int i = 0; i < length; i++)
+    {
+      v8::Local<v8::Value> jsvalue = array->Get(context, i).ToLocalChecked();
+
+      std::string *ptr = (std::string *)0;
+      int res = SWIG_AsPtr_std_string(jsvalue, &ptr);
+      if (!SWIG_IsOK(res) || !ptr) {
+        SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "Failed to convert $input to std::string"); 
+      }
+      (*arg$argnum)[i] = *ptr;
+      if (SWIG_IsNewObj(res)) delete ptr;
+    }
+  }
+  else
+  {
+    SWIG_exception_fail(SWIG_ERROR, "$input is not an array");
+  }
+}
+
+%typemap(freearg) const std::vector<std::string> & {
+    delete $1;
+}
+
+%typemap(out) std::vector<string> %{
+{
+  int length = $1.size();
+  v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
+  v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+
+  for (int i = 0; i < length; i++)
+  {
+    array->Set(context, i, SWIGV8_STRING_NEW($1.at(i).c_str()));
+  }
+
+  $result = array;
+}
+%}
+
+%define JAVASCRIPT_OUT_STD_VECTOR_NUMERIC(CTYPE, SWIG_NEW_FN)
+
+%typemap(out) std::vector<CTYPE> %{
+{
+  int length = $1.size();
+  v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
+  v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+
+  for (int i = 0; i < length; i++)
+  {
+    array->Set(context, i, SWIG_NEW_FN($1.at(i)));
+  }
+
+  $result = array;
+}
+%}
+
+%enddef
+
+JAVASCRIPT_OUT_STD_VECTOR_NUMERIC(double, SWIGV8_NUMBER_NEW)
+JAVASCRIPT_OUT_STD_VECTOR_NUMERIC(int, SWIGV8_INTEGER_NEW)
+
 #endif
 
 /*%rename(GESymType) GESymTypeNS;*/

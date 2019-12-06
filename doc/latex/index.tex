@@ -1,74 +1,87 @@
-A light-\/weight O\-O\-P wrapper for various target languages that allows developers to interface with the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.
+A light-\/weight O\+OP wrapper for various target languages that allows developers to interface with the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine.
 
-We use the \href{http://www.swig.org}{\tt S\-W\-I\-G} library to generate language-\/specific extensions from C++ for us.
+We use the \href{http://www.swig.org}{\tt S\+W\+IG} library to generate language-\/specific extensions from C++ for us.
 
-The following languages are supported with more planned\-:
+The following languages are supported with more planned\+:
 
 
 \begin{DoxyItemize}
 \item Python
-\item P\-H\-P
+\item P\+HP
 \item C\#
 \end{DoxyItemize}
 
 While building from source allows complete control over the compile process, we have elected to also release binaries for popular platforms.
 
-You can\-:
+You can\+:
 \begin{DoxyItemize}
 \item Create and destroy workspaces, using multiple for threaded situations
 \item Compile, save, load and execute programs.
 \item Manipulate data in the symbol table
-\item Set up callbacks for integration with \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}'s input/output routines
+\item Set up callbacks for integration with \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS}\textquotesingle{}s input/output routines
 \end{DoxyItemize}
 
 \subsection*{Configuration}
 
-The A\-P\-I will look for the {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E} environment variable. This will be the location the engine was extracted to (i.\-e. {\ttfamily C\-:\textbackslash{}mteng} on Windows, {\ttfamily \$\-H\-O\-M\-E/mteng} on Linux)
+The A\+PI will look for the {\ttfamily M\+T\+E\+N\+G\+H\+O\+ME} environment variable. This will be the location the engine was extracted to (i.\+e. {\ttfamily C\+:\textbackslash{}mteng} on Windows, {\ttfamily \$\+H\+O\+ME/mteng} on Linux)
 
-\begin{TabularC}{2}
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*{2}{|X[-1]}|}
 \hline
-\rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
-{\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E} &{\ttfamily /home/user/mteng} \\\cline{1-2}
-\end{TabularC}
-
-
+\rowcolor{\tableheadbgcolor}\textbf{ Variable }&\textbf{ Value  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ Variable }&\textbf{ Value  }\\\cline{1-2}
+\endhead
+{\ttfamily M\+T\+E\+N\+G\+H\+O\+ME} &{\ttfamily /home/user/mteng} \\\cline{1-2}
+\end{longtabu}
 The following environment variables must {\bfseries contain} the specified values
 
 \subsubsection*{Windows}
 
-\begin{TabularC}{2}
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*{2}{|X[-1]}|}
 \hline
-\rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
-{\ttfamily P\-A\-T\-H} &Append {\ttfamily C\-:\textbackslash{}mteng} \\\cline{1-2}
-\end{TabularC}
+\rowcolor{\tableheadbgcolor}\textbf{ Variable }&\textbf{ Value  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ Variable }&\textbf{ Value  }\\\cline{1-2}
+\endhead
+{\ttfamily P\+A\+TH} &Append {\ttfamily C\+:\textbackslash{}mteng} \\\cline{1-2}
+\end{longtabu}
+The presence of this value allows the engine D\+LL to be found and loaded properly.
 
-
-The presence of this value allows the engine D\-L\-L to be found and loaded properly.
-
-Ensure you do not {\bfseries replace} {\ttfamily P\-A\-T\-H} with the directory.
+Ensure you do not {\bfseries replace} {\ttfamily P\+A\+TH} with the directory.
 
 \subsubsection*{Linux}
 
-\begin{TabularC}{2}
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*{2}{|X[-1]}|}
 \hline
-\rowcolor{lightgray}{\bf Variable }&{\bf Value}\\\cline{1-2}
-{\ttfamily L\-D\-\_\-\-L\-I\-B\-R\-A\-R\-Y\-\_\-\-P\-A\-T\-H} &Append {\ttfamily \$\-H\-O\-M\-E/mteng} \\\cline{1-2}
-\end{TabularC}
+\rowcolor{\tableheadbgcolor}\textbf{ Variable }&\textbf{ Value  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ Variable }&\textbf{ Value  }\\\cline{1-2}
+\endhead
+{\ttfamily L\+D\+\_\+\+L\+I\+B\+R\+A\+R\+Y\+\_\+\+P\+A\+TH} &Append {\ttfamily /home/user/mteng} \\\cline{1-2}
+\end{longtabu}
+Note\+: Please adjust the paths accordingly to your specific installation.
 
+\subsubsection*{S\+W\+IG}
 
-Note\-: Please adjust the paths accordingly to your specific installation.
+If you are building from source, you will need to have the S\+W\+IG library available\+:
 
-\subsubsection*{S\-W\-I\-G}
+\href{http://www.swig.org/download.html}{\tt http\+://www.\+swig.\+org/download.\+html}
 
-If you are building from source, you will need to have the S\-W\-I\-G library available\-:
+Once installed, please ensure {\ttfamily swig} is available in your terminal by placing its installation directory in your {\ttfamily P\+A\+TH} environment variable, as building requires it.
 
-\href{http://www.swig.org/download.html}{\tt http\-://www.\-swig.\-org/download.\-html}
-
-Once installed, please ensure {\ttfamily swig} is available in your terminal by placing its installation directory in your {\ttfamily P\-A\-T\-H} environment variable, as building requires it.
-
-{\bfseries E\-X\-C\-E\-P\-T\-I\-O\-N}\-: If you are not {\itshape modifying} any source files, the auto generated files have been included in the respective {\ttfamily python} and {\ttfamily php} sub-\/directories. Please refer to php5/php7 based on the version of P\-H\-P being used.
-
-You can place these in {\ttfamily src} and skip the steps involving S\-W\-I\-G.
+{\bfseries E\+X\+C\+E\+P\+T\+I\+ON}\+: If you are not {\itshape modifying} any source files, the auto generated files have been included in the respective {\ttfamily python} and {\ttfamily php} sub-\/directories. Please refer to php5/php7 based on the version of P\+HP being used.
 
 \subsection*{Installation}
 
@@ -84,27 +97,27 @@ The Python installation uses the {\ttfamily distribute} package.
 
 Select the correct {\ttfamily egg} file according to your architecture.
 
-Please ensure your Python installation contains the {\ttfamily setuptools} package, which provides the {\ttfamily easy\-\_\-install} application.
+Please ensure your Python installation contains the {\ttfamily setuptools} package, which provides the {\ttfamily easy\+\_\+install} application.
 
-Instructions and files can be found at\-: \href{https://pypi.python.org/pypi/setuptools#windows}{\tt https\-://pypi.\-python.\-org/pypi/setuptools\#windows} \begin{DoxyVerb}$ easy_install ge-0.3-py2.7-win-amd64.egg
+Instructions and files can be found at\+: \href{https://pypi.python.org/pypi/setuptools#windows}{\tt https\+://pypi.\+python.\+org/pypi/setuptools\#windows} \begin{DoxyVerb}$ easy_install ge-0.3.2-py3.6-win-amd64.egg
 \end{DoxyVerb}
 
 
 \paragraph*{Linux}
 
-\begin{DoxyVerb}$ easy_install ge-0.3-py2.7-linux-x86_64.egg
+\begin{DoxyVerb}$ easy_install ge-0.3.2-py3.6-linux-x86_64.egg
 \end{DoxyVerb}
 
 
 \subsubsection*{Source}
 
-If using Windows, please ensure the following are correctly in your {\ttfamily P\-A\-T\-H} environment variable \begin{DoxyVerb}C:\Python27\;C:\Python27\Scripts\
+If using Windows, please ensure the following are correctly in your {\ttfamily P\+A\+TH} environment variable \begin{DoxyVerb}C:\Python36\;C:\Python36\Scripts\
 \end{DoxyVerb}
 
 
-Note\-: Tested with Python 2.\-7.\-4
+Note\+: Tested with Python 3.\+6 (M\+S\+VC 2015)
 
-Just like the traditional {\ttfamily make \&\& make install}, compiling a Python extension requires 2 steps\-:
+Just like the traditional {\ttfamily make \&\& make install}, compiling a Python extension requires 2 steps\+:
 
 
 \begin{DoxyCode}
@@ -117,147 +130,154 @@ python setup.py install
 
 
 \begin{DoxyCode}
-\textcolor{preprocessor}{# The setup.py utilizes the 'MTENGHOME' environment variable.}
-\textcolor{preprocessor}{}\textcolor{preprocessor}{# Please ensure this is set appropriately to your GAUSS Engine installation directory.}
-\textcolor{preprocessor}{}tar -xvf ge-0.3.tar.gz
-cd ge-0.3
+# The setup.py utilizes the 'MTENGHOME' environment variable.
+# Please ensure this is set appropriately to your GAUSS Engine installation directory.
+tar -xvf ge-0.3.2.tar.gz
+cd ge-0.3.2
 python setup.py build\_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install
 
-\textcolor{preprocessor}{# ROOT ONLY}
-\textcolor{preprocessor}{}\textcolor{preprocessor}{# If installation must be done as root, force set the environment variable}
-\textcolor{preprocessor}{}tar -xvf ge-0.3.tar.gz
-cd ge-0.3
-MTENGHOME=/home/user/mteng python setup.py build\_ext -i # First build the extension and create the ge.py 
-      file
-MTENGHOME=/home/user/mteng python setup.py install      # Everything compiled, now install
+# ROOT ONLY
+# If installation must be done as root, force set the environment variable
+tar -xvf ge-0.3.2.tar.gz
+cd ge-0.3.2
+export MTENGHOME=/home/user/mteng
+# If you need customized wrapper~
+python setup.py build\_ext -i # First build the extension and create the ge.py file
+python setup.py install      # Everything compiled, now install
 \end{DoxyCode}
 
 
 \paragraph*{Windows}
 
-Due to {\ttfamily mteng.\-dll} being compiled with Visual Studio 2015, it is necessary at this time to use M\-S\-V\-C to compile the Python extension.
+Due to {\ttfamily mteng.\+dll} being compiled with Visual Studio 2015, it is necessary at this time to use M\+S\+VC to compile the Python extension.
 
 All commands are run through the appropriate Visual Studio command prompt.
 
-32-\/bit\-: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2015 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2015 Command Prompt}
+32-\/bit\+: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2015 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2015 Command Prompt}
 
-64-\/bit\-: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2015 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2015 x64 Win64 Command Prompt}
+64-\/bit\+: {\ttfamily Start -\/$>$ Microsoft Visual Studio 2015 -\/$>$ Visual Studio Tools -\/$>$ Visual Studio 2015 x64 Win64 Command Prompt}
 
 If your user lacks permissions to access the Python installation directory, you may have to run {\ttfamily cmd} as Administrator
 
-Execute the following via a {\ttfamily cmd} terminal\-:
+Execute the following via a {\ttfamily cmd} terminal\+:
 
 
 \begin{DoxyCode}
-\textcolor{preprocessor}{# The setup.py utilizes the 'MTENGHOME' environment variable.}
-\textcolor{preprocessor}{}\textcolor{preprocessor}{# Please ensure this is set appropriately to your GAUSS Engine installation directory.}
-\textcolor{preprocessor}{}\textcolor{preprocessor}{# unzip ge-0.3.zip to a directory of your choice}
-\textcolor{preprocessor}{}cd ge-0.3
+# The setup.py utilizes the 'MTENGHOME' environment variable.
+# Please ensure this is set appropriately to your GAUSS Engine installation directory or set it on the
+       command line.
+# unzip ge-0.3.2.zip to a directory of your choice
+cd ge-0.3.2
+set MTENGHOME=C:\(\backslash\)mteng
 python setup.py build\_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install
 \end{DoxyCode}
 
 
-If you omit the {\ttfamily build\-\_\-ext -\/i} step, the {\ttfamily ge.\-py} generated file will {\bfseries N\-O\-T} be placed in Python package directory.
+If you omit the {\ttfamily build\+\_\+ext -\/i} step, the {\ttfamily ge.\+py} generated file will {\bfseries N\+OT} be placed in Python package directory.
 
-The result of this behavior is the following when attempting to {\ttfamily import gauss}\-:
+The result of this behavior is the following when attempting to {\ttfamily import ge}\+:
 
 
 \begin{DoxyCode}
-1 >>> \textcolor{keyword}{import} ge
-2 Traceback (most recent call last):
-3   File \textcolor{stringliteral}{"<stdin>"}, line 1, \textcolor{keywordflow}{in} <module>
-4 ImportError: No module named ge
+>>> \textcolor{keyword}{import} ge
+Traceback (most recent call last):
+  File \textcolor{stringliteral}{"<stdin>"}, line 1, \textcolor{keywordflow}{in} <module>
+ImportError: No module named ge
 \end{DoxyCode}
 
 
-\subsubsection*{P\-H\-P (Linux Only)}
+\subsubsection*{P\+HP (Linux Only)}
 
 \paragraph*{Source}
 
-\href{http://www.cmake.org}{\tt C\-Make} is our build tool of choice for building the P\-H\-P extension.
+\href{http://www.cmake.org}{\tt C\+Make} is our build tool of choice for building the P\+HP extension.
 
-Currently, only Linux is supported/tested. The C\-Make file uses information from the {\ttfamily php-\/config} binary to configure itself appropriately.
+Currently, only Linux is supported/tested. The C\+Make file uses information from the {\ttfamily php-\/config} binary to configure itself appropriately.
 
-The following commands are executed from the root of the source path\-: \begin{DoxyVerb}$ mkdir build
+The following commands are executed from the root of the source path\+: \begin{DoxyVerb}$ mkdir build
 $ cd build
 # You could also use cmake-gui to create the Makefile
 \end{DoxyVerb}
 
 
-To use the pre-\/generated wrappers, configure as follows\-: \$ cmake -\/\-D\-M\-T\-E\-N\-G\-H\-O\-M\-E=/home/user/mteng -\/\-G\char`\"{}\-Unix Makefiles\char`\"{} ..
-
-If you have modified source files and need to regenerate the wrappers\-: \$ cmake -\/\-D\-M\-T\-E\-N\-G\-H\-O\-M\-E=/home/user/mteng -\/\-G\char`\"{}\-Unix Makefiles\char`\"{} -\/\-D\-S\-W\-I\-G=O\-N ..
-
-Now build the extension \$ make
-
-You should now have a {\ttfamily ge.\-so} file, as well as {\ttfamily ge.\-php}, in your current directory.
-
-This will need to be used with any project that makes use of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine, as the first line of any program will be \begin{DoxyVerb}include("ge.php");
+To use the pre-\/generated wrappers, configure as follows\+: \begin{DoxyVerb}$ cmake -DMTENGHOME=/home/user/mteng -G"Unix Makefiles" ..
 \end{DoxyVerb}
 
 
-Refer to the \href{#php_install_binary}{\tt P\-H\-P Binary} section for instructions on installation.
+If you have modified source files and need to regenerate the wrappers\+: \begin{DoxyVerb}$ cmake -DMTENGHOME=/home/user/mteng -G"Unix Makefiles" -DSWIG=ON ..
+\end{DoxyVerb}
 
-\subsubsection*{Binary}
 
-Place the {\ttfamily ge.\-so} file in your P\-H\-P installation's extension directory. If a valid directory was found during the C\-Make configuration phase, you can run {\ttfamily make installext} to automatically copy the newly built library into the appropriate extension directory.
+Now build the extension \begin{DoxyVerb}$ make
+\end{DoxyVerb}
 
-If you prefer to do this manually, the location can be found by either\-:
+
+You should now have a {\ttfamily ge.\+so} file, as well as {\ttfamily ge.\+php}, in your current directory.
+
+This will need to be used with any project that makes use of the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine, as the first line of any program will be \begin{DoxyVerb}include("ge.php");
+\end{DoxyVerb}
+
+
+\paragraph*{Binary}
+
+Place the {\ttfamily ge.\+so} file in your P\+HP installation\textquotesingle{}s extension directory. If a valid directory was found during the C\+Make configuration phase, you can run {\ttfamily make installext} to automatically copy the newly built library into the appropriate extension directory.
+
+If you prefer to do this manually, the location can be found by either\+:
 
 
 \begin{DoxyEnumerate}
 \item {\ttfamily php-\/config -\/-\/extension-\/dir}
-\item Looking for the {\ttfamily extension\-\_\-dir} value in your {\ttfamily php.\-ini} file.
+\item Looking for the {\ttfamily extension\+\_\+dir} value in your {\ttfamily php.\+ini} file.
 \end{DoxyEnumerate}
 
-For use with a web server, the extension must be loaded directly by P\-H\-P, requiring the following change to your {\ttfamily php.\-ini}\-: \begin{DoxyVerb}; load gauss engine extension
+For use with a web server, the extension must be loaded directly by P\+HP, requiring the following change to your {\ttfamily php.\+ini}\+: \begin{DoxyVerb}; load gauss engine extension
 extension=ge.so
 \end{DoxyVerb}
 
 
-If running P\-H\-P from the command line, changes should be instantaneous.
+If running P\+HP from the command line, changes should be instantaneous.
 
-Please refresh services that utilize P\-H\-P to pick up on the new extension.
+Please refresh services that utilize P\+HP to pick up on the new extension.
 
 \subsection*{Development}
 
-This section introduces an implementation of the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine.
+This section introduces an implementation of the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine.
 
 \subsubsection*{Hello World!}
 
-Getting started with the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine is extremely simple.
+Getting started with the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine is extremely simple.
 
 This assumes the library has been made available to the target language properly.
 
-The following snippet will be described step-\/by-\/step in detail\-:
+The following snippet will be described step-\/by-\/step in detail\+:
 
 \paragraph*{Python}
 
 
 \begin{DoxyCode}
-1 \textcolor{keyword}{from} ge \textcolor{keyword}{import} GAUSS, IGEProgramOutput
-2 
-3 \textcolor{keyword}{class }Output(\hyperlink{class_i_g_e_program_output}{IGEProgramOutput}):
-4     \textcolor{keyword}{def }invoke(self, message):
-5         \textcolor{keywordflow}{print} message,
-6 
-7 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}()
-8 
-9 out = Output()
-10 ge.setProgramOutputAll(out)
-11 
-12 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} ge.initialize():
-13     \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Initialization failed."}
-14     sys.exit(1)     \textcolor{comment}{# import sys for usage}
-15 
-16 ge.executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""})
-17 ge.shutdown()
+\textcolor{keyword}{from} ge \textcolor{keyword}{import} GAUSS, IGEProgramOutput
+
+\textcolor{keyword}{class }Output(\hyperlink{class_i_g_e_program_output}{IGEProgramOutput}):
+    \textcolor{keyword}{def }invoke(self, message):
+        \textcolor{keywordflow}{print} message,
+
+ge = \hyperlink{class_g_a_u_s_s}{GAUSS}()
+
+out = Output()
+ge.setProgramOutputAll(out)
+
+\textcolor{keywordflow}{if} \textcolor{keywordflow}{not} ge.initialize():
+    \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Initialization failed."}
+    sys.exit(1)     \textcolor{comment}{# import sys for usage}
+
+ge.executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""})
+ge.shutdown()
 \end{DoxyCode}
 
 
-\paragraph*{P\-H\-P}
+\paragraph*{P\+HP}
 
 
 \begin{DoxyCode}
@@ -285,7 +305,7 @@ $ge->shutdown();
 \end{DoxyCode}
 
 
-\subsubsection*{Step 1\-: Import the required library}
+\subsubsection*{Step 1\+: Import the required library}
 
 Before we can make use of the functionality, we have to make the engine library available to us. This is quite simple and straight-\/forward.
 
@@ -293,11 +313,11 @@ Before we can make use of the functionality, we have to make the engine library 
 
 
 \begin{DoxyCode}
-1 \textcolor{keyword}{from} ge \textcolor{keyword}{import} GAUSS, IGEProgramOutput
+\textcolor{keyword}{from} ge \textcolor{keyword}{import} GAUSS, IGEProgramOutput
 \end{DoxyCode}
 
 
-\paragraph*{P\-H\-P}
+\paragraph*{P\+HP}
 
 
 \begin{DoxyCode}
@@ -305,23 +325,25 @@ include(\textcolor{stringliteral}{"ge.php"});
 \end{DoxyCode}
 
 
-If you compiled from source and you're not sure where {\ttfamily ge.\-php} is, it will be in the {\ttfamily build} directory.
+If you compiled from source and you\textquotesingle{}re not sure where {\ttfamily ge.\+php} is, it will be in the {\ttfamily build} directory.
 
-\subsubsection*{Step 2\-: Instantiate the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine object}
+\subsubsection*{Step 2\+: Instantiate the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine object}
 
 After importing the correct library, we need to instantiate our engine object. There are multiple constructors available that suit a variety of scenarios.
 
-In this example, we will be using the default constructor. This method relies on an existing environment variable in an effort to locate the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} home directory.
+In this example, we will be using the default constructor. This method relies on an existing environment variable in an effort to locate the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} home directory.
 
-By default, this environment variable is {\ttfamily M\-T\-E\-N\-G\-H\-O\-M\-E}.
+By default, this environment variable is {\ttfamily M\+T\+E\+N\+G\+H\+O\+ME}.
 
 \paragraph*{Python}
 
 
 \begin{DoxyCode}
-1 ge = \hyperlink{class_g_a_u_s_s}{GAUSS}()  \textcolor{comment}{# Look up value for MTENGHOME}
+ge = \hyperlink{class_g_a_u_s_s}{GAUSS}()  \textcolor{comment}{# Look up value for MTENGHOME}
 \end{DoxyCode}
- \paragraph*{P\-H\-P}
+
+
+\paragraph*{P\+HP}
 
 
 \begin{DoxyCode}
@@ -329,51 +351,53 @@ $ge = \textcolor{keyword}{new} \hyperlink{class_g_a_u_s_s}{GAUSS}();  \textcolor
 \end{DoxyCode}
 
 
-{\bfseries Hint\-:} Check out the {\ttfamily G\-A\-U\-S\-S(string)} constructor, as it allows you to pass in a custom environment variable to use.
+{\bfseries Hint\+:} Check out the {\ttfamily \hyperlink{class_g_a_u_s_s}{G\+A\+U\+S\+S(string)}} constructor, as it allows you to pass in a custom environment variable to use.
 
-\subsubsection*{Step 3\-: Set up callbacks}
+\subsubsection*{Step 3\+: Set up callbacks}
 
 Technically, this step {\itshape can} be skipped, but creating appropriate callbacks allows you control over specific aspects of program functionality.
 
-While some of these must be implemented to work correctly (i.\-e. setting a string input callback), others have default implementations that don't necessarily require a callback (i.\-e. program output routing to {\ttfamily stdout}), it is generally a good idea to do so.
+While some of these must be implemented to work correctly (i.\+e. setting a string input callback), others have default implementations that don\textquotesingle{}t necessarily require a callback (i.\+e. program output routing to {\ttfamily stdout}), it is generally a good idea to do so.
 
-The following 3 steps are core to setting up a callback\-:
+The following 3 steps are core to setting up a callback\+:
 \begin{DoxyEnumerate}
 \item Define the callback by deriving one of the available callback classes
-\item Set the {\ttfamily thisown} property to {\bfseries 0} (release ownership) if the object would go out of scope before the {\ttfamily \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}} object
+\item Set the {\ttfamily thisown} property to {\bfseries 0} (release ownership) if the object would go out of scope before the {\ttfamily \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS}} object
 \item Assign the callback
 \end{DoxyEnumerate}
 
 Pretty straight-\/forward!
 
-We first define a callback class, inheriting the appropriate base class; in this case \hyperlink{class_i_g_e_program_output}{I\-G\-E\-Program\-Output}.
+We first define a callback class, inheriting the appropriate base class; in this case \hyperlink{class_i_g_e_program_output}{I\+G\+E\+Program\+Output}.
 
 Simply override the callback method {\ttfamily invoke} and print out the {\ttfamily message} argument.
 
-{\bfseries Important Note\-:}
+{\bfseries Important Note\+:}
 
-We must set the {\ttfamily thisown} property of the newly instantiated object to {\ttfamily 0} if it will go out of scope before the {\ttfamily \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S}} object
+We must set the {\ttfamily thisown} property of the newly instantiated object to {\ttfamily 0} if it will go out of scope before the {\ttfamily \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS}} object
 
-This is necessary because ownership of this object will be transferred to the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} object.
+This is necessary because ownership of this object will be transferred to the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} object.
 
-Without setting this, if the {\ttfamily out} var was to go out of scope, it could be deleted and \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} will now attempt to reference a non-\/existent callback.
+Without setting this, if the {\ttfamily out} var was to go out of scope, it could be deleted and \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} will now attempt to reference a non-\/existent callback.
 
 \paragraph*{Python}
 
 
 \begin{DoxyCode}
-1 \textcolor{comment}{# Step 1}
-2 \textcolor{keyword}{class }Output(\hyperlink{class_i_g_e_program_output}{IGEProgramOutput}):
-3     \textcolor{keyword}{def }invoke(self, message):
-4         \textcolor{keywordflow}{print} message,
-5 
-6 \textcolor{comment}{# Step 2}
-7 out = Output().\_\_disown\_\_() \textcolor{comment}{# Prevent garbage collection}
-8 
-9 \textcolor{comment}{# Step 3}
-10 ge.setProgramOutputAll(out)
+\textcolor{comment}{# Step 1}
+\textcolor{keyword}{class }Output(\hyperlink{class_i_g_e_program_output}{IGEProgramOutput}):
+    \textcolor{keyword}{def }invoke(self, message):
+        \textcolor{keywordflow}{print} message,
+
+\textcolor{comment}{# Step 2}
+out = Output().\_\_disown\_\_() \textcolor{comment}{# Prevent garbage collection}
+
+\textcolor{comment}{# Step 3}
+ge.setProgramOutputAll(out)
 \end{DoxyCode}
- \paragraph*{P\-H\-P}
+
+
+\paragraph*{P\+HP}
 
 
 \begin{DoxyCode}
@@ -394,23 +418,25 @@ $ge->setProgramOutputAll($out);
 \end{DoxyCode}
 
 
-{\itshape Note\-:} We used the \hyperlink{class_g_a_u_s_s_a0b8379c48d677e05aeab433dba66fbb6}{G\-A\-U\-S\-S.\-set\-Program\-Output\-All} method, which is used to set {\itshape both} the program and error output.
+{\itshape Note\+:} We used the \hyperlink{class_g_a_u_s_s_a0b8379c48d677e05aeab433dba66fbb6}{G\+A\+U\+S\+S.\+set\+Program\+Output\+All} method, which is used to set {\itshape both} the program and error output.
 
-If you wish to separate the callbacks for different functionality, you can use the \hyperlink{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{G\-A\-U\-S\-S.\-set\-Program\-Output} and \hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{G\-A\-U\-S\-S.\-set\-Program\-Error\-Output} methods.
+If you wish to separate the callbacks for different functionality, you can use the \hyperlink{class_g_a_u_s_s_a7f0dc6b5b307aa06c347f9c6a9fdacab}{G\+A\+U\+S\+S.\+set\+Program\+Output} and \hyperlink{class_g_a_u_s_s_abd75266b2c4075da75163fe95b013ef3}{G\+A\+U\+S\+S.\+set\+Program\+Error\+Output} methods.
 
-\subsubsection*{Step 4\-: Initialize the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine}
+\subsubsection*{Step 4\+: Initialize the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine}
 
-Now that you've made it to this step, if all has been configured correctly, initializing the Engine is quite easy.
+Now that you\textquotesingle{}ve made it to this step, if all has been configured correctly, initializing the Engine is quite easy.
 
 \paragraph*{Python}
 
 
 \begin{DoxyCode}
-1 \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} ge.initialize():
-2     \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Initialization failed."}
-3     sys.exit(1)
+\textcolor{keywordflow}{if} \textcolor{keywordflow}{not} ge.initialize():
+    \textcolor{keywordflow}{print} \textcolor{stringliteral}{"Initialization failed."}
+    sys.exit(1)
 \end{DoxyCode}
- \paragraph*{P\-H\-P}
+
+
+\paragraph*{P\+HP}
 
 
 \begin{DoxyCode}
@@ -423,41 +449,49 @@ Now that you've made it to this step, if all has been configured correctly, init
 
 The {\ttfamily initialize} method returns a true/false value depending on whether it was successful or not.
 
-\subsubsection*{Step 5\-: Home Free}
+\subsubsection*{Step 5\+: Home Free}
 
 With everything set up, we are free to run whatever code we choose!
 
-For this small example, we just want the engine to tell us \char`\"{}\-Hello World!\char`\"{} through the callback we've assigned.
+For this small example, we just want the engine to tell us \char`\"{}\+Hello World!\char`\"{} through the callback we\textquotesingle{}ve assigned.
 
 \paragraph*{Python}
 
 
 \begin{DoxyCode}
-1 ge.executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""})
+ge.executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""})
 \end{DoxyCode}
- \paragraph*{P\-H\-P}
+
+
+\paragraph*{P\+HP}
 
 
 \begin{DoxyCode}
 $ge->executeString(\textcolor{stringliteral}{"print \(\backslash\)"Hello World!\(\backslash\)""});
 \end{DoxyCode}
- will result in the output\-: 
+
+
+will result in the output\+:
+
+
 \begin{DoxyCode}
 Hello World!
 \end{DoxyCode}
 
 
-\subsubsection*{Step 6\-: Shutdown the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine}
+\subsubsection*{Step 6\+: Shutdown the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine}
 
-Shutting down the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine is as easy as telling it to do so\-:
+Shutting down the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine is as easy as telling it to do so\+:
 
 \paragraph*{Python}
 
 
 \begin{DoxyCode}
-1 ge.shutdown()
+ge.shutdown()
 \end{DoxyCode}
- \paragraph*{P\-H\-P}
+
+
+\paragraph*{P\+HP}
 
 
 \begin{DoxyCode}
@@ -469,23 +503,28 @@ This will destroy any active workspaces and perform any cleanup that might be ne
 
 \subsection*{Conclusion}
 
-This wraps up the basics of using the \hyperlink{class_g_a_u_s_s}{G\-A\-U\-S\-S} Engine A\-P\-I. The documentation is full of code snippets that should help you easily interface with the Engine for your chosen task.
+This wraps up the basics of using the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine A\+PI. The documentation is full of code snippets that should help you easily interface with the Engine for your chosen task.
 
-A template file has also been included which represents a full setup and tear-\/down with space in the middle to drop in code snippets. This file will be aptly named in relation to the language it applies to\-:
+A template file has also been included which represents a full setup and tear-\/down with space in the middle to drop in code snippets. This file will be aptly named in relation to the language it applies to\+:
 
-\begin{TabularC}{2}
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*{2}{|X[-1]}|}
 \hline
-\rowcolor{lightgray}{\bf Language }&{\bf Filename}\\\cline{1-2}
-Python &{\ttfamily python/template\-\_\-example.\-py} \\\cline{1-2}
-P\-H\-P &{\ttfamily php/template\-\_\-example.\-php} \\\cline{1-2}
-\end{TabularC}
-
-
+\rowcolor{\tableheadbgcolor}\textbf{ Language }&\textbf{ Filename  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ Language }&\textbf{ Filename  }\\\cline{1-2}
+\endhead
+Python &{\ttfamily python/template\+\_\+example.\+py} \\\cline{1-2}
+P\+HP &{\ttfamily php/template\+\_\+example.\+php} \\\cline{1-2}
+\end{longtabu}
 \subsubsection*{Unit Tests}
 
-Some simple unit tests have also been provided. The P\-H\-P unit test example uses \href{https://phpunit.de}{\tt P\-H\-P Unit} and can ran accordingly\-: \begin{DoxyVerb}php -f phpunit.phar unit_test.php
+Some simple unit tests have also been provided. The P\+HP unit test example uses \href{https://phpunit.de}{\tt P\+HP Unit} and can ran accordingly\+: \begin{DoxyVerb}php -f phpunit.phar unit_test.php
 \end{DoxyVerb}
 
 
-The C\-Make configure stage will also attempt to locate a P\-H\-P\-Unit binary, and if found, will offer a 'unittest' make target that can be used\-: \begin{DoxyVerb}make unittest\end{DoxyVerb}
+The C\+Make configure stage will also attempt to locate a P\+H\+P\+Unit binary, and if found, will offer a \textquotesingle{}unittest\textquotesingle{} make target that can be used\+: \begin{DoxyVerb}make unittest\end{DoxyVerb}
  

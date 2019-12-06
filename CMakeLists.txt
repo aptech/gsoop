@@ -3,7 +3,7 @@ project (ge)
 
 set(ge_MAJOR_VERSION 0)
 set(ge_MINOR_VERSION 3)
-set(ge_PATCH_VERSION 1)
+set(ge_PATCH_VERSION 2)
 set(ge_VERSION
   ${ge_MAJOR_VERSION}.${ge_MINOR_VERSION}.${ge_PATCH_VERSION})
 
@@ -21,6 +21,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 option(STATIC "Build static library instead of shared" OFF)
 option(CPPONLY "Build C++ shared library only" OFF)
 
+add_definitions(-DGAUSS_LIBRARY)
+
 if(STATIC)
     set(GE_LIBRARY_TYPE STATIC)
 else()
@@ -36,6 +38,9 @@ set(GE_SRCS
 if(CPPONLY)
     add_library(ge ${GE_LIBRARY_TYPE} ${GE_SRCS})
     target_include_directories(ge PUBLIC include src)
+    if(WIN32)
+        target_include_directories(ge PUBLIC include ${MTENGHOME}/pthreads)
+    endif()
     target_link_libraries(ge PUBLIC ${MTENG_LIB})
     return()
 endif()
@@ -103,7 +108,7 @@ option(PHP5 "Use PHP5 mode for SWIG instead of PHP7" ${SWIG_PHP5_FOUND})
 option(SWIG "Execute SWIG to build wrapper" OFF)
 option(SWIGOFFICIAL "Create official prebuilt SWIG wrappers" OFF)
 
-add_definitions(-DGAUSS_LIBRARY -DSWIGPHP)
+add_definitions(-DSWIGPHP)
 
 #swig -c++ -php7 -outdir php -o src/gauss_wrap.cpp ge.i
 if (PHP5)
