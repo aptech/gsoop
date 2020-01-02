@@ -37,7 +37,6 @@ using namespace std;
 /**
  * Bit pattern of a double missing value (NaN)
  */
-static double kMissingValue = GAUSS_MissingValue();
 static std::string kHomeVar = "MTENGHOME";
 
 static unordered_map<int, std::string> kOutputStore;
@@ -1127,7 +1126,6 @@ std::string GAUSS::getErrorText(int errorNum) const {
  * @param d        double value to check
  * @return        true if <i>d</i> contains a GAUSS missing value. false if not.
  *
- * @see kMissingValue
  */
 bool GAUSS::isMissingValue(double d) {
     return (GAUSS_IsMissingValue(d) > 0);
