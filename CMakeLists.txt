@@ -36,6 +36,7 @@ set(GE_SRCS
 )
 
 if(CPPONLY)
+    add_definitions(-D${GE_LIBRARY_TYPE})
     add_library(ge ${GE_LIBRARY_TYPE} ${GE_SRCS})
     target_include_directories(ge PUBLIC include src)
     if(WIN32)
