@@ -2584,6 +2584,7 @@ Undefined symbols:
  * @see setProgramErrorOutput(IGEProgramOutput*)
  */
 void GAUSS::setProgramOutputAll(IGEProgramOutput *func) {
+    std::cout << "Assigning output func " << func << std::endl;
     GAUSS::outputFunc_ = func;
     GAUSS::errorFunc_ = func;
 }
@@ -2975,6 +2976,50 @@ Key available
  */
 void GAUSS::setProgramInputCheck(IGEProgramInputCheck *func) {
     GAUSS::inputCheckFunc_ = func;
+}
+
+void GAUSS::setGlobalInterrupt() {
+    GAUSS_SetGlobalInterrupt();
+}
+
+void GAUSS::clearGlobalInterrupt() {
+    GAUSS_ClearGlobalInterrupt();
+}
+
+int GAUSS::checkGlobalInterrupt() const {
+    return GAUSS_CheckGlobalInterrupt();    
+}
+
+void GAUSS::setWorkspaceInterrupt(GEWorkspace *workspace) {
+    if (!this->d->manager_->isValidWorkspace(workspace))
+        return;
+
+    GAUSS_SetWorkspaceInterrupt(workspace->workspace());
+}
+
+void GAUSS::clearWorkspaceInterrupt(GEWorkspace *workspace, int clear_user_interrupt) {
+    if (!this->d->manager_->isValidWorkspace(workspace))
+        return;
+
+   GAUSS_ClearWorkspaceInterrupt(workspace->workspace(), clear_user_interrupt); 
+}
+
+void GAUSS::setProgramInterrupt(ProgramHandle_t *ph) {
+    if (!ph)
+        return;
+
+    GAUSS_SetProgramInterrupt(ph);
+}
+
+void GAUSS::clearProgramInterrupt(ProgramHandle_t *ph, int clear_user_interrupt) {
+    if (!ph)
+        return;
+
+    GAUSS_ClearProgramInterrupt(ph, clear_user_interrupt);
+}
+
+int GAUSS::clearAllInterrupts() {
+    return GAUSS_ClearAllInterrupts();
 }
 
 void GAUSS::setHookOutput(void (*display_string_function)(char *str)) {

@@ -43,11 +43,10 @@ extern "C" {
 #define RRWLock_unlock(A) thread_rrw_unlock(&(A))
 #define RRWLock_destroy(A) thread_rrwlock_destroy(&(A))
 
+///#if OS_VER == MSWIN32 && GDT_SIZE_SIZE_T == 4
 #ifdef _WIN32
 extern pthread_t gauss_null_tid;
 extern void *gauss_thread_id(void);
-#include <basetsd.h>
-typedef SSIZE_T ssize_t;
 #endif
 
 /*
@@ -311,15 +310,17 @@ void iobench_report();
 
 #define GAUSS_SUCCESS			0
 
-#define GAUSS_SCALAR				16
-#define GAUSS_SPARSE				38
-#define GAUSS_MATRIX				 6
-#define GAUSS_STRING				13
-#define GAUSS_STRUCT				19
+#define GAUSS_SCALAR			16
+#define GAUSS_SPARSE			38
+#define GAUSS_MATRIX			6
+#define GAUSS_STRING			13
+#define GAUSS_STRUCT			19
 #define GAUSS_PSTRUCT  			23
 #define GAUSS_STRING_ARRAY		15
 #define GAUSS_ARRAY				17
-#define GAUSS_PROC   			 8
+#define GAUSS_PROC   			8
+#define GAUSS_KEYWORD           5
+#define GAUSS_FN                9
 #define GAUSS_OTHER   			99
 
 #define GAUSS_READONLY			1
@@ -406,6 +407,13 @@ typedef struct ProgramHandle_struct {
 
 
 
+#ifndef _WIN32
+#include <unistd.h>
+#else
+#include <basetsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
 extern  pthread_key_t GAUSS_PROGRAM_OUTPUT_KEY;
 extern  pthread_key_t GAUSS_FLUSH_PROGRAM_OUTPUT_KEY;
 extern  pthread_key_t GAUSS_PROGRAM_INPUT_STRING_KEY;
@@ -413,142 +421,164 @@ extern  pthread_key_t GAUSS_PROGRAM_INPUT_CHAR_KEY;
 extern  pthread_key_t GAUSS_PROGRAM_INPUT_CHAR_BLOCKING_KEY;
 extern  pthread_key_t GAUSS_PROGRAM_INPUT_CHECK_KEY;
 extern  pthread_key_t GAUSS_PROGRAM_ERROR_OUTPUT_KEY;
+extern  pthread_key_t GAUSS_PROGRAM_FMT_ERROR_OUTPUT_KEY;
 extern  pthread_key_t GAUSS_CURSOR_GET_KEY;
 
-extern  int GAUSS_ProgramInputString( char *buff, int len );
-extern  void *GAUSS_GetProgramErrorOutputHook( void );
-extern  void *GAUSS_GetProgramOutputHook( void );
-extern  void GAUSS_ProgramErrorOutput( char *error_string );
-extern  void GAUSS_ProgramOutput( char *string );
-extern  double GAUSS_MissingValue(void);
-extern  int GAUSS_IsMissingValue(double d);
-extern  void GAUSS_MakePathAbsolute(char *path);
-extern  time_t GAUSS_SetInterrupt(pthread_t tid);
-extern  time_t GAUSS_CheckInterrupt(pthread_t tid);
-extern  int GAUSS_ClearInterrupt(pthread_t tid);
-extern  int GAUSS_ClearAllInterrupts(void);
-extern  int GAUSS_GetFileWorkspaceName(char *gcgfile, char *buff);
-extern  char *GAUSS_GetWorkspaceName(WorkspaceHandle_t *wh, char *buff);
-extern  char *GAUSS_SetWorkspaceName(WorkspaceHandle_t *wh, char *name);
-extern  void GAUSS_Exit(int num);
-extern  ArgList_t *GAUSS_CallProc(ProgramHandle_t *ph, char *procname, ArgList_t *args);
+extern  pthread_key_t GAUSS_INTERNAL_WH;
+extern  pthread_key_t GAUSS_INTERNAL_SXST;
+extern  pthread_key_t GAUSS_INTERNAL_PD;
+extern  pthread_key_t GAUSS_INTERNAL_EXD;
+extern  pthread_key_t GAUSS_INTERNAL_CPD;
+extern  pthread_key_t GAUSS_INTERNAL_STP;
+
 extern  ArgList_t *GAUSS_CallProcFreeArgs(ProgramHandle_t *ph, char *procname, ArgList_t *args);
+extern  ArgList_t *GAUSS_CallProc(ProgramHandle_t *ph, char *procname, ArgList_t *args);
 extern  ArgList_t *GAUSS_CallProcRealtime(ssize_t pfkdefoff, ArgList_t *args, int dots);
 extern  int GAUSS_EvaluateStringRealtime(const char *expr);
 extern  int GAUSS_EvaluateStringRealtimeGlobal(const char *expr);
 extern  ArgList_t *GAUSS_CreateArgList(void);
+extern  ArgList_t *GAUSS_ExecuteExpression(ProgramHandle_t *ph);
+extern  Array_t *GAUSS_ArrayAlias(size_t dims, double *addr);
+extern  Array_t *GAUSS_Array(size_t dims, double *orders, double *addr);
+extern  Array_t *GAUSS_ComplexArrayAlias(size_t dims, double *addr);
+extern  Array_t *GAUSS_ComplexArray(size_t dims, double *orders, double *real, double *imag);
+extern  Array_t *GAUSS_CopyArgToArray(ArgList_t *args, int num);
+extern  Array_t *GAUSS_GetArrayAndClear(WorkspaceHandle_t *wh, char *name);
+extern  Array_t *GAUSS_GetArray(WorkspaceHandle_t *wh, char *name);
+extern  Array_t *GAUSS_MallocArray_t( void );
+extern  Array_t *GAUSS_MoveArgToArray(ArgList_t *args, int num);
 extern  char *GAUSS_ErrorText(char *buff, int errnum);
 extern  char *GAUSS_GetHome(char *buff);
 extern  char *GAUSS_GetHomeVar(char *buff);
 extern  char *GAUSS_GetLogFile(char *buff);
+extern  char *GAUSS_GetWorkspaceName(WorkspaceHandle_t *wh, char *buff);
+extern  char *GAUSS_SetWorkspaceName(WorkspaceHandle_t *wh, char *name);
+extern  double GAUSS_MissingValue(void);
 extern  FILE *GAUSS_GetLogStream(void);
-extern  int GAUSS_AssignFreeableMatrix(WorkspaceHandle_t *wh, size_t rows, size_t cols, int complex, double *address, char *name);
 extern  int GAUSS_AssignFreeableArray(WorkspaceHandle_t *wh, size_t dims, int complex, double *address, char *name);
+extern  int GAUSS_AssignFreeableMatrix(WorkspaceHandle_t *wh, size_t rows, size_t cols, int complex, double *address, char *name);
+extern  int GAUSS_CheckGlobalInterrupt(void);
+extern  int GAUSS_CheckInterrupts(WorkspaceHandle_t *wh, ProgramHandle_t *ph, pthread_t tid);
+extern  int GAUSS_ClearAllInterrupts(void);
+extern  int GAUSS_ClearInterrupt(pthread_t tid);
 extern  int GAUSS_CopyArgToArg(ArgList_t *targs, int tnum, ArgList_t *sargs, int snum);
+extern  int GAUSS_CopyArrayToArg(ArgList_t *args, Array_t *ar, int argnum);
+extern  int GAUSS_CopyArrayToGlobal(WorkspaceHandle_t *wh, Array_t *ar, char *name);
 extern  int GAUSS_CopyGlobal(WorkspaceHandle_t *twh, char *tname, WorkspaceHandle_t *swh, char *sname);
 extern  int GAUSS_CopyMatrixToArg(ArgList_t *args, Matrix_t *mat, int argnum);
 extern  int GAUSS_CopyMatrixToGlobal(WorkspaceHandle_t *wh, Matrix_t *mat, char *name);
-extern  int GAUSS_CopyArrayToArg(ArgList_t *args, Array_t *ar, int argnum);
-extern  int GAUSS_CopyArrayToGlobal(WorkspaceHandle_t *wh, Array_t *ar, char *name);
 extern  int GAUSS_CopyStringArrayToArg(ArgList_t *args, StringArray_t *sa, int argnum);
 extern  int GAUSS_CopyStringArrayToGlobal(WorkspaceHandle_t *wh, StringArray_t *sa, char *name);
 extern  int GAUSS_CopyStringToArg(ArgList_t *args, String_t *st, int argnum);
 extern  int GAUSS_CopyStringToGlobal(WorkspaceHandle_t *wh, String_t *st, char *name);
 extern  int GAUSS_DeleteArg(ArgList_t *args, int argnum);
 extern  int GAUSS_Execute(ProgramHandle_t *ph);
-extern  ArgList_t *GAUSS_ExecuteExpression(ProgramHandle_t *ph);
-extern  int GAUSS_ProfileExecute(ProgramHandle_t *ph, FILE *profilefp);
 extern  int GAUSS_GetArgType(ArgList_t *args, int num);
 extern  int GAUSS_GetDouble(WorkspaceHandle_t *wh, double *d, char *name);
 extern  int GAUSS_GetError(void);
+extern  int GAUSS_GetFileWorkspaceName(char *gcgfile, char *buff);
 extern  int GAUSS_GetMatrixInfo(WorkspaceHandle_t *wh, GAUSS_MatrixInfo_t *matinfo, char *name);
 extern  int GAUSS_GetSymbolType(WorkspaceHandle_t *wh, char *name);
-extern  int GAUSS_GetSysConfig(char *value, char *variable);
+extern  int GAUSS_GetSysConfig(char *value, const char *variable);
 extern  int GAUSS_Initialize(void);
-extern  int GAUSS_InputChar(void);
 extern  int GAUSS_InputCharBlocking(void);
+extern  int GAUSS_InputChar(void);
 extern  int GAUSS_InputString(char *buff, int len);
 extern  int GAUSS_InsertArg(ArgList_t *args, int argnum);
+extern  int GAUSS_IsMissingValue(double d);
 extern  int GAUSS_MoveArgToArg(ArgList_t *targs, int tnum, ArgList_t *sargs, int snum);
-extern  int GAUSS_MoveMatrixToArg(ArgList_t *args, Matrix_t *mat, int argnum);
-extern  int GAUSS_MoveMatrixToGlobal(WorkspaceHandle_t *wh, Matrix_t *mat, char *name);
 extern  int GAUSS_MoveArrayToArg(ArgList_t *args, Array_t *ar, int argnum);
 extern  int GAUSS_MoveArrayToGlobal(WorkspaceHandle_t *wh, Array_t *ar, char *name);
+extern  int GAUSS_MoveMatrixToArg(ArgList_t *args, Matrix_t *mat, int argnum);
+extern  int GAUSS_MoveMatrixToGlobal(WorkspaceHandle_t *wh, Matrix_t *mat, char *name);
 extern  int GAUSS_MoveStringArrayToArg(ArgList_t *args, StringArray_t *sa, int argnum);
 extern  int GAUSS_MoveStringArrayToGlobal(WorkspaceHandle_t *wh, StringArray_t *sa, char *name);
 extern  int GAUSS_MoveStringToArg(ArgList_t *args, String_t *st, int argnum);
 extern  int GAUSS_MoveStringToGlobal(WorkspaceHandle_t *wh, String_t *st, char *name);
-extern  int GAUSS_PutDouble(WorkspaceHandle_t *wh, double d, char *name);
+extern  int GAUSS_ProfileExecute(ProgramHandle_t *ph, FILE *profilefp);
+extern  int GAUSS_ProgramInputString( char *buff, int len );
 extern  int GAUSS_PutDoubleInArg(ArgList_t *args, double d, int argnum);
+extern  int GAUSS_PutDouble(WorkspaceHandle_t *wh, double d, char *name);
 extern  int GAUSS_SaveProgram(ProgramHandle_t *ph, char *fn);
 extern  int GAUSS_SaveWorkspace(WorkspaceHandle_t *wh, char *fn);
 extern  int GAUSS_SetError(int num);
+extern  int GAUSS_SetHome(char *path);									 
 extern  int GAUSS_SetHomeVar(char *name);
 extern  int GAUSS_SetLogFile(char *logfn, char *mode);
 extern  int GAUSS_TranslateDataloopFile(char *transfile, char *srcfile);
-extern  Matrix_t *GAUSS_ComplexMatrix(size_t rows, size_t cols, double *real, double *imag);
 extern  Matrix_t *GAUSS_ComplexMatrixAlias(size_t rows, size_t cols, double *addr);
-extern  Array_t *GAUSS_ComplexArray(size_t dims, double *orders, double *real, double *imag);
-extern  Array_t *GAUSS_ComplexArrayAlias(size_t dims, double *addr);
+extern  Matrix_t *GAUSS_ComplexMatrix(size_t rows, size_t cols, double *real, double *imag);
 extern  Matrix_t *GAUSS_CopyArgToMatrix(ArgList_t *args, int num);
-extern  Array_t *GAUSS_CopyArgToArray(ArgList_t *args, int num);
-extern  Matrix_t *GAUSS_GetMatrix(WorkspaceHandle_t *wh, char *name);
-extern  Array_t *GAUSS_GetArray(WorkspaceHandle_t *wh, char *name);
 extern  Matrix_t *GAUSS_GetMatrixAndClear(WorkspaceHandle_t *wh, char *name);
-extern  Array_t *GAUSS_GetArrayAndClear(WorkspaceHandle_t *wh, char *name);
-extern  Matrix_t *GAUSS_Matrix(size_t rows, size_t cols, double *addr);
-extern  Array_t *GAUSS_Array(size_t dims, double *orders, double *addr);
+extern  Matrix_t *GAUSS_GetMatrix(WorkspaceHandle_t *wh, char *name);
+extern  Matrix_t *GAUSS_MallocMatrix_t( void );
 extern  Matrix_t *GAUSS_MatrixAlias(size_t rows, size_t cols, double *addr);
-extern  Array_t *GAUSS_ArrayAlias(size_t dims, double *addr);
+extern  Matrix_t *GAUSS_Matrix(size_t rows, size_t cols, double *addr);
 extern  Matrix_t *GAUSS_MoveArgToMatrix(ArgList_t *args, int num);
-extern  Array_t *GAUSS_MoveArgToArray(ArgList_t *args, int num);
 extern  ProgramHandle_t *GAUSS_CompileExpression(WorkspaceHandle_t *wh, char *str, int readonlyC, int readonlyE);
 extern  ProgramHandle_t *GAUSS_CompileFile(WorkspaceHandle_t *wh, char *fn, int readonlyC, int readonlyE);
-extern  ProgramHandle_t *GAUSS_CompileString(WorkspaceHandle_t *wh, char *str, int readonlyC, int readonlyE);
 extern  ProgramHandle_t *GAUSS_CompileStringAsFile(WorkspaceHandle_t *wh, char *str, int readonlyC, int readonlyE);
+extern  ProgramHandle_t *GAUSS_CompileString(WorkspaceHandle_t *wh, char *str, int readonlyC, int readonlyE);
 extern  ProgramHandle_t *GAUSS_CreateProgram(WorkspaceHandle_t *wh, int readonlyE);
 extern  ProgramHandle_t *GAUSS_LoadCompiledBuffer(WorkspaceHandle_t *wh, char *buff);
 extern  ProgramHandle_t *GAUSS_LoadCompiledFile(WorkspaceHandle_t *wh, char *gcgfile);
-extern  WorkspaceHandle_t *GAUSS_LoadWorkspace(char *gcgfile);
-extern  String_t *GAUSS_CopyArgToString(ArgList_t *args, int num);
-extern  String_t *GAUSS_GetString(WorkspaceHandle_t *wh, char *name);
-extern  String_t *GAUSS_MoveArgToString(ArgList_t *args, int num);
-extern  String_t *GAUSS_String(char *str);
-extern  String_t *GAUSS_StringAlias(char *str);
-extern  String_t *GAUSS_StringL(char *str, size_t len);
-extern  String_t *GAUSS_StringAliasL(char *str, size_t len);
 extern  StringArray_t *GAUSS_CopyArgToStringArray(ArgList_t *args, int num);
 extern  StringArray_t *GAUSS_GetStringArray(WorkspaceHandle_t *wh, char *name);
+extern  StringArray_t *GAUSS_MallocStringArray_t( void );
 extern  StringArray_t *GAUSS_MoveArgToStringArray(ArgList_t *args, int num);
-extern  StringArray_t *GAUSS_StringArray(size_t rows, size_t cols, char **strs);
 extern  StringArray_t *GAUSS_StringArrayL(size_t rows, size_t cols, char **strs, size_t *lens);
+extern  StringArray_t *GAUSS_StringArray(size_t rows, size_t cols, char **strs);
+extern  String_t *GAUSS_CopyArgToString(ArgList_t *args, int num);
+extern  String_t *GAUSS_GetString(WorkspaceHandle_t *wh, char *name);
+extern  String_t *GAUSS_MallocString_t( void );
+extern  String_t *GAUSS_MoveArgToString(ArgList_t *args, int num);
+extern  String_t *GAUSS_StringAlias(char *str);
+extern  String_t *GAUSS_StringAliasL(char *str, size_t len);
+extern  String_t *GAUSS_String(char *str);
+extern  String_t *GAUSS_StringL(char *str, size_t len);
+extern  time_t GAUSS_CheckInterrupt(pthread_t tid);
+extern  time_t GAUSS_SetInterrupt(pthread_t tid);
+extern  void GAUSS_ClearDotExecute(ProgramHandle_t *ph);
+extern  void GAUSS_ClearGlobalInterrupt(void);
+extern  void GAUSS_ClearProgramInterrupt(ProgramHandle_t *ph, int clearui);
+extern  void GAUSS_ClearWorkspaceInterrupt(WorkspaceHandle_t *wh, int clearui);
+extern  void GAUSS_Exit(int num);
 extern  void GAUSS_FreeArgList(ArgList_t *args);
-extern  void GAUSS_FreeMatrix(Matrix_t *mat);
 extern  void GAUSS_FreeArray(Array_t *ar);
+extern  void GAUSS_FreeMatrix(Matrix_t *mat);
 extern  void GAUSS_FreeProgram(ProgramHandle_t *ph);
-extern  void GAUSS_FreeString(String_t *str);
 extern  void GAUSS_FreeStringArray(StringArray_t *sa);
+extern  void GAUSS_FreeString(String_t *str);
+extern  void GAUSS_Free( void *p );
 extern  void GAUSS_FreeWorkspace(WorkspaceHandle_t *wh);
-extern  void GAUSS_HookProgramErrorOutput( void (*display_error_string_function)(char *) );
-extern  void GAUSS_HookProgramOutput( void (*display_string_function)(char *str) );
+extern  void *GAUSS_GetProgramErrorOutputHook( void );
+extern  void *GAUSS_GetProgramFmtErrorOutputHook( void );
+extern  void *GAUSS_GetProgramOutputHook( void );
 extern  void GAUSS_HookFlushProgramOutput( void (*flush_display_function)(void) );
-extern  void GAUSS_HookProgramInputChar( int (*get_char_function)(void) );
-extern  void GAUSS_HookProgramInputCharBlocking( int (*get_char_blocking_function)(void) );
 extern  void GAUSS_HookGetCursorPosition( int (*get_cursor_position_function)(void) );
-extern  void GAUSS_HookProgramInputString( int (*get_string_function)(char *, int) );
+extern  void GAUSS_HookProgramErrorOutput( void (*display_error_string_function)(char *) );
+extern  void GAUSS_HookProgramFmtErrorOutput( void (*display_error_struct_function)(struct formatted_error *) );
+extern  void GAUSS_HookProgramInputCharBlocking( int (*get_char_blocking_function)(void) );
+extern  void GAUSS_HookProgramInputChar( int (*get_char_function)(void) );
 extern  void GAUSS_HookProgramInputCheck( int (*get_string_function)(void) );
-extern  int GAUSS_SetHome(char *path);									 
+extern  void GAUSS_HookProgramInputString( int (*get_string_function)(char *, int) );
+extern  void GAUSS_HookProgramOutput( void (*display_string_function)(char *str) );
+extern  void GAUSS_MakePathAbsolute(char *path);
+extern  void *GAUSS_Malloc( size_t bytes );
+extern  void *GAUSS_Realloc( void *existing, size_t bytes );
+extern  void GAUSS_ProgramErrorOutput( char *error_string );
+extern  void GAUSS_ProgramOutput( char *string );
+extern  void GAUSS_SetDotExecute(ProgramHandle_t *ph);
+extern  void GAUSS_SetGlobalInterrupt(void);
 extern  void GAUSS_SetLogStream(FILE *logfp);
+extern  void GAUSS_SetProgramInterrupt(ProgramHandle_t *ph);
+extern  void GAUSS_SetWorkspaceInterrupt(WorkspaceHandle_t *wh);
 extern  void GAUSS_Shutdown(void);											
 extern  WorkspaceHandle_t *GAUSS_CreateWorkspace(char *name);
-extern  void GAUSS_SetDotExecute(ProgramHandle_t *ph);
-extern  void GAUSS_ClearDotExecute(ProgramHandle_t *ph);
-extern  void *GAUSS_Malloc( size_t bytes );
-extern  void GAUSS_Free( void *p );
-extern  Matrix_t *GAUSS_MallocMatrix_t( void );
-extern  Array_t *GAUSS_MallocArray_t( void );
-extern  String_t *GAUSS_MallocString_t( void );
-extern  StringArray_t *GAUSS_MallocStringArray_t( void );
+extern  WorkspaceHandle_t *GAUSS_LoadWorkspace(char *gcgfile);
+extern  int GAUSS_License_ActivateKey(const char *akey, char *out);
+extern  int GAUSS_License_ActivateKeySave(const char *akey, char *filename);
+extern  int GAUSS_License_ErrorText(int rlmStat, char *err);
 
 
 #ifdef	__cplusplus

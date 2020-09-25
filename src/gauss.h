@@ -165,6 +165,16 @@ public:
     GESymbol* getSymbol(std::string name) const;
     GESymbol* getSymbol(std::string name, GEWorkspace *workspace) const;
 
+    void setGlobalInterrupt();
+    void clearGlobalInterrupt();
+    int checkGlobalInterrupt() const;
+    void setWorkspaceInterrupt(GEWorkspace *workspace);
+    void clearWorkspaceInterrupt(GEWorkspace *workspace, int clear_user_interrupt);
+    void setProgramInterrupt(ProgramHandle_t *ph);
+    void clearProgramInterrupt(ProgramHandle_t *ph, int clear_user_interrupt);
+
+    int clearAllInterrupts();
+
     static bool isMissingValue(double);
 
     static void internalHookOutput(char *output);

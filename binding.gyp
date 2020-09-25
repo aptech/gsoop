@@ -16,15 +16,20 @@
               "-lmteng"
           ]
         }],
-        ["OS!='win'", {
+        ["OS=='linux'", {
           "libraries": [
               "-L<!(echo $MTENGHOME)",
               "-lmteng"
           ]
         }],
-        ['OS=="mac"', {
-          'xcode_settings': {
-            'GCC_ENABLE_CPP_EXCEPTIONS': 'YES'
+        ["OS=='mac'", {
+          "libraries": [
+              "-Wl,-rpath,<!(echo $MTENGHOME),-rpath,<!(echo $MTENGHOME)/redist",
+              "-L<!(echo $MTENGHOME)",
+              "-lmteng"
+          ],
+          "xcode_settings": {
+            "GCC_ENABLE_CPP_EXCEPTIONS": "YES"
           }
         }]
       ]

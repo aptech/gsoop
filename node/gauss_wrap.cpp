@@ -1604,33 +1604,35 @@ fail: ;
 #define SWIGTYPE_p_GAUSS swig_types[0]
 #define SWIGTYPE_p_GEArray swig_types[1]
 #define SWIGTYPE_p_GEMatrix swig_types[2]
-#define SWIGTYPE_p_GEStringArray swig_types[3]
-#define SWIGTYPE_p_GESymType_s swig_types[4]
-#define SWIGTYPE_p_GESymbol swig_types[5]
-#define SWIGTYPE_p_GEWorkspace swig_types[6]
-#define SWIGTYPE_p_IGEProgramFlushOutput swig_types[7]
-#define SWIGTYPE_p_IGEProgramInputChar swig_types[8]
-#define SWIGTYPE_p_IGEProgramInputCheck swig_types[9]
-#define SWIGTYPE_p_IGEProgramInputString swig_types[10]
-#define SWIGTYPE_p_IGEProgramOutput swig_types[11]
-#define SWIGTYPE_p_ProgramHandle_t swig_types[12]
-#define SWIGTYPE_p_WorkspaceHandle_t swig_types[13]
-#define SWIGTYPE_p_WorkspaceManager swig_types[14]
-#define SWIGTYPE_p_char swig_types[15]
-#define SWIGTYPE_p_difference_type swig_types[16]
-#define SWIGTYPE_p_double swig_types[17]
-#define SWIGTYPE_p_doubleArray swig_types[18]
-#define SWIGTYPE_p_int swig_types[19]
-#define SWIGTYPE_p_size_type swig_types[20]
-#define SWIGTYPE_p_std__vectorT_double_t swig_types[21]
-#define SWIGTYPE_p_std__vectorT_float_t swig_types[22]
-#define SWIGTYPE_p_std__vectorT_int_t swig_types[23]
-#define SWIGTYPE_p_std__vectorT_std__string_t swig_types[24]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t swig_types[25]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_std__string_t_t swig_types[26]
-#define SWIGTYPE_p_value_type swig_types[27]
-static swig_type_info *swig_types[29];
-static swig_module_info swig_module = {swig_types, 28, 0, 0, 0, 0};
+#define SWIGTYPE_p_GEOutput swig_types[3]
+#define SWIGTYPE_p_GEStringArray swig_types[4]
+#define SWIGTYPE_p_GESymType_s swig_types[5]
+#define SWIGTYPE_p_GESymbol swig_types[6]
+#define SWIGTYPE_p_GEWorkspace swig_types[7]
+#define SWIGTYPE_p_IGEProgramFlushOutput swig_types[8]
+#define SWIGTYPE_p_IGEProgramInputChar swig_types[9]
+#define SWIGTYPE_p_IGEProgramInputCheck swig_types[10]
+#define SWIGTYPE_p_IGEProgramInputString swig_types[11]
+#define SWIGTYPE_p_IGEProgramOutput swig_types[12]
+#define SWIGTYPE_p_ProgramHandle_t swig_types[13]
+#define SWIGTYPE_p_WorkspaceHandle_t swig_types[14]
+#define SWIGTYPE_p_WorkspaceManager swig_types[15]
+#define SWIGTYPE_p_char swig_types[16]
+#define SWIGTYPE_p_difference_type swig_types[17]
+#define SWIGTYPE_p_double swig_types[18]
+#define SWIGTYPE_p_doubleArray swig_types[19]
+#define SWIGTYPE_p_int swig_types[20]
+#define SWIGTYPE_p_size_type swig_types[21]
+#define SWIGTYPE_p_std__vectorT_double_t swig_types[22]
+#define SWIGTYPE_p_std__vectorT_float_t swig_types[23]
+#define SWIGTYPE_p_std__vectorT_int_t swig_types[24]
+#define SWIGTYPE_p_std__vectorT_std__string_t swig_types[25]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t swig_types[26]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_std__string_t_t swig_types[27]
+#define SWIGTYPE_p_v8__PersistentT_v8__Function_v8__CopyablePersistentTraitsT_v8__Function_t_t swig_types[28]
+#define SWIGTYPE_p_value_type swig_types[29]
+static swig_type_info *swig_types[31];
+static swig_module_info swig_module = {swig_types, 30, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2130,6 +2132,40 @@ SWIGINTERN void std_vector_Sl_std_vector_Sl_std_string_Sg__Sg__set(std::vector< 
                     throw std::out_of_range("vector index out of range");
             }
 
+static v8::Persistent<v8::Function, v8::CopyablePersistentTraits<v8::Function>> jsFunctionCallback;
+
+
+
+#include "src/gefuncwrapper.h"
+
+#include <node_object_wrap.h>
+#include <node.h>
+#include <iostream>
+
+class GEOutput : IGEProgramOutput, public node::ObjectWrap {
+ public:
+  ~GEOutput() {}
+  void invoke(const std::string &x) {
+      auto isolate = v8::Isolate::GetCurrent();
+      v8::HandleScope scope(isolate);
+      auto context = isolate->GetCurrentContext();
+      auto global = context->Global();
+
+      const unsigned argc = 1;
+      v8::Local<v8::Value> argv[argc] = {
+          SWIGV8_STRING_NEW(x.c_str())
+      };
+
+      auto fn = v8::Local<v8::Function>::New(isolate, javascriptCallback);
+      fn->Call(context, Null(isolate), argc, argv).ToLocalChecked();
+  };
+  explicit GEOutput(v8::Persistent<v8::Function, v8::CopyablePersistentTraits<v8::Function>>& cb) : javascriptCallback(cb) {};
+ private:
+  v8::Persistent<v8::Function, v8::CopyablePersistentTraits<v8::Function>> javascriptCallback;
+};
+
+
+
  /* Includes the header in the wrapper code */
  #include "src/gauss.h"
  #include "src/gesymbol.h"
@@ -2180,6 +2216,8 @@ SWIGV8_ClientData _exports_FloatVector_clientData;
 SWIGV8_ClientData _exports_IntVector_clientData;
 SWIGV8_ClientData _exports_StringVector_clientData;
 SWIGV8_ClientData _exports_StringStringVector_clientData;
+SWIGV8_ClientData _exports_IGEProgramOutput_clientData;
+SWIGV8_ClientData _exports_GEOutput_clientData;
 SWIGV8_ClientData _exports_GAUSS_clientData;
 SWIGV8_ClientData _exports_doubleArray_clientData;
 SWIGV8_ClientData _exports_GESymbol_clientData;
@@ -2188,7 +2226,6 @@ SWIGV8_ClientData _exports_GEMatrix_clientData;
 SWIGV8_ClientData _exports_GEStringArray_clientData;
 SWIGV8_ClientData _exports_GEWorkspace_clientData;
 SWIGV8_ClientData _exports_WorkspaceManager_clientData;
-SWIGV8_ClientData _exports_IGEProgramOutput_clientData;
 SWIGV8_ClientData _exports_IGEProgramFlushOutput_clientData;
 SWIGV8_ClientData _exports_IGEProgramInputString_clientData;
 SWIGV8_ClientData _exports_IGEProgramInputChar_clientData;
@@ -4928,6 +4965,199 @@ static void _wrap_delete_StringStringVector(v8::Persistent<v8::Value> object, vo
           object.Clear();
 #endif
         }
+
+
+static SwigV8ReturnValue _wrap_IGEProgramOutput_invoke(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  IGEProgramOutput *arg1 = (IGEProgramOutput *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  
+  if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_IGEProgramOutput_invoke.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_IGEProgramOutput, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IGEProgramOutput_invoke" "', argument " "1"" of type '" "IGEProgramOutput *""'"); 
+  }
+  arg1 = reinterpret_cast< IGEProgramOutput * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(args[0], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IGEProgramOutput_invoke" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IGEProgramOutput_invoke" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  (arg1)->invoke((std::string const &)*arg2);
+  jsresult = SWIGV8_UNDEFINED();
+  
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
+static void _wrap_delete_IGEProgramOutput(v8::Persistent<v8::Value> object, void *parameter) {
+  SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031900)
+  static void _wrap_delete_IGEProgramOutput(v8::Isolate *isolate, v8::Persistent<v8::Value> object, void *parameter) {
+    SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
+    static void _wrap_delete_IGEProgramOutput(v8::Isolate *isolate, v8::Persistent< v8::Object> *object, SWIGV8_Proxy *proxy) {
+#elif (V8_MAJOR_VERSION-0) < 5
+      static void _wrap_delete_IGEProgramOutput(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &data) {
+        v8::Local<v8::Object> object = data.GetValue();
+        SWIGV8_Proxy *proxy = data.GetParameter();
+#else
+        static void _wrap_delete_IGEProgramOutput(const v8::WeakCallbackInfo<SWIGV8_Proxy> &data) {
+          SWIGV8_Proxy *proxy = data.GetParameter();
+#endif
+          
+          if(proxy->swigCMemOwn && proxy->swigCObject) {
+            IGEProgramOutput * arg1 = (IGEProgramOutput *)proxy->swigCObject;
+            delete arg1;
+          }
+          delete proxy;
+          
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
+          object.Dispose();
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031900)
+          object.Dispose(isolate);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x032100)
+          object->Dispose(isolate);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
+          object->Dispose();
+#elif (V8_MAJOR_VERSION-0) < 5
+          object.Clear();
+#endif
+        }
+
+
+static SwigV8ReturnValue _wrap_new_veto_IGEProgramOutput(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  SWIG_exception(SWIG_ERROR, "Class IGEProgramOutput can not be instantiated");
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_new_GEOutput(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Object> self = args.Holder();
+  v8::Persistent< v8::Function,v8::CopyablePersistentTraits< v8::Function > > *arg1 = 0 ;
+  GEOutput *result;
+  if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_GEOutput.");
+  {
+    v8::Local<v8::Function> arg0 = v8::Local<v8::Function>::Cast(args[0]);
+    v8::Persistent<v8::Function> cb(v8::Isolate::GetCurrent(), arg0);
+    jsFunctionCallback = cb;
+    
+    arg1 = &jsFunctionCallback;
+  }
+  result = (GEOutput *)new GEOutput(*arg1);
+  
+  
+  
+  
+  SWIGV8_SetPrivateData(self, result, SWIGTYPE_p_GEOutput, SWIG_POINTER_OWN);
+  SWIGV8_RETURN(self);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
+static void _wrap_delete_GEOutput(v8::Persistent<v8::Value> object, void *parameter) {
+  SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031900)
+  static void _wrap_delete_GEOutput(v8::Isolate *isolate, v8::Persistent<v8::Value> object, void *parameter) {
+    SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
+    static void _wrap_delete_GEOutput(v8::Isolate *isolate, v8::Persistent< v8::Object> *object, SWIGV8_Proxy *proxy) {
+#elif (V8_MAJOR_VERSION-0) < 5
+      static void _wrap_delete_GEOutput(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &data) {
+        v8::Local<v8::Object> object = data.GetValue();
+        SWIGV8_Proxy *proxy = data.GetParameter();
+#else
+        static void _wrap_delete_GEOutput(const v8::WeakCallbackInfo<SWIGV8_Proxy> &data) {
+          SWIGV8_Proxy *proxy = data.GetParameter();
+#endif
+          
+          if(proxy->swigCMemOwn && proxy->swigCObject) {
+            GEOutput * arg1 = (GEOutput *)proxy->swigCObject;
+            delete arg1;
+          }
+          delete proxy;
+          
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
+          object.Dispose();
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031900)
+          object.Dispose(isolate);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x032100)
+          object->Dispose(isolate);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
+          object->Dispose();
+#elif (V8_MAJOR_VERSION-0) < 5
+          object.Clear();
+#endif
+        }
+
+
+static SwigV8ReturnValue _wrap_GEOutput_invoke(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GEOutput *arg1 = (GEOutput *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  
+  if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_GEOutput_invoke.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GEOutput, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GEOutput_invoke" "', argument " "1"" of type '" "GEOutput *""'"); 
+  }
+  arg1 = reinterpret_cast< GEOutput * >(argp1);
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(args[0], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GEOutput_invoke" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GEOutput_invoke" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  (arg1)->invoke((std::string const &)*arg2);
+  jsresult = SWIGV8_UNDEFINED();
+  
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
 
 
 static SwigV8ReturnValue _wrap_new_GAUSS__SWIG_0(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler) {
@@ -9680,6 +9910,278 @@ static SwigV8ReturnValue _wrap_GAUSS__wrap_GAUSS_getSymbol(const SwigV8Arguments
   
   
   SWIG_exception_fail(SWIG_ERROR, "Illegal arguments for function getSymbol.");
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_GAUSS_setGlobalInterrupt(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if(args.Length() != 0) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_GAUSS_setGlobalInterrupt.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GAUSS, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GAUSS_setGlobalInterrupt" "', argument " "1"" of type '" "GAUSS *""'"); 
+  }
+  arg1 = reinterpret_cast< GAUSS * >(argp1);
+  (arg1)->setGlobalInterrupt();
+  jsresult = SWIGV8_UNDEFINED();
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_GAUSS_clearGlobalInterrupt(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  if(args.Length() != 0) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_GAUSS_clearGlobalInterrupt.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GAUSS, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GAUSS_clearGlobalInterrupt" "', argument " "1"" of type '" "GAUSS *""'"); 
+  }
+  arg1 = reinterpret_cast< GAUSS * >(argp1);
+  (arg1)->clearGlobalInterrupt();
+  jsresult = SWIGV8_UNDEFINED();
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_GAUSS_checkGlobalInterrupt(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int result;
+  
+  if(args.Length() != 0) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_GAUSS_checkGlobalInterrupt.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GAUSS, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GAUSS_checkGlobalInterrupt" "', argument " "1"" of type '" "GAUSS const *""'"); 
+  }
+  arg1 = reinterpret_cast< GAUSS * >(argp1);
+  result = (int)((GAUSS const *)arg1)->checkGlobalInterrupt();
+  jsresult = SWIG_From_int(static_cast< int >(result));
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_GAUSS_setWorkspaceInterrupt(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  GEWorkspace *arg2 = (GEWorkspace *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  
+  if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_GAUSS_setWorkspaceInterrupt.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GAUSS, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GAUSS_setWorkspaceInterrupt" "', argument " "1"" of type '" "GAUSS *""'"); 
+  }
+  arg1 = reinterpret_cast< GAUSS * >(argp1);
+  res2 = SWIG_ConvertPtr(args[0], &argp2,SWIGTYPE_p_GEWorkspace, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GAUSS_setWorkspaceInterrupt" "', argument " "2"" of type '" "GEWorkspace *""'"); 
+  }
+  arg2 = reinterpret_cast< GEWorkspace * >(argp2);
+  (arg1)->setWorkspaceInterrupt(arg2);
+  jsresult = SWIGV8_UNDEFINED();
+  
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_GAUSS_clearWorkspaceInterrupt(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  GEWorkspace *arg2 = (GEWorkspace *) 0 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  
+  if(args.Length() != 2) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_GAUSS_clearWorkspaceInterrupt.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GAUSS, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GAUSS_clearWorkspaceInterrupt" "', argument " "1"" of type '" "GAUSS *""'"); 
+  }
+  arg1 = reinterpret_cast< GAUSS * >(argp1);
+  res2 = SWIG_ConvertPtr(args[0], &argp2,SWIGTYPE_p_GEWorkspace, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GAUSS_clearWorkspaceInterrupt" "', argument " "2"" of type '" "GEWorkspace *""'"); 
+  }
+  arg2 = reinterpret_cast< GEWorkspace * >(argp2);
+  ecode3 = SWIG_AsVal_int(args[1], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GAUSS_clearWorkspaceInterrupt" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  (arg1)->clearWorkspaceInterrupt(arg2,arg3);
+  jsresult = SWIGV8_UNDEFINED();
+  
+  
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_GAUSS_setProgramInterrupt(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  ProgramHandle_t *arg2 = (ProgramHandle_t *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  
+  if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_GAUSS_setProgramInterrupt.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GAUSS, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GAUSS_setProgramInterrupt" "', argument " "1"" of type '" "GAUSS *""'"); 
+  }
+  arg1 = reinterpret_cast< GAUSS * >(argp1);
+  res2 = SWIG_ConvertPtr(args[0], &argp2,SWIGTYPE_p_ProgramHandle_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GAUSS_setProgramInterrupt" "', argument " "2"" of type '" "ProgramHandle_t *""'"); 
+  }
+  arg2 = reinterpret_cast< ProgramHandle_t * >(argp2);
+  (arg1)->setProgramInterrupt(arg2);
+  jsresult = SWIGV8_UNDEFINED();
+  
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_GAUSS_clearProgramInterrupt(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  ProgramHandle_t *arg2 = (ProgramHandle_t *) 0 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  
+  if(args.Length() != 2) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_GAUSS_clearProgramInterrupt.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GAUSS, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GAUSS_clearProgramInterrupt" "', argument " "1"" of type '" "GAUSS *""'"); 
+  }
+  arg1 = reinterpret_cast< GAUSS * >(argp1);
+  res2 = SWIG_ConvertPtr(args[0], &argp2,SWIGTYPE_p_ProgramHandle_t, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GAUSS_clearProgramInterrupt" "', argument " "2"" of type '" "ProgramHandle_t *""'"); 
+  }
+  arg2 = reinterpret_cast< ProgramHandle_t * >(argp2);
+  ecode3 = SWIG_AsVal_int(args[1], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "GAUSS_clearProgramInterrupt" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  (arg1)->clearProgramInterrupt(arg2,arg3);
+  jsresult = SWIGV8_UNDEFINED();
+  
+  
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_GAUSS_clearAllInterrupts(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int result;
+  
+  if(args.Length() != 0) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_GAUSS_clearAllInterrupts.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GAUSS, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GAUSS_clearAllInterrupts" "', argument " "1"" of type '" "GAUSS *""'"); 
+  }
+  arg1 = reinterpret_cast< GAUSS * >(argp1);
+  result = (int)(arg1)->clearAllInterrupts();
+  jsresult = SWIG_From_int(static_cast< int >(result));
+  
+  
+  SWIGV8_RETURN(jsresult);
   
   goto fail;
 fail:
@@ -15735,93 +16237,6 @@ static void _wrap_delete_WorkspaceManager(v8::Persistent<v8::Value> object, void
         }
 
 
-static SwigV8ReturnValue _wrap_IGEProgramOutput_invoke(const SwigV8Arguments &args) {
-  SWIGV8_HANDLESCOPE();
-  
-  v8::Local<v8::Value> jsresult;
-  IGEProgramOutput *arg1 = (IGEProgramOutput *) 0 ;
-  std::string *arg2 = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int res2 = SWIG_OLDOBJ ;
-  
-  if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_IGEProgramOutput_invoke.");
-  
-  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_IGEProgramOutput, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IGEProgramOutput_invoke" "', argument " "1"" of type '" "IGEProgramOutput *""'"); 
-  }
-  arg1 = reinterpret_cast< IGEProgramOutput * >(argp1);
-  {
-    std::string *ptr = (std::string *)0;
-    res2 = SWIG_AsPtr_std_string(args[0], &ptr);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IGEProgramOutput_invoke" "', argument " "2"" of type '" "std::string const &""'"); 
-    }
-    if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IGEProgramOutput_invoke" "', argument " "2"" of type '" "std::string const &""'"); 
-    }
-    arg2 = ptr;
-  }
-  (arg1)->invoke((std::string const &)*arg2);
-  jsresult = SWIGV8_UNDEFINED();
-  
-  if (SWIG_IsNewObj(res2)) delete arg2;
-  
-  SWIGV8_RETURN(jsresult);
-  
-  goto fail;
-fail:
-  SWIGV8_RETURN(SWIGV8_UNDEFINED());
-}
-
-
-#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
-static void _wrap_delete_IGEProgramOutput(v8::Persistent<v8::Value> object, void *parameter) {
-  SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
-#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031900)
-  static void _wrap_delete_IGEProgramOutput(v8::Isolate *isolate, v8::Persistent<v8::Value> object, void *parameter) {
-    SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
-#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
-    static void _wrap_delete_IGEProgramOutput(v8::Isolate *isolate, v8::Persistent< v8::Object> *object, SWIGV8_Proxy *proxy) {
-#elif (V8_MAJOR_VERSION-0) < 5
-      static void _wrap_delete_IGEProgramOutput(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &data) {
-        v8::Local<v8::Object> object = data.GetValue();
-        SWIGV8_Proxy *proxy = data.GetParameter();
-#else
-        static void _wrap_delete_IGEProgramOutput(const v8::WeakCallbackInfo<SWIGV8_Proxy> &data) {
-          SWIGV8_Proxy *proxy = data.GetParameter();
-#endif
-          
-          if(proxy->swigCMemOwn && proxy->swigCObject) {
-            IGEProgramOutput * arg1 = (IGEProgramOutput *)proxy->swigCObject;
-            delete arg1;
-          }
-          delete proxy;
-          
-#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
-          object.Dispose();
-#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031900)
-          object.Dispose(isolate);
-#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x032100)
-          object->Dispose(isolate);
-#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
-          object->Dispose();
-#elif (V8_MAJOR_VERSION-0) < 5
-          object.Clear();
-#endif
-        }
-
-
-static SwigV8ReturnValue _wrap_new_veto_IGEProgramOutput(const SwigV8Arguments &args) {
-  SWIGV8_HANDLESCOPE();
-  
-  SWIG_exception(SWIG_ERROR, "Class IGEProgramOutput can not be instantiated");
-fail:
-  SWIGV8_RETURN(SWIGV8_UNDEFINED());
-}
-
-
 static SwigV8ReturnValue _wrap_IGEProgramFlushOutput_invoke(const SwigV8Arguments &args) {
   SWIGV8_HANDLESCOPE();
   
@@ -16420,9 +16835,13 @@ static void *_p_GEMatrixTo_p_GESymbol(void *x, int *SWIGUNUSEDPARM(newmemory)) {
 static void *_p_GEStringArrayTo_p_GESymbol(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((GESymbol *)  ((GEStringArray *) x));
 }
+static void *_p_GEOutputTo_p_IGEProgramOutput(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((IGEProgramOutput *)  ((GEOutput *) x));
+}
 static swig_type_info _swigt__p_GAUSS = {"_p_GAUSS", "p_GAUSS|GAUSS *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_GEArray = {"_p_GEArray", "GEArray *|p_GEArray", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_GEMatrix = {"_p_GEMatrix", "GEMatrix *|p_GEMatrix", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_GEOutput = {"_p_GEOutput", "p_GEOutput|GEOutput *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_GEStringArray = {"_p_GEStringArray", "GEStringArray *|p_GEStringArray", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_GESymType_s = {"_p_GESymType_s", "GESymType_s *|GESymType *|p_GESymType_s", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_GESymbol = {"_p_GESymbol", "p_GESymbol|GESymbol *", 0, 0, (void*)0, 0};
@@ -16447,12 +16866,14 @@ static swig_type_info _swigt__p_std__vectorT_int_t = {"_p_std__vectorT_int_t", "
 static swig_type_info _swigt__p_std__vectorT_std__string_t = {"_p_std__vectorT_std__string_t", "p_std__vectorT_std__string_t|std::vector< std::string > *|std::vector< std::vector< std::string > >::value_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_std__vectorT_double_t_t = {"_p_std__vectorT_std__vectorT_double_t_t", "std::vector< std::vector< double > > *|p_std__vectorT_std__vectorT_double_t_t", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_std__vectorT_std__string_t_t = {"_p_std__vectorT_std__vectorT_std__string_t_t", "std::vector< std::vector< std::string > > *|p_std__vectorT_std__vectorT_std__string_t_t", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_v8__PersistentT_v8__Function_v8__CopyablePersistentTraitsT_v8__Function_t_t = {"_p_v8__PersistentT_v8__Function_v8__CopyablePersistentTraitsT_v8__Function_t_t", "v8::Persistent< v8::Function,v8::CopyablePersistentTraits< v8::Function > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_value_type = {"_p_value_type", "value_type *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_GAUSS,
   &_swigt__p_GEArray,
   &_swigt__p_GEMatrix,
+  &_swigt__p_GEOutput,
   &_swigt__p_GEStringArray,
   &_swigt__p_GESymType_s,
   &_swigt__p_GESymbol,
@@ -16477,12 +16898,14 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_std__vectorT_std__string_t,
   &_swigt__p_std__vectorT_std__vectorT_double_t_t,
   &_swigt__p_std__vectorT_std__vectorT_std__string_t_t,
+  &_swigt__p_v8__PersistentT_v8__Function_v8__CopyablePersistentTraitsT_v8__Function_t_t,
   &_swigt__p_value_type,
 };
 
 static swig_cast_info _swigc__p_GAUSS[] = {  {&_swigt__p_GAUSS, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GEArray[] = {  {&_swigt__p_GEArray, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GEMatrix[] = {  {&_swigt__p_GEMatrix, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_GEOutput[] = {  {&_swigt__p_GEOutput, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GEStringArray[] = {  {&_swigt__p_GEStringArray, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GESymType_s[] = {  {&_swigt__p_GESymType_s, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GESymbol[] = {  {&_swigt__p_GESymbol, 0, 0, 0},  {&_swigt__p_GEArray, _p_GEArrayTo_p_GESymbol, 0, 0},  {&_swigt__p_GEMatrix, _p_GEMatrixTo_p_GESymbol, 0, 0},  {&_swigt__p_GEStringArray, _p_GEStringArrayTo_p_GESymbol, 0, 0},{0, 0, 0, 0}};
@@ -16491,7 +16914,7 @@ static swig_cast_info _swigc__p_IGEProgramFlushOutput[] = {  {&_swigt__p_IGEProg
 static swig_cast_info _swigc__p_IGEProgramInputChar[] = {  {&_swigt__p_IGEProgramInputChar, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_IGEProgramInputCheck[] = {  {&_swigt__p_IGEProgramInputCheck, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_IGEProgramInputString[] = {  {&_swigt__p_IGEProgramInputString, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_IGEProgramOutput[] = {  {&_swigt__p_IGEProgramOutput, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_IGEProgramOutput[] = {  {&_swigt__p_IGEProgramOutput, 0, 0, 0},  {&_swigt__p_GEOutput, _p_GEOutputTo_p_IGEProgramOutput, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ProgramHandle_t[] = {  {&_swigt__p_ProgramHandle_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WorkspaceHandle_t[] = {  {&_swigt__p_WorkspaceHandle_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WorkspaceManager[] = {  {&_swigt__p_WorkspaceManager, 0, 0, 0},{0, 0, 0, 0}};
@@ -16507,12 +16930,14 @@ static swig_cast_info _swigc__p_std__vectorT_int_t[] = {  {&_swigt__p_std__vecto
 static swig_cast_info _swigc__p_std__vectorT_std__string_t[] = {  {&_swigt__p_std__vectorT_std__string_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_std__vectorT_double_t_t[] = {  {&_swigt__p_std__vectorT_std__vectorT_double_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_std__vectorT_std__string_t_t[] = {  {&_swigt__p_std__vectorT_std__vectorT_std__string_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_v8__PersistentT_v8__Function_v8__CopyablePersistentTraitsT_v8__Function_t_t[] = {  {&_swigt__p_v8__PersistentT_v8__Function_v8__CopyablePersistentTraitsT_v8__Function_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_value_type[] = {  {&_swigt__p_value_type, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_GAUSS,
   _swigc__p_GEArray,
   _swigc__p_GEMatrix,
+  _swigc__p_GEOutput,
   _swigc__p_GEStringArray,
   _swigc__p_GESymType_s,
   _swigc__p_GESymbol,
@@ -16537,6 +16962,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_std__vectorT_std__string_t,
   _swigc__p_std__vectorT_std__vectorT_double_t_t,
   _swigc__p_std__vectorT_std__vectorT_std__string_t_t,
+  _swigc__p_v8__PersistentT_v8__Function_v8__CopyablePersistentTraitsT_v8__Function_t_t,
   _swigc__p_value_type,
 };
 
@@ -16893,6 +17319,20 @@ _exports_StringStringVector_clientData.dtor = _wrap_delete_StringStringVector;
 if (SWIGTYPE_p_std__vectorT_std__vectorT_std__string_t_t->clientdata == 0) {
   SWIGTYPE_p_std__vectorT_std__vectorT_std__string_t_t->clientdata = &_exports_StringStringVector_clientData;
 }
+/* Name: _exports_IGEProgramOutput, Type: p_IGEProgramOutput, Dtor: _wrap_delete_IGEProgramOutput */
+v8::Local<v8::FunctionTemplate> _exports_IGEProgramOutput_class = SWIGV8_CreateClassTemplate("_exports_IGEProgramOutput");
+SWIGV8_SET_CLASS_TEMPL(_exports_IGEProgramOutput_clientData.class_templ, _exports_IGEProgramOutput_class);
+_exports_IGEProgramOutput_clientData.dtor = _wrap_delete_IGEProgramOutput;
+if (SWIGTYPE_p_IGEProgramOutput->clientdata == 0) {
+  SWIGTYPE_p_IGEProgramOutput->clientdata = &_exports_IGEProgramOutput_clientData;
+}
+/* Name: _exports_GEOutput, Type: p_GEOutput, Dtor: _wrap_delete_GEOutput */
+v8::Local<v8::FunctionTemplate> _exports_GEOutput_class = SWIGV8_CreateClassTemplate("_exports_GEOutput");
+SWIGV8_SET_CLASS_TEMPL(_exports_GEOutput_clientData.class_templ, _exports_GEOutput_class);
+_exports_GEOutput_clientData.dtor = _wrap_delete_GEOutput;
+if (SWIGTYPE_p_GEOutput->clientdata == 0) {
+  SWIGTYPE_p_GEOutput->clientdata = &_exports_GEOutput_clientData;
+}
 /* Name: _exports_GAUSS, Type: p_GAUSS, Dtor: _wrap_delete_GAUSS */
 v8::Local<v8::FunctionTemplate> _exports_GAUSS_class = SWIGV8_CreateClassTemplate("_exports_GAUSS");
 SWIGV8_SET_CLASS_TEMPL(_exports_GAUSS_clientData.class_templ, _exports_GAUSS_class);
@@ -16948,13 +17388,6 @@ SWIGV8_SET_CLASS_TEMPL(_exports_WorkspaceManager_clientData.class_templ, _export
 _exports_WorkspaceManager_clientData.dtor = _wrap_delete_WorkspaceManager;
 if (SWIGTYPE_p_WorkspaceManager->clientdata == 0) {
   SWIGTYPE_p_WorkspaceManager->clientdata = &_exports_WorkspaceManager_clientData;
-}
-/* Name: _exports_IGEProgramOutput, Type: p_IGEProgramOutput, Dtor: _wrap_delete_IGEProgramOutput */
-v8::Local<v8::FunctionTemplate> _exports_IGEProgramOutput_class = SWIGV8_CreateClassTemplate("_exports_IGEProgramOutput");
-SWIGV8_SET_CLASS_TEMPL(_exports_IGEProgramOutput_clientData.class_templ, _exports_IGEProgramOutput_class);
-_exports_IGEProgramOutput_clientData.dtor = _wrap_delete_IGEProgramOutput;
-if (SWIGTYPE_p_IGEProgramOutput->clientdata == 0) {
-  SWIGTYPE_p_IGEProgramOutput->clientdata = &_exports_IGEProgramOutput_clientData;
 }
 /* Name: _exports_IGEProgramFlushOutput, Type: p_IGEProgramFlushOutput, Dtor: _wrap_delete_IGEProgramFlushOutput */
 v8::Local<v8::FunctionTemplate> _exports_IGEProgramFlushOutput_class = SWIGV8_CreateClassTemplate("_exports_IGEProgramFlushOutput");
@@ -17042,6 +17475,8 @@ SWIGV8_AddMemberFunction(_exports_StringStringVector_class, "clear", _wrap_Strin
 SWIGV8_AddMemberFunction(_exports_StringStringVector_class, "add", _wrap_StringStringVector_add);
 SWIGV8_AddMemberFunction(_exports_StringStringVector_class, "get", _wrap_StringStringVector_get);
 SWIGV8_AddMemberFunction(_exports_StringStringVector_class, "set", _wrap_StringStringVector_set);
+SWIGV8_AddMemberFunction(_exports_IGEProgramOutput_class, "invoke", _wrap_IGEProgramOutput_invoke);
+SWIGV8_AddMemberFunction(_exports_GEOutput_class, "invoke", _wrap_GEOutput_invoke);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "initialize", _wrap_GAUSS_initialize);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "shutdown", _wrap_GAUSS_shutdown);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "setHome", _wrap_GAUSS_setHome);
@@ -17090,6 +17525,14 @@ SWIGV8_AddMemberFunction(_exports_GAUSS_class, "moveMatrix", _wrap_GAUSS__wrap_G
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getMatrixDirect", _wrap_GAUSS__wrap_GAUSS_getMatrixDirect);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "_setSymbol", _wrap_GAUSS__wrap_GAUSS__setSymbol);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getSymbol", _wrap_GAUSS__wrap_GAUSS_getSymbol);
+SWIGV8_AddMemberFunction(_exports_GAUSS_class, "setGlobalInterrupt", _wrap_GAUSS_setGlobalInterrupt);
+SWIGV8_AddMemberFunction(_exports_GAUSS_class, "clearGlobalInterrupt", _wrap_GAUSS_clearGlobalInterrupt);
+SWIGV8_AddMemberFunction(_exports_GAUSS_class, "checkGlobalInterrupt", _wrap_GAUSS_checkGlobalInterrupt);
+SWIGV8_AddMemberFunction(_exports_GAUSS_class, "setWorkspaceInterrupt", _wrap_GAUSS_setWorkspaceInterrupt);
+SWIGV8_AddMemberFunction(_exports_GAUSS_class, "clearWorkspaceInterrupt", _wrap_GAUSS_clearWorkspaceInterrupt);
+SWIGV8_AddMemberFunction(_exports_GAUSS_class, "setProgramInterrupt", _wrap_GAUSS_setProgramInterrupt);
+SWIGV8_AddMemberFunction(_exports_GAUSS_class, "clearProgramInterrupt", _wrap_GAUSS_clearProgramInterrupt);
+SWIGV8_AddMemberFunction(_exports_GAUSS_class, "clearAllInterrupts", _wrap_GAUSS_clearAllInterrupts);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getOutput", _wrap_GAUSS_getOutput);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "clearOutput", _wrap_GAUSS_clearOutput);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getErrorOutput", _wrap_GAUSS_getErrorOutput);
@@ -17145,7 +17588,6 @@ SWIGV8_AddMemberFunction(_exports_WorkspaceManager_class, "workspaceNames", _wra
 SWIGV8_AddMemberFunction(_exports_WorkspaceManager_class, "count", _wrap_WorkspaceManager_count);
 SWIGV8_AddMemberFunction(_exports_WorkspaceManager_class, "contains", _wrap_WorkspaceManager_contains);
 SWIGV8_AddMemberFunction(_exports_WorkspaceManager_class, "isValidWorkspace", _wrap_WorkspaceManager_isValidWorkspace);
-SWIGV8_AddMemberFunction(_exports_IGEProgramOutput_class, "invoke", _wrap_IGEProgramOutput_invoke);
 SWIGV8_AddMemberFunction(_exports_IGEProgramFlushOutput_class, "invoke", _wrap_IGEProgramFlushOutput_invoke);
 SWIGV8_AddMemberFunction(_exports_IGEProgramInputString_class, "invoke", _wrap_IGEProgramInputString_invoke);
 SWIGV8_AddMemberFunction(_exports_IGEProgramInputString_class, "setValue", _wrap_IGEProgramInputString_setValue);
@@ -17154,7 +17596,27 @@ SWIGV8_AddMemberFunction(_exports_IGEProgramInputCheck_class, "invoke", _wrap_IG
 
 
   /* setup inheritances */
-  if (SWIGTYPE_p_GESymbol->clientdata && !(static_cast<SWIGV8_ClientData *>(SWIGTYPE_p_GESymbol->clientdata)->class_templ.IsEmpty()))
+  if (SWIGTYPE_p_IGEProgramOutput->clientdata && !(static_cast<SWIGV8_ClientData *>(SWIGTYPE_p_IGEProgramOutput->clientdata)->class_templ.IsEmpty()))
+{
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031903)
+  _exports_GEOutput_class->Inherit(static_cast<SWIGV8_ClientData *>(SWIGTYPE_p_IGEProgramOutput->clientdata)->class_templ);
+#else
+  _exports_GEOutput_class->Inherit(
+    v8::Local<v8::FunctionTemplate>::New(
+      v8::Isolate::GetCurrent(),
+      static_cast<SWIGV8_ClientData *>(SWIGTYPE_p_IGEProgramOutput->clientdata)->class_templ)
+    );
+#endif
+  
+#ifdef SWIGRUNTIME_DEBUG
+  printf("Inheritance successful _exports_GEOutput _IGEProgramOutput\n");
+#endif
+} else {
+#ifdef SWIGRUNTIME_DEBUG
+  printf("Unable to inherit baseclass, it didn't exist _exports_GEOutput _IGEProgramOutput\n");
+#endif
+}
+if (SWIGTYPE_p_GESymbol->clientdata && !(static_cast<SWIGV8_ClientData *>(SWIGTYPE_p_GESymbol->clientdata)->class_templ.IsEmpty()))
 {
 #if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031903)
   _exports_GEArray_class->Inherit(static_cast<SWIGV8_ClientData *>(SWIGTYPE_p_GESymbol->clientdata)->class_templ);
@@ -17277,6 +17739,26 @@ v8::Local<v8::Object> _exports_StringStringVector_obj = _exports_StringStringVec
 #else
 v8::Local<v8::Object> _exports_StringStringVector_obj = _exports_StringStringVector_class_0->GetFunction(SWIGV8_CURRENT_CONTEXT()).ToLocalChecked();
 #endif
+/* Class: IGEProgramOutput (_exports_IGEProgramOutput) */
+v8::Local<v8::FunctionTemplate> _exports_IGEProgramOutput_class_0 = SWIGV8_CreateClassTemplate("IGEProgramOutput");
+_exports_IGEProgramOutput_class_0->SetCallHandler(_wrap_new_veto_IGEProgramOutput);
+_exports_IGEProgramOutput_class_0->Inherit(_exports_IGEProgramOutput_class);
+#if (SWIG_V8_VERSION < 0x0705)
+_exports_IGEProgramOutput_class_0->SetHiddenPrototype(true);
+v8::Local<v8::Object> _exports_IGEProgramOutput_obj = _exports_IGEProgramOutput_class_0->GetFunction();
+#else
+v8::Local<v8::Object> _exports_IGEProgramOutput_obj = _exports_IGEProgramOutput_class_0->GetFunction(SWIGV8_CURRENT_CONTEXT()).ToLocalChecked();
+#endif
+/* Class: GEOutput (_exports_GEOutput) */
+v8::Local<v8::FunctionTemplate> _exports_GEOutput_class_0 = SWIGV8_CreateClassTemplate("GEOutput");
+_exports_GEOutput_class_0->SetCallHandler(_wrap_new_GEOutput);
+_exports_GEOutput_class_0->Inherit(_exports_GEOutput_class);
+#if (SWIG_V8_VERSION < 0x0705)
+_exports_GEOutput_class_0->SetHiddenPrototype(true);
+v8::Local<v8::Object> _exports_GEOutput_obj = _exports_GEOutput_class_0->GetFunction();
+#else
+v8::Local<v8::Object> _exports_GEOutput_obj = _exports_GEOutput_class_0->GetFunction(SWIGV8_CURRENT_CONTEXT()).ToLocalChecked();
+#endif
 /* Class: GAUSS (_exports_GAUSS) */
 v8::Local<v8::FunctionTemplate> _exports_GAUSS_class_0 = SWIGV8_CreateClassTemplate("GAUSS");
 _exports_GAUSS_class_0->SetCallHandler(_wrap_new_GAUSS);
@@ -17356,16 +17838,6 @@ _exports_WorkspaceManager_class_0->SetHiddenPrototype(true);
 v8::Local<v8::Object> _exports_WorkspaceManager_obj = _exports_WorkspaceManager_class_0->GetFunction();
 #else
 v8::Local<v8::Object> _exports_WorkspaceManager_obj = _exports_WorkspaceManager_class_0->GetFunction(SWIGV8_CURRENT_CONTEXT()).ToLocalChecked();
-#endif
-/* Class: IGEProgramOutput (_exports_IGEProgramOutput) */
-v8::Local<v8::FunctionTemplate> _exports_IGEProgramOutput_class_0 = SWIGV8_CreateClassTemplate("IGEProgramOutput");
-_exports_IGEProgramOutput_class_0->SetCallHandler(_wrap_new_veto_IGEProgramOutput);
-_exports_IGEProgramOutput_class_0->Inherit(_exports_IGEProgramOutput_class);
-#if (SWIG_V8_VERSION < 0x0705)
-_exports_IGEProgramOutput_class_0->SetHiddenPrototype(true);
-v8::Local<v8::Object> _exports_IGEProgramOutput_obj = _exports_IGEProgramOutput_class_0->GetFunction();
-#else
-v8::Local<v8::Object> _exports_IGEProgramOutput_obj = _exports_IGEProgramOutput_class_0->GetFunction(SWIGV8_CURRENT_CONTEXT()).ToLocalChecked();
 #endif
 /* Class: IGEProgramFlushOutput (_exports_IGEProgramFlushOutput) */
 v8::Local<v8::FunctionTemplate> _exports_IGEProgramFlushOutput_class_0 = SWIGV8_CreateClassTemplate("IGEProgramFlushOutput");
@@ -17492,6 +17964,16 @@ exports_obj->Set(SWIGV8_SYMBOL_NEW("StringStringVector"), _exports_StringStringV
 exports_obj->Set(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW("StringStringVector"), _exports_StringStringVector_obj);
 #endif
 #if (SWIG_V8_VERSION < 0x0708)
+exports_obj->Set(SWIGV8_SYMBOL_NEW("IGEProgramOutput"), _exports_IGEProgramOutput_obj);
+#else
+exports_obj->Set(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW("IGEProgramOutput"), _exports_IGEProgramOutput_obj);
+#endif
+#if (SWIG_V8_VERSION < 0x0708)
+exports_obj->Set(SWIGV8_SYMBOL_NEW("GEOutput"), _exports_GEOutput_obj);
+#else
+exports_obj->Set(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW("GEOutput"), _exports_GEOutput_obj);
+#endif
+#if (SWIG_V8_VERSION < 0x0708)
 exports_obj->Set(SWIGV8_SYMBOL_NEW("GAUSS"), _exports_GAUSS_obj);
 #else
 exports_obj->Set(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW("GAUSS"), _exports_GAUSS_obj);
@@ -17530,11 +18012,6 @@ exports_obj->Set(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW("GEWorkspace"), _ex
 exports_obj->Set(SWIGV8_SYMBOL_NEW("WorkspaceManager"), _exports_WorkspaceManager_obj);
 #else
 exports_obj->Set(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW("WorkspaceManager"), _exports_WorkspaceManager_obj);
-#endif
-#if (SWIG_V8_VERSION < 0x0708)
-exports_obj->Set(SWIGV8_SYMBOL_NEW("IGEProgramOutput"), _exports_IGEProgramOutput_obj);
-#else
-exports_obj->Set(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW("IGEProgramOutput"), _exports_IGEProgramOutput_obj);
 #endif
 #if (SWIG_V8_VERSION < 0x0708)
 exports_obj->Set(SWIGV8_SYMBOL_NEW("IGEProgramFlushOutput"), _exports_IGEProgramFlushOutput_obj);

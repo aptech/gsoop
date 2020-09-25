@@ -190,6 +190,65 @@ namespace std {
 JAVASCRIPT_OUT_STD_VECTOR_NUMERIC(double, SWIGV8_NUMBER_NEW)
 JAVASCRIPT_OUT_STD_VECTOR_NUMERIC(int, SWIGV8_INTEGER_NEW)
 
+%{
+static v8::Persistent<v8::Function, v8::CopyablePersistentTraits<v8::Function>> jsFunctionCallback;
+%}
+
+%typemap(in) v8::Persistent<v8::Function, v8::CopyablePersistentTraits<v8::Function>>& {
+  v8::Local<v8::Function> arg0 = v8::Local<v8::Function>::Cast($input);
+  v8::Persistent<v8::Function> cb(v8::Isolate::GetCurrent(), arg0);
+  jsFunctionCallback = cb;
+
+  $1 = &jsFunctionCallback;
+}
+
+%{
+
+#include "src/gefuncwrapper.h"
+
+#include <node_object_wrap.h>
+#include <node.h>
+#include <iostream>
+
+class GEOutput : IGEProgramOutput, public node::ObjectWrap {
+ public:
+  ~GEOutput() {}
+  void invoke(const std::string &x) {
+      auto isolate = v8::Isolate::GetCurrent();
+      v8::HandleScope scope(isolate);
+      auto context = isolate->GetCurrentContext();
+      auto global = context->Global();
+
+      const unsigned argc = 1;
+      v8::Local<v8::Value> argv[argc] = {
+          SWIGV8_STRING_NEW(x.c_str())
+      };
+
+      auto fn = v8::Local<v8::Function>::New(isolate, javascriptCallback);
+      fn->Call(context, Null(isolate), argc, argv).ToLocalChecked();
+  };
+  explicit GEOutput(v8::Persistent<v8::Function, v8::CopyablePersistentTraits<v8::Function>>& cb) : javascriptCallback(cb) {};
+ private:
+  v8::Persistent<v8::Function, v8::CopyablePersistentTraits<v8::Function>> javascriptCallback;
+};
+
+%}
+
+%feature("director") GEOutput;
+
+class IGEProgramOutput {
+  public:
+    virtual GEOutput();
+    virtual void invoke(const std::string &x) = 0;
+};
+
+class GEOutput : public IGEProgramOutput {
+  public:
+    virtual GEOutput(v8::Persistent<v8::Function, v8::CopyablePersistentTraits<v8::Function>>&);
+    virtual ~GEOutput();
+    virtual void invoke(const std::string &x); 
+};
+
 #endif
 
 /*%rename(GESymType) GESymTypeNS;*/
