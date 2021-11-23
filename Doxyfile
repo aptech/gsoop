@@ -1151,7 +1151,7 @@ VERBATIM_HEADERS       = NO
 # generated with the -Duse_libclang=ON option for CMake.
 # The default value is: NO.
 
-CLANG_ASSISTED_PARSING = NO
+CLANG_ASSISTED_PARSING = YES
 
 # If clang assisted parsing is enabled and the CLANG_ADD_INC_PATHS tag is set to
 # YES then doxygen will add the directory of each input to the include path.
@@ -1385,10 +1385,10 @@ DOCSET_FEEDNAME        = "Doxygen generated docs"
 # This tag specifies a string that should uniquely identify the documentation
 # set bundle. This should be a reverse domain-name style string, e.g.
 # com.mycompany.MyDocSet. Doxygen will append .docset to the name.
-# The default value is: org.doxygen.Project.
+# The default value is: com.aptech.GAUSS.
 # This tag requires that the tag GENERATE_DOCSET is set to YES.
 
-DOCSET_BUNDLE_ID       = org.doxygen.Project
+DOCSET_BUNDLE_ID       = com.aptech.GAUSS
 
 # The DOCSET_PUBLISHER_ID tag specifies a string that should uniquely identify
 # the documentation publisher. This should be a reverse domain-name style
@@ -1396,13 +1396,13 @@ DOCSET_BUNDLE_ID       = org.doxygen.Project
 # The default value is: org.doxygen.Publisher.
 # This tag requires that the tag GENERATE_DOCSET is set to YES.
 
-DOCSET_PUBLISHER_ID    = org.doxygen.Publisher
+DOCSET_PUBLISHER_ID    = com.aptech.Aptech
 
 # The DOCSET_PUBLISHER_NAME tag identifies the documentation publisher.
 # The default value is: Publisher.
 # This tag requires that the tag GENERATE_DOCSET is set to YES.
 
-DOCSET_PUBLISHER_NAME  = Publisher
+DOCSET_PUBLISHER_NAME  = Aptech
 
 # If the GENERATE_HTMLHELP tag is set to YES then doxygen generates three
 # additional HTML index files: index.hhp, index.hhc, and index.hhk. The
@@ -1485,10 +1485,10 @@ QCH_FILE               =
 # Project output. For more information please see Qt Help Project / Namespace
 # (see:
 # https://doc.qt.io/archives/qt-4.8/qthelpproject.html#namespace).
-# The default value is: org.doxygen.Project.
+# The default value is: com.aptech.GAUSS.
 # This tag requires that the tag GENERATE_QHP is set to YES.
 
-QHP_NAMESPACE          = org.doxygen.Project
+QHP_NAMESPACE          = com.aptech.GAUSS
 
 # The QHP_VIRTUAL_FOLDER tag specifies the namespace to use when generating Qt
 # Help Project output. For more information please see Qt Help Project / Virtual
@@ -1544,10 +1544,10 @@ GENERATE_ECLIPSEHELP   = NO
 # A unique identifier for the Eclipse help plugin. When installing the plugin
 # the directory name containing the HTML and XML files should also have this
 # name. Each documentation set should have its own identifier.
-# The default value is: org.doxygen.Project.
+# The default value is: com.aptech.GAUSS.
 # This tag requires that the tag GENERATE_ECLIPSEHELP is set to YES.
 
-ECLIPSE_DOC_ID         = org.doxygen.Project
+ECLIPSE_DOC_ID         = com.aptech.GAUSS
 
 # If you want full control over the layout of the generated HTML pages it might
 # be necessary to disable the index and replace it with your own. The
@@ -1783,7 +1783,7 @@ EXTRA_SEARCH_MAPPINGS  =
 # If the GENERATE_LATEX tag is set to YES, doxygen will generate LaTeX output.
 # The default value is: YES.
 
-GENERATE_LATEX         = YES
+GENERATE_LATEX         = NO
 
 # The LATEX_OUTPUT tag is used to specify where the LaTeX docs will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
