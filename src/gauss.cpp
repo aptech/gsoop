@@ -39,10 +39,8 @@ using namespace std;
  */
 static std::string kHomeVar = "MTENGHOME";
 
-static unordered_map<int, std::string> kOutputStore;
-static std::mutex kOutputMutex;
-static unordered_map<int, std::string> kErrorStore;
-static std::mutex kErrorMutex;
+thread_local std::string kOutputStore;
+thread_local std::string kErrorStore;
 
 IGEProgramOutput* GAUSS::outputFunc_ = 0;
 IGEProgramOutput* GAUSS::errorFunc_ = 0;
@@ -69,6 +67,15 @@ static int getThreadId() {
     //    fflush(stdout);
 
     return tid;
+}
+
+static bool endsWithCaseInsensitive(const std::string &mainStr, const std::string &toMatch)
+{
+    auto it = toMatch.begin();
+    return mainStr.size() >= toMatch.size() &&
+            std::all_of(std::next(mainStr.begin(), mainStr.size() - toMatch.size()), mainStr.end(), [&it](const char &c){
+                return ::tolower(c) == ::tolower(*(it++));
+    });
 }
 
 /**
@@ -524,7 +531,9 @@ $success = $ge->executeFile("ols.e", $myWorkspace);
  * @see compileFile(std::string)
  */
 bool GAUSS::executeFile(std::string filename, GEWorkspace *workspace) {
-    if (!this->d->manager_->isValidWorkspace(workspace))
+    if (endsWithCaseInsensitive(filename, ".gcg"))
+        return executeCompiledFile(filename, workspace);
+    else if (!this->d->manager_->isValidWorkspace(workspace))
         return false;
 
     ProgramHandle_t *ph = GAUSS_CompileFile(workspace->workspace(), removeConst(&filename), 0, 0);
@@ -2398,26 +2407,19 @@ std::string GAUSS::translateDataloopFile(std::string srcfile) {
 }
 
 void GAUSS::clearOutput() {
-    std::lock_guard<std::mutex> guard(kOutputMutex);
-    int tid = getThreadId();
-    kOutputStore[tid] = std::string();
+    kOutputStore = std::string();
 }
 
 void GAUSS::clearErrorOutput() {
-    std::lock_guard<std::mutex> guard(kErrorMutex);
-    int tid = getThreadId();
-    kErrorStore[tid] = std::string();
+    kErrorStore = std::string();
 }
 
 std::string GAUSS::getOutput() {
     if (!GAUSS::outputModeManaged())
         return std::string();
 
-    std::lock_guard<std::mutex> guard(kOutputMutex);
-
-    int tid = getThreadId();
     std::string ret;
-    ret.swap(kOutputStore[tid]);
+    ret.swap(kOutputStore);
 
     return ret;
 }
@@ -2426,11 +2428,8 @@ std::string GAUSS::getErrorOutput() {
     if (!GAUSS::outputModeManaged())
         return std::string();
 
-    std::lock_guard<std::mutex> guard(kErrorMutex);
-
-    int tid = getThreadId();
     std::string ret;
-    ret.swap(kErrorStore[tid]);
+    ret.swap(kErrorStore);
 
     return ret;
 }
@@ -2447,10 +2446,7 @@ void GAUSS::resetHooks() {
 
 void GAUSS::internalHookOutput(char *output) {
     if (GAUSS::outputModeManaged()) {
-        std::lock_guard<std::mutex> guard(kOutputMutex);
-        int tid = getThreadId();
-        std::string &store = kOutputStore[tid];
-        store.append(output);
+        kOutputStore.append(output);
     } else if (GAUSS::outputFunc_) {
         GAUSS::outputFunc_->invoke(std::string(output));
     } else {
@@ -2460,10 +2456,7 @@ void GAUSS::internalHookOutput(char *output) {
 
 void GAUSS::internalHookError(char *output) {
     if (GAUSS::outputModeManaged()) {
-        std::lock_guard<std::mutex> guard(kErrorMutex);
-        int tid = getThreadId();
-        std::string &store = kErrorStore[tid];
-        store.append(output);
+        kErrorStore.append(output);
     } else if (GAUSS::errorFunc_) {
         GAUSS::errorFunc_->invoke(std::string(output));
     } else {
@@ -3010,52 +3003,7 @@ void GAUSS::setHookProgramInputCheck(int (*get_string_function)(void)) {
     GAUSS_HookProgramInputCheck(get_string_function);
 }
 
-//void GAUSS::setHookGetCursorPosition(int (*get_cursor_position_function)(void)) {
-//    GAUSS_HookGetCursorPosition(get_cursor_position_function);
-//}
-
 GAUSS::~GAUSS() {
-    //    if (GAUSS::outputFunc_) {
-    //        // Prevent double-delete for user doing setProgramOutputAll
-    //        if (GAUSS::outputFunc_ == GAUSS::errorFunc_)
-    //            GAUSS::errorFunc_ = 0;
-
-    //        delete GAUSS::outputFunc_;
-    //        GAUSS::outputFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::errorFunc_) {
-    //        delete GAUSS::errorFunc_;
-    //        GAUSS::errorFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::flushFunc_) {
-    //        delete GAUSS::flushFunc_;
-    //        GAUSS::flushFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::inputStringFunc_) {
-    //        delete GAUSS::inputStringFunc_;
-    //        GAUSS::inputStringFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::inputCharFunc_) {
-    //        if (GAUSS::inputCharFunc_ == GAUSS::inputBlockingCharFunc_)
-    //            GAUSS::inputBlockingCharFunc_ = 0;
-
-    //        delete GAUSS::inputCharFunc_;
-    //        GAUSS::inputCharFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::inputBlockingCharFunc_) {
-    //        delete GAUSS::inputBlockingCharFunc_;
-    //        GAUSS::inputBlockingCharFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::inputCheckFunc_) {
-    //        delete GAUSS::inputCheckFunc_;
-    //        GAUSS::inputCheckFunc_ = 0;
-    //    }
 }
 
 bool GAUSSPrivate::managedOutput_ = true;

@@ -1,8 +1,8 @@
-\hypertarget{class_g_e_array}{}\section{G\+E\+Array Class Reference}
-\label{class_g_e_array}\index{G\+E\+Array@{G\+E\+Array}}
+\hypertarget{class_g_e_array}{}\doxysection{GEArray Class Reference}
+\label{class_g_e_array}\index{GEArray@{GEArray}}
 
 
-\hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Array symbol type.  
+\mbox{\hyperlink{class_g_a_u_s_s}{GAUSS}} Array symbol type.  
 
 
 
@@ -11,72 +11,74 @@
 
 
 
-Inheritance diagram for G\+E\+Array\+:\nopagebreak
+Inheritance diagram for GEArray\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=144pt]{class_g_e_array__inherit__graph}
 \end{center}
 \end{figure}
-\subsection*{Public Member Functions}
+\doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{class_g_e_array_a59934816e881cf01fb22d08f1d8fc1e0}\label{class_g_e_array_a59934816e881cf01fb22d08f1d8fc1e0}} 
-\hyperlink{class_g_e_array_a59934816e881cf01fb22d08f1d8fc1e0}{G\+E\+Array} ()
+\mbox{\hyperlink{class_g_e_array_a59934816e881cf01fb22d08f1d8fc1e0}{GEArray}} ()
 \begin{DoxyCompactList}\small\item\em Initialize a one dimensional array with a single element set to zero. \end{DoxyCompactList}\item 
-\hyperlink{class_g_e_array_a99e59c84b9ee6288030cda2fecc116af}{G\+E\+Array} (vector$<$ int $>$ orders, V\+E\+C\+T\+O\+R\+\_\+\+D\+A\+TA(double) data, bool complex=false)
+\mbox{\hyperlink{class_g_e_array_a99e59c84b9ee6288030cda2fecc116af}{GEArray}} (vector$<$ int $>$ orders, VECTOR\+\_\+\+DATA(double) data, bool complex=false)
 \begin{DoxyCompactList}\small\item\em Initialize an array with the orders specified. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_g_e_array_aff83dc2b4d74f050eff84e360a8df3c9}\label{class_g_e_array_aff83dc2b4d74f050eff84e360a8df3c9}} 
-{\bfseries G\+E\+Array} (const int $\ast$orders, int orders\+\_\+len, const double $\ast$data, int data\+\_\+len, bool complex=false)
+{\bfseries GEArray} (const int $\ast$orders, int orders\+\_\+len, const double $\ast$data, int data\+\_\+len, bool complex=false)
 \item 
-\hyperlink{class_g_e_matrix}{G\+E\+Matrix} $\ast$ \hyperlink{class_g_e_array_ac230d6d9b825fb9a6c0dd64444268daf}{get\+Plane} (vector$<$ int $>$ orders, bool imag=false) const
+\mbox{\hyperlink{class_g_e_matrix}{GEMatrix}} $\ast$ \mbox{\hyperlink{class_g_e_array_ac230d6d9b825fb9a6c0dd64444268daf}{get\+Plane}} (vector$<$ int $>$ orders, bool imag=false) const
 \begin{DoxyCompactList}\small\item\em Retrieve a 2-\/dimensional slice from an array. \end{DoxyCompactList}\item 
-vector$<$ double $>$ \hyperlink{class_g_e_array_a2342cd028aa64d75cea4492b8458a6b6}{get\+Vector} (vector$<$ int $>$ orders, bool imag=false) const
+vector$<$ double $>$ \mbox{\hyperlink{class_g_e_array_a2342cd028aa64d75cea4492b8458a6b6}{get\+Vector}} (vector$<$ int $>$ orders, bool imag=false) const
 \begin{DoxyCompactList}\small\item\em Retrieve a one dimensional vector from an array. \end{DoxyCompactList}\item 
-double \hyperlink{class_g_e_array_a48fc60569350f3522f3bd6d074bd92ec}{get\+Element} (vector$<$ int $>$ orders, bool imag=false) const
+double \mbox{\hyperlink{class_g_e_array_a48fc60569350f3522f3bd6d074bd92ec}{get\+Element}} (vector$<$ int $>$ orders, bool imag=false) const
 \begin{DoxyCompactList}\small\item\em Retrieve an element from an array. \end{DoxyCompactList}\item 
-bool \hyperlink{class_g_e_array_a0e89787df523a69a1834c89adcfdfc3f}{set\+Element} (double, vector$<$ int $>$ orders, bool imag=false)
+bool \mbox{\hyperlink{class_g_e_array_a0e89787df523a69a1834c89adcfdfc3f}{set\+Element}} (double, vector$<$ int $>$ orders, bool imag=false)
 \begin{DoxyCompactList}\small\item\em Set an element in an array. \end{DoxyCompactList}\item 
-vector$<$ double $>$ \hyperlink{class_g_e_array_a5489786a71cad6eb7482658564bac5f2}{get\+Data} (bool imag=false) const
+vector$<$ double $>$ \mbox{\hyperlink{class_g_e_array_a5489786a71cad6eb7482658564bac5f2}{get\+Data}} (bool imag=false) const
 \begin{DoxyCompactList}\small\item\em Retrieve a copy of underlying numeric vector. \end{DoxyCompactList}\item 
-vector$<$ double $>$ \hyperlink{class_g_e_array_a13a837cc6784562be80f64e4aa3ce4a5}{get\+Imag\+Data} () const
+vector$<$ double $>$ \mbox{\hyperlink{class_g_e_array_a13a837cc6784562be80f64e4aa3ce4a5}{get\+Imag\+Data}} () const
 \begin{DoxyCompactList}\small\item\em Retrieve underlying imaginary data storage. \end{DoxyCompactList}\item 
-vector$<$ int $>$ \hyperlink{class_g_e_array_a1a0335f73a61e044895f40a8dc89b4c6}{get\+Orders} () const
+vector$<$ int $>$ \mbox{\hyperlink{class_g_e_array_a1a0335f73a61e044895f40a8dc89b4c6}{get\+Orders}} () const
 \begin{DoxyCompactList}\small\item\em Retrieve the vector of array orders. \end{DoxyCompactList}\item 
-int \hyperlink{class_g_e_array_a5823413a0fa7b8bb6a021441c5f21311}{get\+Dimensions} () const
+int \mbox{\hyperlink{class_g_e_array_a5823413a0fa7b8bb6a021441c5f21311}{get\+Dimensions}} () const
 \begin{DoxyCompactList}\small\item\em Return the number of array dimensions. \end{DoxyCompactList}\item 
-virtual int \hyperlink{class_g_e_array_aedc9a359a4353dd8a430b048d526ce1f}{size} () const
+virtual int \mbox{\hyperlink{class_g_e_array_aedc9a359a4353dd8a430b048d526ce1f}{size}} () const
 \begin{DoxyCompactList}\small\item\em Returns the total element count. \end{DoxyCompactList}\item 
-virtual std\+::string \hyperlink{class_g_e_array_a9f5b44db0f65c13c2ac15dc119b81459}{to\+String} () const
+\mbox{\Hypertarget{class_g_e_array_a9f5b44db0f65c13c2ac15dc119b81459}\label{class_g_e_array_a9f5b44db0f65c13c2ac15dc119b81459}} 
+virtual std\+::string \mbox{\hyperlink{class_g_e_array_a9f5b44db0f65c13c2ac15dc119b81459}{to\+String}} () const
 \begin{DoxyCompactList}\small\item\em Returns a string representation of this object. \end{DoxyCompactList}\item 
-virtual void \hyperlink{class_g_e_array_ad7fd6880da03d11c13387ea9e1e1cd5d}{clear} ()
+virtual void \mbox{\hyperlink{class_g_e_array_ad7fd6880da03d11c13387ea9e1e1cd5d}{clear}} ()
 \begin{DoxyCompactList}\small\item\em Clear all corresponding symbol data. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_g_e_array_a9426f0cb4b6a03677a2a868dae66e935}\label{class_g_e_array_a9426f0cb4b6a03677a2a868dae66e935}} 
 Array\+\_\+t $\ast$ {\bfseries to\+Internal} ()
 \end{DoxyCompactItemize}
-\subsection*{Friends}
+\doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{class_g_e_array_abc89e64d0ec6c939575c3125753c6309}\label{class_g_e_array_abc89e64d0ec6c939575c3125753c6309}} 
-class {\bfseries G\+A\+U\+SS}
+class {\bfseries GAUSS}
 \item 
 \mbox{\Hypertarget{class_g_e_array_a2e5e14117f0e69078f45b8d512f056de}\label{class_g_e_array_a2e5e14117f0e69078f45b8d512f056de}} 
-class {\bfseries G\+A\+U\+S\+S\+Private}
+class {\bfseries GAUSSPrivate}
 \end{DoxyCompactItemize}
-\subsection*{Additional Inherited Members}
+\doxysubsection*{Additional Inherited Members}
 
 
-\subsection{Detailed Description}
-\hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Array symbol type. 
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_g_a_u_s_s}{GAUSS}} Array symbol type. 
 
 This represents An N-\/dimensional array of double precision numbers. 
 
-\subsection{Constructor \& Destructor Documentation}
+\doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{class_g_e_array_a99e59c84b9ee6288030cda2fecc116af}\label{class_g_e_array_a99e59c84b9ee6288030cda2fecc116af}} 
-\index{G\+E\+Array@{G\+E\+Array}!G\+E\+Array@{G\+E\+Array}}
-\index{G\+E\+Array@{G\+E\+Array}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{G\+E\+Array()}{GEArray()}}
-{\footnotesize\ttfamily G\+E\+Array\+::\+G\+E\+Array (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{orders,  }\item[{V\+E\+C\+T\+O\+R\+\_\+\+D\+A\+TA(double)}]{data,  }\item[{bool}]{complex = {\ttfamily false} }\end{DoxyParamCaption})}
+\index{GEArray@{GEArray}!GEArray@{GEArray}}
+\index{GEArray@{GEArray}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{GEArray()}{GEArray()}}
+{\footnotesize\ttfamily GEArray\+::\+GEArray (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{orders,  }\item[{VECTOR\+\_\+\+DATA(double)}]{data,  }\item[{bool}]{complex = {\ttfamily false} }\end{DoxyParamCaption})}
 
 
 
@@ -86,35 +88,38 @@ You need to fill in the array data from lowest dimension to highest dimension. I
 
 Example\+:
 
-{\bfseries Python} 
-\begin{DoxyCode}
-orders = [4, 3, 2]
-data = range(1, 49)
-a = \hyperlink{class_g_e_array}{GEArray}(orders, data, \textcolor{keyword}{True})     \textcolor{comment}{# Indicate data is complex}
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{orders = [4, 3, 2]}
+\DoxyCodeLine{data = range(1, 49)}
+\DoxyCodeLine{a = \mbox{\hyperlink{class_g_e_array}{GEArray}}(orders, data, \textcolor{keyword}{True})     \textcolor{comment}{\# Indicate data is complex}}
+
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-$orders = array(4, 3, 2);
-$data = range(1.0, 48.0);
-$a = \textcolor{keyword}{new} \hyperlink{class_g_e_array_a59934816e881cf01fb22d08f1d8fc1e0}{GEArray}($orders, $data, \textcolor{keyword}{true}); \textcolor{comment}{// Indicate data is complex}
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$orders = array(4, 3, 2);}
+\DoxyCodeLine{\$data = range(1.0, 48.0);}
+\DoxyCodeLine{\$a = \textcolor{keyword}{new} \mbox{\hyperlink{class_g_e_array_a59934816e881cf01fb22d08f1d8fc1e0}{GEArray}}(\$orders, \$data, \textcolor{keyword}{true}); \textcolor{comment}{// Indicate data is complex}}
+
 \end{DoxyCode}
 
 
 will create a complex array with the elements filled in as follows\+:
 
 
-\begin{DoxyCode}
-[1,1,1] =  1.0 + 25.0i,  [1,1,2] =  2.0 + 26.0i,
-[1,2,1] =  3.0 + 27.0i,  [1,2,2] =  4.0 + 28.0i,
-[1,3,1] =  5.0 + 29.0i,  [1,3,2] =  6.0 + 30.0i,
+\begin{DoxyCode}{0}
+\DoxyCodeLine{[1,1,1] =  1.0 + 25.0i,  [1,1,2] =  2.0 + 26.0i,}
+\DoxyCodeLine{[1,2,1] =  3.0 + 27.0i,  [1,2,2] =  4.0 + 28.0i,}
+\DoxyCodeLine{[1,3,1] =  5.0 + 29.0i,  [1,3,2] =  6.0 + 30.0i,}
+\DoxyCodeLine{}
+\DoxyCodeLine{[2,1,1] =  7.0 + 31.0i,  [2,1,2] =  8.0 + 32.0i,}
+\DoxyCodeLine{[2,2,1] =  9.0 + 33.0i,  [2,2,2] = 10.0 + 34.0i,}
+\DoxyCodeLine{[2,3,1] = 11.0 + 35.0i,  [2,3,2] = 12.0 + 36.0i,}
+\DoxyCodeLine{}
+\DoxyCodeLine{...}
 
-[2,1,1] =  7.0 + 31.0i,  [2,1,2] =  8.0 + 32.0i,
-[2,2,1] =  9.0 + 33.0i,  [2,2,2] = 10.0 + 34.0i,
-[2,3,1] = 11.0 + 35.0i,  [2,3,2] = 12.0 + 36.0i,
-
-...
 \end{DoxyCode}
 
 
@@ -129,12 +134,12 @@ will create a complex array with the elements filled in as follows\+:
 \end{DoxyParams}
 
 
-\subsection{Member Function Documentation}
+\doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{class_g_e_array_ad7fd6880da03d11c13387ea9e1e1cd5d}\label{class_g_e_array_ad7fd6880da03d11c13387ea9e1e1cd5d}} 
-\index{G\+E\+Array@{G\+E\+Array}!clear@{clear}}
-\index{clear@{clear}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{clear()}{clear()}}
-{\footnotesize\ttfamily void G\+E\+Array\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+\index{GEArray@{GEArray}!clear@{clear}}
+\index{clear@{clear}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void GEArray\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
 
 
 
@@ -142,41 +147,44 @@ Clear all corresponding symbol data.
 
 Does not clear from workspace. 
 
-Reimplemented from \hyperlink{class_g_e_symbol_a39d2e523aec771a73e1cc5d7a9618b88}{G\+E\+Symbol}.
+Reimplemented from \mbox{\hyperlink{class_g_e_symbol_a39d2e523aec771a73e1cc5d7a9618b88}{GESymbol}}.
 
 \mbox{\Hypertarget{class_g_e_array_a5489786a71cad6eb7482658564bac5f2}\label{class_g_e_array_a5489786a71cad6eb7482658564bac5f2}} 
-\index{G\+E\+Array@{G\+E\+Array}!get\+Data@{get\+Data}}
-\index{get\+Data@{get\+Data}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{get\+Data()}{getData()}}
-{\footnotesize\ttfamily vector$<$ double $>$ G\+E\+Array\+::get\+Data (\begin{DoxyParamCaption}\item[{bool}]{imag = {\ttfamily false} }\end{DoxyParamCaption}) const}
+\index{GEArray@{GEArray}!getData@{getData}}
+\index{getData@{getData}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{getData()}{getData()}}
+{\footnotesize\ttfamily vector$<$ double $>$ GEArray\+::get\+Data (\begin{DoxyParamCaption}\item[{bool}]{imag = {\ttfamily false} }\end{DoxyParamCaption}) const}
 
 
 
 Retrieve a copy of underlying numeric vector. 
 
-Imaginary data can also be queried by supplying the {\itshape imag} argument, thus appending it to the end of the real data. Omitting or specifying the {\itshape imag} argument as {\ttfamily false} will return only real data. If you wish to only view the imaginary data, there is a \hyperlink{class_g_e_array_a13a837cc6784562be80f64e4aa3ce4a5}{get\+Imag\+Data()} method for convenience.
+Imaginary data can also be queried by supplying the {\itshape imag} argument, thus appending it to the end of the real data. Omitting or specifying the {\itshape imag} argument as {\ttfamily false} will return only real data. If you wish to only view the imaginary data, there is a \mbox{\hyperlink{class_g_e_array_a13a837cc6784562be80f64e4aa3ce4a5}{get\+Imag\+Data()}} method for convenience.
 
 Example\+:
 
-{\bfseries Python} 
-\begin{DoxyCode}
-\textcolor{comment}{# Create a 2x3x4 array with values 1.0 - 24.0}
-ge.executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4)"})
-a = ge.getArray(\textcolor{stringliteral}{"a"})
-\textcolor{keywordflow}{print} \textcolor{stringliteral}{", "}.join(str(n) \textcolor{keywordflow}{for} n \textcolor{keywordflow}{in} a.getData())
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{\# Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4)"{}})}
+\DoxyCodeLine{a = ge.getArray(\textcolor{stringliteral}{"{}a"{}})}
+\DoxyCodeLine{\textcolor{keywordflow}{print} \textcolor{stringliteral}{"{}, "{}}.join(str(n) \textcolor{keywordflow}{for} n \textcolor{keywordflow}{in} a.getData())}
+
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-\textcolor{comment}{// Create a 2x3x4 array with values 1.0 - 24.0}
-$ge->executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4);"});
-$a = $ge->getArray(\textcolor{stringliteral}{"a"});
-echo implode(\textcolor{stringliteral}{", "}, $a->getData()) . PHP\_EOL;
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4);"{}});}
+\DoxyCodeLine{\$a = \$ge-\/>getArray(\textcolor{stringliteral}{"{}a"{}});}
+\DoxyCodeLine{echo implode(\textcolor{stringliteral}{"{}, "{}}, \$a-\/>getData()) . PHP\_EOL;}
+
 \end{DoxyCode}
  will result in the output\+: 
-\begin{DoxyCode}
-1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}
+
 \end{DoxyCode}
 
 
@@ -189,41 +197,44 @@ echo implode(\textcolor{stringliteral}{", "}, $a->getData()) . PHP\_EOL;
 Array data as a one-\/dimensional vector 
 \end{DoxyReturn}
 \mbox{\Hypertarget{class_g_e_array_a5823413a0fa7b8bb6a021441c5f21311}\label{class_g_e_array_a5823413a0fa7b8bb6a021441c5f21311}} 
-\index{G\+E\+Array@{G\+E\+Array}!get\+Dimensions@{get\+Dimensions}}
-\index{get\+Dimensions@{get\+Dimensions}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{get\+Dimensions()}{getDimensions()}}
-{\footnotesize\ttfamily int G\+E\+Array\+::get\+Dimensions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\index{GEArray@{GEArray}!getDimensions@{getDimensions}}
+\index{getDimensions@{getDimensions}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{getDimensions()}{getDimensions()}}
+{\footnotesize\ttfamily int GEArray\+::get\+Dimensions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 
 
 Return the number of array dimensions. 
 
-This should be equal to the length of \hyperlink{class_g_e_array_a1a0335f73a61e044895f40a8dc89b4c6}{get\+Orders()}
+This should be equal to the length of \mbox{\hyperlink{class_g_e_array_a1a0335f73a61e044895f40a8dc89b4c6}{get\+Orders()}}
 
 Example\+:
 
-{\bfseries Python} 
-\begin{DoxyCode}
-\textcolor{comment}{# Create a 2x3x4 array with values 1.0 - 24.0}
-ge.executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4)"})
-a = ge.getArray(\textcolor{stringliteral}{"a"})
-\textcolor{keywordflow}{print} \textcolor{stringliteral}{"a dimensions = "} + str(a.getDimensions())
-\textcolor{keywordflow}{print} \textcolor{stringliteral}{"a order count = "} + str(len(a.getOrders()))
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{\# Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4)"{}})}
+\DoxyCodeLine{a = ge.getArray(\textcolor{stringliteral}{"{}a"{}})}
+\DoxyCodeLine{\textcolor{keywordflow}{print} \textcolor{stringliteral}{"{}a dimensions = "{}} + str(a.getDimensions())}
+\DoxyCodeLine{\textcolor{keywordflow}{print} \textcolor{stringliteral}{"{}a order count = "{}} + str(len(a.getOrders()))}
+
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-\textcolor{comment}{// Create a 2x3x4 array with values 1.0 - 24.0}
-$ge->executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4);"});
-$a = $ge->getArray(\textcolor{stringliteral}{"a"});
-echo \textcolor{stringliteral}{"a dimensions = "} . $a->getDimensions() . PHP\_EOL;
-echo \textcolor{stringliteral}{"a order count = "} . count($a->getOrders()) . PHP\_EOL
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4);"{}});}
+\DoxyCodeLine{\$a = \$ge-\/>getArray(\textcolor{stringliteral}{"{}a"{}});}
+\DoxyCodeLine{echo \textcolor{stringliteral}{"{}a dimensions = "{}} . \$a-\/>getDimensions() . PHP\_EOL;}
+\DoxyCodeLine{echo \textcolor{stringliteral}{"{}a order count = "{}} . count(\$a-\/>getOrders()) . PHP\_EOL}
+
 \end{DoxyCode}
  will result in the output\+: 
-\begin{DoxyCode}
-a dimensions = 3
-a order count = 3
+\begin{DoxyCode}{0}
+\DoxyCodeLine{a dimensions = 3}
+\DoxyCodeLine{a order count = 3}
+
 \end{DoxyCode}
 
 
@@ -231,10 +242,10 @@ a order count = 3
 Array dimension count 
 \end{DoxyReturn}
 \mbox{\Hypertarget{class_g_e_array_a48fc60569350f3522f3bd6d074bd92ec}\label{class_g_e_array_a48fc60569350f3522f3bd6d074bd92ec}} 
-\index{G\+E\+Array@{G\+E\+Array}!get\+Element@{get\+Element}}
-\index{get\+Element@{get\+Element}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{get\+Element()}{getElement()}}
-{\footnotesize\ttfamily double G\+E\+Array\+::get\+Element (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{indices,  }\item[{bool}]{imag = {\ttfamily false} }\end{DoxyParamCaption}) const}
+\index{GEArray@{GEArray}!getElement@{getElement}}
+\index{getElement@{getElement}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{getElement()}{getElement()}}
+{\footnotesize\ttfamily double GEArray\+::get\+Element (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{indices,  }\item[{bool}]{imag = {\ttfamily false} }\end{DoxyParamCaption}) const}
 
 
 
@@ -244,45 +255,49 @@ The indices array will contain N normal indices into the array, indicating the e
 
 Example\+:
 
-{\bfseries Python} 
-\begin{DoxyCode}
-\textcolor{comment}{# Create a 2x3x4 array with values 1.0 - 24.0}
-ge.executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4)"})
-a = ge.getArray(\textcolor{stringliteral}{"a"})
-\textcolor{keywordflow}{print} str(a.getElement([1, 1, 2])) \textcolor{comment}{# Second element on first row of first plane}
-\textcolor{keywordflow}{print} str(a.getElement([1, 2, 1])) \textcolor{comment}{# First element on second row of first plane}
-\textcolor{keywordflow}{print} str(a.getElement([2, 1, 1])) \textcolor{comment}{# First element on first row of second plane}
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{\# Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4)"{}})}
+\DoxyCodeLine{a = ge.getArray(\textcolor{stringliteral}{"{}a"{}})}
+\DoxyCodeLine{\textcolor{keywordflow}{print} str(a.getElement([1, 1, 2])) \textcolor{comment}{\# Second element on first row of first plane}}
+\DoxyCodeLine{\textcolor{keywordflow}{print} str(a.getElement([1, 2, 1])) \textcolor{comment}{\# First element on second row of first plane}}
+\DoxyCodeLine{\textcolor{keywordflow}{print} str(a.getElement([2, 1, 1])) \textcolor{comment}{\# First element on first row of second plane}}
+
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-\textcolor{comment}{// Create a 2x3x4 array with values 1.0 - 24.0}
-$ge->executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4);"});
-$a = $ge->getArray(\textcolor{stringliteral}{"a"});
-echo $a->getElement(array(1, 1, 2)) . PHP\_EOL; \textcolor{comment}{// Second element on first row of first plane}
-echo $a->getElement(array(1, 2, 1)) . PHP\_EOL; \textcolor{comment}{// First element on second row of first plane}
-echo $a->getElement(array(2, 1, 1)) . PHP\_EOL; \textcolor{comment}{// First element on first row of second plane}
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4);"{}});}
+\DoxyCodeLine{\$a = \$ge-\/>getArray(\textcolor{stringliteral}{"{}a"{}});}
+\DoxyCodeLine{echo \$a-\/>getElement(array(1, 1, 2)) . PHP\_EOL; \textcolor{comment}{// Second element on first row of first plane}}
+\DoxyCodeLine{echo \$a-\/>getElement(array(1, 2, 1)) . PHP\_EOL; \textcolor{comment}{// First element on second row of first plane}}
+\DoxyCodeLine{echo \$a-\/>getElement(array(2, 1, 1)) . PHP\_EOL; \textcolor{comment}{// First element on first row of second plane}}
+
 \end{DoxyCode}
  will result in the output\+: 
-\begin{DoxyCode}
-2
-5
-13
+\begin{DoxyCode}{0}
+\DoxyCodeLine{2}
+\DoxyCodeLine{5}
+\DoxyCodeLine{13}
+
 \end{DoxyCode}
  extracted from the values of a\+: 
-\begin{DoxyCode}
-Plane [1,.,.]
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Plane [1,.,.]}
+\DoxyCodeLine{}
+\DoxyCodeLine{       1.0000000        2.0000000        3.0000000        4.0000000}
+\DoxyCodeLine{       5.0000000        6.0000000        7.0000000        8.0000000}
+\DoxyCodeLine{       9.0000000        10.000000        11.000000        12.000000}
+\DoxyCodeLine{}
+\DoxyCodeLine{Plane [2,.,.]}
+\DoxyCodeLine{}
+\DoxyCodeLine{       13.000000        14.000000        15.000000        16.000000}
+\DoxyCodeLine{       17.000000        18.000000        19.000000        20.000000}
+\DoxyCodeLine{       21.000000        22.000000        23.000000        24.000000}
 
-       1.0000000        2.0000000        3.0000000        4.0000000
-       5.0000000        6.0000000        7.0000000        8.0000000
-       9.0000000        10.000000        11.000000        12.000000
-
-Plane [2,.,.]
-
-       13.000000        14.000000        15.000000        16.000000
-       17.000000        18.000000        19.000000        20.000000
-       21.000000        22.000000        23.000000        24.000000
 \end{DoxyCode}
 
 
@@ -297,10 +312,10 @@ Plane [2,.,.]
 double precision element 
 \end{DoxyReturn}
 \mbox{\Hypertarget{class_g_e_array_a13a837cc6784562be80f64e4aa3ce4a5}\label{class_g_e_array_a13a837cc6784562be80f64e4aa3ce4a5}} 
-\index{G\+E\+Array@{G\+E\+Array}!get\+Imag\+Data@{get\+Imag\+Data}}
-\index{get\+Imag\+Data@{get\+Imag\+Data}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{get\+Imag\+Data()}{getImagData()}}
-{\footnotesize\ttfamily vector$<$ double $>$ G\+E\+Array\+::get\+Imag\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\index{GEArray@{GEArray}!getImagData@{getImagData}}
+\index{getImagData@{getImagData}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{getImagData()}{getImagData()}}
+{\footnotesize\ttfamily vector$<$ double $>$ GEArray\+::get\+Imag\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 
 
@@ -310,30 +325,32 @@ This will be stored in lowest to highest dimension.
 
 Example\+:
 
-{\bfseries Python} 
-\begin{DoxyCode}
-\textcolor{comment}{# Create a 2x3x4 array with values 1.0 - 24.0}
-ge.executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4)"})
-ge.executeString(\textcolor{stringliteral}{"b = areshape(seqa(25, 1, 24), 2|3|4)"})
-ge.executeString(\textcolor{stringliteral}{"c = complex(a, b)"})
-c = ge.getArray(\textcolor{stringliteral}{"c"})
-\textcolor{keywordflow}{print} \textcolor{stringliteral}{", "}.join(str(n) \textcolor{keywordflow}{for} n \textcolor{keywordflow}{in} c.getImagData())
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{\# Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4)"{}})}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}b = areshape(seqa(25, 1, 24), 2|3|4)"{}})}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}c = complex(a, b)"{}})}
+\DoxyCodeLine{c = ge.getArray(\textcolor{stringliteral}{"{}c"{}})}
+\DoxyCodeLine{\textcolor{keywordflow}{print} \textcolor{stringliteral}{"{}, "{}}.join(str(n) \textcolor{keywordflow}{for} n \textcolor{keywordflow}{in} c.getImagData())}
+
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-\textcolor{comment}{// Create a 2x3x4 array with values 1.0 - 24.0}
-$ge->executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4)"});
-$ge->executeString(\textcolor{stringliteral}{"b = areshape(seqa(25, 1, 24), 2|3|4)"});
-$ge->executeString(\textcolor{stringliteral}{"c = complex(a, b)"});
-$c = $ge->getArray(\textcolor{stringliteral}{"c"});
-echo implode(\textcolor{stringliteral}{", "}, $c->getImagData()) . PHP\_EOL;
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4)"{}});}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}b = areshape(seqa(25, 1, 24), 2|3|4)"{}});}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}c = complex(a, b)"{}});}
+\DoxyCodeLine{\$c = \$ge-\/>getArray(\textcolor{stringliteral}{"{}c"{}});}
+\DoxyCodeLine{echo implode(\textcolor{stringliteral}{"{}, "{}}, \$c-\/>getImagData()) . PHP\_EOL;}
+
 \end{DoxyCode}
  will result in the output\+: 
-\begin{DoxyCode}
-25.0, 26.0, 27.0, 28.0, 29.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0,
-       43.0, 44.0, 45.0, 46.0, 47.0, 48.0
+\begin{DoxyCode}{0}
+\DoxyCodeLine{25.0, 26.0, 27.0, 28.0, 29.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0}
+
 \end{DoxyCode}
 
 
@@ -341,10 +358,10 @@ echo implode(\textcolor{stringliteral}{", "}, $c->getImagData()) . PHP\_EOL;
 Array data as a one-\/dimensional vector 
 \end{DoxyReturn}
 \mbox{\Hypertarget{class_g_e_array_a1a0335f73a61e044895f40a8dc89b4c6}\label{class_g_e_array_a1a0335f73a61e044895f40a8dc89b4c6}} 
-\index{G\+E\+Array@{G\+E\+Array}!get\+Orders@{get\+Orders}}
-\index{get\+Orders@{get\+Orders}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{get\+Orders()}{getOrders()}}
-{\footnotesize\ttfamily vector$<$ int $>$ G\+E\+Array\+::get\+Orders (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\index{GEArray@{GEArray}!getOrders@{getOrders}}
+\index{getOrders@{getOrders}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{getOrders()}{getOrders()}}
+{\footnotesize\ttfamily vector$<$ int $>$ GEArray\+::get\+Orders (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 
 
@@ -354,25 +371,28 @@ These are ordered from highest to lowest.
 
 Example\+:
 
-{\bfseries Python} 
-\begin{DoxyCode}
-\textcolor{comment}{# Create a 2x3x4 array with values 1.0 - 24.0}
-ge.executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4)"})
-a = ge.getArray(\textcolor{stringliteral}{"a"})
-\textcolor{keywordflow}{print} \textcolor{stringliteral}{"a orders = "} + \textcolor{stringliteral}{"x"}.join(str(n) \textcolor{keywordflow}{for} n \textcolor{keywordflow}{in} a.getOrders())
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{\# Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4)"{}})}
+\DoxyCodeLine{a = ge.getArray(\textcolor{stringliteral}{"{}a"{}})}
+\DoxyCodeLine{\textcolor{keywordflow}{print} \textcolor{stringliteral}{"{}a orders = "{}} + \textcolor{stringliteral}{"{}x"{}}.join(str(n) \textcolor{keywordflow}{for} n \textcolor{keywordflow}{in} a.getOrders())}
+
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-\textcolor{comment}{// Create a 2x3x4 array with values 1.0 - 24.0}
-$ge->executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4);"});
-$a = $ge->getArray(\textcolor{stringliteral}{"a"});
-echo \textcolor{stringliteral}{"a orders = "} . implode(\textcolor{stringliteral}{"x"}, $a->getOrders()) . PHP\_EOL;
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4);"{}});}
+\DoxyCodeLine{\$a = \$ge-\/>getArray(\textcolor{stringliteral}{"{}a"{}});}
+\DoxyCodeLine{echo \textcolor{stringliteral}{"{}a orders = "{}} . implode(\textcolor{stringliteral}{"{}x"{}}, \$a-\/>getOrders()) . PHP\_EOL;}
+
 \end{DoxyCode}
  will result in the output\+: 
-\begin{DoxyCode}
-a orders = 2x3x4
+\begin{DoxyCode}{0}
+\DoxyCodeLine{a orders = 2x3x4}
+
 \end{DoxyCode}
 
 
@@ -380,10 +400,10 @@ a orders = 2x3x4
 Vector of array orders 
 \end{DoxyReturn}
 \mbox{\Hypertarget{class_g_e_array_ac230d6d9b825fb9a6c0dd64444268daf}\label{class_g_e_array_ac230d6d9b825fb9a6c0dd64444268daf}} 
-\index{G\+E\+Array@{G\+E\+Array}!get\+Plane@{get\+Plane}}
-\index{get\+Plane@{get\+Plane}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{get\+Plane()}{getPlane()}}
-{\footnotesize\ttfamily \hyperlink{class_g_e_matrix}{G\+E\+Matrix} $\ast$ G\+E\+Array\+::get\+Plane (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{indices,  }\item[{bool}]{imag = {\ttfamily false} }\end{DoxyParamCaption}) const}
+\index{GEArray@{GEArray}!getPlane@{getPlane}}
+\index{getPlane@{getPlane}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{getPlane()}{getPlane()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_g_e_matrix}{GEMatrix}} $\ast$ GEArray\+::get\+Plane (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{indices,  }\item[{bool}]{imag = {\ttfamily false} }\end{DoxyParamCaption}) const}
 
 
 
@@ -391,60 +411,64 @@ Retrieve a 2-\/dimensional slice from an array.
 
 The indices array will contain N-\/2 normal indices into the array, positioning to the first element of the plane of interest, and two indices set to 0, indicating the dimensions of interest. The plane of elements across those 2 dimensions will be returned, the lower dimension becoming columns and the higher dimension becoming rows. This function returns either the real or the imaginary part of the data, based on the {\itshape imag} argument.
 
-If you need to extract more than two dimensions of data, you can use the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} indexing (square bracket) operators or the G\+A\+U\+S\+S.\+get\+Array(string) function. See the N-\/\+Dimensional Arrays and Working With Arrays chapters of the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} User Guide.
+If you need to extract more than two dimensions of data, you can use the \mbox{\hyperlink{class_g_a_u_s_s}{GAUSS}} indexing (square bracket) operators or the GAUSS.\+get\+Array(string) function. See the N-\/\+Dimensional Arrays and Working With Arrays chapters of the \mbox{\hyperlink{class_g_a_u_s_s}{GAUSS}} User Guide.
 
 Example\+:
 
-{\bfseries Python} 
-\begin{DoxyCode}
-ge.executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4)"})
-a = ge.getArray(\textcolor{stringliteral}{"a"})
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4)"{}})}
+\DoxyCodeLine{a = ge.getArray(\textcolor{stringliteral}{"{}a"{}})}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\# p is now a GEMatrix object}}
+\DoxyCodeLine{p = a.getPlane([0, 2, 0])}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(0, p.getRows()):}
+\DoxyCodeLine{    \textcolor{keywordflow}{for} j \textcolor{keywordflow}{in} range(0, p.getCols()):}
+\DoxyCodeLine{        \textcolor{keywordflow}{print} str(p.getElement(i, j)) + \textcolor{stringliteral}{"{}\(\backslash\)t"{}},}
+\DoxyCodeLine{}
+\DoxyCodeLine{    \textcolor{keywordflow}{print}}
 
-\textcolor{comment}{# p is now a GEMatrix object}
-p = a.getPlane([0, 2, 0])
-
-\textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(0, p.getRows()):
-    \textcolor{keywordflow}{for} j \textcolor{keywordflow}{in} range(0, p.getCols()):
-        \textcolor{keywordflow}{print} str(p.getElement(i, j)) + \textcolor{stringliteral}{"\(\backslash\)t"},
-
-    \textcolor{keywordflow}{print}
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-$ge->executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4);"});
-$a = $ge->getArray(\textcolor{stringliteral}{"a"});
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4);"{}});}
+\DoxyCodeLine{\$a = \$ge-\/>getArray(\textcolor{stringliteral}{"{}a"{}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{// \$p is now a GEMatrix object}}
+\DoxyCodeLine{\$p = \$a-\/>getPlane(array(0, 2, 0));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordflow}{for} (\$i = 0; \$i < \$p-\/>getRows(); ++\$i) \{}
+\DoxyCodeLine{    \textcolor{keywordflow}{for} (\$j = 0; \$j < \$p-\/>getCols(); ++\$j) \{}
+\DoxyCodeLine{        echo \$p-\/>getElement(\$i, \$j) . \textcolor{stringliteral}{"{}\(\backslash\)t"{}};}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{    echo PHP\_EOL;}
+\DoxyCodeLine{\}}
 
-\textcolor{comment}{// $p is now a GEMatrix object}
-$p = $a->getPlane(array(0, 2, 0));
-
-\textcolor{keywordflow}{for} ($i = 0; $i < $p->getRows(); ++$i) \{
-    \textcolor{keywordflow}{for} ($j = 0; $j < $p->getCols(); ++$j) \{
-        echo $p->getElement($i, $j) . \textcolor{stringliteral}{"\(\backslash\)t"};
-    \}
-
-    echo PHP\_EOL;
-\}
 \end{DoxyCode}
  will result in the output\+: 
-\begin{DoxyCode}
-5        6        7        8
-17        18        19        20
+\begin{DoxyCode}{0}
+\DoxyCodeLine{5        6        7        8}
+\DoxyCodeLine{17        18        19        20}
+
 \end{DoxyCode}
  extracted from the values of a\+: 
-\begin{DoxyCode}
-Plane [1,.,.]
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Plane [1,.,.]}
+\DoxyCodeLine{}
+\DoxyCodeLine{       1.0000000        2.0000000        3.0000000        4.0000000}
+\DoxyCodeLine{       5.0000000        6.0000000        7.0000000        8.0000000}
+\DoxyCodeLine{       9.0000000        10.000000        11.000000        12.000000}
+\DoxyCodeLine{}
+\DoxyCodeLine{Plane [2,.,.]}
+\DoxyCodeLine{}
+\DoxyCodeLine{       13.000000        14.000000        15.000000        16.000000}
+\DoxyCodeLine{       17.000000        18.000000        19.000000        20.000000}
+\DoxyCodeLine{       21.000000        22.000000        23.000000        24.000000}
 
-       1.0000000        2.0000000        3.0000000        4.0000000
-       5.0000000        6.0000000        7.0000000        8.0000000
-       9.0000000        10.000000        11.000000        12.000000
-
-Plane [2,.,.]
-
-       13.000000        14.000000        15.000000        16.000000
-       17.000000        18.000000        19.000000        20.000000
-       21.000000        22.000000        23.000000        24.000000
 \end{DoxyCode}
 
 
@@ -459,10 +483,10 @@ Plane [2,.,.]
 2 dimensional array slice. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{class_g_e_array_a2342cd028aa64d75cea4492b8458a6b6}\label{class_g_e_array_a2342cd028aa64d75cea4492b8458a6b6}} 
-\index{G\+E\+Array@{G\+E\+Array}!get\+Vector@{get\+Vector}}
-\index{get\+Vector@{get\+Vector}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{get\+Vector()}{getVector()}}
-{\footnotesize\ttfamily vector$<$ double $>$ G\+E\+Array\+::get\+Vector (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{indices,  }\item[{bool}]{imag = {\ttfamily false} }\end{DoxyParamCaption}) const}
+\index{GEArray@{GEArray}!getVector@{getVector}}
+\index{getVector@{getVector}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{getVector()}{getVector()}}
+{\footnotesize\ttfamily vector$<$ double $>$ GEArray\+::get\+Vector (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{indices,  }\item[{bool}]{imag = {\ttfamily false} }\end{DoxyParamCaption}) const}
 
 
 
@@ -472,45 +496,49 @@ The dimension of interest must be specified with a 0. This will get a vector of 
 
 Example\+:
 
-{\bfseries Python} 
-\begin{DoxyCode}
-ge.executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4)"})
-a = ge.getArray(\textcolor{stringliteral}{"a"})
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4)"{}})}
+\DoxyCodeLine{a = ge.getArray(\textcolor{stringliteral}{"{}a"{}})}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\# p is now a GEMatrix object}}
+\DoxyCodeLine{v = a.getVector([0, 3, 4])}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordflow}{print} \textcolor{stringliteral}{"{}, "{}}.join([str(n) \textcolor{keywordflow}{for} n \textcolor{keywordflow}{in} v])}
 
-\textcolor{comment}{# p is now a GEMatrix object}
-v = a.getVector([0, 3, 4])
-
-\textcolor{keywordflow}{print} \textcolor{stringliteral}{", "}.join([str(n) \textcolor{keywordflow}{for} n \textcolor{keywordflow}{in} v])
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-$ge->executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4);"});
-$a = $ge->getArray(\textcolor{stringliteral}{"a"});
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4);"{}});}
+\DoxyCodeLine{\$a = \$ge-\/>getArray(\textcolor{stringliteral}{"{}a"{}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{// \$p is now a GEMatrix object}}
+\DoxyCodeLine{\$v = \$a-\/>getVector(array(0, 3, 4));}
+\DoxyCodeLine{}
+\DoxyCodeLine{echo implode(\textcolor{stringliteral}{"{}, "{}}, \$v) . PHP\_EOL;}
 
-\textcolor{comment}{// $p is now a GEMatrix object}
-$v = $a->getVector(array(0, 3, 4));
-
-echo implode(\textcolor{stringliteral}{", "}, $v) . PHP\_EOL;
 \end{DoxyCode}
  will result in the output\+: 
-\begin{DoxyCode}
-12, 24
+\begin{DoxyCode}{0}
+\DoxyCodeLine{12, 24}
+
 \end{DoxyCode}
  extracted from the value of a\+: 
-\begin{DoxyCode}
-Plane [1,.,.]
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Plane [1,.,.]}
+\DoxyCodeLine{}
+\DoxyCodeLine{       1.0000000        2.0000000        3.0000000        4.0000000}
+\DoxyCodeLine{       5.0000000        6.0000000        7.0000000        8.0000000}
+\DoxyCodeLine{       9.0000000        10.000000        11.000000        12.000000}
+\DoxyCodeLine{}
+\DoxyCodeLine{Plane [2,.,.]}
+\DoxyCodeLine{}
+\DoxyCodeLine{       13.000000        14.000000        15.000000        16.000000}
+\DoxyCodeLine{       17.000000        18.000000        19.000000        20.000000}
+\DoxyCodeLine{       21.000000        22.000000        23.000000        24.000000}
 
-       1.0000000        2.0000000        3.0000000        4.0000000
-       5.0000000        6.0000000        7.0000000        8.0000000
-       9.0000000        10.000000        11.000000        12.000000
-
-Plane [2,.,.]
-
-       13.000000        14.000000        15.000000        16.000000
-       17.000000        18.000000        19.000000        20.000000
-       21.000000        22.000000        23.000000        24.000000
 \end{DoxyCode}
 
 
@@ -525,10 +553,10 @@ Plane [2,.,.]
 Vector of data 
 \end{DoxyReturn}
 \mbox{\Hypertarget{class_g_e_array_a0e89787df523a69a1834c89adcfdfc3f}\label{class_g_e_array_a0e89787df523a69a1834c89adcfdfc3f}} 
-\index{G\+E\+Array@{G\+E\+Array}!set\+Element@{set\+Element}}
-\index{set\+Element@{set\+Element}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{set\+Element()}{setElement()}}
-{\footnotesize\ttfamily bool G\+E\+Array\+::set\+Element (\begin{DoxyParamCaption}\item[{double}]{value,  }\item[{vector$<$ int $>$}]{indices,  }\item[{bool}]{imag = {\ttfamily false} }\end{DoxyParamCaption})}
+\index{GEArray@{GEArray}!setElement@{setElement}}
+\index{setElement@{setElement}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{setElement()}{setElement()}}
+{\footnotesize\ttfamily bool GEArray\+::set\+Element (\begin{DoxyParamCaption}\item[{double}]{value,  }\item[{vector$<$ int $>$}]{indices,  }\item[{bool}]{imag = {\ttfamily false} }\end{DoxyParamCaption})}
 
 
 
@@ -538,57 +566,61 @@ The indices array will contain N normal indices into the array, indicating the e
 
 Example\+:
 
-{\bfseries Python} 
-\begin{DoxyCode}
-\textcolor{comment}{# Create a 2x3x4 array with values 1.0 - 24.0}
-ge.executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4)"})
-a = ge.getArray(\textcolor{stringliteral}{"a"})
-a.setElement(0, [1, 1, 2]) \textcolor{comment}{# Second element on first row of first plane}
-a.setElement(0, [1, 2, 1]) \textcolor{comment}{# First element on second row of first plane}
-a.setElement(0, [2, 1, 1]) \textcolor{comment}{# First element on first row of second plane}
-ge.setSymbol(a, \textcolor{stringliteral}{"a"})
-ge.executeString(\textcolor{stringliteral}{"print a"})
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{\# Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4)"{}})}
+\DoxyCodeLine{a = ge.getArray(\textcolor{stringliteral}{"{}a"{}})}
+\DoxyCodeLine{a.setElement(0, [1, 1, 2]) \textcolor{comment}{\# Second element on first row of first plane}}
+\DoxyCodeLine{a.setElement(0, [1, 2, 1]) \textcolor{comment}{\# First element on second row of first plane}}
+\DoxyCodeLine{a.setElement(0, [2, 1, 1]) \textcolor{comment}{\# First element on first row of second plane}}
+\DoxyCodeLine{ge.setSymbol(a, \textcolor{stringliteral}{"{}a"{}})}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}print a"{}})}
+
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-\textcolor{comment}{// Create a 2x3x4 array with values 1.0 - 24.0}
-$ge->executeString(\textcolor{stringliteral}{"a = areshape(seqa(1, 1, 24), 2|3|4);"});
-$a = $ge->getArray(\textcolor{stringliteral}{"a"});
-$a->setElement(0, array(1, 1, 2)); \textcolor{comment}{// Second element on first row of first plane}
-$a->setElement(0, array(1, 2, 1)); \textcolor{comment}{// First element on second row of first plane}
-$a->setElement(0, array(2, 1, 1)); \textcolor{comment}{// First element on first row of second plane}
-$ge->setSymbol($a, \textcolor{stringliteral}{"a"});
-$ge->executeString(\textcolor{stringliteral}{"print a;"});
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// Create a 2x3x4 array with values 1.0 -\/ 24.0}}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}a = areshape(seqa(1, 1, 24), 2|3|4);"{}});}
+\DoxyCodeLine{\$a = \$ge-\/>getArray(\textcolor{stringliteral}{"{}a"{}});}
+\DoxyCodeLine{\$a-\/>setElement(0, array(1, 1, 2)); \textcolor{comment}{// Second element on first row of first plane}}
+\DoxyCodeLine{\$a-\/>setElement(0, array(1, 2, 1)); \textcolor{comment}{// First element on second row of first plane}}
+\DoxyCodeLine{\$a-\/>setElement(0, array(2, 1, 1)); \textcolor{comment}{// First element on first row of second plane}}
+\DoxyCodeLine{\$ge-\/>setSymbol(\$a, \textcolor{stringliteral}{"{}a"{}});}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}print a;"{}});}
+
 \end{DoxyCode}
  will result in the output\+: 
-\begin{DoxyCode}
-Plane [1,.,.]
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Plane [1,.,.]}
+\DoxyCodeLine{}
+\DoxyCodeLine{       1.0000000        0.0000000        3.0000000        4.0000000}
+\DoxyCodeLine{       0.0000000        6.0000000        7.0000000        8.0000000}
+\DoxyCodeLine{       9.0000000        10.000000        11.000000        12.000000}
+\DoxyCodeLine{}
+\DoxyCodeLine{Plane [2,.,.]}
+\DoxyCodeLine{}
+\DoxyCodeLine{        0.000000        14.000000        15.000000        16.000000}
+\DoxyCodeLine{       17.000000        18.000000        19.000000        20.000000}
+\DoxyCodeLine{       21.000000        22.000000        23.000000        24.000000}
 
-       1.0000000        0.0000000        3.0000000        4.0000000
-       0.0000000        6.0000000        7.0000000        8.0000000
-       9.0000000        10.000000        11.000000        12.000000
-
-Plane [2,.,.]
-
-        0.000000        14.000000        15.000000        16.000000
-       17.000000        18.000000        19.000000        20.000000
-       21.000000        22.000000        23.000000        24.000000
 \end{DoxyCode}
  extracted from the values of a\+: 
-\begin{DoxyCode}
-Plane [1,.,.]
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Plane [1,.,.]}
+\DoxyCodeLine{}
+\DoxyCodeLine{       1.0000000        2.0000000        3.0000000        4.0000000}
+\DoxyCodeLine{       5.0000000        6.0000000        7.0000000        8.0000000}
+\DoxyCodeLine{       9.0000000        10.000000        11.000000        12.000000}
+\DoxyCodeLine{}
+\DoxyCodeLine{Plane [2,.,.]}
+\DoxyCodeLine{}
+\DoxyCodeLine{       13.000000        14.000000        15.000000        16.000000}
+\DoxyCodeLine{       17.000000        18.000000        19.000000        20.000000}
+\DoxyCodeLine{       21.000000        22.000000        23.000000        24.000000}
 
-       1.0000000        2.0000000        3.0000000        4.0000000
-       5.0000000        6.0000000        7.0000000        8.0000000
-       9.0000000        10.000000        11.000000        12.000000
-
-Plane [2,.,.]
-
-       13.000000        14.000000        15.000000        16.000000
-       17.000000        18.000000        19.000000        20.000000
-       21.000000        22.000000        23.000000        24.000000
 \end{DoxyCode}
 
 
@@ -602,37 +634,23 @@ Plane [2,.,.]
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{class_g_e_array_aedc9a359a4353dd8a430b048d526ce1f}\label{class_g_e_array_aedc9a359a4353dd8a430b048d526ce1f}} 
-\index{G\+E\+Array@{G\+E\+Array}!size@{size}}
-\index{size@{size}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{size()}{size()}}
-{\footnotesize\ttfamily int G\+E\+Array\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+\index{GEArray@{GEArray}!size@{size}}
+\index{size@{size}!GEArray@{GEArray}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily int GEArray\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
 
 
 
 Returns the total element count. 
 
-This is the product of \hyperlink{class_g_e_array_a1a0335f73a61e044895f40a8dc89b4c6}{get\+Orders()}.
+This is the product of \mbox{\hyperlink{class_g_e_array_a1a0335f73a61e044895f40a8dc89b4c6}{get\+Orders()}}.
 
 \begin{DoxyReturn}{Returns}
 Total element count 
 \end{DoxyReturn}
 
 
-Reimplemented from \hyperlink{class_g_e_symbol_a534b11b49a640420aaca9433db0c6479}{G\+E\+Symbol}.
-
-\mbox{\Hypertarget{class_g_e_array_a9f5b44db0f65c13c2ac15dc119b81459}\label{class_g_e_array_a9f5b44db0f65c13c2ac15dc119b81459}} 
-\index{G\+E\+Array@{G\+E\+Array}!to\+String@{to\+String}}
-\index{to\+String@{to\+String}!G\+E\+Array@{G\+E\+Array}}
-\subsubsection{\texorpdfstring{to\+String()}{toString()}}
-{\footnotesize\ttfamily string G\+E\+Array\+::to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
-
-
-
-Returns a string representation of this object. 
-
-
-
-Reimplemented from \hyperlink{class_g_e_symbol_a5c0d4c23b20574c28bddfe234409aa37}{G\+E\+Symbol}.
+Reimplemented from \mbox{\hyperlink{class_g_e_symbol_a534b11b49a640420aaca9433db0c6479}{GESymbol}}.
 
 
 

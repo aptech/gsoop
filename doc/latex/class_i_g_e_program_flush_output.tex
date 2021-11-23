@@ -1,5 +1,5 @@
-\hypertarget{class_i_g_e_program_flush_output}{}\section{I\+G\+E\+Program\+Flush\+Output Class Reference}
-\label{class_i_g_e_program_flush_output}\index{I\+G\+E\+Program\+Flush\+Output@{I\+G\+E\+Program\+Flush\+Output}}
+\hypertarget{class_i_g_e_program_flush_output}{}\doxysection{IGEProgram\+Flush\+Output Class Reference}
+\label{class_i_g_e_program_flush_output}\index{IGEProgramFlushOutput@{IGEProgramFlushOutput}}
 
 
 Flush program output callback.  
@@ -9,7 +9,7 @@ Flush program output callback.
 
 {\ttfamily \#include $<$gefuncwrapper.\+h$>$}
 
-\subsection*{Public Member Functions}
+\doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{class_i_g_e_program_flush_output_a2143086c607a7caac7f5e201cee512d3}\label{class_i_g_e_program_flush_output_a2143086c607a7caac7f5e201cee512d3}} 
@@ -17,52 +17,49 @@ virtual void {\bfseries invoke} ()=0
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
+\doxysubsection{Detailed Description}
 Flush program output callback. 
 
-The \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine will call this if it needs to force printing of any pending output. This function is useful if your \hyperlink{class_i_g_e_program_output}{I\+G\+E\+Program\+Output} class buffers incoming data.
+The \mbox{\hyperlink{class_g_a_u_s_s}{GAUSS}} Engine will call this if it needs to force printing of any pending output. This function is useful if your \mbox{\hyperlink{class_i_g_e_program_output}{IGEProgram\+Output}} class buffers incoming data.
 
-{\bfseries Note\+:} With all callbacks, the {\ttfamily thisown} flag must be set to {\ttfamily 0} on instantiation. This informs the target language that this object will be owned and properly deleted by the Engine.
+{\bfseries{Note\+:}} With all callbacks, the {\ttfamily thisown} flag must be set to {\ttfamily 0} on instantiation. This informs the target language that this object will be owned and properly deleted by the Engine.
 
-{\bfseries Python} 
-\begin{DoxyCode}
-\textcolor{keyword}{class }FlushOutput(\hyperlink{class_i_g_e_program_flush_output}{IGEProgramFlushOutput}):
-    \textcolor{keyword}{def }invoke(self):
-        \textcolor{keywordflow}{print} \textcolor{stringliteral}{"A flush was requested."}
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{class }FlushOutput(\mbox{\hyperlink{class_i_g_e_program_flush_output}{IGEProgramFlushOutput}}):}
+\DoxyCodeLine{    \textcolor{keyword}{def }invoke(self):}
+\DoxyCodeLine{        \textcolor{keywordflow}{print} \textcolor{stringliteral}{"{}A flush was requested."{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{flush = FlushOutput()}
+\DoxyCodeLine{flush.thisown = 0}
+\DoxyCodeLine{}
+\DoxyCodeLine{ge.setProgramFlushOutput(flush)}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}print /flush \(\backslash\)"{}Hello World!\(\backslash\)"{}"{}})}
 
-flush = FlushOutput()
-flush.thisown = 0
-
-ge.setProgramFlushOutput(flush)
-ge.executeString(\textcolor{stringliteral}{"print /flush \(\backslash\)"Hello World!\(\backslash\)""})
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-\textcolor{keyword}{class }FlushOutput \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_flush_output}{IGEProgramFlushOutput} \{
-    \textcolor{keyword}{function} invoke() \{
-        echo \textcolor{stringliteral}{"A flush was requested."};
-    \}
-\}
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{class }FlushOutput \textcolor{keyword}{extends} \mbox{\hyperlink{class_i_g_e_program_flush_output}{IGEProgramFlushOutput}} \{}
+\DoxyCodeLine{    \textcolor{keyword}{function} invoke() \{}
+\DoxyCodeLine{        echo \textcolor{stringliteral}{"{}A flush was requested."{}};}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\$flush = \textcolor{keyword}{new} FlushOutput();}
+\DoxyCodeLine{\$flush-\/>thisown = 0;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\$ge-\/>setProgramFlushOutput(\$flush);}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}print /flush \(\backslash\)"{}Hello World!\(\backslash\)"{};"{}});}
 
-$flush = \textcolor{keyword}{new} FlushOutput();
-$flush->thisown = 0;
-
-$ge->setProgramFlushOutput($flush);
-$ge->executeString(\textcolor{stringliteral}{"print /flush \(\backslash\)"Hello World!\(\backslash\)";"});
 \end{DoxyCode}
 
 
-will result in the output\+: 
-\begin{DoxyCode}
-Hello World!
-A flush was requested.
-\end{DoxyCode}
-
+will result in the output\+:  Hello World! A flush was requested. \`{}\`{}\`{}
 
 \begin{DoxySeeAlso}{See also}
-\hyperlink{class_g_a_u_s_s_a4b7ecb768f49b98110729db7e5728296}{G\+A\+U\+S\+S\+::set\+Program\+Flush\+Output(\+I\+G\+E\+Program\+Flush\+Output$\ast$)} 
+\mbox{\hyperlink{class_g_a_u_s_s_a4b7ecb768f49b98110729db7e5728296}{GAUSS\+::set\+Program\+Flush\+Output(\+IGEProgram\+Flush\+Output$\ast$)}} 
 \end{DoxySeeAlso}
 
 

@@ -9,7 +9,9 @@
 %include "typemaps.i"
 
 #ifndef SWIGJAVASCRIPT
+#ifndef SWIGJAVA
 %include "factory.i"
+#endif
 #endif
 
 #ifdef SWIGPYTHON

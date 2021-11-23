@@ -1,15 +1,15 @@
-\hypertarget{class_i_g_e_program_input_char}{}\section{I\+G\+E\+Program\+Input\+Char Class Reference}
-\label{class_i_g_e_program_input_char}\index{I\+G\+E\+Program\+Input\+Char@{I\+G\+E\+Program\+Input\+Char}}
+\hypertarget{class_i_g_e_program_input_char}{}\doxysection{IGEProgram\+Input\+Char Class Reference}
+\label{class_i_g_e_program_input_char}\index{IGEProgramInputChar@{IGEProgramInputChar}}
 
 
-Character input callback function for the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine.  
+Character input callback function for the \mbox{\hyperlink{class_g_a_u_s_s}{GAUSS}} Engine.  
 
 
 
 
 {\ttfamily \#include $<$gefuncwrapper.\+h$>$}
 
-\subsection*{Public Member Functions}
+\doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{class_i_g_e_program_input_char_a598db017e0c0456b09e8a32f9f635d08}\label{class_i_g_e_program_input_char_a598db017e0c0456b09e8a32f9f635d08}} 
@@ -17,14 +17,14 @@ virtual int {\bfseries invoke} ()=0
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Character input callback function for the \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} Engine. 
+\doxysubsection{Detailed Description}
+Character input callback function for the \mbox{\hyperlink{class_g_a_u_s_s}{GAUSS}} Engine. 
 
-This is called when \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} requires character input.
+This is called when \mbox{\hyperlink{class_g_a_u_s_s}{GAUSS}} requires character input.
 
-{\bfseries Note\+:} With all callbacks, the {\ttfamily thisown} flag must be set to {\ttfamily 0} on instantiation. This informs the target language that this object will be owned and properly deleted by the Engine.
+{\bfseries{Note\+:}} With all callbacks, the {\ttfamily thisown} flag must be set to {\ttfamily 0} on instantiation. This informs the target language that this object will be owned and properly deleted by the Engine.
 
-\subparagraph*{\hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} commands which activate this callback}
+\doxysubparagraph*{\mbox{\hyperlink{class_g_a_u_s_s}{GAUSS}} commands which activate this callback}
 
 
 \begin{DoxyItemize}
@@ -32,54 +32,57 @@ This is called when \hyperlink{class_g_a_u_s_s}{G\+A\+U\+SS} requires character 
 \item {\ttfamily key}
 \end{DoxyItemize}
 
-{\bfseries Python} 
-\begin{DoxyCode}
-\textcolor{keyword}{class }CharInput(\hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar}):
-    \textcolor{keyword}{def }invoke(self):
-        \textcolor{comment}{# Return buffered input}
-        \textcolor{keywordflow}{return} ord(\textcolor{stringliteral}{"c"}) \textcolor{comment}{# Return the integer value of 'c'}
+{\bfseries{Python}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{class }CharInput(\mbox{\hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar}}):}
+\DoxyCodeLine{    \textcolor{keyword}{def }invoke(self):}
+\DoxyCodeLine{        \textcolor{comment}{\# Return buffered input}}
+\DoxyCodeLine{        \textcolor{keywordflow}{return} ord(\textcolor{stringliteral}{"{}c"{}}) \textcolor{comment}{\# Return the integer value of 'c'}}
+\DoxyCodeLine{}
+\DoxyCodeLine{charCallback = CharInput()}
+\DoxyCodeLine{charCallback.thisown = 0}
+\DoxyCodeLine{}
+\DoxyCodeLine{ge.setProgramInputCharBlocking(charCallback)}
+\DoxyCodeLine{ge.setProgramInputBlocking(charCallback)}
+\DoxyCodeLine{}
+\DoxyCodeLine{ge.executeString(\textcolor{stringliteral}{"{}k = key"{}})}
+\DoxyCodeLine{}
+\DoxyCodeLine{k = ge.getScalar(\textcolor{stringliteral}{"{}k"{}})}
+\DoxyCodeLine{\textcolor{keywordflow}{print} \textcolor{stringliteral}{"{}k = "{}} + str(k)}
 
-charCallback = CharInput()
-charCallback.thisown = 0
-
-ge.setProgramInputCharBlocking(charCallback)
-ge.setProgramInputBlocking(charCallback)
-
-ge.executeString(\textcolor{stringliteral}{"k = key"})
-
-k = ge.getScalar(\textcolor{stringliteral}{"k"})
-\textcolor{keywordflow}{print} \textcolor{stringliteral}{"k = "} + str(k)
 \end{DoxyCode}
 
 
-{\bfseries P\+HP} 
-\begin{DoxyCode}
-\textcolor{keyword}{class }CharInput \textcolor{keyword}{extends} \hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar} \{
-    \textcolor{keyword}{function} invoke() \{
-        \textcolor{comment}{// Return character input}
-        \textcolor{keywordflow}{return} ord(\textcolor{stringliteral}{"c"}); \textcolor{comment}{// Return the integer value of 'c'}
-    \}
-\}
+{\bfseries{PHP}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{class }CharInput \textcolor{keyword}{extends} \mbox{\hyperlink{class_i_g_e_program_input_char}{IGEProgramInputChar}} \{}
+\DoxyCodeLine{    \textcolor{keyword}{function} invoke() \{}
+\DoxyCodeLine{        \textcolor{comment}{// Return character input}}
+\DoxyCodeLine{        \textcolor{keywordflow}{return} ord(\textcolor{stringliteral}{"{}c"{}}); \textcolor{comment}{// Return the integer value of 'c'}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\$charCallback = \textcolor{keyword}{new} CharInput();}
+\DoxyCodeLine{\$charCallback-\/>thisown = 0;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\$ge-\/>setProgramInputChar(\$charCallback);}
+\DoxyCodeLine{\$ge-\/>executeString(\textcolor{stringliteral}{"{}k = key;"{}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\$k = \$ge-\/>getScalar(\textcolor{stringliteral}{"{}k"{}});}
+\DoxyCodeLine{echo \textcolor{stringliteral}{"{}k = "{}} . \$k . PHP\_EOL;}
 
-$charCallback = \textcolor{keyword}{new} CharInput();
-$charCallback->thisown = 0;
-
-$ge->setProgramInputChar($charCallback);
-$ge->executeString(\textcolor{stringliteral}{"k = key;"});
-
-$k = $ge->getScalar(\textcolor{stringliteral}{"k"});
-echo \textcolor{stringliteral}{"k = "} . $k . PHP\_EOL;
 \end{DoxyCode}
  will result in the output\+: 
-\begin{DoxyCode}
-k = 99
+\begin{DoxyCode}{0}
+\DoxyCodeLine{k = 99}
+
 \end{DoxyCode}
 
 
 \begin{DoxySeeAlso}{See also}
-\hyperlink{class_g_a_u_s_s_a71a60afb143ae00b18d6fe3fd99f316d}{G\+A\+U\+S\+S\+::set\+Program\+Input\+Char(\+I\+G\+E\+Program\+Input\+Char$\ast$)} 
+\mbox{\hyperlink{class_g_a_u_s_s_a71a60afb143ae00b18d6fe3fd99f316d}{GAUSS\+::set\+Program\+Input\+Char(\+IGEProgram\+Input\+Char$\ast$)}} 
 
-\hyperlink{class_g_a_u_s_s_a300d6e33dbfd2a45f56ff2769f585435}{G\+A\+U\+S\+S\+::set\+Program\+Input\+Char\+Blocking(\+I\+G\+E\+Program\+Input\+Char$\ast$)} 
+\mbox{\hyperlink{class_g_a_u_s_s_a300d6e33dbfd2a45f56ff2769f585435}{GAUSS\+::set\+Program\+Input\+Char\+Blocking(\+IGEProgram\+Input\+Char$\ast$)}} 
 \end{DoxySeeAlso}
 
 

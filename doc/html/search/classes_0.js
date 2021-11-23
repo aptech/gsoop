@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['doublearray',['doubleArray',['../classdouble_array.html',1,'']]]
+  ['doublearray_98',['doubleArray',['../classdouble_array.html',1,'']]]
 ];

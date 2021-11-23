@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['workspacemanager',['WorkspaceManager',['../class_workspace_manager.html',1,'']]]
+  ['workspacemanager_97',['WorkspaceManager',['../class_workspace_manager.html',1,'']]]
 ];
