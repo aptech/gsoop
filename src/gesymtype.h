@@ -18,11 +18,11 @@ def checkType(x):
         GESymType.MATRIX:
             "Symbol is a matrix.",
         GESymType.STRING:
-            "Symbol is a string.",
+            "Symbol is a std::string.",
         GESymType.STRUCT:
             "Symbol is a struct.",
         GESymType.STRING_ARRAY:
-            "Symbol is a string array.",
+            "Symbol is a std::string array.",
         GESymType.ARRAY_GAUSS:
             "Symbol is an array.",
         GESymType.PROC:
@@ -58,13 +58,13 @@ function checkType($type) {
             return "Symbol is a matrix.";
             break;
         case GESymType::STRING:
-            return "Symbol is a string.";
+            return "Symbol is a std::string.";
             break;
         case GESymType::STRUCT:
             return "Symbol is a struct.";
             break;
         case GESymType::STRING_ARRAY:
-            return "Symbol is a string array.";
+            return "Symbol is a std::string array.";
             break;
         case GESymType::ARRAY_GAUSS:
             return "Symbol is an array.";
@@ -95,7 +95,7 @@ echo checkType($aType) . PHP_EOL;
  * results in output:
 ```
 Symbol is a matrix.
-Symbol is a string.
+Symbol is a std::string.
 Symbol is an array.
 ```
  *

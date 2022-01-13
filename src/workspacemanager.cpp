@@ -1,10 +1,10 @@
 #include "workspacemanager.h"
 #include "geworkspace.h"
 #include <cstring>
-using namespace std;
+
 
 WorkspaceManager::WorkspaceManager() 
-	: current_(0)
+    : current_(0)
 {
 
 }
@@ -24,14 +24,14 @@ bool WorkspaceManager::setCurrent(GEWorkspace *wh) {
 
     if (!this->contains(wh)) {
         std::lock_guard<std::mutex> guard(mutex_);
-        workspaces_.insert(pair<string, GEWorkspace*>(wh->name(), wh));
+        workspaces_.insert(std::pair<std::string, GEWorkspace*>(wh->name(), wh));
     }
 
     return true;
 }
 
 bool WorkspaceManager::contains(GEWorkspace *wh) const {
-    unordered_map<string, GEWorkspace*>::const_iterator it;
+    std::unordered_map<std::string, GEWorkspace*>::const_iterator it;
 
     std::lock_guard<std::mutex> guard(mutex_);
 
@@ -43,7 +43,7 @@ bool WorkspaceManager::contains(GEWorkspace *wh) const {
     return false;
 }
 
-GEWorkspace* WorkspaceManager::getWorkspace(const string &name) const {
+GEWorkspace* WorkspaceManager::getWorkspace(const std::string &name) const {
     std::lock_guard<std::mutex> guard(mutex_);
 
     if (workspaces_.find(name) == workspaces_.end())
@@ -58,7 +58,7 @@ void WorkspaceManager::destroyAll() {
 
     std::lock_guard<std::mutex> guard(mutex_);
 
-    unordered_map<string, GEWorkspace*>::iterator it;
+    std::unordered_map<std::string, GEWorkspace*>::iterator it;
     for (it = workspaces_.begin(); it != workspaces_.end();) {
         GEWorkspace *wh = it->second;
         delete wh;
@@ -78,7 +78,7 @@ bool WorkspaceManager::destroy(GEWorkspace *wh) {
         return false;
 
     mutex_.lock();
-    unordered_map<string, GEWorkspace*>::iterator it = workspaces_.find(wh->name());
+    std::unordered_map<std::string, GEWorkspace*>::iterator it = workspaces_.find(wh->name());
     if (it != workspaces_.end())
         this->workspaces_.erase(it);
     mutex_.unlock();
@@ -88,7 +88,7 @@ bool WorkspaceManager::destroy(GEWorkspace *wh) {
     return true;
 }
 
-GEWorkspace* WorkspaceManager::create(const string &name) {
+GEWorkspace* WorkspaceManager::create(const std::string &name) {
     if (name.empty())
         return nullptr;
 
@@ -105,19 +105,19 @@ GEWorkspace* WorkspaceManager::create(const string &name) {
     GEWorkspace *workspace = new GEWorkspace(name, wh);
 
     std::lock_guard<std::mutex> guard(mutex_);
-    workspaces_.insert(pair<string, GEWorkspace*>(name, workspace));
+    workspaces_.insert(std::pair<std::string, GEWorkspace*>(name, workspace));
 
     return workspace;
 }
 
-vector<string> WorkspaceManager::workspaceNames() const {
-    vector<string> names;
+std::vector<std::string> WorkspaceManager::workspaceNames() const {
+    std::vector<std::string> names;
 
     std::lock_guard<std::mutex> guard(mutex_);
 
     names.reserve(workspaces_.size());
 
-    unordered_map<string, GEWorkspace*>::const_iterator it;
+    std::unordered_map<std::string, GEWorkspace*>::const_iterator it;
 
     int count = 0;
 

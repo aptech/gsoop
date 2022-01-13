@@ -143,12 +143,12 @@ public:
     bool setSymbol(GEStringArray*, std::string name);
     bool setSymbol(GEStringArray*, std::string name, GEWorkspace *workspace);
 
-	bool moveSymbol(GEMatrix*, std::string name);
-	bool moveSymbol(GEMatrix*, std::string name, GEWorkspace *workspace);
-	bool moveSymbol(GEArray*, std::string name);
-	bool moveSymbol(GEArray*, std::string name, GEWorkspace *workspace);
-	bool moveSymbol(GEStringArray *symbol, std::string name);
-	bool moveSymbol(GEStringArray *symbol, std::string name, GEWorkspace *workspace);
+    bool moveSymbol(GEMatrix*, std::string name);
+    bool moveSymbol(GEMatrix*, std::string name, GEWorkspace *workspace);
+    bool moveSymbol(GEArray*, std::string name);
+    bool moveSymbol(GEArray*, std::string name, GEWorkspace *workspace);
+    bool moveSymbol(GEStringArray *symbol, std::string name);
+    bool moveSymbol(GEStringArray *symbol, std::string name, GEWorkspace *workspace);
 
     bool moveMatrix(doubleArray *data, int rows, int cols, bool is_complex, std::string name);
     bool moveMatrix(doubleArray *data, int rows, int cols, bool is_complex, std::string name, GEWorkspace* workspace);

@@ -24,7 +24,7 @@
 
 #include <stdio.h>
 #include <mutex>
-using namespace std;
+
 
 #ifdef _WIN32
 #  include <direct.h>
@@ -156,8 +156,8 @@ void GAUSS::Init(std::string homePath) {
     GAUSS::inputCheckFunc_ = 0;
 
     if (homePath.empty()) {
-        cerr << "Unable to find GAUSS Home directory. Aborting." << endl;
-        cerr.flush();
+        std::cerr << "Unable to find GAUSS Home directory. Aborting." << std::endl;
+        std::cerr.flush();
         return;
     }
 }
@@ -179,16 +179,16 @@ bool GAUSS::initialize() {
     if (!setHome(this->d->gauss_home_)) {
         std::string errorString = getLastErrorText();
 
-        cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << endl;
-        cerr.flush();
+        std::cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << std::endl;
+        std::cerr.flush();
         return false;
     }
 
     if (GAUSS_Initialize() >  0) {
         std::string errorString = getLastErrorText();
 
-        cerr << "Could initialize GAUSS (Error: " << errorString << ")" << endl;
-        cerr.flush();
+        std::cerr << "Could initialize GAUSS (Error: " << errorString << ")" << std::endl;
+        std::cerr.flush();
         return false;
     }
 
@@ -197,8 +197,8 @@ bool GAUSS::initialize() {
     if (workspace->workspace() == nullptr) {
         std::string errorString = getLastErrorText();
 
-        cerr << "Could not create workspace (Error: " << errorString << ")" << endl;
-        cerr.flush();
+        std::cerr << "Could not create workspace (Error: " << errorString << ")" << std::endl;
+        std::cerr.flush();
         return false;
     }
 
@@ -1680,12 +1680,12 @@ GEArray* GAUSS::getArrayAndClear(std::string name, GEWorkspace *workspace) const
 }
 
 /**
- * Retrieve a string array from the GAUSS symbol table in the active workspace. This will be a copy of the symbol
+ * Retrieve a std::string array from the GAUSS symbol table in the active workspace. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without first
  * calling setSymbol(GEStringArray*, std::string).
  *
  * @param name        Name of GAUSS symbol
- * @return        string array object
+ * @return        std::string array object
  *
  * @see getStringArray(std::string, GEWorkspace*)
  * @see setSymbol(GEStringArray*, std::string)
@@ -1696,13 +1696,13 @@ GEStringArray* GAUSS::getStringArray(std::string name) const {
 }
 
 /**
- * Retrieve a string array from the GAUSS symbol table in workspace _wh_. This will be a copy of the symbol
+ * Retrieve a std::string array from the GAUSS symbol table in workspace _wh_. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without first
  * calling setSymbol(GEStringArray*, std::string).
  *
  * @param name        Name of GAUSS symbol
  * @param workspace   Workspace handle
- * @return        string array object
+ * @return        std::string array object
  *
  * @see getStringArray(std::string)
  * @see setSymbol(GEStringArray*, std::string)
@@ -2001,7 +2001,7 @@ bool GAUSS::setSymbol(std::string str, std::string name, GEWorkspace *workspace)
 }
 
 /**
- * Add a string array to the active workspace with the specified symbol name.
+ * Add a std::string array to the active workspace with the specified symbol name.
  *
  * Example:
  *
@@ -2019,7 +2019,7 @@ $sa = new GEStringArray(saData, 2, 2);
 $ge->setSymbol($sa, "sa");
 ```
  *
- * @param sa        string array to add to GAUSS symbol table
+ * @param sa        std::string array to add to GAUSS symbol table
  * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
@@ -2030,7 +2030,7 @@ bool GAUSS::setSymbol(GEStringArray *sa, std::string name) {
 }
 
 /**
- * Add a string array to a specific workspace with the specified symbol name.
+ * Add a std::string array to a specific workspace with the specified symbol name.
  *
  * Example:
  *
@@ -2050,7 +2050,7 @@ $sa = new GEStringArray(saData, 2, 2);
 $ge->setSymbol($sa, "sa", $myWorkspace);
 ```
  *
- * @param sa        string array to add to GAUSS symbol table
+ * @param sa        std::string array to add to GAUSS symbol table
  * @param name        Name to give newly added symbol
  * @param workspace    Workspace handle
  * @return True on success, false on failure
@@ -2222,7 +2222,7 @@ bool GAUSS::moveSymbol(GEArray *array, std::string name, GEWorkspace *workspace)
 }
 
 /**
-* Add a string array to the active workspace with the specified symbol name.
+* Add a std::string array to the active workspace with the specified symbol name.
 * This implementation clears the local data after the move is completed.
 *
 * Example:
@@ -2241,7 +2241,7 @@ $sa = new GEStringArray(saData, 2, 2);
 $ge->moveSymbol($sa, "sa");
 ```
 *
-* @param sa        string array to add to GAUSS symbol table
+* @param sa        std::string array to add to GAUSS symbol table
 * @param name        Name to give newly added symbol
 * @return True on success, false on failure
 *
@@ -2252,7 +2252,7 @@ bool GAUSS::moveSymbol(GEStringArray *sa, std::string name) {
 }
 
 /**
-* Add a string array to a specific workspace with the specified symbol name.
+* Add a std::string array to a specific workspace with the specified symbol name.
 * This implementation clears the local data after the move is completed.
 *
 * Example:
@@ -2273,7 +2273,7 @@ $sa = new GEStringArray(saData, 2, 2);
 $ge->moveSymbol($sa, "sa", $myWorkspace);
 ```
 *
-* @param sa        string array to add to GAUSS symbol table
+* @param sa        std::string array to add to GAUSS symbol table
 * @param name        Name to give newly added symbol
 * @param workspace    Workspace handle
 * @return True on success, false on failure
@@ -2744,7 +2744,7 @@ void GAUSS::setProgramFlushOutput(IGEProgramFlushOutput *func) {
 __Python__
 ```py
 class StringInput(IGEProgramInputString):
-    # The callback does not return a string directly, rather through a method call.
+    # The callback does not return a std::string directly, rather through a method call.
     def invoke(self, length) {
         self.setValue("Hello World!")
 
@@ -2761,7 +2761,7 @@ print "s = " + s
 __PHP__
 ```php
 class StringInput extends IGEProgramInputString {
-    // The callback does not return a string directly, rather through a method call.
+    // The callback does not return a std::string directly, rather through a method call.
     function invoke($length) {
         $this->setValue("Hello World!");
     }

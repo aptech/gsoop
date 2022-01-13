@@ -5,30 +5,30 @@
 #include <stdio.h>
 #include <vector>
 #include <string>
-using namespace std;
+
 
 /**
- * GAUSS String Array Symbol type. Represents a standard string array. Data is stored
- * internally as a vector.
+ * GAUSS String Array Symbol type. Represents a standard std::string array. Data is stored
+ * internally as a std::vector.
  *
  */
 class GAUSS_EXPORT GEStringArray : public GESymbol
 {
 public:
     GEStringArray();
-    GEStringArray(VECTOR_DATA(string) data);
-    GEStringArray(VECTOR_DATA(string) data, int rows, int cols);
-    void setData(VECTOR_DATA(string) data, int, int);
-    bool setElement(const string &value, int index);
-    bool setElement(const string &value, int row, int col);
+    GEStringArray(VECTOR_DATA(std::string) data);
+    GEStringArray(VECTOR_DATA(std::string) data, int rows, int cols);
+    void setData(VECTOR_DATA(std::string) data, int, int);
+    bool setElement(const std::string &value, int index);
+    bool setElement(const std::string &value, int row, int col);
 
-    string getElement(int index) const;
-    string getElement(int row, int col) const;
-    vector<string> getData() const;
+    std::string getElement(int index) const;
+    std::string getElement(int row, int col) const;
+    std::vector<std::string> getData() const;
 
-    virtual string toString() const;
+    virtual std::string toString() const;
     virtual int size() const { return data_.size(); }
-	virtual void clear() { data_.clear(); data_.resize(1); setRows(1); setCols(1); }
+    virtual void clear() { data_.clear(); data_.resize(1); setRows(1); setCols(1); }
 
     StringArray_t* toInternal();
 
@@ -40,7 +40,7 @@ private:
     GEStringArray(StringArray_t*);
     bool fromStringArray(StringArray_t*);
 
-    vector<string> data_;
+    std::vector<std::string> data_;
 
     friend class GAUSS;
     friend class GAUSSPrivate;

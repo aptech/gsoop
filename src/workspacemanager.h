@@ -7,7 +7,6 @@
 #include <vector>
 #include <mutex>
 #include <iostream>
-using namespace std;
 
 class GAUSS_EXPORT WorkspaceManager
 {

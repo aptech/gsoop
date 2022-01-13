@@ -2,11 +2,11 @@
 #define GEFUNCWRAPPER_H
 
 #include <string>
-using namespace std;
+
 
 /**
  * This is the callback function that GAUSS will call to do normal program output.
- * This same callback is also used for error output as well, since a string is
+ * This same callback is also used for error output as well, since a std::string is
  * passed to both.
  *
  * You will have to provide your own implementation.
@@ -72,7 +72,7 @@ ge.executeString("rndu(3, 3);");
  */
 class IGEProgramOutput {
 public:
-    virtual void invoke(const string &message) = 0;
+    virtual void invoke(const std::string &message) = 0;
 
     virtual ~IGEProgramOutput() {}
 };
@@ -145,7 +145,7 @@ public:
 
 /**
  * String Input callback function for the GAUSS Engine. Use this class to generate
- * a hook function that the GAUSS Engine will call whenever user string input is required.
+ * a hook function that the GAUSS Engine will call whenever user std::string input is required.
  *
  * __Note:__ With all callbacks, the `thisown` flag must be set to `0` on instantiation.
  * This informs the target language that this object will be owned and properly deleted by the Engine.
@@ -156,7 +156,7 @@ public:
  ** #### Python
 ```{.py}
 class StringInput(IGEProgramInputString):
-    # The callback does not return a string directly, rather through a method call.
+    # The callback does not return a std::string directly, rather through a method call.
     def invoke(self, length):
         self.setValue("Hello World!")
 
@@ -173,7 +173,7 @@ print "s = " + s
 __PHP__
 ```php
 class StringInput extends IGEProgramInputString {
-    // The callback does not return a string directly, rather through a method call.
+    // The callback does not return a std::string directly, rather through a method call.
     function invoke($length) {
         // Ask user for input normally
         $this->setValue("Hello World!");
@@ -227,7 +227,7 @@ public:
       * This callback can also be triggered directly via a call
       * to GAUSS::programInputString()
       *
-      * @param length      Max length allowed for return string
+      * @param length      Max length allowed for return std::string
       */
     virtual void invoke(int length) = 0;
 
@@ -236,12 +236,12 @@ public:
     /**
       * Used to set the return value for the callback.
       */
-    void setValue(string value) { this->data = value; }
+    void setValue(std::string value) { this->data = value; }
 
 private:
     void clear() { this->setValue(""); }
-    string value() { return this->data; }
-    string data;
+    std::string value() { return this->data; }
+    std::string data;
 
     friend class GAUSS;
 };

@@ -7,16 +7,15 @@
 #include <string>
 #include <iostream>
 #include <vector>
-using namespace std;
 
 #ifdef SWIGPHP
-#define VECTOR_DATA_INIT(N,X,S) vector< X > *N = new vector< X >(S)
-#define VECTOR_DATA(X) vector< X > *
+#define VECTOR_DATA_INIT(N,X,S) std::vector< X > *N = new std::vector< X >(S)
+#define VECTOR_DATA(X) std::vector< X > *
 #define VECTOR_VAR(X) X->
 #define VECTOR_VAR_DELETE_CHECK(X) delete X
 #else
-#define VECTOR_DATA_INIT(N,X,S) vector< X > N(S)
-#define VECTOR_DATA(X) const vector< X > &
+#define VECTOR_DATA_INIT(N,X,S) std::vector< X > N(S)
+#define VECTOR_DATA(X) const std::vector< X > &
 #define VECTOR_VAR(X) X.
 #define VECTOR_VAR_DELETE_CHECK(X)
 #endif
@@ -54,9 +53,9 @@ public:
     virtual bool isComplex() const;   /**< Return if data is complex. Applies to GEArray and GEMatrix only. */
 
     virtual int size() const;         /**< Return element count. */
-	virtual void clear() { rows_ = 1; cols_ = 1; complex_ = false; }     /**< Clear all corresponding symbol data. Does not clear from workspace. */
+    virtual void clear() { rows_ = 1; cols_ = 1; complex_ = false; }     /**< Clear all corresponding symbol data. Does not clear from workspace. */
 
-    virtual string toString() const { return string(); } /**< Returns a string representation of this object. */
+    virtual std::string toString() const { return std::string(); } /**< Returns a std::string representation of this object. */
 
     int type() const { return type_; }
 
