@@ -156,8 +156,6 @@ void GAUSS::Init(std::string homePath) {
     GAUSS::inputCheckFunc_ = 0;
 
     if (homePath.empty()) {
-        std::cerr << "Unable to find GAUSS Home directory. Aborting." << std::endl;
-        std::cerr.flush();
         return;
     }
 }
@@ -177,28 +175,16 @@ void GAUSS::Init(std::string homePath) {
  */
 bool GAUSS::initialize() {
     if (!setHome(this->d->gauss_home_)) {
-        std::string errorString = getLastErrorText();
-
-        std::cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << std::endl;
-        std::cerr.flush();
         return false;
     }
 
     if (GAUSS_Initialize() >  0) {
-        std::string errorString = getLastErrorText();
-
-        std::cerr << "Could initialize GAUSS (Error: " << errorString << ")" << std::endl;
-        std::cerr.flush();
         return false;
     }
 
     GEWorkspace *workspace = createWorkspace("main");
 
     if (workspace->workspace() == nullptr) {
-        std::string errorString = getLastErrorText();
-
-        std::cerr << "Could not create workspace (Error: " << errorString << ")" << std::endl;
-        std::cerr.flush();
         return false;
     }
 
