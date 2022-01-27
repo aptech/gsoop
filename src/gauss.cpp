@@ -1033,6 +1033,7 @@ bool GAUSS::setLogFile(std::string filename, std::string mode) {
  * @see setHomeVar(std::string)
  */
 bool GAUSS::setHome(std::string path) {
+    this->d->gauss_home_ = path;
     return GAUSS_SetHome(removeConst(&path)) == GAUSS_SUCCESS;
 }
 
