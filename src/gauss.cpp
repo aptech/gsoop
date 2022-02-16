@@ -184,7 +184,7 @@ bool GAUSS::initialize() {
 
     GEWorkspace *workspace = createWorkspace("main");
 
-    if (workspace->workspace() == nullptr) {
+    if (workspace == nullptr || workspace->workspace() == nullptr) {
         return false;
     }
 
