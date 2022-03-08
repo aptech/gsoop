@@ -1601,36 +1601,37 @@ fail: ;
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_GAUSS swig_types[0]
-#define SWIGTYPE_p_GEArray swig_types[1]
-#define SWIGTYPE_p_GEMatrix swig_types[2]
-#define SWIGTYPE_p_GEStringArray swig_types[3]
-#define SWIGTYPE_p_GESymType_s swig_types[4]
-#define SWIGTYPE_p_GESymbol swig_types[5]
-#define SWIGTYPE_p_GEWorkspace swig_types[6]
-#define SWIGTYPE_p_IGEProgramFlushOutput swig_types[7]
-#define SWIGTYPE_p_IGEProgramInputChar swig_types[8]
-#define SWIGTYPE_p_IGEProgramInputCheck swig_types[9]
-#define SWIGTYPE_p_IGEProgramInputString swig_types[10]
-#define SWIGTYPE_p_IGEProgramOutput swig_types[11]
-#define SWIGTYPE_p_ProgramHandle_t swig_types[12]
-#define SWIGTYPE_p_WorkspaceHandle_t swig_types[13]
-#define SWIGTYPE_p_WorkspaceManager swig_types[14]
-#define SWIGTYPE_p_char swig_types[15]
-#define SWIGTYPE_p_difference_type swig_types[16]
-#define SWIGTYPE_p_double swig_types[17]
-#define SWIGTYPE_p_doubleArray swig_types[18]
-#define SWIGTYPE_p_int swig_types[19]
-#define SWIGTYPE_p_size_type swig_types[20]
-#define SWIGTYPE_p_std__vectorT_double_t swig_types[21]
-#define SWIGTYPE_p_std__vectorT_float_t swig_types[22]
-#define SWIGTYPE_p_std__vectorT_int_t swig_types[23]
-#define SWIGTYPE_p_std__vectorT_std__string_t swig_types[24]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t swig_types[25]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_std__string_t_t swig_types[26]
-#define SWIGTYPE_p_value_type swig_types[27]
-static swig_type_info *swig_types[29];
-static swig_module_info swig_module = {swig_types, 28, 0, 0, 0, 0};
+#define SWIGTYPE_p_ArrayWrapper swig_types[0]
+#define SWIGTYPE_p_GAUSS swig_types[1]
+#define SWIGTYPE_p_GEArray swig_types[2]
+#define SWIGTYPE_p_GEMatrix swig_types[3]
+#define SWIGTYPE_p_GEStringArray swig_types[4]
+#define SWIGTYPE_p_GESymType_s swig_types[5]
+#define SWIGTYPE_p_GESymbol swig_types[6]
+#define SWIGTYPE_p_GEWorkspace swig_types[7]
+#define SWIGTYPE_p_IGEProgramFlushOutput swig_types[8]
+#define SWIGTYPE_p_IGEProgramInputChar swig_types[9]
+#define SWIGTYPE_p_IGEProgramInputCheck swig_types[10]
+#define SWIGTYPE_p_IGEProgramInputString swig_types[11]
+#define SWIGTYPE_p_IGEProgramOutput swig_types[12]
+#define SWIGTYPE_p_ProgramHandle_t swig_types[13]
+#define SWIGTYPE_p_WorkspaceHandle_t swig_types[14]
+#define SWIGTYPE_p_WorkspaceManager swig_types[15]
+#define SWIGTYPE_p_char swig_types[16]
+#define SWIGTYPE_p_difference_type swig_types[17]
+#define SWIGTYPE_p_double swig_types[18]
+#define SWIGTYPE_p_doubleArray swig_types[19]
+#define SWIGTYPE_p_int swig_types[20]
+#define SWIGTYPE_p_size_type swig_types[21]
+#define SWIGTYPE_p_std__vectorT_double_t swig_types[22]
+#define SWIGTYPE_p_std__vectorT_float_t swig_types[23]
+#define SWIGTYPE_p_std__vectorT_int_t swig_types[24]
+#define SWIGTYPE_p_std__vectorT_std__string_t swig_types[25]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t swig_types[26]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_std__string_t_t swig_types[27]
+#define SWIGTYPE_p_value_type swig_types[28]
+static swig_type_info *swig_types[30];
+static swig_module_info swig_module = {swig_types, 29, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2181,6 +2182,7 @@ SWIGV8_ClientData _exports_IntVector_clientData;
 SWIGV8_ClientData _exports_StringVector_clientData;
 SWIGV8_ClientData _exports_StringStringVector_clientData;
 SWIGV8_ClientData _exports_GAUSS_clientData;
+SWIGV8_ClientData _exports_ArrayWrapper_clientData;
 SWIGV8_ClientData _exports_doubleArray_clientData;
 SWIGV8_ClientData _exports_GESymbol_clientData;
 SWIGV8_ClientData _exports_GEArray_clientData;
@@ -10256,7 +10258,228 @@ fail:
 }
 
 
+static SwigV8ReturnValue _wrap_new_ArrayWrapper(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Object> self = args.Holder();
+  double *arg1 = (double *) 0 ;
+  size_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  ArrayWrapper *result;
+  if(args.Length() != 2) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_ArrayWrapper.");
+  res1 = SWIG_ConvertPtr(args[0], &argp1,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_ArrayWrapper" "', argument " "1"" of type '" "double *""'"); 
+  }
+  arg1 = reinterpret_cast< double * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(args[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_ArrayWrapper" "', argument " "2"" of type '" "size_t""'");
+  } 
+  arg2 = static_cast< size_t >(val2);
+  result = (ArrayWrapper *)new ArrayWrapper(arg1,arg2);
+  
+  
+  
+  
+  
+  SWIGV8_SetPrivateData(self, result, SWIGTYPE_p_ArrayWrapper, SWIG_POINTER_OWN);
+  SWIGV8_RETURN(self);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+#if (V8_MAJOR_VERSION-0) < 5
+static void _wrap_ArrayWrapper_data_set(v8::Local<v8::String> property, v8::Local<v8::Value> value, const SwigV8PropertyCallbackInfoVoid &info) {
+#else
+  static void _wrap_ArrayWrapper_data_set(v8::Local<v8::Name> property, v8::Local<v8::Value> value, const SwigV8PropertyCallbackInfoVoid &info) {
+#endif
+    SWIGV8_HANDLESCOPE();
+    
+    ArrayWrapper *arg1 = (ArrayWrapper *) 0 ;
+    double *arg2 = (double *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    void *argp2 = 0 ;
+    int res2 = 0 ;
+    
+    res1 = SWIG_ConvertPtr(info.Holder(), &argp1,SWIGTYPE_p_ArrayWrapper, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayWrapper_data_set" "', argument " "1"" of type '" "ArrayWrapper *""'"); 
+    }
+    arg1 = reinterpret_cast< ArrayWrapper * >(argp1);
+    res2 = SWIG_ConvertPtr(value, &argp2,SWIGTYPE_p_double, SWIG_POINTER_DISOWN |  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ArrayWrapper_data_set" "', argument " "2"" of type '" "double *""'"); 
+    }
+    arg2 = reinterpret_cast< double * >(argp2);
+    if (arg1) (arg1)->data = arg2;
+    
+    
+    
+    goto fail;
+  fail:
+    return;
+  }
+
+
+#if (V8_MAJOR_VERSION-0) < 5
+static SwigV8ReturnValue _wrap_ArrayWrapper_data_get(v8::Local<v8::String> property, const SwigV8PropertyCallbackInfo &info) {
+#else
+  static SwigV8ReturnValue _wrap_ArrayWrapper_data_get(v8::Local<v8::Name> property, const SwigV8PropertyCallbackInfo &info) {
+#endif
+    SWIGV8_HANDLESCOPE();
+    
+    v8::Local<v8::Value> jsresult;
+    ArrayWrapper *arg1 = (ArrayWrapper *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    double *result = 0 ;
+    
+    res1 = SWIG_ConvertPtr(info.Holder(), &argp1,SWIGTYPE_p_ArrayWrapper, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayWrapper_data_get" "', argument " "1"" of type '" "ArrayWrapper *""'"); 
+    }
+    arg1 = reinterpret_cast< ArrayWrapper * >(argp1);
+    result = (double *) ((arg1)->data);
+    jsresult = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+    
+    
+    SWIGV8_RETURN_INFO(jsresult, info);
+    
+    goto fail;
+  fail:
+    SWIGV8_RETURN_INFO(SWIGV8_UNDEFINED(), info);
+  }
+
+
+#if (V8_MAJOR_VERSION-0) < 5
+static void _wrap_ArrayWrapper_size_set(v8::Local<v8::String> property, v8::Local<v8::Value> value, const SwigV8PropertyCallbackInfoVoid &info) {
+#else
+  static void _wrap_ArrayWrapper_size_set(v8::Local<v8::Name> property, v8::Local<v8::Value> value, const SwigV8PropertyCallbackInfoVoid &info) {
+#endif
+    SWIGV8_HANDLESCOPE();
+    
+    ArrayWrapper *arg1 = (ArrayWrapper *) 0 ;
+    size_t arg2 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    size_t val2 ;
+    int ecode2 = 0 ;
+    
+    res1 = SWIG_ConvertPtr(info.Holder(), &argp1,SWIGTYPE_p_ArrayWrapper, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayWrapper_size_set" "', argument " "1"" of type '" "ArrayWrapper *""'"); 
+    }
+    arg1 = reinterpret_cast< ArrayWrapper * >(argp1);
+    ecode2 = SWIG_AsVal_size_t(value, &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ArrayWrapper_size_set" "', argument " "2"" of type '" "size_t""'");
+    } 
+    arg2 = static_cast< size_t >(val2);
+    if (arg1) (arg1)->size = arg2;
+    
+    
+    
+    goto fail;
+  fail:
+    return;
+  }
+
+
+#if (V8_MAJOR_VERSION-0) < 5
+static SwigV8ReturnValue _wrap_ArrayWrapper_size_get(v8::Local<v8::String> property, const SwigV8PropertyCallbackInfo &info) {
+#else
+  static SwigV8ReturnValue _wrap_ArrayWrapper_size_get(v8::Local<v8::Name> property, const SwigV8PropertyCallbackInfo &info) {
+#endif
+    SWIGV8_HANDLESCOPE();
+    
+    v8::Local<v8::Value> jsresult;
+    ArrayWrapper *arg1 = (ArrayWrapper *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    size_t result;
+    
+    res1 = SWIG_ConvertPtr(info.Holder(), &argp1,SWIGTYPE_p_ArrayWrapper, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayWrapper_size_get" "', argument " "1"" of type '" "ArrayWrapper *""'"); 
+    }
+    arg1 = reinterpret_cast< ArrayWrapper * >(argp1);
+    result =  ((arg1)->size);
+    jsresult = SWIG_From_size_t(static_cast< size_t >(result));
+    
+    
+    SWIGV8_RETURN_INFO(jsresult, info);
+    
+    goto fail;
+  fail:
+    SWIGV8_RETURN_INFO(SWIGV8_UNDEFINED(), info);
+  }
+
+
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
+static void _wrap_delete_ArrayWrapper(v8::Persistent<v8::Value> object, void *parameter) {
+  SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031900)
+  static void _wrap_delete_ArrayWrapper(v8::Isolate *isolate, v8::Persistent<v8::Value> object, void *parameter) {
+    SWIGV8_Proxy *proxy = static_cast<SWIGV8_Proxy *>(parameter);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
+    static void _wrap_delete_ArrayWrapper(v8::Isolate *isolate, v8::Persistent< v8::Object> *object, SWIGV8_Proxy *proxy) {
+#elif (V8_MAJOR_VERSION-0) < 5
+      static void _wrap_delete_ArrayWrapper(const v8::WeakCallbackData<v8::Object, SWIGV8_Proxy> &data) {
+        v8::Local<v8::Object> object = data.GetValue();
+        SWIGV8_Proxy *proxy = data.GetParameter();
+#else
+        static void _wrap_delete_ArrayWrapper(const v8::WeakCallbackInfo<SWIGV8_Proxy> &data) {
+          SWIGV8_Proxy *proxy = data.GetParameter();
+#endif
+          
+          if(proxy->swigCMemOwn && proxy->swigCObject) {
+            ArrayWrapper * arg1 = (ArrayWrapper *)proxy->swigCObject;
+            delete arg1;
+          }
+          delete proxy;
+          
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031710)
+          object.Dispose();
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031900)
+          object.Dispose(isolate);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x032100)
+          object->Dispose(isolate);
+#elif (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < SWIGV8_SETWEAK_VERSION)
+          object->Dispose();
+#elif (V8_MAJOR_VERSION-0) < 5
+          object.Clear();
+#endif
+        }
+
+
 static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_0(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Object> self = args.Holder();
+  doubleArray *result;
+  if(args.Length() != 0) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_doubleArray__SWIG_0.");
+  result = (doubleArray *)new doubleArray();
+  
+  
+  
+  SWIGV8_SetPrivateData(self, result, SWIGTYPE_p_doubleArray, SWIG_POINTER_OWN);
+  SWIGV8_RETURN(self);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_1(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler) {
   SWIGV8_HANDLESCOPE();
   
   v8::Local<v8::Object> self = args.Holder();
@@ -10264,7 +10487,7 @@ static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_0(const SwigV8Arguments &ar
   int val1 ;
   int ecode1 = 0 ;
   doubleArray *result;
-  if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_doubleArray__SWIG_0.");
+  if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_doubleArray__SWIG_1.");
   ecode1 = SWIG_AsVal_int(args[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_doubleArray" "', argument " "1"" of type '" "int""'");
@@ -10284,7 +10507,7 @@ fail:
 }
 
 
-static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_1(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler) {
+static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_2(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler) {
   SWIGV8_HANDLESCOPE();
   
   v8::Local<v8::Object> self = args.Holder();
@@ -10295,7 +10518,7 @@ static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_1(const SwigV8Arguments &ar
   int val2 ;
   int ecode2 = 0 ;
   doubleArray *result;
-  if(args.Length() != 2) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_doubleArray__SWIG_1.");
+  if(args.Length() != 2) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_doubleArray__SWIG_2.");
   res1 = SWIG_ConvertPtr(args[0], &argp1,SWIGTYPE_p_double, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_doubleArray" "', argument " "1"" of type '" "double *""'"); 
@@ -10321,7 +10544,7 @@ fail:
 }
 
 
-static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_2(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler) {
+static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_3(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler) {
   SWIGV8_HANDLESCOPE();
   
   v8::Local<v8::Object> self = args.Holder();
@@ -10335,7 +10558,7 @@ static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_2(const SwigV8Arguments &ar
   int val3 ;
   int ecode3 = 0 ;
   doubleArray *result;
-  if(args.Length() != 3) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_doubleArray__SWIG_2.");
+  if(args.Length() != 3) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_doubleArray__SWIG_3.");
   res1 = SWIG_ConvertPtr(args[0], &argp1,SWIGTYPE_p_double, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_doubleArray" "', argument " "1"" of type '" "double *""'"); 
@@ -10367,6 +10590,37 @@ fail:
 }
 
 
+static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_4(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Object> self = args.Holder();
+  doubleArray *arg1 = 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  doubleArray *result;
+  if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_doubleArray__SWIG_4.");
+  res1 = SWIG_ConvertPtr(args[0], &argp1, SWIGTYPE_p_doubleArray,  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_doubleArray" "', argument " "1"" of type '" "doubleArray const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_doubleArray" "', argument " "1"" of type '" "doubleArray const &""'"); 
+  }
+  arg1 = reinterpret_cast< doubleArray * >(argp1);
+  result = (doubleArray *)new doubleArray((doubleArray const &)*arg1);
+  
+  
+  
+  
+  SWIGV8_SetPrivateData(self, result, SWIGTYPE_p_doubleArray, SWIG_POINTER_OWN);
+  SWIGV8_RETURN(self);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
 static SwigV8ReturnValue _wrap_new_doubleArray(const SwigV8Arguments &args) {
   SWIGV8_HANDLESCOPE();
   
@@ -10375,7 +10629,7 @@ static SwigV8ReturnValue _wrap_new_doubleArray(const SwigV8Arguments &args) {
   
   // switch all cases by means of series of if-returns.
   
-  if(args.Length() == 1) {
+  if(args.Length() == 0) {
     errorHandler.err.Clear();
 #if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031903)
     self = _wrap_new_doubleArray__SWIG_0(args, errorHandler);
@@ -10390,7 +10644,7 @@ static SwigV8ReturnValue _wrap_new_doubleArray(const SwigV8Arguments &args) {
 #endif
   }
   
-  if(args.Length() == 2) {
+  if(args.Length() == 1) {
     errorHandler.err.Clear();
 #if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031903)
     self = _wrap_new_doubleArray__SWIG_1(args, errorHandler);
@@ -10405,7 +10659,7 @@ static SwigV8ReturnValue _wrap_new_doubleArray(const SwigV8Arguments &args) {
 #endif
   }
   
-  if(args.Length() == 3) {
+  if(args.Length() == 2) {
     errorHandler.err.Clear();
 #if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031903)
     self = _wrap_new_doubleArray__SWIG_2(args, errorHandler);
@@ -10414,6 +10668,36 @@ static SwigV8ReturnValue _wrap_new_doubleArray(const SwigV8Arguments &args) {
     }
 #else
     _wrap_new_doubleArray__SWIG_2(args, errorHandler);
+    if(errorHandler.err.IsEmpty()) {
+      return;
+    }
+#endif
+  }
+  
+  if(args.Length() == 3) {
+    errorHandler.err.Clear();
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031903)
+    self = _wrap_new_doubleArray__SWIG_3(args, errorHandler);
+    if(errorHandler.err.IsEmpty()) {
+      SWIGV8_ESCAPE(self);
+    }
+#else
+    _wrap_new_doubleArray__SWIG_3(args, errorHandler);
+    if(errorHandler.err.IsEmpty()) {
+      return;
+    }
+#endif
+  }
+  
+  if(args.Length() == 1) {
+    errorHandler.err.Clear();
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031903)
+    self = _wrap_new_doubleArray__SWIG_4(args, errorHandler);
+    if(errorHandler.err.IsEmpty()) {
+      SWIGV8_ESCAPE(self);
+    }
+#else
+    _wrap_new_doubleArray__SWIG_4(args, errorHandler);
     if(errorHandler.err.IsEmpty()) {
       return;
     }
@@ -10511,6 +10795,43 @@ fail:
 }
 
 
+static SwigV8ReturnValue _wrap_doubleArray_getdata(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  doubleArray *arg1 = (doubleArray *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  SwigValueWrapper< ArrayWrapper > result;
+  
+  if(args.Length() != 0) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_doubleArray_getdata.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_doubleArray, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "doubleArray_getdata" "', argument " "1"" of type '" "doubleArray *""'"); 
+  }
+  arg1 = reinterpret_cast< doubleArray * >(argp1);
+  result = (arg1)->getdata();
+  
+  {
+    int length = (&result)->size;
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
+    v8::Local<v8::ArrayBuffer> arrayBuffer = v8::ArrayBuffer::New(v8::Isolate::GetCurrent(), (&result)->data, length * sizeof(double), v8::ArrayBufferCreationMode::kExternalized);
+    v8::Local<v8::Float64Array> array = v8::Float64Array::New(arrayBuffer, 0, length);
+    
+    jsresult = array;
+  }
+  
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
 static SwigV8ReturnValue _wrap_doubleArray_getblock(const SwigV8Arguments &args) {
   SWIGV8_HANDLESCOPE();
   
@@ -10524,7 +10845,7 @@ static SwigV8ReturnValue _wrap_doubleArray_getblock(const SwigV8Arguments &args)
   int ecode2 = 0 ;
   int val3 ;
   int ecode3 = 0 ;
-  std::vector< double > result;
+  SwigValueWrapper< ArrayWrapper > result;
   
   if(args.Length() != 2) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_doubleArray_getblock.");
   
@@ -10546,14 +10867,10 @@ static SwigV8ReturnValue _wrap_doubleArray_getblock(const SwigV8Arguments &args)
   result = (arg1)->getblock(arg2,arg3);
   
   {
-    int length = (&result)->size();
+    int length = (&result)->size;
     v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
-    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
-    
-    for (int i = 0; i < length; i++)
-    {
-      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
-    }
+    v8::Local<v8::ArrayBuffer> arrayBuffer = v8::ArrayBuffer::New(v8::Isolate::GetCurrent(), (&result)->data, length * sizeof(double), v8::ArrayBufferCreationMode::kInternalized);
+    v8::Local<v8::Float64Array> array = v8::Float64Array::New(arrayBuffer, 0, length);
     
     jsresult = array;
   }
@@ -10580,7 +10897,7 @@ static SwigV8ReturnValue _wrap_doubleArray_getrow(const SwigV8Arguments &args) {
   int res1 = 0 ;
   int val2 ;
   int ecode2 = 0 ;
-  std::vector< double > result;
+  SwigValueWrapper< ArrayWrapper > result;
   
   if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_doubleArray_getrow.");
   
@@ -10597,14 +10914,10 @@ static SwigV8ReturnValue _wrap_doubleArray_getrow(const SwigV8Arguments &args) {
   result = (arg1)->getrow(arg2);
   
   {
-    int length = (&result)->size();
+    int length = (&result)->size;
     v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
-    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
-    
-    for (int i = 0; i < length; i++)
-    {
-      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
-    }
+    v8::Local<v8::ArrayBuffer> arrayBuffer = v8::ArrayBuffer::New(v8::Isolate::GetCurrent(), (&result)->data, length * sizeof(double), v8::ArrayBufferCreationMode::kInternalized);
+    v8::Local<v8::Float64Array> array = v8::Float64Array::New(arrayBuffer, 0, length);
     
     jsresult = array;
   }
@@ -16646,6 +16959,7 @@ static void *_p_GEMatrixTo_p_GESymbol(void *x, int *SWIGUNUSEDPARM(newmemory)) {
 static void *_p_GEStringArrayTo_p_GESymbol(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((GESymbol *)  ((GEStringArray *) x));
 }
+static swig_type_info _swigt__p_ArrayWrapper = {"_p_ArrayWrapper", "p_ArrayWrapper|ArrayOwner *|ArrayWrapper *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_GAUSS = {"_p_GAUSS", "p_GAUSS|GAUSS *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_GEArray = {"_p_GEArray", "GEArray *|p_GEArray", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_GEMatrix = {"_p_GEMatrix", "GEMatrix *|p_GEMatrix", 0, 0, (void*)0, 0};
@@ -16676,6 +16990,7 @@ static swig_type_info _swigt__p_std__vectorT_std__vectorT_std__string_t_t = {"_p
 static swig_type_info _swigt__p_value_type = {"_p_value_type", "value_type *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
+  &_swigt__p_ArrayWrapper,
   &_swigt__p_GAUSS,
   &_swigt__p_GEArray,
   &_swigt__p_GEMatrix,
@@ -16706,6 +17021,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_value_type,
 };
 
+static swig_cast_info _swigc__p_ArrayWrapper[] = {  {&_swigt__p_ArrayWrapper, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GAUSS[] = {  {&_swigt__p_GAUSS, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GEArray[] = {  {&_swigt__p_GEArray, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GEMatrix[] = {  {&_swigt__p_GEMatrix, 0, 0, 0},{0, 0, 0, 0}};
@@ -16736,6 +17052,7 @@ static swig_cast_info _swigc__p_std__vectorT_std__vectorT_std__string_t_t[] = { 
 static swig_cast_info _swigc__p_value_type[] = {  {&_swigt__p_value_type, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
+  _swigc__p_ArrayWrapper,
   _swigc__p_GAUSS,
   _swigc__p_GEArray,
   _swigc__p_GEMatrix,
@@ -17126,6 +17443,13 @@ _exports_GAUSS_clientData.dtor = _wrap_delete_GAUSS;
 if (SWIGTYPE_p_GAUSS->clientdata == 0) {
   SWIGTYPE_p_GAUSS->clientdata = &_exports_GAUSS_clientData;
 }
+/* Name: _exports_ArrayWrapper, Type: p_ArrayWrapper, Dtor: _wrap_delete_ArrayWrapper */
+v8::Local<v8::FunctionTemplate> _exports_ArrayWrapper_class = SWIGV8_CreateClassTemplate("_exports_ArrayWrapper");
+SWIGV8_SET_CLASS_TEMPL(_exports_ArrayWrapper_clientData.class_templ, _exports_ArrayWrapper_class);
+_exports_ArrayWrapper_clientData.dtor = _wrap_delete_ArrayWrapper;
+if (SWIGTYPE_p_ArrayWrapper->clientdata == 0) {
+  SWIGTYPE_p_ArrayWrapper->clientdata = &_exports_ArrayWrapper_clientData;
+}
 /* Name: _exports_doubleArray, Type: p_doubleArray, Dtor: _wrap_delete_doubleArray */
 v8::Local<v8::FunctionTemplate> _exports_doubleArray_class = SWIGV8_CreateClassTemplate("_exports_doubleArray");
 SWIGV8_SET_CLASS_TEMPL(_exports_doubleArray_clientData.class_templ, _exports_doubleArray_class);
@@ -17320,8 +17644,11 @@ SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getOutput", _wrap_GAUSS_getOutpu
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "clearOutput", _wrap_GAUSS_clearOutput);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getErrorOutput", _wrap_GAUSS_getErrorOutput);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "clearErrorOutput", _wrap_GAUSS_clearErrorOutput);
+SWIGV8_AddMemberVariable(_exports_ArrayWrapper_class, "data", _wrap_ArrayWrapper_data_get, _wrap_ArrayWrapper_data_set);
+SWIGV8_AddMemberVariable(_exports_ArrayWrapper_class, "size", _wrap_ArrayWrapper_size_get, _wrap_ArrayWrapper_size_set);
 SWIGV8_AddMemberFunction(_exports_doubleArray_class, "getitem", _wrap_doubleArray_getitem);
 SWIGV8_AddMemberFunction(_exports_doubleArray_class, "setitem", _wrap_doubleArray_setitem);
+SWIGV8_AddMemberFunction(_exports_doubleArray_class, "getdata", _wrap_doubleArray_getdata);
 SWIGV8_AddMemberFunction(_exports_doubleArray_class, "getblock", _wrap_doubleArray_getblock);
 SWIGV8_AddMemberFunction(_exports_doubleArray_class, "getrow", _wrap_doubleArray_getrow);
 SWIGV8_AddMemberFunction(_exports_doubleArray_class, "data", _wrap_doubleArray_data);
@@ -17516,6 +17843,16 @@ _exports_GAUSS_class_0->SetHiddenPrototype(true);
 v8::Local<v8::Object> _exports_GAUSS_obj = _exports_GAUSS_class_0->GetFunction();
 #else
 v8::Local<v8::Object> _exports_GAUSS_obj = _exports_GAUSS_class_0->GetFunction(SWIGV8_CURRENT_CONTEXT()).ToLocalChecked();
+#endif
+/* Class: ArrayWrapper (_exports_ArrayWrapper) */
+v8::Local<v8::FunctionTemplate> _exports_ArrayWrapper_class_0 = SWIGV8_CreateClassTemplate("ArrayWrapper");
+_exports_ArrayWrapper_class_0->SetCallHandler(_wrap_new_ArrayWrapper);
+_exports_ArrayWrapper_class_0->Inherit(_exports_ArrayWrapper_class);
+#if (SWIG_V8_VERSION < 0x0705)
+_exports_ArrayWrapper_class_0->SetHiddenPrototype(true);
+v8::Local<v8::Object> _exports_ArrayWrapper_obj = _exports_ArrayWrapper_class_0->GetFunction();
+#else
+v8::Local<v8::Object> _exports_ArrayWrapper_obj = _exports_ArrayWrapper_class_0->GetFunction(SWIGV8_CURRENT_CONTEXT()).ToLocalChecked();
 #endif
 /* Class: doubleArray (_exports_doubleArray) */
 v8::Local<v8::FunctionTemplate> _exports_doubleArray_class_0 = SWIGV8_CreateClassTemplate("doubleArray");
@@ -17725,6 +18062,11 @@ exports_obj->Set(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW("StringStringVector
 exports_obj->Set(SWIGV8_SYMBOL_NEW("GAUSS"), _exports_GAUSS_obj);
 #else
 exports_obj->Set(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW("GAUSS"), _exports_GAUSS_obj);
+#endif
+#if (SWIG_V8_VERSION < 0x0708)
+exports_obj->Set(SWIGV8_SYMBOL_NEW("ArrayWrapper"), _exports_ArrayWrapper_obj);
+#else
+exports_obj->Set(SWIGV8_CURRENT_CONTEXT(), SWIGV8_SYMBOL_NEW("ArrayWrapper"), _exports_ArrayWrapper_obj);
 #endif
 #if (SWIG_V8_VERSION < 0x0708)
 exports_obj->Set(SWIGV8_SYMBOL_NEW("doubleArray"), _exports_doubleArray_obj);

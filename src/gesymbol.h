@@ -21,17 +21,38 @@
 #define VECTOR_VAR_DELETE_CHECK(X)
 #endif
 
+#ifdef SWIGJAVASCRIPT
+class ArrayWrapper
+{
+public:
+    ArrayWrapper(double *d, size_t s) : data(d), size(s) {}
+
+    double *data;
+    size_t size;
+};
+
+typedef ArrayWrapper ArrayOwner;
+#endif
+
 class GAUSS_EXPORT doubleArray
 {
 public:
+    doubleArray() { reset(); }
     doubleArray(int nelements) : rows_(nelements), cols_(1) { data_ = static_cast<double*>(GAUSS_Malloc(nelements * sizeof(double))); }
     doubleArray(double *data, int nelements) : data_(data), rows_(nelements), cols_(1) {}
     doubleArray(double *data, int rows, int cols) : data_(data), rows_(rows), cols_(cols) {}
+    doubleArray(const doubleArray &other) : data_(other.data_), rows_(other.rows_), cols_(other.cols_) {}
     double getitem(int index) { return data_[index]; }
     void setitem(int index, double value) { data_[index] = value; }
 
+#ifdef SWIGJAVASCRIPT
+    ArrayWrapper getdata() { return ArrayWrapper(data_, size()); }
+    ArrayOwner getblock(int offset, int elements) { double *ret = static_cast<double*>(malloc(elements * sizeof(double))); memcpy(ret, data_ + offset, elements * sizeof(double)); return ArrayOwner(ret, elements); }
+    ArrayOwner getrow(int row) { return getblock(row * cols_, cols_); }
+#else
     std::vector<double> getblock(int offset, int elements) { std::vector<double> ret(elements); memcpy(ret.data(), data_ + offset, elements * sizeof(double)); return ret; }
     std::vector<double> getrow(int row) { return getblock(row * cols_, cols_); }
+#endif
 
     double* data() { return data_; }
     int rows() { return rows_; }

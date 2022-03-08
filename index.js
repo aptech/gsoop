@@ -14,6 +14,11 @@ for (let i = 0; i < x.rows(); ++i) {
     console.log(x.getrow(i));
 }
 
+console.log('Testing thin wrapper from C++ -> node.js using ArrayBuffer');
+var y = x.getdata();
+
+console.log('y = ' + y);
+
 console.log(obj.getOutput());
 obj.shutdown();
 
