@@ -8516,6 +8516,156 @@ fail:
 }
 
 
+static SwigV8ReturnValue _wrap_GAUSS_setScalar__SWIG_0(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler)
+{
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  double arg2 ;
+  std::string arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  bool result;
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GAUSS, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GAUSS_setScalar" "', argument " "1"" of type '" "GAUSS *""'"); 
+  }
+  arg1 = reinterpret_cast< GAUSS * >(argp1);
+  ecode2 = SWIG_AsVal_double(args[0], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GAUSS_setScalar" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(args[1], &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "GAUSS_setScalar" "', argument " "3"" of type '" "std::string""'"); 
+    }
+    arg3 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  result = (bool)(arg1)->setScalar(arg2,arg3);
+  jsresult = SWIG_From_bool(static_cast< bool >(result));
+  
+  
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_GAUSS_setScalar__SWIG_1(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler)
+{
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  GAUSS *arg1 = (GAUSS *) 0 ;
+  double arg2 ;
+  std::string arg3 ;
+  GEWorkspace *arg4 = (GEWorkspace *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  bool result;
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_GAUSS, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GAUSS_setScalar" "', argument " "1"" of type '" "GAUSS *""'"); 
+  }
+  arg1 = reinterpret_cast< GAUSS * >(argp1);
+  ecode2 = SWIG_AsVal_double(args[0], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GAUSS_setScalar" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(args[1], &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "GAUSS_setScalar" "', argument " "3"" of type '" "std::string""'"); 
+    }
+    arg3 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  res4 = SWIG_ConvertPtr(args[2], &argp4,SWIGTYPE_p_GEWorkspace, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GAUSS_setScalar" "', argument " "4"" of type '" "GEWorkspace *""'"); 
+  }
+  arg4 = reinterpret_cast< GEWorkspace * >(argp4);
+  result = (bool)(arg1)->setScalar(arg2,arg3,arg4);
+  jsresult = SWIG_From_bool(static_cast< bool >(result));
+  
+  
+  
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_GAUSS__wrap_GAUSS_setScalar(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  OverloadErrorHandler errorHandler;
+  
+  
+  if(args.Length() == 2) {
+    errorHandler.err.Clear();
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031903)
+    jsresult = _wrap_GAUSS_setScalar__SWIG_0(args, errorHandler);
+    if(errorHandler.err.IsEmpty()) {
+      SWIGV8_ESCAPE(jsresult);
+    }
+#else
+    _wrap_GAUSS_setScalar__SWIG_0(args, errorHandler);
+    if(errorHandler.err.IsEmpty()) {
+      return;
+    }
+#endif
+  }
+  
+  
+  if(args.Length() == 3) {
+    errorHandler.err.Clear();
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031903)
+    jsresult = _wrap_GAUSS_setScalar__SWIG_1(args, errorHandler);
+    if(errorHandler.err.IsEmpty()) {
+      SWIGV8_ESCAPE(jsresult);
+    }
+#else
+    _wrap_GAUSS_setScalar__SWIG_1(args, errorHandler);
+    if(errorHandler.err.IsEmpty()) {
+      return;
+    }
+#endif
+  }
+  
+  
+  SWIG_exception_fail(SWIG_ERROR, "Illegal arguments for function setScalar.");
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
 static SwigV8ReturnValue _wrap_GAUSS_moveSymbol__SWIG_0(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler)
 {
   SWIGV8_HANDLESCOPE();
@@ -17635,6 +17785,7 @@ SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getArrayAndClear", _wrap_GAUSS__
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getString", _wrap_GAUSS__wrap_GAUSS_getString);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getStringArray", _wrap_GAUSS__wrap_GAUSS_getStringArray);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "setSymbol", _wrap_GAUSS__wrap_GAUSS_setSymbol);
+SWIGV8_AddMemberFunction(_exports_GAUSS_class, "setScalar", _wrap_GAUSS__wrap_GAUSS_setScalar);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "moveSymbol", _wrap_GAUSS__wrap_GAUSS_moveSymbol);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "moveMatrix", _wrap_GAUSS__wrap_GAUSS_moveMatrix);
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getMatrixDirect", _wrap_GAUSS__wrap_GAUSS_getMatrixDirect);

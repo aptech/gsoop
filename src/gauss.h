@@ -142,6 +142,8 @@ public:
     bool setSymbol(std::string, std::string name, GEWorkspace *workspace);
     bool setSymbol(GEStringArray*, std::string name);
     bool setSymbol(GEStringArray*, std::string name, GEWorkspace *workspace);
+    bool setScalar(double, std::string name);
+    bool setScalar(double, std::string name, GEWorkspace *workspace);
 
     bool moveSymbol(GEMatrix*, std::string name);
     bool moveSymbol(GEMatrix*, std::string name, GEWorkspace *workspace);

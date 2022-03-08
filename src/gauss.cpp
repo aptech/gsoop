@@ -1137,6 +1137,19 @@ bool GAUSS::_setSymbol(GESymbol *symbol, std::string name, GEWorkspace *workspac
     }
 }
 
+bool GAUSS::setScalar(double value, std::string name, GEWorkspace *workspace) {
+    if (name.empty() || !this->d->manager_->isValidWorkspace(workspace))
+        return false;
+
+    int ret = GAUSS_PutDouble(workspace->workspace(), value, removeConst(&name));
+
+    return (ret == GAUSS_SUCCESS);
+}
+
+bool GAUSS::setScalar(double value, std::string name) {
+    return setScalar(value, name, getActiveWorkspace());
+}
+
 GESymbol* GAUSS::getSymbol(std::string name) const {
     return getSymbol(name, getActiveWorkspace());
 }
