@@ -10321,6 +10321,52 @@ fail:
 }
 
 
+static SwigV8ReturnValue _wrap_new_doubleArray__SWIG_2(const SwigV8Arguments &args, V8ErrorHandler &SWIGV8_ErrorHandler) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Object> self = args.Holder();
+  double *arg1 = (double *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  doubleArray *result;
+  if(args.Length() != 3) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_new_doubleArray__SWIG_2.");
+  res1 = SWIG_ConvertPtr(args[0], &argp1,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_doubleArray" "', argument " "1"" of type '" "double *""'"); 
+  }
+  arg1 = reinterpret_cast< double * >(argp1);
+  ecode2 = SWIG_AsVal_int(args[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_doubleArray" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(args[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "new_doubleArray" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (doubleArray *)new doubleArray(arg1,arg2,arg3);
+  
+  
+  
+  
+  
+  
+  SWIGV8_SetPrivateData(self, result, SWIGTYPE_p_doubleArray, SWIG_POINTER_OWN);
+  SWIGV8_RETURN(self);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
 static SwigV8ReturnValue _wrap_new_doubleArray(const SwigV8Arguments &args) {
   SWIGV8_HANDLESCOPE();
   
@@ -10353,6 +10399,21 @@ static SwigV8ReturnValue _wrap_new_doubleArray(const SwigV8Arguments &args) {
     }
 #else
     _wrap_new_doubleArray__SWIG_1(args, errorHandler);
+    if(errorHandler.err.IsEmpty()) {
+      return;
+    }
+#endif
+  }
+  
+  if(args.Length() == 3) {
+    errorHandler.err.Clear();
+#if (V8_MAJOR_VERSION-0) < 4 && (SWIG_V8_VERSION < 0x031903)
+    self = _wrap_new_doubleArray__SWIG_2(args, errorHandler);
+    if(errorHandler.err.IsEmpty()) {
+      SWIGV8_ESCAPE(self);
+    }
+#else
+    _wrap_new_doubleArray__SWIG_2(args, errorHandler);
     if(errorHandler.err.IsEmpty()) {
       return;
     }
@@ -10450,6 +10511,115 @@ fail:
 }
 
 
+static SwigV8ReturnValue _wrap_doubleArray_getblock(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  doubleArray *arg1 = (doubleArray *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  std::vector< double > result;
+  
+  if(args.Length() != 2) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_doubleArray_getblock.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_doubleArray, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "doubleArray_getblock" "', argument " "1"" of type '" "doubleArray *""'"); 
+  }
+  arg1 = reinterpret_cast< doubleArray * >(argp1);
+  ecode2 = SWIG_AsVal_int(args[0], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "doubleArray_getblock" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(args[1], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "doubleArray_getblock" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (arg1)->getblock(arg2,arg3);
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
+  
+  
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_doubleArray_getrow(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  doubleArray *arg1 = (doubleArray *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  std::vector< double > result;
+  
+  if(args.Length() != 1) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_doubleArray_getrow.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_doubleArray, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "doubleArray_getrow" "', argument " "1"" of type '" "doubleArray *""'"); 
+  }
+  arg1 = reinterpret_cast< doubleArray * >(argp1);
+  ecode2 = SWIG_AsVal_int(args[0], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "doubleArray_getrow" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (arg1)->getrow(arg2);
+  
+  {
+    int length = (&result)->size();
+    v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
+    v8::Local<v8::Array> array = SWIGV8_ARRAY_NEW(length);
+    
+    for (int i = 0; i < length; i++)
+    {
+      array->Set(context, i, SWIGV8_NUMBER_NEW((&result)->at(i)));
+    }
+    
+    jsresult = array;
+  }
+  
+  
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
 static SwigV8ReturnValue _wrap_doubleArray_data(const SwigV8Arguments &args) {
   SWIGV8_HANDLESCOPE();
   
@@ -10468,6 +10638,62 @@ static SwigV8ReturnValue _wrap_doubleArray_data(const SwigV8Arguments &args) {
   arg1 = reinterpret_cast< doubleArray * >(argp1);
   result = (double *)(arg1)->data();
   jsresult = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_doubleArray_rows(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  doubleArray *arg1 = (doubleArray *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int result;
+  
+  if(args.Length() != 0) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_doubleArray_rows.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_doubleArray, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "doubleArray_rows" "', argument " "1"" of type '" "doubleArray *""'"); 
+  }
+  arg1 = reinterpret_cast< doubleArray * >(argp1);
+  result = (int)(arg1)->rows();
+  jsresult = SWIG_From_int(static_cast< int >(result));
+  
+  
+  SWIGV8_RETURN(jsresult);
+  
+  goto fail;
+fail:
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+
+
+static SwigV8ReturnValue _wrap_doubleArray_cols(const SwigV8Arguments &args) {
+  SWIGV8_HANDLESCOPE();
+  
+  v8::Local<v8::Value> jsresult;
+  doubleArray *arg1 = (doubleArray *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int result;
+  
+  if(args.Length() != 0) SWIG_exception_fail(SWIG_ERROR, "Illegal number of arguments for _wrap_doubleArray_cols.");
+  
+  res1 = SWIG_ConvertPtr(args.Holder(), &argp1,SWIGTYPE_p_doubleArray, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "doubleArray_cols" "', argument " "1"" of type '" "doubleArray *""'"); 
+  }
+  arg1 = reinterpret_cast< doubleArray * >(argp1);
+  result = (int)(arg1)->cols();
+  jsresult = SWIG_From_int(static_cast< int >(result));
   
   
   SWIGV8_RETURN(jsresult);
@@ -17096,7 +17322,11 @@ SWIGV8_AddMemberFunction(_exports_GAUSS_class, "getErrorOutput", _wrap_GAUSS_get
 SWIGV8_AddMemberFunction(_exports_GAUSS_class, "clearErrorOutput", _wrap_GAUSS_clearErrorOutput);
 SWIGV8_AddMemberFunction(_exports_doubleArray_class, "getitem", _wrap_doubleArray_getitem);
 SWIGV8_AddMemberFunction(_exports_doubleArray_class, "setitem", _wrap_doubleArray_setitem);
+SWIGV8_AddMemberFunction(_exports_doubleArray_class, "getblock", _wrap_doubleArray_getblock);
+SWIGV8_AddMemberFunction(_exports_doubleArray_class, "getrow", _wrap_doubleArray_getrow);
 SWIGV8_AddMemberFunction(_exports_doubleArray_class, "data", _wrap_doubleArray_data);
+SWIGV8_AddMemberFunction(_exports_doubleArray_class, "rows", _wrap_doubleArray_rows);
+SWIGV8_AddMemberFunction(_exports_doubleArray_class, "cols", _wrap_doubleArray_cols);
 SWIGV8_AddMemberFunction(_exports_doubleArray_class, "size", _wrap_doubleArray_size);
 SWIGV8_AddMemberFunction(_exports_doubleArray_class, "reset", _wrap_doubleArray_reset);
 SWIGV8_AddMemberFunction(_exports_GESymbol_class, "getRows", _wrap_GESymbol_getRows);

@@ -54,21 +54,6 @@ static char* removeConst(std::string *str) {
     return const_cast<char*>(str->c_str());
 }
 
-static int getThreadId() {
-    int tid = -1;
-
-#ifdef _WIN32
-    tid = (int)GetCurrentThreadId();
-#else
-    tid = (int)syscall(SYS_gettid);
-#endif
-
-    //    printf("thread id is %d\n", tid);
-    //    fflush(stdout);
-
-    return tid;
-}
-
 static bool endsWithCaseInsensitive(const std::string &mainStr, const std::string &toMatch)
 {
     auto it = toMatch.begin();
@@ -1558,7 +1543,7 @@ doubleArray* GAUSS::getMatrixDirect(std::string name, GEWorkspace* workspace) {
     if (ret)
         return nullptr;
 
-    return new doubleArray(info.maddr, info.rows * info.cols);
+    return new doubleArray(info.maddr, info.rows, info.cols);
 }
 
 bool GAUSS::_setSymbol(doubleArray *data, std::string name) {
