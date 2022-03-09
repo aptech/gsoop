@@ -10,5 +10,5 @@ var class_workspace_manager =
     [ "getWorkspace", "class_workspace_manager.html#ac3f6b018529fdaca7f36ca9637bb4361", null ],
     [ "isValidWorkspace", "class_workspace_manager.html#aba77e63e85bbf08a02c91636023304c0", null ],
     [ "setCurrent", "class_workspace_manager.html#a1aee8705de2d071b6cce59dc83081ff6", null ],
-    [ "workspaceNames", "class_workspace_manager.html#a4d8dc4d06db48f7ef91d4a97b149aa4e", null ]
+    [ "workspaceNames", "class_workspace_manager.html#a9b521fe3e5b27ad336800315dabcbbab", null ]
 ];

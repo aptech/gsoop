@@ -28,7 +28,7 @@
   <td id="projectlogo"><img alt="Logo" src="gauss_logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GAUSS Engine
-   &#160;<span id="projectnumber">0.3.2</span>
+   &#160;<span id="projectnumber">0.4.0</span>
    </div>
    <div id="projectbrief">Language bindings for the GAUSS Engine</div>
   </td>
@@ -117,7 +117,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af9ebcc214a2086c4692fa107c3ee53e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize matrix to scalar with specified value.  <a href="class_g_e_matrix.html#af9ebcc214a2086c4692fa107c3ee53e9">More...</a><br /></td></tr>
 <tr class="separator:af9ebcc214a2086c4692fa107c3ee53e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3bb7449ba121b12b1944b96ecae38cdc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_e_matrix.html#a3bb7449ba121b12b1944b96ecae38cdc">GEMatrix</a> (VECTOR_DATA(double) data)</td></tr>
-<tr class="memdesc:a3bb7449ba121b12b1944b96ecae38cdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a matrix object from a vector of double-precision numbers with <code>data.size()</code> columns and 1 row.  <a href="class_g_e_matrix.html#a3bb7449ba121b12b1944b96ecae38cdc">More...</a><br /></td></tr>
+<tr class="memdesc:a3bb7449ba121b12b1944b96ecae38cdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a matrix object from a std::vector of double-precision numbers with <code>data.size()</code> columns and 1 row.  <a href="class_g_e_matrix.html#a3bb7449ba121b12b1944b96ecae38cdc">More...</a><br /></td></tr>
 <tr class="separator:a3bb7449ba121b12b1944b96ecae38cdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ae1f7a7a5fe51d899d14ce95d02f420"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_e_matrix.html#a9ae1f7a7a5fe51d899d14ce95d02f420">GEMatrix</a> (VECTOR_DATA(double) data, int rows, int cols, bool complex=false)</td></tr>
 <tr class="memdesc:a9ae1f7a7a5fe51d899d14ce95d02f420"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a real matrix with <em>rows</em> rows, and <em>cols</em> columns.  <a href="class_g_e_matrix.html#a9ae1f7a7a5fe51d899d14ce95d02f420">More...</a><br /></td></tr>
@@ -149,19 +149,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a36e2ef8c4e8fcba15410f8f19042c1a7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_e_matrix.html#a36e2ef8c4e8fcba15410f8f19042c1a7">getElement</a> (int row, int col, bool imag=false) const</td></tr>
 <tr class="memdesc:a36e2ef8c4e8fcba15410f8f19042c1a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a value from the matrix at the specified row/column index.  <a href="class_g_e_matrix.html#a36e2ef8c4e8fcba15410f8f19042c1a7">More...</a><br /></td></tr>
 <tr class="separator:a36e2ef8c4e8fcba15410f8f19042c1a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49482e136fe25e61e8afc3eb2355146b"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_e_matrix.html#a49482e136fe25e61e8afc3eb2355146b">getData</a> (bool imag=false) const</td></tr>
-<tr class="memdesc:a49482e136fe25e61e8afc3eb2355146b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a copy of underlying numeric vector.  <a href="class_g_e_matrix.html#a49482e136fe25e61e8afc3eb2355146b">More...</a><br /></td></tr>
-<tr class="separator:a49482e136fe25e61e8afc3eb2355146b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7610a3e67e0729c3a1d4ae5648d2aae5"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_e_matrix.html#a7610a3e67e0729c3a1d4ae5648d2aae5">getImagData</a> () const</td></tr>
-<tr class="memdesc:a7610a3e67e0729c3a1d4ae5648d2aae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a copy of underlying imaginary data storage.  <a href="class_g_e_matrix.html#a7610a3e67e0729c3a1d4ae5648d2aae5">More...</a><br /></td></tr>
-<tr class="separator:a7610a3e67e0729c3a1d4ae5648d2aae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9053cf0bc9efe38834e1a74aa1c9feb6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_e_matrix.html#a9053cf0bc9efe38834e1a74aa1c9feb6">getData</a> (bool imag=false) const</td></tr>
+<tr class="memdesc:a9053cf0bc9efe38834e1a74aa1c9feb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a copy of underlying numeric std::vector.  <a href="class_g_e_matrix.html#a9053cf0bc9efe38834e1a74aa1c9feb6">More...</a><br /></td></tr>
+<tr class="separator:a9053cf0bc9efe38834e1a74aa1c9feb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6bc1aa2e07c0e66662c28da12a33675"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_e_matrix.html#ab6bc1aa2e07c0e66662c28da12a33675">getImagData</a> () const</td></tr>
+<tr class="memdesc:ab6bc1aa2e07c0e66662c28da12a33675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a copy of underlying imaginary data storage.  <a href="class_g_e_matrix.html#ab6bc1aa2e07c0e66662c28da12a33675">More...</a><br /></td></tr>
+<tr class="separator:ab6bc1aa2e07c0e66662c28da12a33675"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bf6ddd9f46248e1c03c0d952d572103"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_e_matrix.html#a1bf6ddd9f46248e1c03c0d952d572103">clear</a> ()</td></tr>
 <tr class="memdesc:a1bf6ddd9f46248e1c03c0d952d572103"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear all corresponding symbol data.  <a href="class_g_e_matrix.html#a1bf6ddd9f46248e1c03c0d952d572103">More...</a><br /></td></tr>
 <tr class="separator:a1bf6ddd9f46248e1c03c0d952d572103"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a698481e17b01b981ce483ebab3058d0b"><td class="memItemLeft" align="right" valign="top"><a id="a698481e17b01b981ce483ebab3058d0b"></a>
-virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_e_matrix.html#a698481e17b01b981ce483ebab3058d0b">toString</a> () const</td></tr>
-<tr class="memdesc:a698481e17b01b981ce483ebab3058d0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of this object. <br /></td></tr>
-<tr class="separator:a698481e17b01b981ce483ebab3058d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d6451e980841efa0e7843d22329c3b0"><td class="memItemLeft" align="right" valign="top"><a id="a3d6451e980841efa0e7843d22329c3b0"></a>
+virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_e_matrix.html#a3d6451e980841efa0e7843d22329c3b0">toString</a> () const</td></tr>
+<tr class="memdesc:a3d6451e980841efa0e7843d22329c3b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a std::string representation of this object. <br /></td></tr>
+<tr class="separator:a3d6451e980841efa0e7843d22329c3b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e74328752b5303f86f2bb41cf5f6534"><td class="memItemLeft" align="right" valign="top"><a id="a9e74328752b5303f86f2bb41cf5f6534"></a>
 Matrix_t *&#160;</td><td class="memItemRight" valign="bottom"><b>toInternal</b> ()</td></tr>
 <tr class="separator:a9e74328752b5303f86f2bb41cf5f6534"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -303,7 +303,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>type_</b></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Construct a matrix object from a vector of double-precision numbers with <code>data.size()</code> columns and 1 row. </p>
+<p>Construct a matrix object from a std::vector of double-precision numbers with <code>data.size()</code> columns and 1 row. </p>
 <p>Example:</p>
 <p><b>Python</b> </p><div class="fragment"><div class="line">x = <a class="code" href="class_g_e_matrix.html">GEMatrix</a>([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0])</div>
 <div class="line">ge.setSymbol(x, <span class="stringliteral">&quot;x&quot;</span>)</div>
@@ -314,13 +314,13 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>type_</b></td></tr>
 </div><!-- fragment --><p> results in output: </p><div class="fragment"><div class="line">1.0000000        2.0000000        3.0000000        4.0000000        5.0000000        6.0000000        7.0000000        8.0000000</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>Data vector</td></tr>
+    <tr><td class="paramname">data</td><td>Data std::vector</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_e_matrix.html" title="GAUSS Matrix symbol type.">GEMatrix(vector&lt;double&gt;, int, int, bool)</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_e_matrix.html" title="GAUSS Matrix symbol type.">GEMatrix(std::vector&lt;double&gt;, int, int, bool)</a> </dd>
 <dd>
-<a class="el" href="class_g_e_matrix.html" title="GAUSS Matrix symbol type.">GEMatrix(vector&lt;double&gt;, vector&lt;double&gt;, int, int)</a> </dd></dl>
+<a class="el" href="class_g_e_matrix.html" title="GAUSS Matrix symbol type.">GEMatrix(std::vector&lt;double&gt;, std::vector&lt;double&gt;, int, int)</a> </dd></dl>
 
 </div>
 </div>
@@ -399,7 +399,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>type_</b></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_e_matrix.html" title="GAUSS Matrix symbol type.">GEMatrix(vector&lt;double&gt;, vector&lt;double&gt;, int, int)</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_e_matrix.html" title="GAUSS Matrix symbol type.">GEMatrix(std::vector&lt;double&gt;, std::vector&lt;double&gt;, int, int)</a> </dd></dl>
 
 </div>
 </div>
@@ -464,7 +464,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>type_</b></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_e_matrix.html" title="GAUSS Matrix symbol type.">GEMatrix(vector&lt;double&gt;, int, int, bool)</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_e_matrix.html" title="GAUSS Matrix symbol type.">GEMatrix(std::vector&lt;double&gt;, int, int, bool)</a> </dd></dl>
 
 </div>
 </div>
@@ -499,14 +499,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>type_</b></td></tr>
 
 </div>
 </div>
-<a id="a49482e136fe25e61e8afc3eb2355146b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49482e136fe25e61e8afc3eb2355146b">&#9670;&nbsp;</a></span>getData()</h2>
+<a id="a9053cf0bc9efe38834e1a74aa1c9feb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9053cf0bc9efe38834e1a74aa1c9feb6">&#9670;&nbsp;</a></span>getData()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt; double &gt; GEMatrix::getData </td>
+          <td class="memname">std::vector&lt; double &gt; GEMatrix::getData </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>imag</em> = <code>false</code></td><td>)</td>
@@ -515,8 +515,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>type_</b></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Retrieve a copy of underlying numeric vector. </p>
-<p>Imaginary data can also be queried by supplying the <em>imag</em> argument, thus appending it to the end of the real data. Omitting or specifying the <em>imag</em> argument as <code>false</code> will return only real data. If you wish to only view the imaginary data, there is a <a class="el" href="class_g_e_matrix.html#a7610a3e67e0729c3a1d4ae5648d2aae5" title="Retrieve a copy of underlying imaginary data storage.">getImagData()</a> method for convenience.</p>
+<p>Retrieve a copy of underlying numeric std::vector. </p>
+<p>Imaginary data can also be queried by supplying the <em>imag</em> argument, thus appending it to the end of the real data. Omitting or specifying the <em>imag</em> argument as <code>false</code> will return only real data. If you wish to only view the imaginary data, there is a <a class="el" href="class_g_e_matrix.html#ab6bc1aa2e07c0e66662c28da12a33675" title="Retrieve a copy of underlying imaginary data storage.">getImagData()</a> method for convenience.</p>
 <p>Example:</p>
 <p><b>Python</b> </p><div class="fragment"><div class="line"><span class="comment"># Create a 4x2 matrix of integers 1 - 8.</span></div>
 <div class="line">ge.executeString(<span class="stringliteral">&quot;x = reshape(seqa(1, 1, 8), 4, 2)&quot;</span>)</div>
@@ -539,8 +539,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>type_</b></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Double precision vector of data</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_e_matrix.html#a7610a3e67e0729c3a1d4ae5648d2aae5" title="Retrieve a copy of underlying imaginary data storage.">getImagData()</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Double precision std::vector of data</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_e_matrix.html#ab6bc1aa2e07c0e66662c28da12a33675" title="Retrieve a copy of underlying imaginary data storage.">getImagData()</a> </dd></dl>
 
 </div>
 </div>
@@ -661,14 +661,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>type_</b></td></tr>
 
 </div>
 </div>
-<a id="a7610a3e67e0729c3a1d4ae5648d2aae5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7610a3e67e0729c3a1d4ae5648d2aae5">&#9670;&nbsp;</a></span>getImagData()</h2>
+<a id="ab6bc1aa2e07c0e66662c28da12a33675"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6bc1aa2e07c0e66662c28da12a33675">&#9670;&nbsp;</a></span>getImagData()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt; double &gt; GEMatrix::getImagData </td>
+          <td class="memname">std::vector&lt; double &gt; GEMatrix::getImagData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -691,8 +691,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>type_</b></td></tr>
 <div class="line">$x = $ge-&gt;getMatrix(<span class="stringliteral">&quot;x&quot;</span>);</div>
 <div class="line">echo implode(<span class="stringliteral">&quot;, &quot;</span>, $x-&gt;getImagData());</div>
 </div><!-- fragment --><p> results in output: </p><div class="fragment"><div class="line">5, 6, 7, 8</div>
-</div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>Double precision vector of data</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_e_matrix.html#a49482e136fe25e61e8afc3eb2355146b" title="Retrieve a copy of underlying numeric vector.">getData()</a> </dd></dl>
+</div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>Double precision std::vector of data</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_e_matrix.html#a9053cf0bc9efe38834e1a74aa1c9feb6" title="Retrieve a copy of underlying numeric std::vector.">getData()</a> </dd></dl>
 
 </div>
 </div>
@@ -844,7 +844,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>type_</b></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_g_e_matrix.html">GEMatrix</a></li>
-    <li class="footer">Generated on Tue Nov 23 2021 15:32:12 for GAUSS Engine by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Wed Mar 9 2022 09:09:17 for GAUSS Engine by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

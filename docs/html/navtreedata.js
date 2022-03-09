@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "GAUSS Engine", "index.html", [
-    [ "gsoop 0.3.2", "index.html", null ],
+    [ "gsoop 0.4.0", "index.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],

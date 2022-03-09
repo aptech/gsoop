@@ -10,7 +10,7 @@ var class_g_e_symbol =
     [ "setComplex", "class_g_e_symbol.html#abc3312d19d04a1eef62c0c4d255924df", null ],
     [ "setRows", "class_g_e_symbol.html#a8f5a7ba90f2d124529d6b9d7aa59cb59", null ],
     [ "size", "class_g_e_symbol.html#a534b11b49a640420aaca9433db0c6479", null ],
-    [ "toString", "class_g_e_symbol.html#a5c0d4c23b20574c28bddfe234409aa37", null ],
+    [ "toString", "class_g_e_symbol.html#a0e19bae4cddd86373dba8f48884a7252", null ],
     [ "type", "class_g_e_symbol.html#a73a71b9e1b7376d4791d24aca20737b6", null ],
     [ "cols_", "class_g_e_symbol.html#ad6fa1f94281aebfc239e73aaefa34866", null ],
     [ "complex_", "class_g_e_symbol.html#a8ad78c322adee566f1180f9d9b359798", null ],

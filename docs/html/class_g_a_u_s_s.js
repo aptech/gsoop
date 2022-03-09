@@ -86,6 +86,8 @@ var class_g_a_u_s_s =
     [ "setHookProgramInputString", "class_g_a_u_s_s.html#ae3f5de6a0e0c2b5caf64e8612b353797", null ],
     [ "setHookProgramOutput", "class_g_a_u_s_s.html#aa9782a669facb214976b23b0657e4fef", null ],
     [ "setLogFile", "class_g_a_u_s_s.html#aeec13d5fa3abe9e9b7836cee87edf5b8", null ],
+    [ "setScalar", "class_g_a_u_s_s.html#a2b4cc54157cf22e30eaacc23f0ccfa81", null ],
+    [ "setScalar", "class_g_a_u_s_s.html#a950fa1085eaab159504296f4a73dc5fc", null ],
     [ "setSymbol", "class_g_a_u_s_s.html#a328c6fadd097c46b0651d1985c12759d", null ],
     [ "setSymbol", "class_g_a_u_s_s.html#a0b47905610cb724bd9d6b69ef57ddc60", null ],
     [ "setSymbol", "class_g_a_u_s_s.html#ab51cbcd5a66ba3355f52bf10bf31f7e3", null ],

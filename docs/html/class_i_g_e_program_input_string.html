@@ -28,7 +28,7 @@
   <td id="projectlogo"><img alt="Logo" src="gauss_logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GAUSS Engine
-   &#160;<span id="projectnumber">0.3.2</span>
+   &#160;<span id="projectnumber">0.4.0</span>
    </div>
    <div id="projectbrief">Language bindings for the GAUSS Engine</div>
   </td>
@@ -104,10 +104,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aff170652d98f6a992a27134a7c674e01"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_g_e_program_input_string.html#aff170652d98f6a992a27134a7c674e01">invoke</a> (int length)=0</td></tr>
 <tr class="memdesc:aff170652d98f6a992a27134a7c674e01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invocation method for callback.  <a href="class_i_g_e_program_input_string.html#aff170652d98f6a992a27134a7c674e01">More...</a><br /></td></tr>
 <tr class="separator:aff170652d98f6a992a27134a7c674e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac692d94b650c29fe8d82690c78003be6"><td class="memItemLeft" align="right" valign="top"><a id="ac692d94b650c29fe8d82690c78003be6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_g_e_program_input_string.html#ac692d94b650c29fe8d82690c78003be6">setValue</a> (string value)</td></tr>
-<tr class="memdesc:ac692d94b650c29fe8d82690c78003be6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to set the return value for the callback. <br /></td></tr>
-<tr class="separator:ac692d94b650c29fe8d82690c78003be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e37fc214d394eb7459bbf1b4efaa271"><td class="memItemLeft" align="right" valign="top"><a id="a5e37fc214d394eb7459bbf1b4efaa271"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_g_e_program_input_string.html#a5e37fc214d394eb7459bbf1b4efaa271">setValue</a> (std::string value)</td></tr>
+<tr class="memdesc:a5e37fc214d394eb7459bbf1b4efaa271"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to set the return value for the callback. <br /></td></tr>
+<tr class="separator:a5e37fc214d394eb7459bbf1b4efaa271"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -117,7 +117,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>GAUSS</b></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>String Input callback function for the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine. </p>
-<p>Use this class to generate a hook function that the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine will call whenever user string input is required.</p>
+<p>Use this class to generate a hook function that the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine will call whenever user std::string input is required.</p>
 <p><b>Note:</b> With all callbacks, the <code>thisown</code> flag must be set to <code>0</code> on instantiation. This informs the target language that this object will be owned and properly deleted by the Engine.</p>
 <h4><a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> commands which activate this callback</h4>
 <ul>
@@ -125,7 +125,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>GAUSS</b></td></tr>
 </ul>
 <h4>Python</h4>
 <div class="fragment"><div class="line"><span class="keyword">class </span>StringInput(<a class="code" href="class_i_g_e_program_input_string.html">IGEProgramInputString</a>):</div>
-<div class="line">    <span class="comment"># The callback does not return a string directly, rather through a method call.</span></div>
+<div class="line">    <span class="comment"># The callback does not return a std::string directly, rather through a method call.</span></div>
 <div class="line">    <span class="keyword">def </span>invoke(self, length):</div>
 <div class="line">        self.setValue(<span class="stringliteral">&quot;Hello World!&quot;</span>)</div>
 <div class="line"> </div>
@@ -139,10 +139,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>GAUSS</b></td></tr>
 <div class="line"><span class="keywordflow">print</span> <span class="stringliteral">&quot;s = &quot;</span> + s</div>
 <div class="ttc" id="aclass_i_g_e_program_input_string_html"><div class="ttname"><a href="class_i_g_e_program_input_string.html">IGEProgramInputString</a></div><div class="ttdoc">String Input callback function for the GAUSS Engine.</div><div class="ttdef"><b>Definition:</b> gefuncwrapper.h:222</div></div>
 </div><!-- fragment --><p><b>PHP</b> </p><div class="fragment"><div class="line"><span class="keyword">class </span>StringInput <span class="keyword">extends</span> <a class="code" href="class_i_g_e_program_input_string.html">IGEProgramInputString</a> {</div>
-<div class="line">    <span class="comment">// The callback does not return a string directly, rather through a method call.</span></div>
+<div class="line">    <span class="comment">// The callback does not return a std::string directly, rather through a method call.</span></div>
 <div class="line">    <span class="keyword">function</span> <a class="code" href="class_i_g_e_program_input_string.html#aff170652d98f6a992a27134a7c674e01">invoke</a>($length) {</div>
 <div class="line">        <span class="comment">// Ask user for input normally</span></div>
-<div class="line">        $this-&gt;<a class="code" href="class_i_g_e_program_input_string.html#ac692d94b650c29fe8d82690c78003be6">setValue</a>(<span class="stringliteral">&quot;Hello World!&quot;</span>);</div>
+<div class="line">        $this-&gt;<a class="code" href="class_i_g_e_program_input_string.html#a5e37fc214d394eb7459bbf1b4efaa271">setValue</a>(<span class="stringliteral">&quot;Hello World!&quot;</span>);</div>
 <div class="line">    }</div>
 <div class="line">}</div>
 <div class="line"> </div>
@@ -154,7 +154,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>GAUSS</b></td></tr>
 <div class="line"> </div>
 <div class="line">$s = $ge-&gt;getString(<span class="stringliteral">&quot;s&quot;</span>);</div>
 <div class="line">echo <span class="stringliteral">&quot;s = &quot;</span> . $s . PHP_EOL;</div>
-<div class="ttc" id="aclass_i_g_e_program_input_string_html_ac692d94b650c29fe8d82690c78003be6"><div class="ttname"><a href="class_i_g_e_program_input_string.html#ac692d94b650c29fe8d82690c78003be6">IGEProgramInputString::setValue</a></div><div class="ttdeci">void setValue(string value)</div><div class="ttdoc">Used to set the return value for the callback.</div><div class="ttdef"><b>Definition:</b> gefuncwrapper.h:239</div></div>
+<div class="ttc" id="aclass_i_g_e_program_input_string_html_a5e37fc214d394eb7459bbf1b4efaa271"><div class="ttname"><a href="class_i_g_e_program_input_string.html#a5e37fc214d394eb7459bbf1b4efaa271">IGEProgramInputString::setValue</a></div><div class="ttdeci">void setValue(std::string value)</div><div class="ttdoc">Used to set the return value for the callback.</div><div class="ttdef"><b>Definition:</b> gefuncwrapper.h:239</div></div>
 <div class="ttc" id="aclass_i_g_e_program_input_string_html_aff170652d98f6a992a27134a7c674e01"><div class="ttname"><a href="class_i_g_e_program_input_string.html#aff170652d98f6a992a27134a7c674e01">IGEProgramInputString::invoke</a></div><div class="ttdeci">virtual void invoke(int length)=0</div><div class="ttdoc">Invocation method for callback.</div></div>
 </div><!-- fragment --><p>will result in the output:  s = Hello World! ```</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_g_a_u_s_s.html#ae82b5bfdf26971433c46936a812506c3" title="Set the callback function that GAUSS will call for blocking std::string input.">GAUSS::setProgramInputString(IGEProgramInputString*)</a> </dd></dl>
@@ -187,7 +187,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>GAUSS</b></td></tr>
 <p>This method is called when the <a class="el" href="class_g_a_u_s_s.html" title="Main class that must be instantiated to interface with the GAUSS Engine.">GAUSS</a> Engine needs user supplied input. This callback can also be triggered directly via a call to <a class="el" href="class_g_a_u_s_s.html#afdcb5a64e926589539138da46dc92020" title="Calls the program input std::string function hooked with setProgramInputString(IGEProgramInputString*...">GAUSS::programInputString()</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">length</td><td>Max length allowed for return string </td></tr>
+    <tr><td class="paramname">length</td><td>Max length allowed for return std::string </td></tr>
   </table>
   </dd>
 </dl>
@@ -203,7 +203,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>GAUSS</b></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_i_g_e_program_input_string.html">IGEProgramInputString</a></li>
-    <li class="footer">Generated on Tue Nov 23 2021 15:32:12 for GAUSS Engine by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Wed Mar 9 2022 09:09:17 for GAUSS Engine by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

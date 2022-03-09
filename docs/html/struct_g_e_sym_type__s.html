@@ -28,7 +28,7 @@
   <td id="projectlogo"><img alt="Logo" src="gauss_logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">GAUSS Engine
-   &#160;<span id="projectnumber">0.3.2</span>
+   &#160;<span id="projectnumber">0.4.0</span>
    </div>
    <div id="projectbrief">Language bindings for the GAUSS Engine</div>
   </td>
@@ -153,11 +153,11 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <div class="line">        GESymType.MATRIX:</div>
 <div class="line">            <span class="stringliteral">&quot;Symbol is a matrix.&quot;</span>,</div>
 <div class="line">        GESymType.STRING:</div>
-<div class="line">            <span class="stringliteral">&quot;Symbol is a string.&quot;</span>,</div>
+<div class="line">            <span class="stringliteral">&quot;Symbol is a std::string.&quot;</span>,</div>
 <div class="line">        GESymType.STRUCT:</div>
 <div class="line">            <span class="stringliteral">&quot;Symbol is a struct.&quot;</span>,</div>
 <div class="line">        GESymType.STRING_ARRAY:</div>
-<div class="line">            <span class="stringliteral">&quot;Symbol is a string array.&quot;</span>,</div>
+<div class="line">            <span class="stringliteral">&quot;Symbol is a std::string array.&quot;</span>,</div>
 <div class="line">        GESymType.ARRAY_GAUSS:</div>
 <div class="line">            <span class="stringliteral">&quot;Symbol is an array.&quot;</span>,</div>
 <div class="line">        GESymType.PROC:</div>
@@ -190,13 +190,13 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a matrix.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#a0e719c96f22a8453e460f7d87a09696a">GESymType::STRING</a>:</div>
-<div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a string.&quot;</span>;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a std::string.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#a7abc9ab4e83c0b99f9fde37450489944">GESymType::STRUCT</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a struct.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#a8b841bad6dacbbacf0d423219bd08a98">GESymType::STRING_ARRAY</a>:</div>
-<div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a string array.&quot;</span>;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is a std::string array.&quot;</span>;</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">        <span class="keywordflow">case</span> <a class="code" href="struct_g_e_sym_type__s.html#ae49660fdf27d7d165463abb2ccc941e4">GESymType::ARRAY_GAUSS</a>:</div>
 <div class="line">            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Symbol is an array.&quot;</span>;</div>
@@ -233,7 +233,7 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <div class="ttc" id="astruct_g_e_sym_type__s_html_ae27a11fce0f32a022df8925068b4257c"><div class="ttname"><a href="struct_g_e_sym_type__s.html#ae27a11fce0f32a022df8925068b4257c">GESymType_s::OTHER</a></div><div class="ttdeci">static const int OTHER</div><div class="ttdoc">Other.</div><div class="ttdef"><b>Definition:</b> gesymtype.h:115</div></div>
 <div class="ttc" id="astruct_g_e_sym_type__s_html_ae49660fdf27d7d165463abb2ccc941e4"><div class="ttname"><a href="struct_g_e_sym_type__s.html#ae49660fdf27d7d165463abb2ccc941e4">GESymType_s::ARRAY_GAUSS</a></div><div class="ttdeci">static const int ARRAY_GAUSS</div><div class="ttdoc">N-Dimensional Array.</div><div class="ttdef"><b>Definition:</b> gesymtype.h:113</div></div>
 </div><!-- fragment --><p> results in output: </p><div class="fragment"><div class="line">Symbol is a matrix.</div>
-<div class="line">Symbol is a <span class="keywordtype">string</span>.</div>
+<div class="line">Symbol is a std::string.</div>
 <div class="line">Symbol is an array.</div>
 </div><!-- fragment --> </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a4868e0d2833270b164c4a78b497f4fdc"></a>
@@ -270,7 +270,7 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="struct_g_e_sym_type__s.html">GESymType_s</a></li>
-    <li class="footer">Generated on Tue Nov 23 2021 15:32:12 for GAUSS Engine by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Wed Mar 9 2022 09:09:17 for GAUSS Engine by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>
