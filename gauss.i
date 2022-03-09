@@ -196,6 +196,7 @@ JAVASCRIPT_OUT_STD_VECTOR_NUMERIC(int, SWIGV8_INTEGER_NEW)
 %define JAVASCRIPT_OUT_FIXED_ARRAY(CLSNAME, CREATION_MODE)
 %typemap(out) CLSNAME %{
 {
+  // TODO: https://github.com/thangktran/node/commit/850a80b8a7b2fc8e1fcc3956c2860c3042576975
   int length = $1.size;
   v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
   v8::Local<v8::ArrayBuffer> arrayBuffer = v8::ArrayBuffer::New(v8::Isolate::GetCurrent(), $1.data, length * sizeof(double), CREATION_MODE);
