@@ -19,7 +19,7 @@ if not lib_dir:
 
 is_win = os.name == "nt"
 
-version = "0.3.2"
+version = "0.4.0"
 author = "Aptech Systems, Inc."
 author_email = "matt@aptech.com"
 description = """Python bindings for GAUSS Engine"""

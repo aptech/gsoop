@@ -11,18 +11,18 @@ class GAUSS_EXPORT GEArray : public GESymbol
 {
 public:
     GEArray();
-    GEArray(vector<int> orders, VECTOR_DATA(double) data, bool complex = false);
+    GEArray(std::vector<int> orders, VECTOR_DATA(double) data, bool complex = false);
     GEArray(const int *orders, int orders_len, const double *data, int data_len, bool complex = false);
 
-    GEMatrix* getPlane(vector<int> orders, bool imag = false) const;
-    vector<double> getVector(vector<int> orders, bool imag = false) const;
+    GEMatrix* getPlane(std::vector<int> orders, bool imag = false) const;
+    std::vector<double> getVector(std::vector<int> orders, bool imag = false) const;
 
-    double getElement(vector<int> orders, bool imag = false) const;
-    bool setElement(double, vector<int> orders, bool imag = false);
+    double getElement(std::vector<int> orders, bool imag = false) const;
+    bool setElement(double, std::vector<int> orders, bool imag = false);
 
-    vector<double> getData(bool imag = false) const;
-    vector<double> getImagData() const;
-    vector<int> getOrders() const;
+    std::vector<double> getData(bool imag = false) const;
+    std::vector<double> getImagData() const;
+    std::vector<int> getOrders() const;
 
     int getDimensions() const;
     virtual int size() const;
@@ -39,7 +39,7 @@ private:
     size_t totalElements() const { return this->num_elements_ * (isComplex() ? 2: 1); }
 
     // Holds array data
-	vector<double> data_;
+    std::vector<double> data_;
 
     // Orders of array
     int dims_;

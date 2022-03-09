@@ -2,7 +2,7 @@
 #include <cstring>
 #include <cmath>
 #include <sstream>
-using namespace std;
+
 
 /**
  * Construct a `1x1` matrix with value of `0`.
@@ -100,7 +100,7 @@ GEMatrix::GEMatrix(const GAUSS_MatrixInfo_t &info) : GESymbol(GESymType::MATRIX)
 }
 
 /**
- * Construct a matrix object from a vector of double-precision numbers with `data.size()` columns and 1 row.
+ * Construct a matrix object from a std::vector of double-precision numbers with `data.size()` columns and 1 row.
  *
  * Example:
  *
@@ -122,10 +122,10 @@ $ge->executeString("print x;");
        1.0000000        2.0000000        3.0000000        4.0000000        5.0000000        6.0000000        7.0000000        8.0000000
 ```
  *
- * @param   data    Data vector
+ * @param   data    Data std::vector
  *
- * @see GEMatrix(vector<double>, int, int, bool)
- * @see GEMatrix(vector<double>, vector<double>, int, int)
+ * @see GEMatrix(std::vector<double>, int, int, bool)
+ * @see GEMatrix(std::vector<double>, std::vector<double>, int, int)
  */
 GEMatrix::GEMatrix(VECTOR_DATA(double) data) : GESymbol(GESymType::MATRIX) {
     Init(data, 1, VECTOR_VAR(data) size(), false);
@@ -180,7 +180,7 @@ $ge->executeString("print xc;");
  * @param cols      Number of columns
  * @param complex   True if including imaginary data, false otherwise
  *
- * @see GEMatrix(vector<double>, vector<double>, int, int)
+ * @see GEMatrix(std::vector<double>, std::vector<double>, int, int)
  */
 GEMatrix::GEMatrix(VECTOR_DATA(double) data, int rows, int cols, bool complex) : GESymbol(GESymType::MATRIX) {
     Init(data, rows, cols, complex);
@@ -219,7 +219,7 @@ $ge->executeString("print xc;");
  * @param cols      Number of columns
  * @param complex   True if including imaginary data, false otherwise
  *
- * @see GEMatrix(vector<double>, int, int, bool)
+ * @see GEMatrix(std::vector<double>, int, int, bool)
  */
 GEMatrix::GEMatrix(VECTOR_DATA(double) real_data, VECTOR_DATA(double) imag_data, int rows, int cols) : GESymbol(GESymType::MATRIX) {
     Init(real_data, imag_data, rows, cols, true);
@@ -422,7 +422,7 @@ bool GEMatrix::setElement(double value, int row, int col, bool imag) {
 }
 
 /**
- * Retrieve a copy of underlying numeric vector. Imaginary data can also
+ * Retrieve a copy of underlying numeric std::vector. Imaginary data can also
  * be queried by supplying the _imag_ argument, thus appending it to the
  * end of the real data. Omitting or specifying the _imag_ argument as `false`
  * will return only real data. If you wish to only view the imaginary data,
@@ -458,19 +458,19 @@ echo implode(", ", $x->getData());
  *
  * @param imag  Whether to return imaginary data as well.
  *
- * @return        Double precision vector of data
+ * @return        Double precision std::vector of data
  *
  * @see getImagData()
  */
-vector<double> GEMatrix::getData(bool imag) const {
+std::vector<double> GEMatrix::getData(bool imag) const {
     if (imag && !isComplex()) {
-        return vector<double>();
+        return std::vector<double>();
     } else if (imag == isComplex()) {
         return this->data_;
     }
 
     int elements = this->size();
-    vector<double> ret(elements);
+    std::vector<double> ret(elements);
 
     memcpy(ret.data(), this->data_.data(), elements * sizeof(double));
 
@@ -506,12 +506,12 @@ echo implode(", ", $x->getImagData());
 5, 6, 7, 8
 ```
  *
- * @return        Double precision vector of data
+ * @return        Double precision std::vector of data
  *
  * @see getData()
  */
-vector<double> GEMatrix::getImagData() const {
-    vector<double> ret;
+std::vector<double> GEMatrix::getImagData() const {
+    std::vector<double> ret;
 
     if (!isComplex())
         return ret;
@@ -525,8 +525,8 @@ vector<double> GEMatrix::getImagData() const {
     return ret;
 }
 
-string GEMatrix::toString() const {
-    stringstream s;
+std::string GEMatrix::toString() const {
+    std::stringstream s;
 
     int rows = getRows();
     int cols = getCols();
@@ -544,7 +544,7 @@ string GEMatrix::toString() const {
         }
 
         if (i < rows - 1)
-            s << endl;
+            s << std::endl;
     }
 
     return s.str();

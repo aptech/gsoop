@@ -1,4 +1,4 @@
-gsoop 0.3.2
+gsoop 0.4.0
 =====
 
 A light-weight OOP wrapper for various target languages that allows developers to interface with the GAUSS Engine.
@@ -75,11 +75,11 @@ Please ensure your Python installation contains the `setuptools` package, which 
 
 Instructions and files can be found at: https://pypi.python.org/pypi/setuptools#windows
 
-    $ easy_install ge-0.3.2-py3.6-win-amd64.egg
+    $ easy_install ge-0.4.0-py3.6-win-amd64.egg
 
 #### Linux 
 
-    $ easy_install ge-0.3.2-py3.6-linux-x86_64.egg
+    $ easy_install ge-0.4.0-py3.6-linux-x86_64.egg
 
 ### Source
 
@@ -102,15 +102,15 @@ python setup.py install
 ```bash
 # The setup.py utilizes the 'MTENGHOME' environment variable.
 # Please ensure this is set appropriately to your GAUSS Engine installation directory.
-tar -xvf ge-0.3.2.tar.gz
-cd ge-0.3.2
+tar -xvf ge-0.4.0.tar.gz
+cd ge-0.4.0
 python setup.py build_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install
   
 # ROOT ONLY
 # If installation must be done as root, force set the environment variable
-tar -xvf ge-0.3.2.tar.gz
-cd ge-0.3.2
+tar -xvf ge-0.4.0.tar.gz
+cd ge-0.4.0
 export MTENGHOME=/home/user/mteng
 # If you need customized wrapper~
 python setup.py build_ext -i # First build the extension and create the ge.py file
@@ -135,8 +135,8 @@ Execute the following via a `cmd` terminal:
 ```bash
 # The setup.py utilizes the 'MTENGHOME' environment variable.
 # Please ensure this is set appropriately to your GAUSS Engine installation directory or set it on the command line.
-# unzip ge-0.3.2.zip to a directory of your choice
-cd ge-0.3.2
+# unzip ge-0.4.0.zip to a directory of your choice
+cd ge-0.4.0
 set MTENGHOME=C:\mteng
 python setup.py build_ext -i      # First build the extension and create the ge.py file
 python setup.py install           # Everything compiled, now install

@@ -29,8 +29,8 @@ public:
     double getElement(int idx, bool imag = false) const;
     double getElement(int row, int col, bool imag = false) const;
 
-    vector<double> getData(bool imag = false) const;
-    vector<double> getImagData() const;
+    std::vector<double> getData(bool imag = false) const;
+    std::vector<double> getImagData() const;
 
     virtual void clear();
     virtual std::string toString() const;
@@ -49,7 +49,7 @@ private:
     void Init(VECTOR_DATA(double) real_data, VECTOR_DATA(double) imag_data, int rows, int cols, bool complex = false);
     void Init(const double *data, const double *imag_data, int rows, int cols, bool complex = false); 
 
-	std::vector<double> data_;
+    std::vector<double> data_;
 
     friend class GAUSS;
     friend class GAUSSPrivate;

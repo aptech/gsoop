@@ -24,7 +24,7 @@
 
 #include <stdio.h>
 #include <mutex>
-using namespace std;
+
 
 #ifdef _WIN32
 #  include <direct.h>
@@ -39,10 +39,8 @@ using namespace std;
  */
 static std::string kHomeVar = "MTENGHOME";
 
-static unordered_map<int, std::string> kOutputStore;
-static std::mutex kOutputMutex;
-static unordered_map<int, std::string> kErrorStore;
-static std::mutex kErrorMutex;
+thread_local std::string kOutputStore;
+thread_local std::string kErrorStore;
 
 IGEProgramOutput* GAUSS::outputFunc_ = 0;
 IGEProgramOutput* GAUSS::errorFunc_ = 0;
@@ -56,19 +54,13 @@ static char* removeConst(std::string *str) {
     return const_cast<char*>(str->c_str());
 }
 
-static int getThreadId() {
-    int tid = -1;
-
-#ifdef _WIN32
-    tid = (int)GetCurrentThreadId();
-#else
-    tid = (int)syscall(SYS_gettid);
-#endif
-
-    //    printf("thread id is %d\n", tid);
-    //    fflush(stdout);
-
-    return tid;
+static bool endsWithCaseInsensitive(const std::string &mainStr, const std::string &toMatch)
+{
+    auto it = toMatch.begin();
+    return mainStr.size() >= toMatch.size() &&
+            std::all_of(std::next(mainStr.begin(), mainStr.size() - toMatch.size()), mainStr.end(), [&it](const char &c){
+                return ::tolower(c) == ::tolower(*(it++));
+    });
 }
 
 /**
@@ -149,8 +141,6 @@ void GAUSS::Init(std::string homePath) {
     GAUSS::inputCheckFunc_ = 0;
 
     if (homePath.empty()) {
-        cerr << "Unable to find GAUSS Home directory. Aborting." << endl;
-        cerr.flush();
         return;
     }
 }
@@ -170,28 +160,16 @@ void GAUSS::Init(std::string homePath) {
  */
 bool GAUSS::initialize() {
     if (!setHome(this->d->gauss_home_)) {
-        std::string errorString = getLastErrorText();
-
-        cerr << "Could not set GAUSS Home (Error: " << errorString << ")" << endl;
-        cerr.flush();
         return false;
     }
 
     if (GAUSS_Initialize() >  0) {
-        std::string errorString = getLastErrorText();
-
-        cerr << "Could initialize GAUSS (Error: " << errorString << ")" << endl;
-        cerr.flush();
         return false;
     }
 
     GEWorkspace *workspace = createWorkspace("main");
 
-    if (workspace->workspace() == nullptr) {
-        std::string errorString = getLastErrorText();
-
-        cerr << "Could not create workspace (Error: " << errorString << ")" << endl;
-        cerr.flush();
+    if (workspace == nullptr || workspace->workspace() == nullptr) {
         return false;
     }
 
@@ -524,7 +502,9 @@ $success = $ge->executeFile("ols.e", $myWorkspace);
  * @see compileFile(std::string)
  */
 bool GAUSS::executeFile(std::string filename, GEWorkspace *workspace) {
-    if (!this->d->manager_->isValidWorkspace(workspace))
+    if (endsWithCaseInsensitive(filename, ".gcg"))
+        return executeCompiledFile(filename, workspace);
+    else if (!this->d->manager_->isValidWorkspace(workspace))
         return false;
 
     ProgramHandle_t *ph = GAUSS_CompileFile(workspace->workspace(), removeConst(&filename), 0, 0);
@@ -1038,6 +1018,7 @@ bool GAUSS::setLogFile(std::string filename, std::string mode) {
  * @see setHomeVar(std::string)
  */
 bool GAUSS::setHome(std::string path) {
+    this->d->gauss_home_ = path;
     return GAUSS_SetHome(removeConst(&path)) == GAUSS_SUCCESS;
 }
 
@@ -1154,6 +1135,19 @@ bool GAUSS::_setSymbol(GESymbol *symbol, std::string name, GEWorkspace *workspac
     default:
         return false;
     }
+}
+
+bool GAUSS::setScalar(double value, std::string name, GEWorkspace *workspace) {
+    if (name.empty() || !this->d->manager_->isValidWorkspace(workspace))
+        return false;
+
+    int ret = GAUSS_PutDouble(workspace->workspace(), value, removeConst(&name));
+
+    return (ret == GAUSS_SUCCESS);
+}
+
+bool GAUSS::setScalar(double value, std::string name) {
+    return setScalar(value, name, getActiveWorkspace());
 }
 
 GESymbol* GAUSS::getSymbol(std::string name) const {
@@ -1562,7 +1556,7 @@ doubleArray* GAUSS::getMatrixDirect(std::string name, GEWorkspace* workspace) {
     if (ret)
         return nullptr;
 
-    return new doubleArray(info.maddr, info.rows * info.cols);
+    return new doubleArray(info.maddr, info.rows, info.cols);
 }
 
 bool GAUSS::_setSymbol(doubleArray *data, std::string name) {
@@ -1671,12 +1665,12 @@ GEArray* GAUSS::getArrayAndClear(std::string name, GEWorkspace *workspace) const
 }
 
 /**
- * Retrieve a string array from the GAUSS symbol table in the active workspace. This will be a copy of the symbol
+ * Retrieve a std::string array from the GAUSS symbol table in the active workspace. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without first
  * calling setSymbol(GEStringArray*, std::string).
  *
  * @param name        Name of GAUSS symbol
- * @return        string array object
+ * @return        std::string array object
  *
  * @see getStringArray(std::string, GEWorkspace*)
  * @see setSymbol(GEStringArray*, std::string)
@@ -1687,13 +1681,13 @@ GEStringArray* GAUSS::getStringArray(std::string name) const {
 }
 
 /**
- * Retrieve a string array from the GAUSS symbol table in workspace _wh_. This will be a copy of the symbol
+ * Retrieve a std::string array from the GAUSS symbol table in workspace _wh_. This will be a copy of the symbol
  * from the symbol table, and therefore changes made will not be reflected without first
  * calling setSymbol(GEStringArray*, std::string).
  *
  * @param name        Name of GAUSS symbol
  * @param workspace   Workspace handle
- * @return        string array object
+ * @return        std::string array object
  *
  * @see getStringArray(std::string)
  * @see setSymbol(GEStringArray*, std::string)
@@ -1992,7 +1986,7 @@ bool GAUSS::setSymbol(std::string str, std::string name, GEWorkspace *workspace)
 }
 
 /**
- * Add a string array to the active workspace with the specified symbol name.
+ * Add a std::string array to the active workspace with the specified symbol name.
  *
  * Example:
  *
@@ -2010,7 +2004,7 @@ $sa = new GEStringArray(saData, 2, 2);
 $ge->setSymbol($sa, "sa");
 ```
  *
- * @param sa        string array to add to GAUSS symbol table
+ * @param sa        std::string array to add to GAUSS symbol table
  * @param name        Name to give newly added symbol
  * @return True on success, false on failure
  *
@@ -2021,7 +2015,7 @@ bool GAUSS::setSymbol(GEStringArray *sa, std::string name) {
 }
 
 /**
- * Add a string array to a specific workspace with the specified symbol name.
+ * Add a std::string array to a specific workspace with the specified symbol name.
  *
  * Example:
  *
@@ -2041,7 +2035,7 @@ $sa = new GEStringArray(saData, 2, 2);
 $ge->setSymbol($sa, "sa", $myWorkspace);
 ```
  *
- * @param sa        string array to add to GAUSS symbol table
+ * @param sa        std::string array to add to GAUSS symbol table
  * @param name        Name to give newly added symbol
  * @param workspace    Workspace handle
  * @return True on success, false on failure
@@ -2213,7 +2207,7 @@ bool GAUSS::moveSymbol(GEArray *array, std::string name, GEWorkspace *workspace)
 }
 
 /**
-* Add a string array to the active workspace with the specified symbol name.
+* Add a std::string array to the active workspace with the specified symbol name.
 * This implementation clears the local data after the move is completed.
 *
 * Example:
@@ -2232,7 +2226,7 @@ $sa = new GEStringArray(saData, 2, 2);
 $ge->moveSymbol($sa, "sa");
 ```
 *
-* @param sa        string array to add to GAUSS symbol table
+* @param sa        std::string array to add to GAUSS symbol table
 * @param name        Name to give newly added symbol
 * @return True on success, false on failure
 *
@@ -2243,7 +2237,7 @@ bool GAUSS::moveSymbol(GEStringArray *sa, std::string name) {
 }
 
 /**
-* Add a string array to a specific workspace with the specified symbol name.
+* Add a std::string array to a specific workspace with the specified symbol name.
 * This implementation clears the local data after the move is completed.
 *
 * Example:
@@ -2264,7 +2258,7 @@ $sa = new GEStringArray(saData, 2, 2);
 $ge->moveSymbol($sa, "sa", $myWorkspace);
 ```
 *
-* @param sa        string array to add to GAUSS symbol table
+* @param sa        std::string array to add to GAUSS symbol table
 * @param name        Name to give newly added symbol
 * @param workspace    Workspace handle
 * @return True on success, false on failure
@@ -2398,26 +2392,19 @@ std::string GAUSS::translateDataloopFile(std::string srcfile) {
 }
 
 void GAUSS::clearOutput() {
-    std::lock_guard<std::mutex> guard(kOutputMutex);
-    int tid = getThreadId();
-    kOutputStore[tid] = std::string();
+    kOutputStore = std::string();
 }
 
 void GAUSS::clearErrorOutput() {
-    std::lock_guard<std::mutex> guard(kErrorMutex);
-    int tid = getThreadId();
-    kErrorStore[tid] = std::string();
+    kErrorStore = std::string();
 }
 
 std::string GAUSS::getOutput() {
     if (!GAUSS::outputModeManaged())
         return std::string();
 
-    std::lock_guard<std::mutex> guard(kOutputMutex);
-
-    int tid = getThreadId();
     std::string ret;
-    ret.swap(kOutputStore[tid]);
+    ret.swap(kOutputStore);
 
     return ret;
 }
@@ -2426,11 +2413,8 @@ std::string GAUSS::getErrorOutput() {
     if (!GAUSS::outputModeManaged())
         return std::string();
 
-    std::lock_guard<std::mutex> guard(kErrorMutex);
-
-    int tid = getThreadId();
     std::string ret;
-    ret.swap(kErrorStore[tid]);
+    ret.swap(kErrorStore);
 
     return ret;
 }
@@ -2447,10 +2431,7 @@ void GAUSS::resetHooks() {
 
 void GAUSS::internalHookOutput(char *output) {
     if (GAUSS::outputModeManaged()) {
-        std::lock_guard<std::mutex> guard(kOutputMutex);
-        int tid = getThreadId();
-        std::string &store = kOutputStore[tid];
-        store.append(output);
+        kOutputStore.append(output);
     } else if (GAUSS::outputFunc_) {
         GAUSS::outputFunc_->invoke(std::string(output));
     } else {
@@ -2460,10 +2441,7 @@ void GAUSS::internalHookOutput(char *output) {
 
 void GAUSS::internalHookError(char *output) {
     if (GAUSS::outputModeManaged()) {
-        std::lock_guard<std::mutex> guard(kErrorMutex);
-        int tid = getThreadId();
-        std::string &store = kErrorStore[tid];
-        store.append(output);
+        kErrorStore.append(output);
     } else if (GAUSS::errorFunc_) {
         GAUSS::errorFunc_->invoke(std::string(output));
     } else {
@@ -2751,7 +2729,7 @@ void GAUSS::setProgramFlushOutput(IGEProgramFlushOutput *func) {
 __Python__
 ```py
 class StringInput(IGEProgramInputString):
-    # The callback does not return a string directly, rather through a method call.
+    # The callback does not return a std::string directly, rather through a method call.
     def invoke(self, length) {
         self.setValue("Hello World!")
 
@@ -2768,7 +2746,7 @@ print "s = " + s
 __PHP__
 ```php
 class StringInput extends IGEProgramInputString {
-    // The callback does not return a string directly, rather through a method call.
+    // The callback does not return a std::string directly, rather through a method call.
     function invoke($length) {
         $this->setValue("Hello World!");
     }
@@ -3010,52 +2988,7 @@ void GAUSS::setHookProgramInputCheck(int (*get_string_function)(void)) {
     GAUSS_HookProgramInputCheck(get_string_function);
 }
 
-//void GAUSS::setHookGetCursorPosition(int (*get_cursor_position_function)(void)) {
-//    GAUSS_HookGetCursorPosition(get_cursor_position_function);
-//}
-
 GAUSS::~GAUSS() {
-    //    if (GAUSS::outputFunc_) {
-    //        // Prevent double-delete for user doing setProgramOutputAll
-    //        if (GAUSS::outputFunc_ == GAUSS::errorFunc_)
-    //            GAUSS::errorFunc_ = 0;
-
-    //        delete GAUSS::outputFunc_;
-    //        GAUSS::outputFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::errorFunc_) {
-    //        delete GAUSS::errorFunc_;
-    //        GAUSS::errorFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::flushFunc_) {
-    //        delete GAUSS::flushFunc_;
-    //        GAUSS::flushFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::inputStringFunc_) {
-    //        delete GAUSS::inputStringFunc_;
-    //        GAUSS::inputStringFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::inputCharFunc_) {
-    //        if (GAUSS::inputCharFunc_ == GAUSS::inputBlockingCharFunc_)
-    //            GAUSS::inputBlockingCharFunc_ = 0;
-
-    //        delete GAUSS::inputCharFunc_;
-    //        GAUSS::inputCharFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::inputBlockingCharFunc_) {
-    //        delete GAUSS::inputBlockingCharFunc_;
-    //        GAUSS::inputBlockingCharFunc_ = 0;
-    //    }
-
-    //    if (GAUSS::inputCheckFunc_) {
-    //        delete GAUSS::inputCheckFunc_;
-    //        GAUSS::inputCheckFunc_ = 0;
-    //    }
 }
 
 bool GAUSSPrivate::managedOutput_ = true;

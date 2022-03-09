@@ -7,32 +7,59 @@
 #include <string>
 #include <iostream>
 #include <vector>
-using namespace std;
+#include <cstring>
 
 #ifdef SWIGPHP
-#define VECTOR_DATA_INIT(N,X,S) vector< X > *N = new vector< X >(S)
-#define VECTOR_DATA(X) vector< X > *
+#define VECTOR_DATA_INIT(N,X,S) std::vector< X > *N = new std::vector< X >(S)
+#define VECTOR_DATA(X) std::vector< X > *
 #define VECTOR_VAR(X) X->
 #define VECTOR_VAR_DELETE_CHECK(X) delete X
 #else
-#define VECTOR_DATA_INIT(N,X,S) vector< X > N(S)
-#define VECTOR_DATA(X) const vector< X > &
+#define VECTOR_DATA_INIT(N,X,S) std::vector< X > N(S)
+#define VECTOR_DATA(X) const std::vector< X > &
 #define VECTOR_VAR(X) X.
 #define VECTOR_VAR_DELETE_CHECK(X)
+#endif
+
+#ifdef SWIGJAVASCRIPT
+class ArrayWrapper
+{
+public:
+    ArrayWrapper(double *d, size_t s) : data(d), size(s) {}
+
+    double *data;
+    size_t size;
+};
+
+typedef ArrayWrapper ArrayOwner;
 #endif
 
 class GAUSS_EXPORT doubleArray
 {
 public:
-    doubleArray(int nelements) : elements_(nelements) { data_ = static_cast<double*>(GAUSS_Malloc(nelements * sizeof(double))); }
-    doubleArray(double *data, int nelements) : data_(data), elements_(nelements) {}
+    doubleArray() { reset(); }
+    doubleArray(int nelements) : rows_(nelements), cols_(1) { data_ = static_cast<double*>(GAUSS_Malloc(nelements * sizeof(double))); }
+    doubleArray(double *data, int nelements) : data_(data), rows_(nelements), cols_(1) {}
+    doubleArray(double *data, int rows, int cols) : data_(data), rows_(rows), cols_(cols) {}
+    doubleArray(const doubleArray &other) : data_(other.data_), rows_(other.rows_), cols_(other.cols_) {}
     double getitem(int index) { return data_[index]; }
     void setitem(int index, double value) { data_[index] = value; }
 
-    double* data() { return data_; }
-    int size() { return elements_; }
+#ifdef SWIGJAVASCRIPT
+    ArrayWrapper getdata() { return ArrayWrapper(data_, size()); }
+    ArrayOwner getblock(int offset, int elements) { double *ret = static_cast<double*>(malloc(elements * sizeof(double))); memcpy(ret, data_ + offset, elements * sizeof(double)); return ArrayOwner(ret, elements); }
+    ArrayOwner getrow(int row) { return getblock(row * cols_, cols_); }
+#else
+    std::vector<double> getblock(int offset, int elements) { std::vector<double> ret(elements); memcpy(ret.data(), data_ + offset, elements * sizeof(double)); return ret; }
+    std::vector<double> getrow(int row) { return getblock(row * cols_, cols_); }
+#endif
 
-    void reset() { data_ = nullptr; elements_ = 0; }
+    double* data() { return data_; }
+    int rows() { return rows_; }
+    int cols() { return cols_; }
+    int size() { return rows_ * cols_; }
+
+    void reset() { data_ = nullptr; rows_ = 0; cols_ = 0; }
 
 #ifdef SWIGPHP
     int position_;
@@ -40,7 +67,8 @@ public:
 
 private:
     double *data_;
-    int elements_;
+    int rows_;
+    int cols_;
 };
 
 /**
@@ -54,9 +82,9 @@ public:
     virtual bool isComplex() const;   /**< Return if data is complex. Applies to GEArray and GEMatrix only. */
 
     virtual int size() const;         /**< Return element count. */
-	virtual void clear() { rows_ = 1; cols_ = 1; complex_ = false; }     /**< Clear all corresponding symbol data. Does not clear from workspace. */
+    virtual void clear() { rows_ = 1; cols_ = 1; complex_ = false; }     /**< Clear all corresponding symbol data. Does not clear from workspace. */
 
-    virtual string toString() const { return string(); } /**< Returns a string representation of this object. */
+    virtual std::string toString() const { return std::string(); } /**< Returns a std::string representation of this object. */
 
     int type() const { return type_; }
 

@@ -3,7 +3,7 @@
 #include <cstring>
 #include <cmath>
 #include <sstream>
-using namespace std;
+
 
 GEStringArray::GEStringArray() : GESymbol(GESymType::STRING_ARRAY)
 {
@@ -16,7 +16,7 @@ GEStringArray::GEStringArray(StringArray_t *sa) : GESymbol(GESymType::STRING_ARR
 }
 
 /**
- * Initialize a one-dimensional string array with a user specified vector. This assumes
+ * Initialize a one-dimensional std::string array with a user specified std::vector. This assumes
  * that there are `data.size()` columns and 1 row.
  *
  * Example:
@@ -39,12 +39,12 @@ Open    High    Low
  *
  * @param data
  */
-GEStringArray::GEStringArray(VECTOR_DATA(string) data) : GESymbol(GESymType::STRING_ARRAY) {
+GEStringArray::GEStringArray(VECTOR_DATA(std::string) data) : GESymbol(GESymType::STRING_ARRAY) {
     setData(data, 1, VECTOR_VAR(data) size());
 }
 
 /**
- * Initialize a string array from a vector with dimensions _rows_ and _cols_.
+ * Initialize a std::string array from a std::vector with dimensions _rows_ and _cols_.
  *
  * Example:
  *
@@ -65,16 +65,16 @@ Open    High
 Low     Close
 ```
  *
- * @param data        One-dimensional string data
+ * @param data        One-dimensional std::string data
  * @param rows        Row count
  * @param cols        Column count
  */
-GEStringArray::GEStringArray(VECTOR_DATA(string) data, int rows, int cols) : GESymbol(GESymType::STRING_ARRAY) {
+GEStringArray::GEStringArray(VECTOR_DATA(std::string) data, int rows, int cols) : GESymbol(GESymType::STRING_ARRAY) {
     setData(data, rows, cols);
 }
 
 /**
- * Return the string value at the _row_, _column_ index.
+ * Return the std::string value at the _row_, _column_ index.
  *
  * Example:
  *
@@ -98,17 +98,17 @@ bar
  * @param col        Column index
  * @return        Value at specified index
  */
-string GEStringArray::getElement(int row, int col) const {
+std::string GEStringArray::getElement(int row, int col) const {
     unsigned int index = row * this->getCols() + col;
 
     if (index >= this->data_.size() || row >= this->getRows() || col >= this->getCols())
-        return string();
+        return std::string();
 
     return this->data_[index];
 }
 
 /**
- * Return the string value at the absolute position _index_.
+ * Return the std::string value at the absolute position _index_.
  *
  * Example:
  *
@@ -131,27 +131,27 @@ bar
  * @param index        Index
  * @return        Value at specified index
  */
-string GEStringArray::getElement(int index) const {
+std::string GEStringArray::getElement(int index) const {
     if (index < 0)
         index += this->data_.size();
 
     if (index >= this->data_.size())
-        return string();
+        return std::string();
 
     return this->data_[index];
 }
 
 /**
- * Return a collection copy of strings as a vector.
+ * Return a collection copy of std::strings as a std::vector.
  *
  * Example:
  *
 __Python__
 ```py
-# Create a string array using GAUSS
+# Create a std::string array using GAUSS
 ge.executeString("string sa = { one two three four, five six seven eight }")
 
-# Retrieve the string array from the symbol table
+# Retrieve the std::string array from the symbol table
 sa = ge.getStringArray("sa")
 
 print sa
@@ -160,10 +160,10 @@ print " ".join(sa.getData())
  *
 __PHP__
 ```php
-// Create a string array using GAUSS
+// Create a std::string array using GAUSS
 $ge->executeString("string sa = { one two three four, five six seven eight };");
 
-// Retrieve the string array from the symbol table
+// Retrieve the std::string array from the symbol table
 $sa = $ge->getStringArray("sa");
 
 echo $sa . PHP_EOL;
@@ -177,20 +177,20 @@ FIVE    SIX     SEVEN   EIGHT
 ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT
 ```
  *
- * @return        string vector
+ * @return        std::string std::vector
  */
-vector<string> GEStringArray::getData() const {
+std::vector<std::string> GEStringArray::getData() const {
     return this->data_;
 }
 
 /**
-  * Replace the contents of the string collection. The length of
+  * Replace the contents of the std::string collection. The length of
   * _data_ should be equal to _rows_ * _cols_.
   *
   * @param rows     Rows
   * @param cols     Cols
   */
-void GEStringArray::setData(VECTOR_DATA(string) data, int rows, int cols) {
+void GEStringArray::setData(VECTOR_DATA(std::string) data, int rows, int cols) {
 #ifdef SWIGPHP
     data->swap(this->data_);
     delete data;
@@ -207,7 +207,7 @@ void GEStringArray::setData(VECTOR_DATA(string) data, int rows, int cols) {
 }
 
 /**
- * Set string value to _str_ at _row_, _col_ element.
+ * Set std::string value to _str_ at _row_, _col_ element.
  *
  * Example:
  *
@@ -232,7 +232,7 @@ foo        foo        baz
  * @param row      Row
  * @param col      Col
  */
-bool GEStringArray::setElement(const string &str, int row, int col) {
+bool GEStringArray::setElement(const std::string &str, int row, int col) {
     unsigned int index = row * this->getCols() + col;
 
     if (index >= data_.size())
@@ -244,7 +244,7 @@ bool GEStringArray::setElement(const string &str, int row, int col) {
 }
 
 /**
- * Set string value to _str_ at absolute position _index_.
+ * Set std::string value to _str_ at absolute position _index_.
  *
  * Example:
  *
@@ -268,7 +268,7 @@ foo        foo        baz
  *
  * @param index      Index
  */
-bool GEStringArray::setElement(const string &str, int index) {
+bool GEStringArray::setElement(const std::string &str, int index) {
     if (fabs(index) >= data_.size())
         return false;
 
@@ -301,7 +301,7 @@ bool GEStringArray::fromStringArray(StringArray_t *sa) {
     const char *buffer_start = (const char*)(sa->table + element_count);
 
     for (int i = 0; i < element_count; ++i, ++sep)
-        this->data_[i] = string(buffer_start + sep->offset);
+        this->data_[i] = std::string(buffer_start + sep->offset);
 
     GAUSS_Free(sa->table);
     GAUSS_Free(sa);
@@ -309,8 +309,8 @@ bool GEStringArray::fromStringArray(StringArray_t *sa) {
     return true;
 }
 
-string GEStringArray::toString() const {
-    stringstream s;
+std::string GEStringArray::toString() const {
+    std::stringstream s;
 
     int rows = getRows();
     int cols = getCols();

@@ -1,5 +1,4 @@
 #include "gesymbol.h"
-using namespace std;
 
 GESymbol::GESymbol(int type) :
     rows_(1),

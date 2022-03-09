@@ -9,7 +9,9 @@
 %include "typemaps.i"
 
 #ifndef SWIGJAVASCRIPT
+#ifndef SWIGJAVA
 %include "factory.i"
+#endif
 #endif
 
 #ifdef SWIGPYTHON
@@ -189,6 +191,25 @@ namespace std {
 
 JAVASCRIPT_OUT_STD_VECTOR_NUMERIC(double, SWIGV8_NUMBER_NEW)
 JAVASCRIPT_OUT_STD_VECTOR_NUMERIC(int, SWIGV8_INTEGER_NEW)
+
+
+%define JAVASCRIPT_OUT_FIXED_ARRAY(CLSNAME, CREATION_MODE)
+%typemap(out) CLSNAME %{
+{
+  // TODO: https://github.com/thangktran/node/commit/850a80b8a7b2fc8e1fcc3956c2860c3042576975
+  int length = $1.size;
+  v8::Local<v8::Context> context = SWIGV8_CURRENT_CONTEXT();
+  v8::Local<v8::ArrayBuffer> arrayBuffer = v8::ArrayBuffer::New(v8::Isolate::GetCurrent(), $1.data, length * sizeof(double), CREATION_MODE);
+  v8::Local<v8::Float64Array> array = v8::Float64Array::New(arrayBuffer, 0, length);
+
+  $result = array;
+}
+%}
+
+%enddef
+
+JAVASCRIPT_OUT_FIXED_ARRAY(ArrayWrapper, v8::ArrayBufferCreationMode::kExternalized);
+JAVASCRIPT_OUT_FIXED_ARRAY(ArrayOwner, v8::ArrayBufferCreationMode::kInternalized);
 
 #endif
 

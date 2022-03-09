@@ -2,7 +2,7 @@
 #include "gematrix.h"
 #include <cstring>
 #include <sstream>
-using namespace std;
+
 
 /**
  * Initialize a one dimensional array with a single element set to zero.
@@ -56,7 +56,7 @@ $a = new GEArray($orders, $data, true); // Indicate data is complex
  * @param data                Data in one dimensional format
  * @param complex        True if array is complex, false otherwise.
  */
-GEArray::GEArray(vector<int> orders, VECTOR_DATA(double) data, bool complex) : GESymbol(GESymType::ARRAY_GAUSS) {
+GEArray::GEArray(std::vector<int> orders, VECTOR_DATA(double) data, bool complex) : GESymbol(GESymType::ARRAY_GAUSS) {
     Init(&orders.front(), orders.size(), &VECTOR_VAR(data) front(), VECTOR_VAR(data) size(), complex);
 
     VECTOR_VAR_DELETE_CHECK(data);
@@ -127,8 +127,8 @@ bool GEArray::Init(Array_t *array) {
     return true;
 }
 
-string GEArray::toString() const {
-    stringstream ss;
+std::string GEArray::toString() const {
+    std::stringstream ss;
 
     bool complex = isComplex();
     int rows = getRows();
@@ -142,7 +142,7 @@ string GEArray::toString() const {
     int index = 0;
 
     int dimslength = dims_ - 2;
-    vector<int> dims(dimslength);
+    std::vector<int> dims(dimslength);
 
     // init array
     for (int i = 0; i < dimslength; ++i)
@@ -166,7 +166,7 @@ string GEArray::toString() const {
             }
         }
 
-        ss << ".,.]" << endl << endl;
+        ss << ".,.]" << std::endl << std::endl;
 
         base = this->data_.data() + this->dims_ + (i * elements_per_plane);
 
@@ -183,11 +183,11 @@ string GEArray::toString() const {
                     ss << "\t";
             }
 
-            ss << endl;
+            ss << std::endl;
         }
 
         if (i < plane_count - 1)
-            ss << endl;
+            ss << std::endl;
     }
 
     return ss.str();
@@ -201,7 +201,7 @@ string GEArray::toString() const {
  * This function returns either the real or the imaginary part of the data, based on the <i>imag</i> argument.
  *
  * If you need to extract more than two dimensions of data, you can use the GAUSS indexing (square bracket)
- * operators or the GAUSS.getArray(string) function. See the N-Dimensional Arrays and Working With Arrays chapters of the GAUSS
+ * operators or the GAUSS.getArray(std::string) function. See the N-Dimensional Arrays and Working With Arrays chapters of the GAUSS
  * User Guide.
  *
  * Example:
@@ -262,7 +262,7 @@ Plane [2,.,.]
  * @return        2 dimensional array slice.
  */
 
-GEMatrix* GEArray::getPlane(vector<int> indices, bool imag) const {
+GEMatrix* GEArray::getPlane(std::vector<int> indices, bool imag) const {
     bool complex = isComplex();
     int offset = (imag && complex ? this->num_elements_ : 0);
 
@@ -335,8 +335,8 @@ GEMatrix* GEArray::getPlane(vector<int> indices, bool imag) const {
 }
 
 /**
- * Retrieve a one dimensional vector from an array. The dimension of interest must be specified with a 0.
- * This will get a vector of elements across the dimension. This function only returns either the real
+ * Retrieve a one dimensional std::vector from an array. The dimension of interest must be specified with a 0.
+ * This will get a std::vector of elements across the dimension. This function only returns either the real
  * or the imaginary part of the data based on the _imag_ argument.
  *
  * Example:
@@ -385,11 +385,11 @@ Plane [2,.,.]
  * @param imag        Whether to return imaginary data instead of real data.
  * @return        Vector of data
  */
-vector<double> GEArray::getVector(vector<int> indices, bool imag) const {
+std::vector<double> GEArray::getVector(std::vector<int> indices, bool imag) const {
     bool complex = isComplex();
 
     if (indices.empty() || (imag && !complex))
-        return vector<double>();
+        return std::vector<double>();
 
     int offset = imag ? this->num_elements_ / 2 : 0;
     int elements = totalElements();
@@ -408,7 +408,7 @@ vector<double> GEArray::getVector(vector<int> indices, bool imag) const {
         if (index != 0) {
             // check for out of range
             if (index < 1 || index > this->data_[i])
-                return vector<double>();
+                return std::vector<double>();
 
             jumpoff += (index - 1) * product;
         } else {
@@ -425,17 +425,17 @@ vector<double> GEArray::getVector(vector<int> indices, bool imag) const {
 
     // 1 dimension of interest were not specified
     if (zero_count != 1)
-        return vector<double>();
+        return std::vector<double>();
 
     const double *base = this->data_.data() + this->dims_;
-    vector<double> result(odoi);
+    std::vector<double> result(odoi);
 
     for (int i = 0; i < odoi; ++i) {
         int index = jumpoff + (jdoi * i) + offset;
 
         // index out of range
         if (index > elements)
-            return vector<double>();
+            return std::vector<double>();
 
         result[i] = base[index];
     }
@@ -494,7 +494,7 @@ Plane [2,.,.]
  * @param imag        Whether to return imaginary data instead of real data.
  * @return        double precision element
  */
-double GEArray::getElement(vector<int> indices, bool imag) const {
+double GEArray::getElement(std::vector<int> indices, bool imag) const {
     if (indices.empty() || (imag && !isComplex()))
         return 0.0;
 
@@ -585,7 +585,7 @@ Plane [2,.,.]
  * @param indices        Indices indicating the element to set
  * @param imag                Whether to set imaginary data instead of real data.
  */
-bool GEArray::setElement(double value, vector<int> indices, bool imag) {
+bool GEArray::setElement(double value, std::vector<int> indices, bool imag) {
     if (indices.empty() || (imag && !isComplex()))
         return false;
 
@@ -616,7 +616,7 @@ bool GEArray::setElement(double value, vector<int> indices, bool imag) {
 }
 
 /**
- * Retrieve a copy of underlying numeric vector. Imaginary data can also
+ * Retrieve a copy of underlying numeric std::vector. Imaginary data can also
  * be queried by supplying the _imag_ argument, thus appending it to the
  * end of the real data. Omitting or specifying the _imag_ argument as `false`
  * will return only real data. If you wish to only view the imaginary data,
@@ -645,15 +645,15 @@ echo implode(", ", $a->getData()) . PHP_EOL;
 ```
  *
  * @param imag  Whether to append imaginary data to end of real data
- * @return Array data as a one-dimensional vector
+ * @return Array data as a one-dimensional std::vector
  */
-vector<double> GEArray::getData(bool imag) const {
+std::vector<double> GEArray::getData(bool imag) const {
     if (imag && !isComplex())
-        return vector<double>();
+        return std::vector<double>();
 
     int elements = imag ? totalElements() : this->num_elements_;
 
-    vector<double> ret(elements);
+    std::vector<double> ret(elements);
 
     memcpy(ret.data(), this->data_.data() + this->dims_, elements * sizeof(double));
 
@@ -689,13 +689,13 @@ echo implode(", ", $c->getImagData()) . PHP_EOL;
 25.0, 26.0, 27.0, 28.0, 29.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0
 ```
  *
- * @return Array data as a one-dimensional vector
+ * @return Array data as a one-dimensional std::vector
  */
-vector<double> GEArray::getImagData() const {
+std::vector<double> GEArray::getImagData() const {
     if (!isComplex())
-        return vector<double>();
+        return std::vector<double>();
 
-    vector<double> ret(this->num_elements_);
+    std::vector<double> ret(this->num_elements_);
 
     memcpy(ret.data(), this->data_.data() + this->num_elements_ + this->dims_, this->num_elements_ * sizeof(double));
 
@@ -703,7 +703,7 @@ vector<double> GEArray::getImagData() const {
 }
 
 /**
- * Retrieve the vector of array orders. These are ordered from highest to lowest.
+ * Retrieve the std::vector of array orders. These are ordered from highest to lowest.
  *
  * Example:
  *
@@ -729,11 +729,11 @@ a orders = 2x3x4
  *
  * @return        Vector of array orders
  */
-vector<int> GEArray::getOrders() const {
+std::vector<int> GEArray::getOrders() const {
     if (this->dims_ < 1)
-        return vector<int>();
+        return std::vector<int>();
 
-    vector<int> ret(this->dims_);
+    std::vector<int> ret(this->dims_);
 
     for (int i = 0; i < this->dims_; ++i)
         ret[i] = (int)this->data_[i];
