@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 project (ge)
 
 set(ge_MAJOR_VERSION 0)
-set(ge_MINOR_VERSION 3)
-set(ge_PATCH_VERSION 2)
+set(ge_MINOR_VERSION 4)
+set(ge_PATCH_VERSION 0)
 set(ge_VERSION
   ${ge_MAJOR_VERSION}.${ge_MINOR_VERSION}.${ge_PATCH_VERSION})
 
