@@ -121,22 +121,22 @@ class TestGAUSSEngine(unittest.TestCase):
         wh11 = self.ge.createWorkspace("wh1")
         wh111 = self.ge.createWorkspace("wh1")
         wh1111 = self.ge.createWorkspace("wh1")
-        self.assertEquals("wh1", wh1.name())
+        self.assertEqual("wh1", wh1.name())
         self.assertTrue(self.ge.destroyWorkspace(wh1))
-        self.assertEquals(None, wh1.workspace())
+        self.assertEqual(None, wh1.workspace())
 
         self.assertFalse(self.ge.destroyWorkspace(wh1))
 
         wh2 = self.ge.createWorkspace("wh2")
         self.ge.setActiveWorkspace(wh2)
-        self.assertEquals(wh2.name(), self.ge.getActiveWorkspace().name())
+        self.assertEqual(wh2.name(), self.ge.getActiveWorkspace().name())
 
         wh3 = self.ge.createWorkspace("wh3")
         wh4 = self.ge.createWorkspace("wh4")
 
         wh2.setName("wh222")
         self.ge.updateWorkspaceName(wh2)
-        self.assertEquals("wh222", wh2.name())
+        self.assertEqual("wh222", wh2.name())
 
         count = 1000
 
@@ -151,8 +151,8 @@ class TestGAUSSEngine(unittest.TestCase):
     def testMatrices(self):
         self.ge.executeString("x = 5")
         x = self.ge.getMatrix("x")
-        self.assertEquals(5, x.getElement())
-        self.assertEquals(5, x[0])
+        self.assertEqual(5, x.getElement())
+        self.assertEqual(5, x[0])
 
 #        try:
 #            print("x[1] == {}".format(x[1]))
@@ -164,49 +164,49 @@ class TestGAUSSEngine(unittest.TestCase):
 
         self.ge.executeString("x = { 1 2, 3 4 }")
         x = self.ge.getMatrixAndClear("x")
-        self.assertEquals(2, x.getRows())
-        self.assertEquals(2, x.getCols())
-        self.assertEquals([1, 2, 3, 4], list(x.getData()))
-        self.assertEquals(4, len(x))
+        self.assertEqual(2, x.getRows())
+        self.assertEqual(2, x.getCols())
+        self.assertEqual([1, 2, 3, 4], list(x.getData()))
+        self.assertEqual(4, len(x))
 
         for i in range(1, 5):
-            self.assertEquals(i, x[i - 1])
-            self.assertEquals(5 - i, x[-i])
+            self.assertEqual(i, x[i - 1])
+            self.assertEqual(5 - i, x[-i])
 
         x2 = self.ge.getMatrix("x")
-        self.assertEquals(1, x2.getRows())
-        self.assertEquals(1, x2.getCols())
-        self.assertEquals(0, x2.getElement())
+        self.assertEqual(1, x2.getRows())
+        self.assertEqual(1, x2.getCols())
+        self.assertEqual(0, x2.getElement())
 
         self.ge.executeString("x = complex(seqa(1,1,8), seqa(9,1,8))")
         x = self.ge.getMatrix("x")
         self.assertNotEquals(None, x)
-        self.assertEquals(16, len(x.getData(True)))
-        self.assertEquals(8, len(x))
+        self.assertEqual(16, len(x.getData(True)))
+        self.assertEqual(8, len(x))
 
-        self.assertEquals([1, 2, 3, 4, 5, 6, 7, 8], list(x.getData()))
+        self.assertEqual([1, 2, 3, 4, 5, 6, 7, 8], list(x.getData()))
 
         x_d = self.ge.getMatrixDirect("x")
 
         num = 1
 
         for i in x_d:
-            self.assertEquals(num, i)
+            self.assertEqual(num, i)
             num += 1
 
         num = 1
         for i in x:
-            self.assertEquals(num, i)
+            self.assertEqual(num, i)
             num += 1
 
-        self.assertEquals([9, 10, 11, 12, 13, 14, 15, 16], list(x.getImagData()))
+        self.assertEqual([9, 10, 11, 12, 13, 14, 15, 16], list(x.getImagData()))
 
         self.ge.setSymbol(GEMatrix(range(0, 10)), "y")
         y = self.ge.getMatrix("y")
-        self.assertEquals([float(i) for i in range(0, 10)], list(y.getData()))
+        self.assertEqual([float(i) for i in range(0, 10)], list(y.getData()))
 
         y = self.ge["y"]
-        self.assertEquals([float(i) for i in range(0, 10)], list(y.getData()))
+        self.assertEqual([float(i) for i in range(0, 10)], list(y.getData()))
 
         x_d = doubleArray(10)
 
@@ -218,10 +218,10 @@ class TestGAUSSEngine(unittest.TestCase):
         self.ge.executeString("print x")
 
         self.ge["x"] = 10
-        self.assertEquals(10, self.ge["x"][0])
+        self.assertEqual(10, self.ge["x"][0])
 
         self.ge["x"] = 11.0
-        self.assertEquals(11.0, self.ge["x"][0])
+        self.assertEqual(11.0, self.ge["x"][0])
 
     def testArrays(self):
         self.ge.executeString("ai = seqa(1,1,24); aj = seqa(25,1,24);")
@@ -232,17 +232,17 @@ class TestGAUSSEngine(unittest.TestCase):
         # Retrieve the array from the symbol table
         auArray = self.ge.getArray("au")
 
-        self.assertEquals([2, 3, 4], list(auArray.getOrders()))
-        self.assertEquals(3, auArray.getDimensions())
+        self.assertEqual([2, 3, 4], list(auArray.getOrders()))
+        self.assertEqual(3, auArray.getDimensions())
 
-        self.assertEquals(24, auArray.size()) # complex
-        self.assertEquals(24, len(auArray)) # complex
-        self.assertEquals([float(i) for i in range(1, 25)], list(auArray.getData()))
-        self.assertEquals([float(i) for i in range(25, 49)], list(auArray.getImagData()))
+        self.assertEqual(24, auArray.size()) # complex
+        self.assertEqual(24, len(auArray)) # complex
+        self.assertEqual([float(i) for i in range(1, 25)], list(auArray.getData()))
+        self.assertEqual([float(i) for i in range(25, 49)], list(auArray.getImagData()))
 
         # Extract a plane from the array
-        self.assertEquals([5, 6, 7, 8, 17, 18, 19, 20], list(auArray.getPlane([0, 2, 0]).getData()))
-        self.assertEquals([6, 18], list(auArray.getVector([0, 2, 2])))
+        self.assertEqual([5, 6, 7, 8, 17, 18, 19, 20], list(auArray.getPlane([0, 2, 0]).getData()))
+        self.assertEqual([6, 18], list(auArray.getVector([0, 2, 2])))
 
         # We are directly passing in the orders, followed by the data
         a2 = GEArray([2, 2, 2], [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0])
@@ -251,13 +251,13 @@ class TestGAUSSEngine(unittest.TestCase):
         self.ge.setSymbol(a2, "a2")
 
         a3 = self.ge.getArrayAndClear("a2")
-        self.assertEquals([2, 2, 2], list(a3.getOrders()))
-        self.assertEquals(3, a3.getDimensions())
+        self.assertEqual([2, 2, 2], list(a3.getOrders()))
+        self.assertEqual(3, a3.getDimensions())
 
         a2 = self.ge.getArray("a2")
-        self.assertEquals([1], list(a2.getOrders()))
-        self.assertEquals(1, a2.getDimensions())
-        self.assertEquals([0], list(a2.getData()))
+        self.assertEqual([1], list(a2.getOrders()))
+        self.assertEqual(1, a2.getDimensions())
+        self.assertEqual([0], list(a2.getData()))
 
     def testStrings(self):
         geStr = "Hello World"
@@ -266,10 +266,10 @@ class TestGAUSSEngine(unittest.TestCase):
         self.ge.setSymbol(geStr, "s")
 
         s = self.ge.getString("s")
-        self.assertEquals("Hello World", s)
+        self.assertEqual("Hello World", s)
 
         self.ge["r"] = "testing"
-        self.assertEquals("testing", self.ge["r"][0])
+        self.assertEqual("testing", self.ge["r"][0])
 
         # create a temp workspace
         tempWh = self.ge.createWorkspace("temp")
@@ -279,18 +279,18 @@ class TestGAUSSEngine(unittest.TestCase):
         self.ge.executeString("print s", tempWh)
 
         s = self.ge.getString("s")
-        self.assertEquals("Hello World", s)
+        self.assertEqual("Hello World", s)
 
         s = self.ge.getString("s", tempWh)
-        self.assertEquals("Goodbye World", s)
+        self.assertEqual("Goodbye World", s)
 
         # Here we can verify that the symbol type of 's' is in fact a string
-        self.assertEquals(self.ge.getSymbolType("s"), GESymType.STRING)
-        self.assertEquals(self.ge.getSymbolType("s", tempWh), GESymType.STRING)
+        self.assertEqual(self.ge.getSymbolType("s"), GESymType.STRING)
+        self.assertEqual(self.ge.getSymbolType("s", tempWh), GESymType.STRING)
 
         # Retrieve it from the symbol table
         s = self.ge.getString("s")
-        self.assertEquals(11, len(s))
+        self.assertEqual(11, len(s))
 
     def testStringArrays(self):
         # Create an example string array using GAUSS code.
@@ -301,11 +301,11 @@ class TestGAUSSEngine(unittest.TestCase):
 
         self.assertNotEquals(None, sa)
 
-        self.assertEquals(12, sa.size())
-        self.assertEquals(12, len(sa))
+        self.assertEqual(12, sa.size())
+        self.assertEqual(12, len(sa))
 
-        self.assertEquals("EIGHT", sa.getElement(2,3))
-        self.assertEquals("EIGHT", sa[11]) # 2*4 + 3
+        self.assertEqual("EIGHT", sa.getElement(2,3))
+        self.assertEqual("EIGHT", sa[11]) # 2*4 + 3
 
         # Create a string array in PHP
         sa2 = ["one", "two", "three", "four"]
@@ -317,12 +317,12 @@ class TestGAUSSEngine(unittest.TestCase):
 
         sa = self.ge.getStringArray("sa2")
         self.assertNotEquals(None, sa)
-        self.assertEquals(4, sa.size())
-        self.assertEquals(sa2, list(sa.getData()))
+        self.assertEqual(4, sa.size())
+        self.assertEqual(sa2, list(sa.getData()))
 
         for i in range(1, len(sa2) + 1):
-            self.assertEquals(sa2[i - 1], sa[i - 1])
-            self.assertEquals(sa2[-i], sa[-i])
+            self.assertEqual(sa2[i - 1], sa[i - 1])
+            self.assertEqual(sa2[-i], sa[-i])
 #    def tearDown(self):
 #        self.ge.shutdown()
 

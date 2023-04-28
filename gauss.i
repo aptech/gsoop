@@ -264,7 +264,7 @@ public int this[int key]
 #ifdef SWIGPYTHON
 
 %extend GESymbol {
-    string __str__() {
+    std::string __str__() {
         return $self->toString();
     }
 
@@ -308,7 +308,7 @@ class GEIterator:
 %enddef
 
 ARRAYHELPER(double, GEMatrix)
-ARRAYHELPER(string, GEStringArray)
+ARRAYHELPER(std::string, GEStringArray)
 
 %rename(__getitem__) doubleArray::getitem;
 %rename(__setitem__) doubleArray::setitem;
@@ -371,7 +371,7 @@ CB_THISOWN(IGEProgramInputCheck, 0)
 #ifdef SWIGPHP
 
 %extend GESymbol {
-    string __toString() {
+    std::string __toString() {
         return $self->toString();
     }
 };
@@ -458,7 +458,7 @@ CB_THISOWN(IGEProgramInputCheck, 0)
 %enddef
 
 ARRAYHELPER(double, GEMatrix, 0.0)
-ARRAYHELPER(string, GEStringArray, "")
+ARRAYHELPER(std::string, GEStringArray, "")
 
 %rename(offsetGet) doubleArray::getitem;
 %rename(offsetSet) doubleArray::setitem;
@@ -495,7 +495,7 @@ ARRAYHELPER(string, GEStringArray, "")
 }
 
 #ifdef SWIGPHP5
-%typemap(directorin) std::string, string, const string&, const std::string & %{
+%typemap(directorin) std::string, std::string, const string&, const std::string & %{
    ZVAL_STRINGL($input, const_cast<char*>($1.data()), $1.size(), 0);
 %}
 
