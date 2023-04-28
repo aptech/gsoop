@@ -88,7 +88,7 @@ environment variable
 
     C:\Python36\;C:\Python36\Scripts\
 
-Note: Tested with Python 3.6 (MSVC 2015)
+Note: Tested with Python 3.6 (MSVC 2019)
 
 Just like the traditional `make && make install`, compiling a Python extension requires 2 steps:
 
@@ -119,13 +119,13 @@ python setup.py install      # Everything compiled, now install
 
 #### Windows
 
-Due to `mteng.dll` being compiled with Visual Studio 2015, it is necessary at this time to use MSVC to compile the Python extension.
+Due to `mteng.dll` being compiled with Visual Studio 2019, it is necessary at this time to use MSVC to compile the Python extension.
 
 All commands are run through the appropriate Visual Studio command prompt.
 
-32-bit: `Start -> Microsoft Visual Studio 2015 -> Visual Studio Tools -> Visual Studio 2015 Command Prompt`
+32-bit: `Start -> Microsoft Visual Studio 2019 -> Visual Studio Tools -> Visual Studio 2019 Command Prompt`
 
-64-bit: `Start -> Microsoft Visual Studio 2015 -> Visual Studio Tools -> Visual Studio 2015 x64 Win64 Command Prompt`
+64-bit: `Start -> Microsoft Visual Studio 2019 -> Visual Studio Tools -> Visual Studio 2019 x64 Win64 Command Prompt`
 
 If your user lacks permissions to access the Python
 installation directory, you may have to run `cmd` as Administrator
